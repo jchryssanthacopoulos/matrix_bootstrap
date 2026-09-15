@@ -58,3 +58,11 @@ Delivered and verified: the exact $E_0(N_\Psi)$ baseline ($N\le4$); the single-t
 - C.-M. Chang, Y. Chen, B. S. Sia, Z. Yang, *Fortuity in SYK Models*, arXiv:2412.06902.
 - H. W. Lin, Z. Zheng, *High-Precision Bootstrap of Multimatrix Quantum Mechanics*, arXiv:2507.21007.
 - S. Laliberte, B. McPeak, *Bootstrapping supersymmetric (matrix) quantum mechanics*, arXiv:2510.01356.
+
+---
+
+## Addendum (2026-09-15): erratum for §2
+
+The constant in the boxed identity of §2 is **incorrect for $N\ge4$**. It was obtained by a numerical fit at $N=2,3$ only (`sm_trace_hamiltonian.py`); the analytic derivation in `docs/derivations.md` §D1, verified on random vectors at $N=2,3,4$ (`scratchpad/check_traceH.py`), gives
+$$H=\tfrac92\big(\mathrm{Tr}[\Psi\Psi\bar\Psi\bar\Psi]+\mathrm{Tr}[\bar\Psi\bar\Psi\Psi\Psi]\big)-\tfrac32N(N^2-1),$$
+which coincides with $-9(N-1)^2$ only at $N=2,3$. The structural claims of §2 (N-independent coefficient $9/2$, no genuine double-trace term) stand.

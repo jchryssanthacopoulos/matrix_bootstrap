@@ -54,3 +54,16 @@ Honest limitation: adding ground-state positivity at $N=3$ (an extra $m^2$ dense
 - Y. Chen, *Fortuity with a Single Matrix*, arXiv:2511.00790.
 - H. W. Lin, Z. Zheng, *High-Precision Bootstrap of Multimatrix Quantum Mechanics*, arXiv:2507.21007.
 - S. Laliberte, B. McPeak, *Bootstrapping supersymmetric (matrix) quantum mechanics*, arXiv:2510.01356.
+
+---
+
+## Addendum (2026-09-15): re-run and corrections to "Result 2"
+
+Re-run in the project `.venv` (cvxpy 1.9.2 / SCS), `sm_covariant_bootstrap.py` unchanged:
+
+- $N=2$: reproduced exactly (18, 0, 0, 0, 18).
+- $N=3$, level 3: the script's default is `gs=True`, i.e. **ground-state positivity was already included** and the whole $N=3$ scan takes ~36 s. The statement above that adding it "exceeds this sandbox" is therefore not accurate. With or without it, all lifted sectors return the trivial bound $0$.
+- $N=3$, level 4 (`Lmom=4, Leom=5`, $m=20$, $r=92$; ~3 min setup): still $0$ in every lifted sector.
+- Validity check: $\langle g_k|O^\dagger[H,O]|g_k\rangle\ge0$ holds for the exact sector ground states $g_k$ and all single-trace $O$ of length $\le3$, so the (in principle invalid) inclusion of charge-changing $O$ in sector-restricted ground-state positivity did no harm here; it should nevertheless be restricted to charge-preserving $O$ in future.
+
+**Diagnosis.** With $Q=\mathrm{Tr}[\Psi^3]$ and $\bar Q$ in the operator set, positivity gives the SUSY floor $\phi(H)=\phi(\bar QQ)+\phi(Q\bar Q)\ge0$. To lift it in the $N_\Psi=0$ sector the SDP must learn $\phi(Q\bar Q)=0$ and $\phi(\mathrm{Tr}[\Psi\Psi\bar\Psi\bar\Psi])=0$ (annihilators act first on an empty sector), which in formulation (a) follows from $\phi(N_\Psi)=0$, positivity of the single-letter blocks $\phi(\Psi_{ij}\bar\Psi_{ji})\ge0$ and Cauchy–Schwarz. The gauge-invariant single-trace basis contains no single letters, so this information is absent at any low level; the bound reverts to the SUSY floor. **Conclusion: the covariant bootstrap needs adjoint-valued (open-index) operators in the positivity matrix, organised into $SU(N)$ irreps (Lin–Zheng 2024 §2.4 / 2025 App. F style), not gauge-invariant traces only.** The $N=2$ success is special to the tiny algebra of four modes.
