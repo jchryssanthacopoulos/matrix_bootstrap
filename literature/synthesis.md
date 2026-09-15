@@ -1,6 +1,6 @@
 # Literature synthesis: bootstrapping matrix SYK models
 
-*Written 2026-09-15 after reading all 12 papers in `papers/`. Per-paper notes are in `literature/notes/`. Equation numbers refer to the cited paper. Statements marked **[project]** come from the earlier in-repo work in `research/notes/` and have not been independently re-verified in this session (no Python environment with numpy/scipy is currently installed); statements marked **[my estimate]** are derived here and should be checked.*
+*Written 2026-09-15 after reading the 12 papers then in `papers/`; extended the same day with five further papers (Han–Hartnoll–Kruthoff 2020, Chang–Lin 2024, Fu–Gaiotto–Maldacena–Sachdev 2016, Cho–Gabai–Sandor–Yin 2024, Turiaci–Witten 2023) — see §8. Per-paper notes are in `literature/notes/`. Equation numbers refer to the cited paper. Statements marked **[project]** come from the earlier in-repo work in `research/notes/` and have not been independently re-verified in this session (no Python environment with numpy/scipy is currently installed); statements marked **[my estimate]** are derived here and should be checked.*
 
 ---
 
@@ -10,8 +10,8 @@ The twelve papers fall into three groups that Chen 2025 ties together (its refs.
 
 | Strand | Papers | Role for us |
 |---|---|---|
-| **A. Fortuity & R-charge concentration** | Chang–Chen–Sia–Yang 2024; Chen 2025 | Defines the physics question and the target models |
-| **B. Matrix / SUSY quantum-mechanical bootstrap** | Lin–Zheng 2024; Lin–Zheng 2025; Laliberte–McPeak 2025; Lin 2025 (TASI §6) | Defines the method |
+| **A. Fortuity & R-charge concentration** | Chang–Lin 2024 (origin of the taxonomy); Fu–Gaiotto–Maldacena–Sachdev 2016 ($\mathcal N=2$ SYK, refined index, super-Schwarzian); Turiaci–Witten 2023 ($\mathcal N=2$ random-matrix ensemble); Chang–Chen–Sia–Yang 2024; Chen 2025 | Defines the physics question, the target models, and the quantitative predictions of the super-Schwarzian |
+| **B. Matrix / SUSY quantum-mechanical bootstrap** | Han–Hartnoll–Kruthoff 2020 (founding paper); Lin–Zheng 2024; Lin–Zheng 2025; Laliberte–McPeak 2025; Cho–Gabai–Sandor–Yin 2024 (thermal/KMS, adjoint-valued operators in ungauged MQM); Lin 2025 (TASI §6) | Defines the method |
 | **C. Purely fermionic matrix (and tensor) quantum mechanics** | Anninos–Denef–Monten 2015; Anninos–Silva 2016; Tierz 2017; Klebanov–Milekhin–Popov–Tarnopolsky 2018; Gaitan et al. 2020; Klebanov–Lin–Meshcheriakov 2026 (adjoint sector of bosonic MQM) | Prior art on the *kind of system* we bootstrap: finite Hilbert spaces, Casimir-type solvability, non-singlet sectors, thermodynamics |
 
 ```mermaid
@@ -114,3 +114,26 @@ Practicalities worth remembering: SDPA-GMP/SDPB rather than generic solvers beca
 - Formulate concentration in the refined sense (per irreducible complex) and compute **refined indices per $SU(N)$ irrep** as rigorous companions to bootstrap bounds.
 - For the 3-matrix model, carry over the machinery, add $S_3$/$O(3)$-flavor blocking (Lin–Zheng App. F style), use $Q,\bar Q$ in the basis for the BPS sectors and ground-state positivity restricted to sector-preserving operators for lifted sectors, and treat any large-$N$ factorisation as a hypothesis to be tested against ED at $N=2$ (and against exact index data).
 - Independently derive large-$N$ spectral moments (Gaitan et al. method) for $\{Q,\bar Q\}$ as analytic checks.
+
+---
+
+## 8. Addendum (second batch of papers, 2026-09-15)
+
+### 8.1 What the new papers add to each strand
+
+- **Chang–Lin 2024** is the origin of the monotone/fortuitous taxonomy via a *covering* $\mathcal H_N\simeq\tilde{\mathcal H}/I_N$ and the long exact sequence (2.5): a fortuitous state is one whose lift $\tilde O$ satisfies $\tilde Q\tilde O\neq0$ but $\tilde Q\tilde O\in I_N$ (a relation that holds only at rank $N$). For the matrix models the covering is concrete (formal polynomials in matrix entries; $I_N$ = rank-$N$ relations such as Young diagrams with $\ge N$ rows), which is exactly Chen's Fig. 4 mechanism. Their Conjecture 3 (fortuitous states exponentially outnumber monotone ones at black-hole charges) is what a "black-hole-like" matrix SYK model must satisfy; Chen's single-matrix model has only $2^N$ copies of $r_*$ — polynomially many multiplets.
+- **Fu–Gaiotto–Maldacena–Sachdev 2016** is the parent $\mathcal N=2$ SYK model of which both of Chen's models are sparse, non-random special cases. It supplies the refined index $W_r=(1-e^{2\pi ir/\hat q})^N$ (5.5), the statement that the index is saturated (SUSY unbroken), the $\mathcal N=2$ super-Schwarzian thermodynamics (5.39)–(5.42), and the exact ED counts for $\hat q=3$: BPS states at three adjacent charges with multiplicities $3^{N/2-1}(1,2,1)$ for even $N$ (5.7).
+- **Turiaci–Witten 2023** gives the random-matrix ensemble behind Conjecture 1 of Chang et al.: independent AZ $(1+2\nu,2)$ ensembles per $(k,k+\hat q)$ multiplet; BPS states only for $|k|<\hat q/2$ with $N_{\rm BPS}(k)\propto\cos(\pi k/\hat q)$ (3.10); non-BPS multiplet gap $E_0(q)=q^2/4\hat q^2$ and edge density $\sinh(2\pi\sqrt{E-E_0})$ (3.11); genericity forbids BPS states at charges differing by $\hat q$. Their SYK check uses the $r$-ratio of the *singular values of $Q_k$* per charge sector (§2.5).
+- **Han–Hartnoll–Kruthoff 2020** is the founding bootstrap paper (positivity + $\langle[H,O]\rangle=0$ + gauge + cyclicity/factorisation + reality) and contains the convergence argument (footnote [20]) that becomes exact for our finite fermionic Hilbert spaces.
+- **Cho–Gabai–Sandor–Yin 2024** formulates the KMS condition as a matrix inequality (1.6) (whose $\beta\to\infty$ limit is ground-state positivity), makes it SDP-representable, and — most relevant — bootstraps an **ungauged** matrix model with **adjoint-valued (open-index) operators** whose Gram matrix is decomposed into $U(N)$ tensor structures (3.5). This is the missing ingredient identified in the project's covariant bootstrap (addendum to `research/notes/matrix_syk_covariant_bootstrap.md`). They also show the KMS inequality trivialises for gauged models at large $N$ with traced operators only.
+
+### 8.2 A quantitative prediction we can already compare with
+
+Combining FGMS (5.7) and Turiaci–Witten (3.10): a concentrating $\hat q=3$ supercharge governed by the $\mathcal N=2$ super-Schwarzian has BPS states at three consecutive charges $k=-1,0,1$ (relative to the centre) with counts in ratio $\cos(\pi k/3)=(\tfrac12,1,\tfrac12)$, i.e. **1:2:1**. The project's three-matrix ED at $N=2$ gives $243{:}486{:}243$ at $N_\Psi=5,6,7$ — this pattern. The single-matrix model gives binomial weights $\binom{N}{N_\Psi-N(N-1)/2}$ (Chen (2.20)), which equal $1{:}2{:}1$ only at $N=2$ and become $1{:}3{:}3{:}1$ at $N=3$. So the $N=2$ data cannot distinguish the models, but at $N\ge3$ the prediction is sharp: **a concentrating, Schwarzian-governed three-matrix model should keep three charges in ratio $\approx1{:}2{:}1$**; per irreducible complex ($N_\Psi$ mod 3 and $SU(N)$ irrep) these three charges are one per $\mathbb Z_3$ class. (Caveat: (3.10) is the leading large-$e^{S_0}$ answer; FGMS (5.7) shows it is exact in SYK for even $N$; odd fermion number gives the modified pattern in (5.7).)
+
+### 8.3 Consequences for the plan
+
+1. **Chaos diagnostic**: replace $H$-level statistics by the $r$-ratio of singular values of $Q_k$ restricted to a $(k,k+3)$ pair of sectors and a fixed $SU(N)$ irrep (Turiaci–Witten §2.5); expect $\beta=2$ (or $\beta=1$ for the $CT$-self-conjugate multiplet when $pN^2$ is odd). Feasible by sparse SVD in sectors of dimension $10^4$–$10^5$ (e.g. $p=2$, $N=3$; $p=3$, $N=3$ edge sectors).
+2. **Refined index per irrep** (FGMS (5.5) generalised with an $SU(N)$ character insertion) as the rigorous companion to bootstrap bounds; check saturation at $N=2$.
+3. **Redesign of the covariant bootstrap** with adjoint-valued operators and $U(N)$/$SU(N)$ tensor-structure decomposition (Cho et al. (3.5); Lin–Zheng App. F), plus, later, the KMS inequality if thermal data (entropy, $E(\beta)$ near the BPS window) are wanted.
+4. **Targets for lifted sectors**: gaps growing as (distance from window)$^2$ in Schwarzian units (Turiaci–Witten (3.11)); the overall scale with $N$ is unknown for the matrix model and is itself a question.

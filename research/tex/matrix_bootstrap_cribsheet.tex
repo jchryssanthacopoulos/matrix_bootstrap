@@ -18,7 +18,7 @@
 \begin{document}
 \maketitle
 \vspace{-0.9cm}
-\noindent\textit{Scope.} Everything here is drawn from the project library: Lin--Zheng \cite{LZ24,LZ25}, Lin's TASI lectures \cite{TASI}, Laliberte--McPeak \cite{LM}, Klebanov et al.\ \cite{KMPT}, Chen \cite{Chen}, Chang et al.\ \cite{CCSY}. Equation numbers in brackets refer to those papers. Section~\ref{sec:ferm} contains project-specific statements (marked $\star$) that are derived in \texttt{docs/derivations.md} or verified numerically in this repository, not taken from the literature.
+\noindent\textit{Scope.} Everything here is drawn from the project library: Han--Hartnoll--Kruthoff \cite{HHK} (the founding paper), Lin--Zheng \cite{LZ24,LZ25}, Lin's TASI lectures \cite{TASI}, Laliberte--McPeak \cite{LM}, Cho--Gabai--Sandor--Yin \cite{CGSY}, Klebanov et al.\ \cite{KMPT}, Chen \cite{Chen}, Chang et al.\ \cite{CCSY}, Turiaci--Witten \cite{TW}. Equation numbers in brackets refer to those papers. Section~\ref{sec:ferm} contains project-specific statements (marked $\star$) that are derived in \texttt{docs/derivations.md} or verified numerically in this repository, not taken from the literature.
 
 \section{Objects}
 \begin{description}[style=nextline,font=\bfseries]
@@ -35,31 +35,34 @@
 \bottomrule\endlastfoot
 Inner-product positivity &
 $M_{ij}=\ev{O_i^\dagger O_j}\succeq 0$ for any finite set $\{O_i\}$: the Gram matrix of $\{O_i|E\rangle\}$. Uses only Hilbert-space positivity, so fermions and sign problems are irrelevant. Adding operators can only tighten bounds (principal minors). &
-LM (1.1)--(1.4); LZ25 (5); TASI (95)--(96) \\
+HHK (7), (15); LM (1.1)--(1.4); LZ25 (5); TASI (95)--(96) \\
 Stationarity (EOM) &
 $\ev{[H,O]}=0$ for all $O$ (true in any eigenstate or stationary $\rho$). For matrix QM take $O$ single-trace; $[H,\tr O]$ is again single-trace. &
-LM (1.5); LZ25 (4); TASI (100) \\
+HHK (2), (9); LM (1.5); LZ25 (4); TASI (100) \\
 Eigenstate condition &
 $\ev{OH}=\ev{HO}=E\ev{O}$: stronger, resolves individual eigenvalues (``archipelago''), but bilinear in $(E,\phi)$ hence non-convex; usable by scanning $E$. Becomes trivial under large-$N$ factorisation. &
-LM (2.14) \& fn.\ 2; LZ24 (57)--(58), Fig.\ 4; TASI \S6.2 \\
+HHK (5) \& fn.\ [20]; LM (2.14) \& fn.\ 2; LZ24 (57)--(58), Fig.\ 4; TASI \S6.2 \\
 Reality / time reversal &
 $\ev{O_1\cdots O_n}^*=\ev{O_n^\dagger\cdots O_1^\dagger}$; with real wavefunctions $\ev{\tr O_1\cdots O_n}=\pm\ev{\tr O_n\cdots O_1}$ ($-$ for an odd number of $P$'s). Halves the variables. &
 LM (3.34); LZ24 \S2.2(2); LZ25 ``Constraints'' \\
 Algebra / canonical form &
 (Anti)commutation relations reduce every word to a canonical (e.g.\ normal-ordered) form; for matrices, cyclicity of $\tr$ produces \emph{double traces}: $\tr O_1\cdots O_n=\pm\tr O_2\cdots O_nO_1+\text{double trace}$. &
-LZ24 (11)--(12), (29); TASI (101) \\
+HHK (14), (S37)--(S38); LZ24 (11)--(12), (29); TASI (101) \\
 Large-$N$ factorisation &
 $\ev{\tr A\,\tr B}\to\ev{\tr A}\ev{\tr B}$ (the \emph{only} place $N=\infty$ enters in the Hamiltonian approach). Makes the constraints quadratic in the variables. Justified by planar dominance; can fail for operators sensitive to flat directions. &
 LZ24 (46) \& \S4; TASI \S6.1--6.2 \\
 Gauge constraint &
 Singlet state: $\ev{\tr(O\,G)}=0$ for all $O$, $G$ the $SU(N)$ generator (e.g.\ $G=i[X,P]-\Psi\Psi^\dagger-\Psi^\dagger\Psi+2N$ for one bosonic + one fermionic matrix). Removes an enormous number of variables; without it the Marinari--Parisi SDP was intractable. &
-LZ24 (13); LZ25 after (1); LM (3.12)--(3.13), \S4 \\
+HHK (11)--(12); LZ24 (13); LZ25 after (1); LM (3.12)--(3.13), \S4 \\
 Global symmetry (Ward identities, blocking) &
 If the state is $G$-invariant, $\ev{O_R}=0$ unless $R$ is the singlet, and $\ev{\bar O_{\bar R\bar r}O_{R r}}=\delta_{\bar RR}\delta_{\bar rr}\,a_{\bar R,R}$. Positivity of the big matrix reduces to $a_{\bar R,R}\succeq0$ block by block; channels are related by crossing kernels ($6j$ symbols). Conserved charges give $\ev{[F,O]}=0$ and block-diagonalise $M$ by charge. &
 LZ24 (16)--(24), (32)--(35); LZ25 App.\ F; LM (3.18) \& \S3.2.1 \\
 Ground-state positivity &
 $N_{ij}=\ev{O_i^\dagger[H,O_j]}\succeq0$: any perturbation $\sum c_iO_i|\Omega\rangle$ has energy $\ge E_0$. Zero-temperature limit of the energy--entropy balance inequality $\ev{O^\dagger O}\log\frac{\ev{O^\dagger O}}{\ev{OO^\dagger}}\le\beta\ev{O^\dagger[H,O]}$. Supplies \emph{upper} bounds and shrinks peninsulas to islands. &
-LZ25 (6); TASI (102)--(104); LM (3.20) \\
+CGSY (1.5)--(1.6); LZ25 (6); TASI (102)--(104); LM (3.20) \\
+KMS / thermal state &
+For $\rho\propto e^{-\beta H}$: $\beta C-A^{1/2}\log(A^{1/2}B^{-1}A^{1/2})A^{1/2}\succeq0$ with $A=\ev{O_i^\dagger O_j}$, $B=\ev{O_jO_i^\dagger}$, $C=\ev{O_i^\dagger[H,O_j]}$ (equivalent to KMS given stationarity); made SDP-representable by a rational relaxation of the matrix logarithm. Trivialises for gauged planar models with traced operators only. &
+CGSY (1.6), (2.4)--(2.11), \S6 \\
 Supercharge (SUSY vacuum) &
 If $Q|\Omega\rangle=0$: $\ev{QO}=\ev{OQ}=0$, at large $N$ $\ev{\{Q_\alpha,O_\alpha\}}=0$ for fermionic $O$. Implies ground-state positivity: $\ev{O^\dagger[H,O]}=\tfrac18\ev{[Q,O]^\dagger[Q,O]}\ge0$. The weaker $\ev{[Q^\dagger Q,O]}=0$ was found redundant with EOM. &
 LZ24 (14), App.\ A (47)--(54); TASI (128); LM (3.19) \\
@@ -76,6 +79,7 @@ LZ25 App.\ B (B6)--(B7); TASI (98)--(99) \\
 \item Generate and \emph{symbolically solve} the linear equalities (algebra, reality, gauge, Ward, EOM, supercharge) for a set of free variables. This step, not the SDP, dominates cost (LZ24 \S3; LM \S3.2.2: 8\,h of algebra vs 5--10\,min per SDPB point).
 \item Build the positivity matrices ($M$, $N$, relaxation blocks) as linear matrix inequalities in the free variables, one block per (charge, irrep).
 \item Solve the SDP. Generic solvers (Mathematica, SCS) suffice at low level; the problems lack strict feasibility, so high level needs arbitrary precision: SDPA-GMP (LZ25 App.~A) or SDPB (LM). Bounds should tighten monotonically with level; plateaus followed by jumps happen (LM Fig.~13 and \S3.2.2).
+\item Why it converges: if $\phi(\mathbf 1)=1$, $\phi(O^\dagger)=\phi(O)^*$ and $\phi(O^\dagger O)\ge0$ for \emph{all} $O$, then $\phi=\Tr\rho\,(\cdot)$ for a genuine state; adding $\phi(OH)=E\phi(O)$ makes it an eigenstate (HHK fn.\ [20]). For a finite fermionic Hilbert space ``all $O$'' is a finite set, so the bootstrap is exact at the top level.
 \item Sanity checks: (a) feed the exact state (ED or known solution) into every constraint and verify $M\succeq0$, EOM residual $0$; (b) reproduce analytic low-level bounds, e.g.\ the virial/Polchinski bounds (TASI (114)--(127); LZ25 (7), App.~E).
 \end{enumerate}
 
@@ -95,7 +99,7 @@ Setting: $p$ complex fermion matrices $\Psi^{(f)}_{ij}$, $\{\Psi_{ij},\Psib_{kl}
 \item \textbf{Pauli truncation.} Each mode appears at most once, so the algebra of words closes at finite length; at fixed $N$ the constraint set is finite and the bootstrap can be \emph{exact} at the top level. No flat directions, no continuum of moments.
 \item \textbf{Blocks.} $M$ is block-diagonal in $N_\Psi$ (as in LM \S3.2.1: $F=0,\pm1,\pm2$ blocks) and in $SU(N)\times$flavor irrep. Fix a sector with $\phi(N_\Psi)=k$, $\phi(N_\Psi^2)=k^2$: since $\phi((N_\Psi-k)^2)=0$, positivity forces $\phi((N_\Psi-k)O)=0$ for every $O$ in the set. Extremising $\phi(H)$ then bounds the sector ground energy $E_0(k)$ ($\star$).
 \item \textbf{Which sector is the ground state.} For $Q=\Tr\Psi^3$, $H=3N(N^2-1)-9\hat C_2$ \refnote{Chen (2.8)}: singlets are the \emph{top} of the spectrum and the BPS states form the maximal-Casimir irrep $r_*$ \refnote{Chen (2.18)--(2.22)}. A gauged (singlet) bootstrap bounds the wrong end. Work ungauged, with irrep-resolved blocks; the singlet-state justification for using open-index operators (LZ25 after (6)) must be replaced by the irrep-averaged functional $\rho_R$ of KMPT (3.15).
-\item \textbf{SUSY floor and how to lift it} ($\star$). With $Q,\Qb$ in the basis, $\phi(H)\ge0$ is free. In a lifted sector the SDP must additionally learn that annihilators act first on the sector ground state, e.g.\ $\phi(Q\Qb)=0$ at $N_\Psi=0$. In a basis of elementary letters this follows from $\phi(N_\Psi)=0$, $\phi(\Psi_{ij}\Psib_{ji})\ge0$ and Cauchy--Schwarz. In a basis of \emph{gauge-invariant single traces only} it does not: at $N=3$, levels 3 and 4, all lifted sectors of the single-matrix model return the trivial bound $0$ (verified 2026-09-15). Open-index (adjoint-valued) operators are required in the positivity matrix.
+\item \textbf{SUSY floor and how to lift it} ($\star$). With $Q,\Qb$ in the basis, $\phi(H)\ge0$ is free. In a lifted sector the SDP must additionally learn that annihilators act first on the sector ground state, e.g.\ $\phi(Q\Qb)=0$ at $N_\Psi=0$. In a basis of elementary letters this follows from $\phi(N_\Psi)=0$, $\phi(\Psi_{ij}\Psib_{ji})\ge0$ and Cauchy--Schwarz. In a basis of \emph{gauge-invariant single traces only} it does not: at $N=3$, levels 3 and 4, all lifted sectors of the single-matrix model return the trivial bound $0$ (verified 2026-09-15). Open-index (adjoint-valued) operators are required in the positivity matrix; the precedent is the ungauged-MQM bootstrap of CGSY \S3.1, whose adjoint Gram matrix is decomposed into $U(N)$ tensor structures (3.5) with no gauge constraint imposed.
 \item \textbf{Ground-state positivity in a sector.} $\ev{O^\dagger[H,O]}\ge0$ is valid for the sector ground state only if $O$ preserves the sector ($[O,N_\Psi]=0$, and likewise for the irrep); a charge-changing $O$ may lower the energy by leaving the sector. For a genuine SUSY vacuum ($E=0$) it is implied by the supercharge constraints (LZ24 App.~A) and adds nothing.
 \item \textbf{Concentration as a bootstrap target} \refnote{CCSY Conj.\ 1, \S2; Chen (2.22)}. R-charge concentration = one BPS degree per irreducible complex (labels: $N_\Psi$ mod 3, $SU(N)$ irrep, flavor). A rigorous $E_0(k,\mathbf r)>0$ outside a window of $\le3$ consecutive $k$ proves it; the single-matrix baseline has $E_0=0$ on $N+1$ consecutive sectors.
 \item \textbf{Exact single-trace $H$ for $Q=\Tr\Psi^3$} ($\star$, \texttt{docs/derivations.md} D1): $H=\tfrac92\big(\Tr[\Psi\Psi\Psib\Psib]+\Tr[\Psib\Psib\Psi\Psi]\big)-\tfrac32N(N^2-1)$, equivalently $\hat C_2=N N_\Psi-\Tr\Psi\,\Tr\Psib-\Tr[\Psi\Psi\Psib\Psib]$. (An earlier fitted constant $-9(N-1)^2$ is wrong for $N\ge4$.)
@@ -106,16 +110,20 @@ Setting: $p$ complex fermion matrices $\Psi^{(f)}_{ij}$, $\{\Psi_{ij},\Psib_{kl}
 \item Bosonic YM matrix QM (LZ25 Table~II): $D{=}2$, $M{=}0$: $E\in[0.707832,0.707868]$ at level 14; $D{=}9$: $E\in[6.69946,6.69968]$, $\ev{\tr X_IX_I}\in[2.29195,2.29218]$ at level 11 (Monte Carlo $6.695(5)$, $2.291(1)$). Islands first appear at level 10 for $M=0$.
 \item BFSS (LZ24 Table~2): $\ev{\tr X^2}\ge0.355$ at level 9 (Monte Carlo $\approx0.378$); analytic level 6: $\tfrac34(3/50)^{1/3}\approx0.2936$.
 \item Marinari--Parisi (LM \S3.2.2): level 8, $44\times44$, 27 free variables; $E_0/N^2\approx0.196\,g^{2/3}$ (WKB $0.242$); no upper bound obtained.
-\item Single-matrix fermionic model (Chen; this project): $E\in\{0,18\}$ ($N{=}2$), $\{0,18,45,72\}$ ($N{=}3$); $C_2^{\max}=N(N^2-1)/3$; $\dim r_*=3^{N(N-1)/2}$; BPS window $[N(N-1)/2,N(N+1)/2]$. Three-matrix model at $N=2$: 972 BPS states at $N_\Psi\in\{5,6,7\}$, counts $243{:}486{:}243$, 168 distinct energies (ED, reproduced 2026-09-15).
+\item Single-matrix fermionic model (Chen; this project): $E\in\{0,18\}$ ($N{=}2$), $\{0,18,45,72\}$ ($N{=}3$); $C_2^{\max}=N(N^2-1)/3$; $\dim r_*=3^{N(N-1)/2}$; BPS window $[N(N-1)/2,N(N+1)/2]$. Three-matrix model at $N=2$: 972 BPS states at $N_\Psi\in\{5,6,7\}$, counts $243{:}486{:}243$, 168 distinct energies (ED, reproduced 2026-09-15). Compare the $\hat q=3$ super-Schwarzian/SYK prediction of three charges in ratio $\cos(\pi k/3)=1{:}2{:}1$ (TW \cite{TW} (3.10); FGMS \cite{FGMS} (5.7)) and the TW chaos test: $r$-ratio of singular values of $Q_k$ per charge pair, $\beta=2$.
 \end{itemize}
 
-\begin{thebibliography}{9}\small
+\begin{thebibliography}{99}\small
+\bibitem{HHK} X.~Han, S.~A.~Hartnoll, J.~Kruthoff, \emph{Bootstrapping Matrix Quantum Mechanics}, Phys.\ Rev.\ Lett.\ 125 (2020) 041601, arXiv:2004.10212.
 \bibitem{LZ24} H.~W.~Lin, Z.~Zheng, \emph{Bootstrapping Ground State Correlators in Matrix Theory, Part I}, arXiv:2410.14647.
 \bibitem{LZ25} H.~W.~Lin, Z.~Zheng, \emph{High-Precision Bootstrap of Multimatrix Quantum Mechanics}, arXiv:2507.21007.
 \bibitem{TASI} H.~W.~Lin, \emph{TASI lectures on Matrix Theory from a modern viewpoint}, arXiv:2508.20970, \S6.
 \bibitem{LM} S.~Laliberte, B.~McPeak, \emph{Bootstrapping supersymmetric (matrix) quantum mechanics}, arXiv:2510.01356.
+\bibitem{CGSY} M.~Cho, B.~Gabai, J.~Sandor, X.~Yin, \emph{Thermal Bootstrap of Matrix Quantum Mechanics}, arXiv:2410.04262.
 \bibitem{KMPT} I.~R.~Klebanov, A.~Milekhin, F.~Popov, G.~Tarnopolsky, \emph{Spectra of eigenstates in fermionic tensor quantum mechanics}, Phys.\ Rev.\ D 97 (2018) 106023, arXiv:1802.10263.
 \bibitem{Chen} Y.~Chen, \emph{Fortuity with a Single Matrix}, arXiv:2511.00790.
 \bibitem{CCSY} C.-M.~Chang, Y.~Chen, B.~S.~Sia, Z.~Yang, \emph{Fortuity in SYK models}, JHEP 08 (2025) 003, arXiv:2412.06902.
+\bibitem{TW} G.~J.~Turiaci, E.~Witten, \emph{$\mathcal N=2$ JT Supergravity and Matrix Models}, arXiv:2305.19438.
+\bibitem{FGMS} W.~Fu, D.~Gaiotto, J.~Maldacena, S.~Sachdev, \emph{Supersymmetric SYK models}, Phys.\ Rev.\ D 95 (2017) 026009, arXiv:1610.08917.
 \end{thebibliography}
 \end{document}

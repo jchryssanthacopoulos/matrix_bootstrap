@@ -24,3 +24,10 @@
 - [x] Single-trace $H$: constant corrected to $-\tfrac32N(N^2-1)$ (docs/derivations.md D1); the fitted $-9(N-1)^2$ fails at $N=4$.
 - [x] Covariant single-trace bootstrap at $N=3$: ground-state positivity runs (36 s) and level 4 runs (3 min) — both leave lifted sectors at the trivial bound 0. Diagnosis in the addendum to `research/notes/matrix_syk_covariant_bootstrap.md`.
 - [ ] Redesign the covariant bootstrap with adjoint-valued (open-index) operators organised into $SU(N)$ irreps; test on $N=3$ lifted sectors.
+
+## From the second batch of papers (2026-09-15)
+- [ ] Implement the Turiaci–Witten chaos test: singular values of $Q_k:\mathcal H_k\to\mathcal H_{k+3}$ per $(k,\text{irrep})$, $r$-ratio vs $\beta=2$ surmise; try $p=2,N=3$ and edge sectors of $p=3,N=3$ by sparse Lanczos on $Q_k^\dagger Q_k$.
+- [ ] Compute BPS counts per charge and per $SU(N)$ irrep for the 3-matrix model at $N=2$ and compare with $\cos(\pi k/3)$; state the $N\ge3$ prediction (Q1d) precisely.
+- [ ] Refined index $\mathrm{Tr}[(-1)^Fe^{2\pi irN_\Psi/3}\chi_R]$ per irrep (FGMS (5.5) + character insertion) for both models; check saturation at $N=2$.
+- [ ] Rebuild the covariant bootstrap with adjoint-valued operators and $U(N)$ tensor-structure decomposition (Cho–Gabai–Sandor–Yin (3.5)); test on the $N=3$ single-matrix lifted sectors.
+- [ ] (Later) KMS/thermal bootstrap of the 3-matrix model for $E(\beta)$ and the near-BPS density of states (Cho et al. (1.6), (2.11)).

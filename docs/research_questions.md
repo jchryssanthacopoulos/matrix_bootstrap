@@ -13,22 +13,25 @@ Sharp formulation (Chang–Chen–Sia–Yang 2024, Conjecture 1 and §2): in eve
 Sub-questions:
 - Q1a. Can the bootstrap give rigorous lower bounds $E_0(N_\Psi)>0$ in lifted sectors at $N$ beyond exact diagonalisation ($N=3$: $2^{27}$ states)?
 - Q1b. Are refined indices $\mathrm{Tr}[(-1)^Fq^{N_\Psi}]$ per $SU(N)$ irrep saturated by BPS counts (index saturation ⇔ concentration, Chang et al. §5.1)?
-- Q1c. How does the number of BPS states scale with $N$ ($e^{cN^2}$ multiplicity, as for a genuine black-hole-like sector, versus a large irrep with small multiplicity as in the single-matrix model)?
+- Q1c. How does the number of BPS states scale with $N$ ($e^{cN^2}$ multiplicity, as for a genuine black-hole-like sector — Chang–Lin 2024 Conjecture 3 — versus a large irrep with small multiplicity as in the single-matrix model)?
+- Q1d. **Do the BPS counts in the three charges of a concentrated complex stay in ratio $1{:}2{:}1$ as $N$ grows?** This is the $\hat q=3$ super-Schwarzian prediction $N_{\rm BPS}(k)\propto\cos(\pi k/3)$ (Turiaci–Witten (3.10)), realised exactly in $\mathcal N=2$ SYK (FGMS (5.7)), and matched by the project's $243{:}486{:}243$ at $N=2$; the single-matrix binomial weights depart from it for $N\ge3$.
 
 ## Secondary questions
 
-**Q2. Is the 3-matrix model chaotic?** Diagnostics: level statistics in symmetry-resolved sectors at the largest accessible $N$; LMRS statistics of projected simple operators in the BPS subspace; information/entanglement entropy of BPS states (Chang et al. §3.4); whether gaps close as $N\to\infty$ (Casimir-type fermionic matrix models keep $O(1)$ gaps, Klebanov et al. 2018 §6.1).
+**Q2. Is the 3-matrix model chaotic?** Primary diagnostic: the $r$-ratio statistics of the *singular values of $Q_k$* between adjacent charge sectors $(k,k+3)$ at fixed $SU(N)$ irrep, compared with the Altland–Zirnbauer $\beta=2$ surmise (Turiaci–Witten §2.5; $\beta=1$ for the $CT$-self-conjugate multiplet at odd fermion number). Secondary: level statistics of $H$ in symmetry-resolved sectors at the largest accessible $N$; LMRS statistics of projected simple operators in the BPS subspace; information/entanglement entropy of BPS states (Chang et al. §3.4); whether gaps close as $N\to\infty$ (Casimir-type fermionic matrix models keep $O(1)$ gaps, Klebanov et al. 2018 §6.1).
 
 **Q3. What is the minimal structure that breaks the Casimir shortcut?** Which cubic supercharges (number of flavors, which trace structures) have $H$ *not* a function of Casimirs? Is $p=3$ really the "magic number"? Do $p=2$ models with mixed traces already concentrate?
 
 **Q4. Large-$N$ organisation of the fortuitous sector.** Fortuitous states are maximal-Casimir, non-singlet (single matrix) or partly singlet (3-matrix, per project ED at $N=2$). Does large-$N$ factorisation of single-trace correlators hold in the relevant states? If not, what replaces it (covariant/Wigner–Eckart blocks, Marchesini–Onofri-type non-singlet equations)?
 
-**Q5. Near-BPS spectrum and the super-Schwarzian.** In a concentrating sector, does the gap above the BPS states scale as a power of $1/N$ and does the density of states show a $\sinh\sqrt{E}$-type edge, as the $\mathcal N=2$ super-Schwarzian would predict? (Chen's conjecture; untested.)
+**Q5. Near-BPS spectrum and the super-Schwarzian.** Quantitative targets from Turiaci–Witten (3.11) and FGMS (5.39)–(5.42): non-BPS multiplet gaps $E_0(q)=q^2/(4\hat q^2)$ in Schwarzian units (growing quadratically with distance of the average charge $q$ from the window), edge density $\rho_q\propto\sinh(2\pi\sqrt{E-E_0(q)})/E$, and $1/\sqrt\varepsilon$ threshold only for the $q=0$ multiplet. Unknown for the matrix model: the overall Schwarzian scale as a function of $N$ (is it $\propto1/N^2$, the natural guess with $N^2$ fermions?). (Chen's conjecture; untested.)
 
 **Q6. Methodological.** For a purely fermionic model the operator algebra truncates; what is the smallest operator level at which the bootstrap is tight in (a) BPS sectors, (b) lifted sectors, as a function of $N$? Which constraints are essential (supercharge EOM, ground-state positivity restricted to sector-preserving operators, $SU(N)$ Ward identities)?
 
-## Status of what is known (from `research/notes/`, not re-verified this session)
+## Status of what is known
+
+*Re-verified 2026-09-15 in the project `.venv` unless stated; see `docs/todo.md` for the two corrections found.*
 
 - Single matrix: $E_0(N_\Psi)$ exact for $N\le4$; BPS window $[N(N-1)/2,N(N+1)/2]$ confirmed; covariant single-trace bootstrap tight at $N=2$ in all sectors and at $N=3$ in BPS sectors; lifted sectors at $N=3$ not yet tight.
 - 3-matrix, $N=2$: 972 BPS states at $N_\Psi\in\{5,6,7\}$ with counts $243:486:243$; 168 distinct energies; gauge-singlet BPS multiplets present.
-- No Python environment with numpy/scipy is currently installed in this checkout; results above cannot be re-run until one is set up.
+- Corrections: the single-trace $H$ constant is $-\tfrac32N(N^2-1)$ (docs/derivations.md D1); the covariant gauge-invariant-only bootstrap gives trivial bounds in lifted sectors at $N=3$ (levels 3 and 4, with or without ground-state positivity) and must be rebuilt with adjoint-valued operators.
