@@ -31,7 +31,9 @@
 - [ ] Refined index $\mathrm{Tr}[(-1)^Fe^{2\pi irN_\Psi/3}\chi_R]$ per irrep (FGMS (5.5) + character insertion) for both models; check saturation at $N=2$.
 - [x] Rebuild the covariant bootstrap with adjoint-valued operators (2026-09-16: `src/sector_bootstrap.py`, formulation D3). Single matrix: exact in all sectors at $N=3$, 15/17 at $N=4$; edge sector converging slowly with level. See `research/notes/sector_bootstrap_results.md`.
 - [ ] Symmetry-reduced version (gauge-invariant $\rho_k$ via Ward identities + $\mathbb Z_3$ Fourier flavor basis) to bring three-matrix $N=2$ sectors $k=3,4$ at level 3 under a few GB.
-- [ ] Prune linearly dependent EOM rows before the SDP (23 970 rows for $r=270$ variables in the three-matrix $k=2$ run); this would cut interior-point solver memory (9.9 GB observed) by orders of magnitude.
+- [x] Prune linearly dependent EOM rows before the SDP (done 2026-09-16; $23\,970\to226$). Remaining solver-memory driver is the PSD cone size (interior point $\sim O(m^2)$); use SCS or shrink cones by symmetry.
+- [x] Island/archipelago scans implemented (`scripts/scan_sector.py`, `scripts/plot_scans.py`); results in `research/notes/sector_bootstrap_results.md` §7.
+- [ ] (was:) Prune linearly dependent EOM rows before the SDP (23 970 rows for $r=270$ variables in the three-matrix $k=2$ run); this would cut interior-point solver memory (9.9 GB observed) by orders of magnitude.
 - [ ] Faster convergence in window-edge sectors: try including $Q$-descendant words ($X_a$, $\Psi^aX_b$, …) and the gauge Ward identities; consider SDPB/SDPA-GMP for the 'inaccurate' SCS solves.
 - [ ] (Later) KMS/thermal bootstrap of the 3-matrix model for $E(\beta)$ and the near-BPS density of states (Cho et al. (1.6), (2.11)).
 

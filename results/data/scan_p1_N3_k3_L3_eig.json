@@ -1,0 +1,1840 @@
+{
+ "params": {
+  "N": 3,
+  "p": 1,
+  "k": 3,
+  "L_adj": 3,
+  "L_sing": 3,
+  "L_eom": 3,
+  "gs": false,
+  "eigenstate": true,
+  "Emin": -4.0,
+  "Emax": 76.0,
+  "nE": 321,
+  "observables": "C2gauge",
+  "solver": "CLARABEL",
+  "budget_gb": 6.0,
+  "out": "../results/data/scan_p1_N3_k3_L3_eig.json"
+ },
+ "r": 12,
+ "d": 84,
+ "n_eom_independent": 0,
+ "build_time_s": 0.16990900039672852,
+ "exact": {
+  "E": [
+   -2.2048408991483843e-14,
+   -2.0731957707068315e-14,
+   -1.4942235974543987e-14,
+   -1.472903087803747e-14,
+   -1.4196121166448663e-14,
+   -1.0760140378247818e-14,
+   -1.0357307936016334e-14,
+   -8.54486276089707e-15,
+   -6.8927812810063425e-15,
+   -6.871119638172956e-15,
+   -5.026462166807187e-15,
+   -4.340091349903044e-15,
+   -2.5893266025935112e-15,
+   -2.5144172296664077e-15,
+   -4.472081188756955e-16,
+   4.028339678635156e-16,
+   8.778869472782405e-16,
+   2.0279773212770975e-15,
+   2.589326602593511e-15,
+   3.1466964422892865e-15,
+   5.178653153822876e-15,
+   5.405669475980646e-15,
+   7.393741197249438e-15,
+   9.329925416973206e-15,
+   1.3115903734778638e-14,
+   2.0109073348483276e-14,
+   2.2663357153283698e-14,
+   17.999999999999975,
+   17.99999999999998,
+   17.999999999999982,
+   17.999999999999982,
+   17.999999999999982,
+   17.999999999999986,
+   17.99999999999999,
+   17.99999999999999,
+   17.99999999999999,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999996,
+   17.999999999999996,
+   18.0,
+   18.0,
+   18.0,
+   18.0,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000007,
+   18.000000000000007,
+   18.000000000000007,
+   18.00000000000001,
+   18.00000000000001,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.00000000000002,
+   18.000000000000025,
+   18.000000000000025,
+   44.99999999999997,
+   44.99999999999997,
+   44.999999999999986,
+   44.99999999999999,
+   45.0,
+   45.0,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000002,
+   45.00000000000002,
+   45.00000000000003,
+   45.00000000000003,
+   45.00000000000003,
+   72.00000000000001
+  ],
+  "C2gauge": [
+   7.999999999999986,
+   7.999999999999987,
+   7.999999999999987,
+   7.999999999999989,
+   7.999999999999989,
+   7.999999999999992,
+   7.999999999999992,
+   7.999999999999994,
+   7.999999999999995,
+   7.9999999999999964,
+   7.9999999999999964,
+   7.999999999999997,
+   7.999999999999998,
+   7.999999999999999,
+   7.999999999999999,
+   8.000000000000002,
+   8.000000000000002,
+   8.000000000000004,
+   8.000000000000005,
+   8.000000000000005,
+   8.000000000000005,
+   8.000000000000007,
+   8.000000000000009,
+   8.000000000000009,
+   8.00000000000001,
+   8.000000000000018,
+   8.000000000000032,
+   5.999999999999986,
+   5.999999999999988,
+   5.99999999999999,
+   5.99999999999999,
+   5.999999999999991,
+   5.999999999999993,
+   5.999999999999993,
+   5.999999999999994,
+   5.999999999999994,
+   5.999999999999996,
+   5.999999999999996,
+   5.9999999999999964,
+   5.9999999999999964,
+   5.999999999999997,
+   5.999999999999997,
+   5.999999999999998,
+   5.999999999999998,
+   5.999999999999999,
+   6.0,
+   6.000000000000001,
+   6.000000000000001,
+   6.000000000000002,
+   6.000000000000003,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.000000000000005,
+   6.000000000000005,
+   6.000000000000006,
+   6.000000000000007,
+   6.000000000000008,
+   6.000000000000008,
+   6.000000000000008,
+   6.000000000000009,
+   6.00000000000001,
+   6.000000000000011,
+   6.000000000000012,
+   6.000000000000012,
+   6.000000000000012,
+   2.9999999999999947,
+   2.999999999999996,
+   2.9999999999999964,
+   2.9999999999999964,
+   2.999999999999998,
+   2.999999999999998,
+   2.9999999999999982,
+   2.9999999999999987,
+   2.9999999999999996,
+   3.0,
+   3.0,
+   3.0000000000000004,
+   3.0000000000000004,
+   3.0000000000000013,
+   3.000000000000002,
+   3.000000000000004,
+   -1.177569344012827e-16
+  ],
+  "C2gauge_commutes": true
+ },
+ "E_bound": 2.7007832414938093e-08,
+ "E_max_bound": 72.00000040693351,
+ "scan": [
+  {
+   "E": -4.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 0.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    7.999999999954314,
+    7.9999999996943245
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 0.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 0.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 0.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 1.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 1.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 1.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 1.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 2.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 2.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 2.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 2.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 3.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 3.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 3.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 3.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 4.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 4.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 4.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 4.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 5.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 5.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 5.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 5.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 6.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 6.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 6.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 6.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 7.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 7.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 7.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 7.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 8.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 8.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 8.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 8.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 9.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 9.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 9.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 9.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 10.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 10.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 10.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 10.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 11.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 11.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 11.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 11.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 12.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 12.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 12.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 12.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 13.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 13.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 13.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 13.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 14.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 14.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 14.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 14.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 15.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 15.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 15.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 15.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 16.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 16.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 16.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 16.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 17.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 17.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 17.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 17.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 18.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    5.999999999999589,
+    5.99999999999884
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 18.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 18.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 18.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 19.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 19.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 19.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 19.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 20.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 20.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 20.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 20.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 21.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 21.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 21.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 21.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 22.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 22.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 22.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 22.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 23.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 23.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 23.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 23.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 24.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 24.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 24.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 24.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 25.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 25.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 25.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 25.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 26.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 26.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 26.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 26.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 27.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 27.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 27.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 27.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 28.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 28.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 28.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 28.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 29.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 29.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 29.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 29.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 30.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 30.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 30.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 30.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 31.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 31.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 31.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 31.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 32.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 32.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 32.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 32.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 33.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 33.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 33.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 33.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 34.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 34.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 34.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 34.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 35.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 35.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 35.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 35.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 36.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 36.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 36.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 36.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 37.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 37.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 37.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 37.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 38.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 38.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 38.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 38.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 39.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 39.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 39.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 39.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 40.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 40.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 40.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 40.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 41.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 41.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 41.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 41.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 42.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 42.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 42.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 42.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 43.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 43.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 43.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 43.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 44.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 44.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 44.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 44.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 45.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    2.9999999999999822,
+    2.999999999987521
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal"
+   ]
+  },
+  {
+   "E": 45.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 45.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 45.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 46.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 46.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 46.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 46.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 47.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 47.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 47.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 47.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 48.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 48.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 48.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 48.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 49.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 49.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 49.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 49.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 50.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 50.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 50.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 50.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 51.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 51.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 51.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 51.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 52.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 52.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 52.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 52.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 53.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 53.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 53.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 53.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 54.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 54.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 54.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 54.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 55.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 55.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 55.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 55.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 56.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 56.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 56.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 56.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 57.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 57.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 57.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 57.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 58.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 58.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 58.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 58.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 59.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 59.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 59.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 59.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 60.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 60.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 60.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 60.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 61.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 61.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 61.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 61.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 62.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 62.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 62.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 62.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 63.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 63.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 63.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 63.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 64.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 64.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 64.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 64.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 65.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 65.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 65.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 65.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 66.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 66.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 66.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 66.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 67.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 67.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 67.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 67.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 68.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 68.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 68.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 68.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 69.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 69.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 69.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 69.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 70.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 70.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 70.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 70.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 71.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 71.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 71.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 71.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 72.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    -8.394884787321644e-10,
+    -2.448857117087755e-09
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal"
+   ]
+  },
+  {
+   "E": 72.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 72.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 72.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 76.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  }
+ ],
+ "total_time_s": 11.185614824295044
+}

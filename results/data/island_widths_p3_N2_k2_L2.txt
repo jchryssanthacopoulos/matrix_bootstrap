@@ -1,0 +1,12 @@
+exact levels: [np.float64(5.1654), np.float64(12.0), np.float64(13.4907), np.float64(18.3262), np.float64(20.0), np.float64(22.3387), np.float64(78.0), np.float64(78.7129)] ... total distinct: 15
+E0=5.16536436: feasible at exact E: True (optimal_inaccurate, 1.2s)
+   side +1: half-width in [0.00e+00,1.53e-05]
+   side -1: half-width in [0.00e+00,1.53e-05]
+E0=12.00000000: feasible at exact E: True (optimal_inaccurate, 1.1s)
+   side +1: half-width in [0.00e+00,1.53e-05]
+   side -1: half-width in [0.00e+00,1.53e-05]
+E0=13.49074180: feasible at exact E: True (optimal_inaccurate, 1.5s)
+   side +1: half-width in [0.00e+00,1.53e-05]
+   side -1: half-width in [0.00e+00,1.53e-05]
+midpoint between first two levels feasible: (False, 'infeasible', 1.0987961292266846)
+E=4.0 (below ground): (False, 'infeasible', 1.0653502941131592)

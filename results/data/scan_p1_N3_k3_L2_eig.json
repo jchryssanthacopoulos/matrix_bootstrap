@@ -1,0 +1,4120 @@
+{
+ "params": {
+  "N": 3,
+  "p": 1,
+  "k": 3,
+  "L_adj": 2,
+  "L_sing": 2,
+  "L_eom": 3,
+  "gs": false,
+  "eigenstate": true,
+  "Emin": -4.0,
+  "Emax": 76.0,
+  "nE": 321,
+  "observables": "C2gauge",
+  "solver": "CLARABEL",
+  "budget_gb": 6.0,
+  "out": "../results/data/scan_p1_N3_k3_L2_eig.json"
+ },
+ "r": 7,
+ "d": 84,
+ "n_eom_independent": 0,
+ "build_time_s": 0.043596744537353516,
+ "exact": {
+  "E": [
+   -2.2048408991483843e-14,
+   -2.0731957707068315e-14,
+   -1.4942235974543987e-14,
+   -1.472903087803747e-14,
+   -1.4196121166448663e-14,
+   -1.0760140378247818e-14,
+   -1.0357307936016334e-14,
+   -8.54486276089707e-15,
+   -6.8927812810063425e-15,
+   -6.871119638172956e-15,
+   -5.026462166807187e-15,
+   -4.340091349903044e-15,
+   -2.5893266025935112e-15,
+   -2.5144172296664077e-15,
+   -4.472081188756955e-16,
+   4.028339678635156e-16,
+   8.778869472782405e-16,
+   2.0279773212770975e-15,
+   2.589326602593511e-15,
+   3.1466964422892865e-15,
+   5.178653153822876e-15,
+   5.405669475980646e-15,
+   7.393741197249438e-15,
+   9.329925416973206e-15,
+   1.3115903734778638e-14,
+   2.0109073348483276e-14,
+   2.2663357153283698e-14,
+   17.999999999999975,
+   17.99999999999998,
+   17.999999999999982,
+   17.999999999999982,
+   17.999999999999982,
+   17.999999999999986,
+   17.99999999999999,
+   17.99999999999999,
+   17.99999999999999,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999993,
+   17.999999999999996,
+   17.999999999999996,
+   18.0,
+   18.0,
+   18.0,
+   18.0,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000004,
+   18.000000000000007,
+   18.000000000000007,
+   18.000000000000007,
+   18.00000000000001,
+   18.00000000000001,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.000000000000014,
+   18.00000000000002,
+   18.000000000000025,
+   18.000000000000025,
+   44.99999999999997,
+   44.99999999999997,
+   44.999999999999986,
+   44.99999999999999,
+   45.0,
+   45.0,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000001,
+   45.00000000000002,
+   45.00000000000002,
+   45.00000000000003,
+   45.00000000000003,
+   45.00000000000003,
+   72.00000000000001
+  ],
+  "C2gauge": [
+   7.999999999999986,
+   7.999999999999987,
+   7.999999999999987,
+   7.999999999999989,
+   7.999999999999989,
+   7.999999999999992,
+   7.999999999999992,
+   7.999999999999994,
+   7.999999999999995,
+   7.9999999999999964,
+   7.9999999999999964,
+   7.999999999999997,
+   7.999999999999998,
+   7.999999999999999,
+   7.999999999999999,
+   8.000000000000002,
+   8.000000000000002,
+   8.000000000000004,
+   8.000000000000005,
+   8.000000000000005,
+   8.000000000000005,
+   8.000000000000007,
+   8.000000000000009,
+   8.000000000000009,
+   8.00000000000001,
+   8.000000000000018,
+   8.000000000000032,
+   5.999999999999986,
+   5.999999999999988,
+   5.99999999999999,
+   5.99999999999999,
+   5.999999999999991,
+   5.999999999999993,
+   5.999999999999993,
+   5.999999999999994,
+   5.999999999999994,
+   5.999999999999996,
+   5.999999999999996,
+   5.9999999999999964,
+   5.9999999999999964,
+   5.999999999999997,
+   5.999999999999997,
+   5.999999999999998,
+   5.999999999999998,
+   5.999999999999999,
+   6.0,
+   6.000000000000001,
+   6.000000000000001,
+   6.000000000000002,
+   6.000000000000003,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.0000000000000036,
+   6.000000000000005,
+   6.000000000000005,
+   6.000000000000006,
+   6.000000000000007,
+   6.000000000000008,
+   6.000000000000008,
+   6.000000000000008,
+   6.000000000000009,
+   6.00000000000001,
+   6.000000000000011,
+   6.000000000000012,
+   6.000000000000012,
+   6.000000000000012,
+   2.9999999999999947,
+   2.999999999999996,
+   2.9999999999999964,
+   2.9999999999999964,
+   2.999999999999998,
+   2.999999999999998,
+   2.9999999999999982,
+   2.9999999999999987,
+   2.9999999999999996,
+   3.0,
+   3.0,
+   3.0000000000000004,
+   3.0000000000000004,
+   3.0000000000000013,
+   3.000000000000002,
+   3.000000000000004,
+   -1.177569344012827e-16
+  ],
+  "C2gauge_commutes": true
+ },
+ "E_bound": -2.993403697331172e-09,
+ "E_max_bound": 72.0000000679478,
+ "scan": [
+  {
+   "E": -4.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -3.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -2.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -1.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": -0.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 0.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.999999999999265,
+    8.000000000000094
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 0.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.972222222222249,
+    7.972222222222364
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 0.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.944444444444501,
+    7.94444444444451
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 0.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.916666666666707,
+    7.916666666666717
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 1.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.88888888888892,
+    7.88888888888893
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 1.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.861111111111142,
+    7.861111111111139
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 1.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.83333333333336,
+    7.833333333333351
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 1.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.805555555555577,
+    7.805555555555562
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 2.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.777777777777793,
+    7.777777777777797
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 2.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.750000000000019,
+    7.750000000000026
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 2.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.722222222222245,
+    7.722222222222245
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 2.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.694444444444468,
+    7.6944444444444695
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 3.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.666666666666686,
+    7.666666666666689
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 3.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.638888888888911,
+    7.638888888888917
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 3.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.611111111111131,
+    7.611111111111137
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 3.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.583333333333345,
+    7.5833333333333615
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 4.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.555555555555576,
+    7.555555555555567
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 4.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.527777777777789,
+    7.527777777777812
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 4.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.500000000000016,
+    7.500000000000026
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 4.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.47222222222224,
+    7.472222222222249
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 5.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.444444444444454,
+    7.444444444444468
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 5.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.416666666666676,
+    7.416666666666699
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 5.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.388888888888909,
+    7.388888888888921
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 5.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.361111111111128,
+    7.361111111111144
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 6.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.333333333333357,
+    7.333333333333366
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 6.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.305555555555561,
+    7.305555555555593
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 6.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.277777777777795,
+    7.277777777777812
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 6.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.250000000000019,
+    7.2500000000000435
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 7.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.22222222222223,
+    7.222222222222255
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 7.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.194444444444465,
+    7.194444444444469
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 7.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.166666666666692,
+    7.166666666666713
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 7.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.138888888888907,
+    7.138888888888926
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 8.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.111111111111139,
+    7.111111111111156
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 8.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.083333333333356,
+    7.083333333333377
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 8.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.055555555555585,
+    7.055555555555598
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 8.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.027777777777795,
+    7.027777777777834
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 9.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    7.000000000000036,
+    7.000000000000041
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 9.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.972222222222245,
+    6.972222222222284
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 9.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.9444444444444695,
+    6.9444444444445
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 9.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.916666666666681,
+    6.916666666666716
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 10.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.888888888888925,
+    6.888888888888951
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 10.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.861111111111124,
+    6.861111111111162
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 10.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.833333333333364,
+    6.833333333333388
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 10.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.80555555555559,
+    6.805555555555613
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 11.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.777777777777797,
+    6.777777777777828
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 11.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.750000000000024,
+    6.75000000000005
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 11.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.722222222222248,
+    6.722222222222251
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 11.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.69444444444446,
+    6.694444444444487
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 12.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.666666666666698,
+    6.666666666666706
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 12.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.638888888888918,
+    6.638888888888944
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 12.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.611111111111148,
+    6.611111111111162
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 12.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.583333333333368,
+    6.583333333333381
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 13.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.555555555555585,
+    6.5555555555556095
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 13.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.527777777777806,
+    6.527777777777829
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 13.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.500000000000045,
+    6.500000000000048
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 13.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.472222222222264,
+    6.472222222222259
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 14.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.444444444444478,
+    6.444444444444487
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 14.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.41666666666671,
+    6.416666666666716
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 14.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.3888888888889275,
+    6.388888888888946
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 14.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.361111111111149,
+    6.361111111111167
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 15.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.333333333333379,
+    6.333333333333393
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 15.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.3055555555555935,
+    6.305555555555611
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 15.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.277777777777816,
+    6.277777777777835
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 15.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.25000000000004,
+    6.250000000000053
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 16.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.222222222222258,
+    6.222222222222271
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 16.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.19444444444448,
+    6.1944444444444935
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 16.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.166666666666703,
+    6.166666666666723
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 16.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.13888888888894,
+    6.138888888888949
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 17.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.111111111111161,
+    6.111111111111165
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 17.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.083333333333384,
+    6.08333333333338
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 17.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.055555555555602,
+    6.055555555555602
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 17.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.027777777777827,
+    6.027777777777835
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 18.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    6.000000000000046,
+    6.000000000000054
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 18.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.97222222222227,
+    5.9722222222222685
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 18.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.944444444444495,
+    5.944444444444487
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 18.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    5.916666666666716,
+    5.9166666666667185
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 19.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.88888888888894,
+    5.8888888888889435
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 19.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.861111111111159,
+    5.861111111111161
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 19.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.833333333333378,
+    5.8333333333333925
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 19.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.805555555555608,
+    5.805555555555609
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 20.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.777777777777826,
+    5.777777777777827
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 20.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.750000000000052,
+    5.750000000000061
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 20.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.722222222222275,
+    5.7222222222222765
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 20.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.694444444444495,
+    5.694444444444494
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 21.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.666666666666708,
+    5.666666666666711
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 21.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.638888888888939,
+    5.638888888888945
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 21.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.61111111111116,
+    5.611111111111163
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 21.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.583333333333385,
+    5.583333333333384
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 22.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.555555555555602,
+    5.555555555555599
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 22.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.527777777777826,
+    5.527777777777832
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 22.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.500000000000052,
+    5.500000000000042
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 22.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.472222222222274,
+    5.472222222222271
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 23.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.444444444444484,
+    5.444444444444493
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 23.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.416666666666713,
+    5.416666666666713
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 23.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.388888888888928,
+    5.388888888888931
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 23.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.36111111111115,
+    5.361111111111153
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 24.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.333333333333381,
+    5.333333333333381
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 24.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.3055555555556,
+    5.3055555555556
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 24.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.277777777777826,
+    5.277777777777822
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 24.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.250000000000043,
+    5.250000000000041
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 25.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.222222222222261,
+    5.222222222222267
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 25.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.194444444444484,
+    5.194444444444484
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 25.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.166666666666705,
+    5.16666666666671
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 25.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.138888888888938,
+    5.1388888888889355
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 26.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.111111111111156,
+    5.111111111111152
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 26.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.0833333333333695,
+    5.083333333333376
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 26.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.0555555555556015,
+    5.055555555555605
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 26.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.0277777777778265,
+    5.027777777777818
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 27.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    5.0000000000000355,
+    5.000000000000048
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 27.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.972222222222258,
+    4.97222222222227
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 27.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.94444444444449,
+    4.944444444444483
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 27.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.916666666666701,
+    4.916666666666703
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 28.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.888888888888934,
+    4.888888888888931
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 28.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.861111111111152,
+    4.861111111111142
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 28.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.833333333333375,
+    4.833333333333366
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 28.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.805555555555596,
+    4.805555555555595
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 29.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.777777777777807,
+    4.777777777777818
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 29.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.750000000000028,
+    4.750000000000038
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 29.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.722222222222249,
+    4.72222222222226
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 29.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.694444444444471,
+    4.6944444444444695
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 30.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.666666666666702,
+    4.666666666666693
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 30.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.638888888888923,
+    4.638888888888924
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 30.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.6111111111111445,
+    4.6111111111111445
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 30.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.583333333333366,
+    4.583333333333366
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 31.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.5555555555555864,
+    4.555555555555588
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 31.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.527777777777808,
+    4.527777777777797
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 31.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.500000000000017,
+    4.5000000000000195
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 31.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.472222222222238,
+    4.472222222222252
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 32.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.444444444444457,
+    4.44444444444447
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 32.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.416666666666692,
+    4.416666666666691
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 32.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.388888888888914,
+    4.388888888888902
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 32.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.361111111111135,
+    4.3611111111111365
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 33.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.333333333333342,
+    4.333333333333345
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 33.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.305555555555562,
+    4.3055555555555785
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 33.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.277777777777786,
+    4.2777777777777874
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 33.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.249999999997776,
+    4.25000000000268
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 34.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.222222222222227,
+    4.222222222222229
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 34.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.19444444444445,
+    4.194444444444464
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 34.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.166666666666683,
+    4.166666666666672
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 34.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.138888888888892,
+    4.138888888888894
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 35.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.111111111111126,
+    4.111111111111115
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 35.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.083333333333348,
+    4.083333333335526
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 35.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.055555555555572,
+    4.055555555555573
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 35.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.027777777777778,
+    4.027777777777794
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 36.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    4.000000000000012,
+    3.9999999999999996
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 36.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.972222222219758,
+    3.9722222222246515
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 36.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.9444444444444557,
+    3.944444444444459
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 36.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.9166666666666625,
+    3.916666666669385
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 37.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.8888888888888973,
+    3.8888888888888986
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 37.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.8611111111111214,
+    3.8611111111111223
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 37.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.8333333333333464,
+    3.833333333333346
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 37.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.8055555555555656,
+    3.8055555555555647
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 38.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.7777777777777883,
+    3.777777777777769
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 38.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.749999999999993,
+    3.7499999999999916
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 38.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.722222222222233,
+    3.722222222222215
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 38.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.6944444444444544,
+    3.6944444444444535
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 39.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.6666666666666554,
+    3.6666666666666763
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 39.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.638888888888898,
+    3.638888888888901
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 39.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.6111111111110996,
+    3.611111111114286
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 39.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.58333333333334,
+    3.583333333333341
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 40.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.5555555555555602,
+    3.5555555555555407
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 40.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.5277777777777803,
+    3.527777777777758
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 40.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.4999999999999987,
+    3.4999999999999956
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 40.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.4722222222222157,
+    3.4722222222221886
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 41.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.444444444444426,
+    3.444444444444405
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 41.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.416666666666645,
+    3.4166666666666563
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 41.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.3888888888888435,
+    3.3888888888888715
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 41.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.361111111111085,
+    3.3611111111110934
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 42.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.3333333333300024,
+    3.333333333333315
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 42.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.3055555555555265,
+    3.3055555555555123
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 42.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.2777777777777453,
+    3.2777777777777546
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 42.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.2499999999999414,
+    3.249999999999983
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 43.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.2222222222221646,
+    3.222222222222198
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 43.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.1944444444444056,
+    3.1944444444443896
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 43.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.1666666666666026,
+    3.166666666666644
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 43.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.1388888888888213,
+    3.1388888888888364
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 44.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.1111111111110703,
+    3.1111111111110854
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 44.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.0833333333332567,
+    3.083333333333311
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 44.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.0555555555555127,
+    3.0555555555554923
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 44.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    3.0277777777777324,
+    3.02777777777775
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 45.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.9999999999999507,
+    2.999999999999968
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 45.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.9722222222221735,
+    2.972222222222161
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 45.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.944444444444402,
+    2.9444444444444087
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 45.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.9166666666666186,
+    2.9166666666665964
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 46.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.888888888888844,
+    2.8888888888888187
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 46.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.8611111111110654,
+    2.861111111111035
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 46.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.8333333333332464,
+    2.833333333333299
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 46.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.805555555555497,
+    2.805555555555471
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 47.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.7777777777777213,
+    2.7777777777777346
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 47.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.7499999999999445,
+    2.7499999999999183
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 47.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.722222222218682,
+    2.722222222222134
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 47.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.6944444444443887,
+    2.6944444444444033
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 48.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.66666666666657,
+    2.6666666666666217
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 48.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.638888888888832,
+    2.638888888888843
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 48.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.6111111111110503,
+    2.611111111111013
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 48.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.5833333333332704,
+    2.583333333333235
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 49.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.55555555555549,
+    2.5555555555555065
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 49.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.527777777777711,
+    2.5277777777777213
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 49.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.4999999999999374,
+    2.499999999999946
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 49.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.472222222222152,
+    2.472222222222166
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 50.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.4444444444403954,
+    2.4444444444443856
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 50.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.416666666666596,
+    2.4166666666666057
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 50.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.3888888888888204,
+    2.3888888888887707
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 50.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.3611111111056164,
+    2.3611111111187637
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 51.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.333333333333259,
+    2.3333333333332718
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 51.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.305555555555479,
+    2.3055555555554883
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 51.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.2777777777776986,
+    2.2777777777777093
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 51.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.249999999999921,
+    2.249999999999927
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 52.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.2222222222220815,
+    2.2222222222221504
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 52.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.194444444444364,
+    2.1944444444443687
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 52.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.1666666666665866,
+    2.1666666666665897
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 52.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.1388888888888067,
+    2.1388888888888102
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 53.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.1111111111109526,
+    2.111111111110961
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 53.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.0833333333332433,
+    2.0833333333332527
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 53.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.0555555555554674,
+    2.055555555555469
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 53.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    2.0277777777776858,
+    2.0277777777776196
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 54.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.9999999999999072,
+    1.9999999999999096
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 54.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.972222222222049,
+    1.9722222222221344
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 54.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.9444444444443463,
+    1.944444444444352
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 54.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.9166666666665688,
+    1.916666666666577
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 55.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.8888888888887896,
+    1.8888888888887958
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 55.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.8611111111110128,
+    1.8611111111110137
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 55.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.8333333333332298,
+    1.8333333333332344
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 55.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.8055555555554494,
+    1.805555555555451
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 56.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.77777777777767,
+    1.7777777777776738
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 56.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.7499999999998899,
+    1.7499999999998954
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 56.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.7222222222221117,
+    1.722222222222115
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 56.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.694444444444332,
+    1.694444444444337
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 57.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.6666666666664403,
+    1.6666666666665588
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 57.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.6388888888887747,
+    1.6388888888887778
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 57.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.6111111111109915,
+    1.6111111111109935
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 57.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.5833333333332094,
+    1.5833333333332162
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 58.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.5555555555554348,
+    1.5555555555554368
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 58.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.5277777777776547,
+    1.5277777777776593
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 58.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.4999999999998757,
+    1.4999999999998725
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 58.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.4722222222219468,
+    1.4722222222220953
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 59.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.4444444444443163,
+    1.4444444444443176
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 59.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.4166666666665346,
+    1.4166666666665397
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 59.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.3888888888887587,
+    1.3888888888887612
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 59.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.3611111111109777,
+    1.36111111111098
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 60.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.333333333333198,
+    1.3333333333331998
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 60.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    1.3055555555554186,
+    1.3055555555554208
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 60.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.2777777777776407,
+    1.277777777777643
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 60.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.249999999999853,
+    1.24999999999986
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 61.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.2222222222220769,
+    1.2222222222309918
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 61.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.1944444444442919,
+    1.1944444444442934
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 61.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.1666666666665164,
+    1.1666666666665195
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 61.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.138888888888735,
+    1.138888888888734
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 62.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    1.1111111111109482,
+    1.1111111111109586
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 62.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.0833333333331738,
+    1.0833333333331747
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 62.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    1.0555555555553906,
+    1.0555555555553933
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 62.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    1.027777777777613,
+    1.0277777777776156
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 63.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.9999999999998347,
+    0.9999999999998358
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 63.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.9722222222220539,
+    0.9722222222220547
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 63.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.9444444444442731,
+    0.9444444444442707
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 63.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.9166666666664935,
+    0.916666666666496
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 64.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.8888888888887174,
+    0.8888888888887191
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 64.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.8611111111109371,
+    0.8611111111109372
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 64.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.8333333333331501,
+    0.8333333333331553
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 64.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.8055555555553788,
+    0.8055555555553776
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 65.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.7777777777775958,
+    0.777777777777596
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 65.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.7499999999998137,
+    0.7499999999998163
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 65.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.7222222222220345,
+    0.7222222222220345
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 65.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.6944444444442521,
+    0.6944444444442535
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 66.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.6666666666664723,
+    0.6666666666664739
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 66.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.6388888888886946,
+    0.6388888888886947
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 66.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.6111111111109159,
+    0.6111111111109149
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 66.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.5833333333331598,
+    0.583333333332789
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 67.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.5555555555551918,
+    0.5555555555555849
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 67.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.5277777777775166,
+    0.5277777777775888
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 67.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.49999999999978884,
+    0.49999999999979783
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 67.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.47222222222202415,
+    0.4722222222222472
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 68.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.4444444444442398,
+    0.44444444444414755
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 68.25,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.41666666666646085,
+    0.4166666666664628
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 68.5,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.38888888888868567,
+    0.38888888888868317
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 68.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.3611111111109028,
+    0.36111111110180977
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 69.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.3333333333331103,
+    0.3333333333331116
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 69.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.30555555555532776,
+    0.3055555555553847
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 69.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.2777777777775413,
+    0.2777777777775397
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 69.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.24999999999978714,
+    0.24999999999975314
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal"
+   ]
+  },
+  {
+   "E": 70.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.2222222222224056,
+    0.22222222222158122
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 70.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.19444444444415854,
+    0.19444444444437234
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal"
+   ]
+  },
+  {
+   "E": 70.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.16666666666598023,
+    0.16666666666645683
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 70.75,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    0.1388888888862307,
+    0.1388888888854651
+   ],
+   "C2gauge_status": [
+    "optimal_inaccurate",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 71.0,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.11111111111054957,
+    0.11111111111086842
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal_inaccurate"
+   ]
+  },
+  {
+   "E": 71.25,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.0833333333330221,
+    0.08333333333300445
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 71.5,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.0555555555571274,
+    0.05555555555533126
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 71.75,
+   "feasible": true,
+   "feas_status": "optimal_inaccurate",
+   "C2gauge": [
+    0.02777777777756184,
+    0.027777777757506575
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 72.0,
+   "feasible": true,
+   "feas_status": "optimal",
+   "C2gauge": [
+    -6.391366737872302e-11,
+    -1.3629367559696512e-10
+   ],
+   "C2gauge_status": [
+    "optimal",
+    "optimal"
+   ]
+  },
+  {
+   "E": 72.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 72.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 72.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 73.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 74.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.25,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.5,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 75.75,
+   "feasible": false,
+   "feas_status": "infeasible"
+  },
+  {
+   "E": 76.0,
+   "feasible": false,
+   "feas_status": "infeasible"
+  }
+ ],
+ "total_time_s": 21.182990074157715
+}
