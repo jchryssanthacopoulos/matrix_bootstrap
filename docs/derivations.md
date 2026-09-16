@@ -57,3 +57,120 @@ The earlier constant $-9(N-1)^2$ equals $-\tfrac32N(N^2-1)$ only at $N=2$ ($9$) 
 - The dynamics is single-trace plus quadratic/constant terms; the only "double-trace" piece, $\mathrm{Tr}\Psi\,\mathrm{Tr}\bar\Psi$, is the decoupled trace mode and cancels in (D1.6).
 - Lesson recorded for the project: **do not infer $N$-dependence from fits at two values of $N$.** Polynomials in $N$ of degree $\le3$ appear naturally in constants (cf. $N^3-N$ above) and cannot be pinned by two points.
 - The analogous computation for the 3-matrix model is not yet done; it should be carried out analytically (same technique) and verified at $N=2$ and, if feasible, $N=3$ on random vectors with sparse operators.
+
+---
+
+## D2. Single-trace form of $H=\{Q,\bar Q\}$ for cubic multi-matrix supercharges, and the three-matrix model (2026-09-16)
+
+**Status: proven for an arbitrary cubic supercharge (D2.6) and verified numerically to machine precision** on random vectors for $(N,p)=(2,1),(3,1),(2,2),(3,2),(2,3)$ with random complex couplings and with Chen's couplings (`scripts/verify_trace_hamiltonian.py`). The Casimir statements of D2.9 are proven analytically for the structure and verified numerically at $N=2$ by an exhaustive symmetry-sector test.
+
+### D2.1 Setup and conventions
+
+$p$ complex fermion matrices $\Psi^a_{ij}$, $a=1,\dots,p$, $i,j=1,\dots,N$, with
+$$\{\Psi^a_{ij},\bar\Psi^b_{kl}\}=\delta^{ab}\delta_{il}\delta_{jk},\qquad\bar\Psi^a_{ij}\equiv(\Psi^a_{ji})^\dagger,\qquad\{\Psi,\Psi\}=\{\bar\Psi,\bar\Psi\}=0 .\tag{D2.1}$$
+Note that $\bar\Psi^a_{kl}$ is the conjugate of $\Psi^a_{lk}$ (transposed pairing). Fermion number $N_\Psi=\sum_a\mathrm{Tr}[\Psi^a\bar\Psi^a]$; flavor bilinears $F^{cd}\equiv\mathrm{Tr}[\Psi^c\bar\Psi^d]$, so $N_\Psi=\sum_cF^{cc}$.
+
+**General cubic supercharge.** For a complex tensor $C_{abc}$,
+$$Q=C_{abc}\,\mathrm{Tr}[\Psi^a\Psi^b\Psi^c]=C_{abc}\,\Psi^a_{ij}\Psi^b_{jk}\Psi^c_{ki}\qquad(\text{sums over all indices}).\tag{D2.2}$$
+Since a cyclic rotation of the three anticommuting letters costs $(-1)^2=+1$, $\mathrm{Tr}[\Psi^a\Psi^b\Psi^c]$ is cyclically symmetric and only the cyclically symmetric part of $C$ contributes; **we assume $C_{abc}=C_{bca}=C_{cab}$ throughout.** No other symmetry is assumed. $Q^2=0$ automatically (only creation operators). The conjugate is
+$$\bar Q=Q^\dagger=\bar C_{abc}\,(\Psi^c_{ki})^\dagger(\Psi^b_{jk})^\dagger(\Psi^a_{ij})^\dagger=\bar C_{abc}\,\bar\Psi^c_{ik}\bar\Psi^b_{kj}\bar\Psi^a_{ji}=\bar C_{abc}\,\mathrm{Tr}[\bar\Psi^c\bar\Psi^b\bar\Psi^a].\tag{D2.3}$$
+
+**Chen's three-matrix model** (Chen 2025, eq. 4.3): $Q=\sum_{1\le a\le b\le c\le3}\mathrm{Tr}[\Psi^a\Psi^b\Psi^c]$, i.e. $C=\mathcal S_{\rm cyc}[\tilde C]$ with $\tilde C_{abc}=1$ if $a\le b\le c$, else $0$, and $\mathcal S_{\rm cyc}[T]_{abc}=\tfrac13(T_{abc}+T_{bca}+T_{cab})$. Explicitly:
+$C_{aaa}=1$; $C_{abc}=\tfrac13$ for every cyclic rotation of $(1,1,2),(1,1,3),(1,2,2),(1,3,3),(2,2,3),(2,3,3)$ and of $(1,2,3)$; $C_{132}=C_{213}=C_{321}=0$.
+Two facts follow immediately and are used below: (i) $C$ is invariant under **cyclic** flavor relabelings $1\to2\to3\to1$ but **not** under transpositions (the class of $\mathrm{Tr}[\Psi^1\Psi^2\Psi^3]$ is present, that of $\mathrm{Tr}[\Psi^1\Psi^3\Psi^2]$ is absent) — the flavor symmetry of Chen's supercharge is $\mathbb Z_3$, not $S_3$ (confirmed numerically in D2.9; the earlier project note claiming "$S_3$" is incorrect); (ii) $C$ is real.
+
+**Flavor tensors.** Define
+$$K_{bc;ed}\equiv\sum_aC_{abc}\bar C_{dea},\qquad M_{cd}\equiv\sum_{ab}C_{abc}\bar C_{abd},\qquad L_{cd}\equiv\sum_{ab}C_{abc}\bar C_{bad},\qquad \|C\|^2\equiv\sum C_{abc}\bar C_{abc},\qquad \langle C,C^{\rm rev}\rangle\equiv\sum C_{abc}\bar C_{cba}.\tag{D2.4}$$
+$M$ and $L$ are Hermitian; $\langle C,C^{\rm rev}\rangle$ is real; $K_{bc;ed}=\overline{K_{de;cb}}$.
+
+### D2.2 Wick structure of the anticommutator
+
+Write $Q=C_{abc}\,c_1c_2c_3$ with $c_1=\Psi^a_{ij},\ c_2=\Psi^b_{jk},\ c_3=\Psi^c_{ki}$, and $\bar Q=\bar C_{def}\,a_1a_2a_3$ with $a_1=\bar\Psi^f_{lm},\ a_2=\bar\Psi^e_{mn},\ a_3=\bar\Psi^d_{nl}$ (this is (D2.3) with $(a,b,c)\to(d,e,f)$). Let $D(a_p,c_q)\equiv\{a_p,c_q\}$ denote the c-number contraction; from (D2.1), $\bar\Psi^x_{uv}$ contracts with $\Psi^y_{rs}$ iff $x=y$, $u=s$, $v=r$.
+
+**Lemma.** For $A=c_1c_2c_3$ and $B=a_1a_2a_3$, $\{A,B\}$ equals the sum of all Wick terms of $a_1a_2a_3c_1c_2c_3$ with at least one contraction. *Proof:* Wick's theorem gives $BA=\,:\!BA\!:\,+(\text{contracted terms})$, and $:\!a_1a_2a_3c_1c_2c_3\!:\,=(-1)^{3\cdot3}c_1c_2c_3a_1a_2a_3=-AB$, which cancels $AB$. $\square$
+
+Hence
+$$H=\{Q,\bar Q\}=H_4+H_2+H_0,\tag{D2.5}$$
+with $H_4$ (one contraction: quartic, normal-ordered), $H_2$ (two contractions: quadratic) and $H_0$ (three contractions: c-number). Wick signs: contracting $a_p$ with $c_q$ in $a_1a_2a_3c_1c_2c_3$ and normal-ordering the remainder gives the sign $(-1)^{p+q}$ times $D(a_p,c_q)\,c_{q'}c_{q''}a_{p'}a_{p''}$ with the survivors in their original relative order (move $a_p$ rightward past $3-p$ annihilators and $q-1$ creators, then the remaining $aacc\to ccaa$ costs $(-1)^4$). Multiple contractions are handled below by explicit permutation counting.
+
+**Cyclic reduction.** Because $C$ and $\bar C$ are cyclic and cyclic rotation of either word is a symmetry of the *summed* expression (sign $+1$), the Wick term obtained by contracting "letter $q$ of $Q$ with letter $p$ of $\bar Q$" is, after summation, independent of $(p,q)$. So the 9 single contractions are all equal, the 18 double contractions fall into two $\mathbb Z_3\times\mathbb Z_3$ orbits of 9, and the 6 triple contractions into two orbits of 3. It suffices to compute one representative of each class; the numerical verification in D2.7 tests the whole statement.
+
+### D2.3 Quartic part (single contractions)
+
+Representative $(p,q)=(1,1)$, sign $+$: $D(\bar\Psi^f_{lm},\Psi^a_{ij})=\delta^{fa}\delta_{jl}\delta_{im}$; remainder $c_2c_3a_2a_3=\Psi^b_{jk}\Psi^c_{ki}\bar\Psi^e_{mn}\bar\Psi^d_{nl}\to\Psi^b_{jk}\Psi^c_{ki}\bar\Psi^e_{in}\bar\Psi^d_{nj}=\mathrm{Tr}[\Psi^b\Psi^c\bar\Psi^e\bar\Psi^d]$ (indices $j\to k\to i\to n\to j$; the operator order is already creation-first). Therefore
+$$H_4=9\,K_{bc;ed}\ \mathrm{Tr}[\Psi^b\Psi^c\bar\Psi^e\bar\Psi^d]\equiv9\,K_{bc;ed}\,V^{bced},\qquad V^{bced}\equiv\Psi^b_{ij}\Psi^c_{jk}\bar\Psi^e_{kl}\bar\Psi^d_{li}.\tag{D2.6}$$
+(As a check of the cyclic-reduction claim, the representative $(2,1)$ gives $-\,C_{abc}\bar C_{daf}\,\Psi^b_{jk}\Psi^c_{ki}\bar\Psi^f_{lj}\bar\Psi^d_{il}=+C_{abc}\bar C_{daf}\mathrm{Tr}[\Psi^b\Psi^c\bar\Psi^d\bar\Psi^f]$, which equals the $(1,1)$ term after relabeling and using cyclicity of $\bar C$.)
+
+**Compact form.** Define the matrix-valued operators
+$$X_a\equiv C_{abc}\,\Psi^b\Psi^c\ \ \big((X_a)_{ik}=C_{abc}\Psi^b_{ij}\Psi^c_{jk}\big),\qquad \bar X_a\equiv\bar C_{abc}\,\bar\Psi^c\bar\Psi^b,\tag{D2.7}$$
+so that $Q=\mathrm{Tr}[\Psi^aX_a]$, $(\bar X_a)_{ki}=\big((X_a)_{ik}\big)^\dagger$, and $\partial Q/\partial\Psi^a_{ji}=3(X_a)_{ij}$. Then
+$$H_4=9\sum_{a=1}^p\mathrm{Tr}[X_a\bar X_a]\tag{D2.8}$$
+— the normal-ordered "$|\partial Q|^2$", as expected for $\{Q,\bar Q\}$ with $Q$ built from creation operators only. In particular $K$ has rank $\le p$ as a $p^2\times p^2$ matrix (rank 3 for Chen's $C$).
+
+### D2.4 Quadratic part (double contractions)
+
+*Parallel class*, representative $(a_1c_1)(a_2c_2)$, remainder $c_3a_3$. Permutation $a_1a_2a_3c_1c_2c_3\to a_1c_1a_2c_2a_3c_3$ has sign $-1$; the normal-ordered remainder is $:\!a_3c_3\!:=-c_3a_3$; net $+D_{11}D_{22}\,c_3a_3$. The deltas force $l=j$, $m=i=k$, $n=j$, leaving $\sum_{i,j}\Psi^c_{ii}\bar\Psi^d_{jj}$ with flavor factor $\delta^{fa}\delta^{eb}$:
+$$T_\parallel=C_{abc}\bar C_{dba}\,\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d=L_{cd}\,\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d.$$
+*Crossed class*, representative $(a_1c_2)(a_2c_1)$, remainder $c_3a_3$. Permutation sign $+1$, normal ordering $-1$; net $-D(a_1,c_2)D(a_2,c_1)\,c_3a_3$. The deltas force $l=k$, $m=j$, $n=i$ with $j$ free (factor $N$), leaving $\sum_{i,k}\Psi^c_{ki}\bar\Psi^d_{ik}$ with flavor $\delta^{fb}\delta^{ea}$:
+$$T_\times=-N\,C_{abc}\bar C_{dab}\,\mathrm{Tr}[\Psi^c\bar\Psi^d]=-N\,M_{cd}\,F^{cd}.$$
+Each class has 9 members, so
+$$H_2=9\,L_{cd}\,\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d-9N\,M_{cd}\,\mathrm{Tr}[\Psi^c\bar\Psi^d].\tag{D2.9}$$
+
+### D2.5 Constant part (triple contractions)
+
+*Even class*, representative $(a_1c_1)(a_2c_2)(a_3c_3)$: sign $-1$; all six indices are forced equal (one free sum, factor $N$); flavor $\delta^{fa}\delta^{eb}\delta^{dc}$: $T_{\rm id}=-N\,C_{abc}\bar C_{cba}$.
+*Odd class*, representative $(a_1c_1)(a_2c_3)(a_3c_2)$: sign $+1$; the deltas force $l=j$, $m=i$, $n=k$ with $i,j,k$ free (factor $N^3$); flavor $\delta^{fa}\delta^{ec}\delta^{db}$: $T_{\rm odd}=N^3\,C_{abc}\bar C_{bca}=N^3\|C\|^2$.
+Each class has 3 members:
+$$H_0=3N^3\,\|C\|^2-3N\,\langle C,C^{\rm rev}\rangle.\tag{D2.10}$$
+
+### D2.6 Result for a general cyclic $C$
+
+$$\boxed{\ H=\{Q,\bar Q\}=9\sum_a\mathrm{Tr}[X_a\bar X_a]\;-\;9N\,M_{cd}\,\mathrm{Tr}[\Psi^c\bar\Psi^d]\;+\;9\,L_{cd}\,\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d\;+\;3N^3\|C\|^2-3N\langle C,C^{\rm rev}\rangle\ }\tag{D2.11}$$
+with $X_a$, $\bar X_a$ from (D2.7) and the tensors from (D2.4). All terms are normal-ordered (creation operators to the left), so (D2.11) is a canonical form. $H$ is manifestly Hermitian term by term (using $(V^{bced})^\dagger=V^{decb}$ and $K_{bc;ed}=\overline{K_{de;cb}}$).
+
+Structure: a single-trace quartic, a single-trace quadratic, a product of two length-one traces, and a constant. The only "double-trace" piece is $\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d=N\,\psi^{0c}\bar\psi^{0d}$, a bilinear in the $p$ trace-mode fermions $\psi^{0a}\equiv\mathrm{Tr}\Psi^a/\sqrt N$. Large-$N$ scaling: $H_4\sim N^3$, $-9NM\cdot F\sim N\cdot N^2$, $H_0\sim N^3$, but the trace-mode term is $O(N)$, i.e. suppressed by $1/N^2$; it is kept exactly at finite $N$.
+
+### D2.7 Checks
+
+1. **Single matrix ($p=1$, $C=1$):** $X=\Psi^2$, $M=L=\|C\|^2=\langle C,C^{\rm rev}\rangle=1$, so $H=9\mathrm{Tr}[\Psi\Psi\bar\Psi\bar\Psi]-9NN_\Psi+9\mathrm{Tr}\Psi\mathrm{Tr}\bar\Psi+3N(N^2-1)$, which is (D1.4). ✓
+2. **Vacuum energy.** All normal-ordered terms annihilate $|0\rangle$, so $E_0(N_\Psi{=}0)=\langle0|H|0\rangle=\|Q|0\rangle\|^2=H_0$. The particle–hole map $\Psi^a_{ij}\to(\Psi^a_{ij})^\dagger$ sends $Q\to-\bar C_{abc}\to C_{abc}$-conjugated $\bar Q$ (using $\mathrm{Tr}[A^TB^TC^T]=-\mathrm{Tr}[CBA]$ for anticommuting entries), so the filled state has the same energy: $E_0(pN^2)=E_0(0)=H_0$.
+3. **One-particle sector (exactly solvable).** $H_4$ annihilates one-particle states. On $\Psi^e_{ij}|0\rangle$: $F^{cd}\to\delta^{de}\Psi^c_{ij}|0\rangle$ and $\mathrm{Tr}\Psi^c\mathrm{Tr}\bar\Psi^d\to\delta^{de}\delta_{ij}\mathrm{Tr}\Psi^c|0\rangle$. Hence on gauge-traceless one-particle states $H=H_0-9N\,M$ (acting on the flavor index), and on the $p$ trace-mode states $H=H_0-9N(M-L)$. Levels are $H_0-9N\mu_M$ and $H_0-9N(\mu_M-\mu_L)$ with $\mu$'s the eigenvalues in a common eigenbasis when $[M,L]=0$.
+4. **Numerical verification** of (D2.11) as an operator identity on random vectors (relative residual $\le8\times10^{-16}$): $(N,p)=(2,1),(3,1)$ [$C=1$]; $(2,2),(3,2)$ [random complex cyclic $C$; $(3,2)$ has $\dim=2^{18}$]; $(2,3)$ [Chen's $C$ and two random complex $C$]. $\langle0|H|0\rangle=H_0$ verified in all cases.
+
+### D2.8 Specialisation to Chen's three-matrix model
+
+With the $C$ of D2.1 (computed and cross-checked by code):
+$$\|C\|^2=\tfrac{16}3,\quad\langle C,C^{\rm rev}\rangle=5,\quad M=\tfrac59\,\mathbb 1+\tfrac{11}9\,\mathbb J,\quad L=\tfrac49\,\mathbb 1+\tfrac{11}9\,\mathbb J,\qquad(\mathbb J_{cd}=1\ \forall c,d),\tag{D2.12}$$
+so $M-L=\tfrac19\mathbb 1$, and in the $\mathbb Z_3$ Fourier flavor basis $\{s,\omega,\bar\omega\}$ (with $\Psi^s=(\Psi^1+\Psi^2+\Psi^3)/\sqrt3$) both are diagonal: $\mu_M=(\tfrac{38}9,\tfrac59,\tfrac59)$, $\mu_L=(\tfrac{37}9,\tfrac49,\tfrac49)$. The Hamiltonian is
+$$\boxed{\ H=9\sum_{a=1}^3\mathrm{Tr}[X_a\bar X_a]-5N\,N_\Psi-11N\sum_{c,d=1}^3\mathrm{Tr}[\Psi^c\bar\Psi^d]+4\sum_c\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^c+11\sum_{c,d}\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d+16N^3-15N\ }\tag{D2.13}$$
+The two "double-trace" terms are products of length-one traces, $\mathrm{Tr}\Psi^c=\sqrt N\,\psi^{0c}$, i.e. together they are the *one-body* operator $4N\,n_0+33N\,n_{0s}$ ($n_0=\sum_c\psi^{0c}\bar\psi^{0c}$, $n_{0s}$ the occupation of the flavor-symmetric trace mode) — a chemical potential for the three trace-mode fermions, of size $O(N)$ against the $O(N^3)$ of the other terms. Here, e.g., $X_1=\Psi^1\Psi^1+\tfrac13\big(\Psi^1\Psi^2+\Psi^2\Psi^1+\Psi^1\Psi^3+\Psi^3\Psi^1+\Psi^2\Psi^2+\Psi^3\Psi^3+\Psi^2\Psi^3\big)$ and $X_2,X_3$ by cyclic relabeling (note the asymmetric last term: $\Psi^2\Psi^3$ appears, $\Psi^3\Psi^2$ does not). Equivalently $-9NM\cdot F=-38N\,N_s-5N(N_\omega+N_{\bar\omega})$ in the Fourier basis, where $N_s=\mathrm{Tr}[\Psi^s\bar\Psi^s]$ etc. (these individual numbers are *not* conserved; only $N_\Psi$ and the $\mathbb Z_3$ charge are).
+
+**Exact consequences (all confirmed by ED at $N=2$, and $E_0(0),E_0(1)$ at $N=3$ against the values recorded in `research/notes/analytics_and_plots.md`):**
+- $E_0(N_\Psi{=}0)=E_0(3N^2)=16N^3-15N$: $98$ ($N{=}2$), $387$ ($N{=}3$).
+- One-particle sector: gauge-traceless states at $16N^3-15N-38N=16N^3-53N$ (flavor $s$) and $16N^3-20N$ (flavors $\omega,\bar\omega$); trace-mode states at $16N^3-16N$ (all three, since $M-L\propto\mathbb 1$). At $N=2$: $22,\ 88,\ 96$; at $N=3$: $E_0(1)=273$. ✓
+- The trace modes **do not decouple** for $p=3$ (unlike $p=1$): expanding $\Psi^a=\psi^{0a}/\sqrt N+\hat\Psi^a$, $Q$ contains $\tfrac{3}{\sqrt N}C_{a[bc]}\,\psi^{0a}\,\hat\psi^{b x}\hat\psi^{c x}$, and $C_{a[bc]}\ne0$ for Chen's $C$ (e.g. $C_{123}-C_{132}=\tfrac13$). The traceless ($su(N)$-valued) version of the model is therefore a *different* model (differing at relative order $1/N^2$ in $H$ but with a different Hilbert space); the project's ED uses the full $U(N)$ model.
+
+### D2.9 Which parts are Casimirs?
+
+**Symmetry algebra.** By construction $[H,N_\Psi]=0$ and $[H,J^x]=0$ for the gauge $su(N)$ generators $J^x=\sum_a\mathrm{Tr}[\Psi^a[T^x,\bar\Psi^a]]$; Chen's $C$ also gives the discrete cyclic flavor symmetry $\mathbb Z_3$. Numerically at $N=2$: the space of one-body operators $\sum x_{mn}c^\dagger_mc_n$ commuting with $H$ is exactly 4-dimensional and equals $\mathrm{span}(J^1,J^2,J^3,N_\Psi)$ — **no continuous flavor symmetry survives** (in particular no $U(1)$ beyond $N_\Psi$, and no conserved trace-mode number); the cyclic flavor permutation commutes with $H$ exactly, the three transpositions do not ($\|[H,U_{\rm swap}]\|_\infty=6$).
+
+**Gauge Casimir in trace form (general $p$; derived as in D1 and verified numerically for $(N,p)=(2,2),(2,3),(3,2)$):**
+$$\hat C_2^{\rm gauge}=\frac{N(p+1)}2\,N_\Psi-\sum_a\mathrm{Tr}\Psi^a\mathrm{Tr}\bar\Psi^a-\sum_{a,b}\mathrm{Tr}[\Psi^a\Psi^b\bar\Psi^b\bar\Psi^a]+\frac12\sum_{a,b}\Big(\mathrm{Tr}[\Psi^a\bar\Psi^a\Psi^b\bar\Psi^b]-\mathrm{Tr}[\Psi^a\bar\Psi^b\Psi^b\bar\Psi^a]\Big).\tag{D2.14}$$
+For $p=1$ the last bracket vanishes and (D1.3) is recovered. For $p\ge2$ the Casimir contains *alternating* words $\mathrm{Tr}[\Psi\bar\Psi\Psi\bar\Psi]$ (index topology different from $\mathrm{Tr}[\Psi\Psi\bar\Psi\bar\Psi]$; the two are independent normal-ordered operators at generic $N$), and its $\mathrm{Tr}[\Psi\Psi\bar\Psi\bar\Psi]$ part has the specific flavor structure $\delta^{bd}\delta^{ce}$ in $V^{bced}$.
+
+**Comparison with $H$.** $H_4=9K_{bc;ed}V^{bced}$ contains no alternating words, and $K$ is not proportional to $\delta^{bd}\delta^{ce}$ (for Chen's $C$, $K$ has rank 3 out of 9). Projecting $K$ onto the Casimir structure gives $\kappa\,\delta^{bd}\delta^{ce}$ with $\kappa=\|C\|^2/p^2=\tfrac{16}{27}$, i.e. a component $-\tfrac{16}{3}\hat C_2^{\rm gauge}$ (versus $-9\hat C_2$ for $p=1$), but the remainder — the traceless part of $K$ plus the alternating words that must be added back — is non-zero. The flavor Casimir of $U(p)$, $\sum_{cd}F^{cd}F^{dc}$, is a genuine double trace and cannot help. So, unlike $p=1$, **$H$ is not a polynomial in the Casimirs of its symmetry algebra**; only the quadratic and constant parts are "Casimir-like" ($N_\Psi$ and flavor-rotated number operators).
+
+**Direct finite-$N$ proof ($N=2$).** Simultaneously resolving $N_\Psi$, $\hat C_2^{\rm gauge}$, $J_z$ and the $\mathbb Z_3$ charge splits the 4096-dimensional space into 353 joint sectors (largest dimension 42). In 245 of them the restriction of $H$ has more than one distinct eigenvalue (e.g. $N_\Psi=4$, singlet, $\mathbb Z_3$-fixed: 15 states, 15 distinct energies). Since a function of Casimirs is constant on such sectors, $H$ is not one. Combined with the commutant computation (no hidden continuous symmetry), this settles the question at $N=2$; the structural argument above shows the same for all $N$ at the level of independent trace words.
+
+### D2.10 Consequences for the single-trace bootstrap
+
+1. **Linear EOM.** $[H,\mathrm{Tr}\,w]$ is a linear combination of single-trace words for the $H_4$ and $-9NM\cdot F$ parts; the trace-mode term contributes $\mathrm{Tr}\Psi^c\,[\mathrm{Tr}\bar\Psi^d,\mathrm{Tr}\,w]+\dots$, a product of a length-one trace with a single trace. In an $su(N)$-truncated (traceless) engine this term is absent; in the $U(N)$ model it must be kept as $p$ extra fermionic "letters" $\psi^{0a}$, or dropped at leading large $N$ where it is $O(N^{-2})$ relative.
+2. **Operator content.** The words that appear in $H$ are $V^{bced}=\mathrm{Tr}[\Psi^b\Psi^c\bar\Psi^e\bar\Psi^d]$ with the rank-3 flavor tensor $K$, i.e. effectively the three composite matrices $X_a$ and their conjugates; $F^{cd}$; and $\mathrm{Tr}\Psi^c$. A natural minimal letter set for the bootstrap is $\{\Psi^a,\bar\Psi^a\}$ with the flavor structure imposed through $K,M,L$; the $\mathbb Z_3$ Fourier basis diagonalises $M$ and $L$ and block-diagonalises everything by $\mathbb Z_3$ charge.
+3. **No Casimir shortcut.** The sector-resolved ground energy $E_0(N_\Psi,\mathbf r)$ is a genuine dynamical quantity; the SUSY floor $\phi(H)\ge0$ must be lifted by constraints that see the sector (open-index operators), exactly as diagnosed for $p=1$.
+4. **Analytic anchors** for validating a bootstrap at any $N$: $E_0(0)=16N^3-15N$ and the one-particle levels of D2.8 (exact), plus $E_0(N_\Psi)=0$ inside the BPS window.
+
+### Open items
+
+- Derive $E_0$ in the two-particle sector analytically (a $\binom{3N^2}{2}$-dimensional problem with $H_4$ acting non-trivially); compare with $N=2$ ED ($E_0(2)=5.165\ldots$, irrational) — likely the first genuinely interacting level.
+- Decide whether the traceless ($su(N)$) version of the model is the better bootstrap target; check whether it also concentrates at $N=2$ ($2^9=512$ states).
+- Generalise the $\mathbb Z_3$-Fourier block structure to the $U(N)$-covariant operator basis.

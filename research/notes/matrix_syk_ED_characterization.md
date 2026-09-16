@@ -43,3 +43,9 @@ This requires upgrading the bootstrap from the explicit-matrix (ED-scale) implem
 - C.-M. Chang, Y. Chen, B. S. Sia, Z. Yang, *Fortuity in SYK Models*, arXiv:2412.06902 (R-charge concentration).
 - H. W. Lin, Z. Zheng, *High-Precision Bootstrap of Multimatrix Quantum Mechanics*, arXiv:2507.21007 (planar single-trace bootstrap, symmetry blocking).
 - S. Laliberte, B. McPeak, *Bootstrapping supersymmetric (matrix) quantum mechanics*, arXiv:2510.01356 (SUSY constraints, ground-state positivity).
+
+---
+
+## Addendum (2026-09-16): flavor symmetry correction
+
+§3 refers to a "flavor $S_3$" symmetry. This is incorrect: Chen's supercharge $\sum_{i\le j\le k}\mathrm{Tr}[\Psi_i\Psi_j\Psi_k]$ contains the cyclic class of $\mathrm{Tr}[\Psi_1\Psi_2\Psi_3]$ but not that of $\mathrm{Tr}[\Psi_1\Psi_3\Psi_2]$, so only **cyclic** flavor permutations ($\mathbb Z_3$) are symmetries. Verified at $N=2$: $\|[H,U_{\rm cyc}]\|=0$, $\|[H,U_{\rm swap}]\|_\infty=6$ for all three transpositions; the full one-body commutant of $H$ is exactly gauge $su(2)\oplus u(1)_R$ (`docs/derivations.md` D2.9). Symmetry-sector bookkeeping (e.g. for level statistics) should use $SU(N)\times U(1)_R\times\mathbb Z_3$.
