@@ -174,3 +174,40 @@ For $p=1$ the last bracket vanishes and (D1.3) is recovered. For $p\ge2$ the Cas
 - Derive $E_0$ in the two-particle sector analytically (a $\binom{3N^2}{2}$-dimensional problem with $H_4$ acting non-trivially); compare with $N=2$ ED ($E_0(2)=5.165\ldots$, irrational) — likely the first genuinely interacting level.
 - Decide whether the traceless ($su(N)$) version of the model is the better bootstrap target; check whether it also concentrates at $N=2$ ($2^9=512$ states).
 - Generalise the $\mathbb Z_3$-Fourier block structure to the $U(N)$-covariant operator basis.
+
+---
+
+## D3. Sector-resolved bootstrap with adjoint-valued operators (formulation) (2026-09-16)
+
+**Status: formulation used by `src/sector_bootstrap.py`; validated exactly on the single-matrix model at $N=3$ (all sectors) and $N=4$ (15 of 17 sectors); results in `research/notes/sector_bootstrap_results.md`.**
+
+### D3.1 The functional
+
+Fix a fermion-number sector $k$ with projector $P_k$ and dimension $d_k$. The bootstrap variable is a linear functional
+$$\phi(O)=\mathrm{Tr}\big[\rho_k\,P_kOP_k\big],\qquad \rho_k=\rho_k^\dagger\ \text{on the $k$-block, not assumed positive},\qquad \phi(\mathbf 1)=1.\tag{D3.1}$$
+Restricting to the block is legitimate for bounding $E_0(k)\equiv\min_{|\psi\rangle\in\mathcal H_k}\langle\psi|H|\psi\rangle$: the minimiser is a state in the block, hence a member of this class, so $\min\phi(H)$ over any set of *valid* constraints is a rigorous lower bound. It is strictly stronger than imposing $\phi(N_\Psi)=k$, $\phi(N_\Psi^2)=k^2$ on a functional over the whole space (as `sm_covariant_bootstrap.py` did): it sets $\phi(O)=0$ for every charged $O$ and identifies $\phi(O)=\phi(P_kOP_k)$. Because $[H,N_\Psi]=0$, $P_k[H,O]P_k=[H_k,O_k]$ for charge-neutral $O$, with $H_k=P_kHP_k$.
+
+### D3.2 Operators
+
+*Open words.* For letters $\ell\in\{\Psi^a,\bar\Psi^a\}$ an open word $w=\ell_1\cdots\ell_L$ is the operator-valued $N\times N$ matrix $w_{ij}=\sum(\ell_1)_{im}(\ell_2)_{mn}\cdots(\ell_L)_{rj}$, with charge $q(w)=\#\Psi-\#\bar\Psi$; $w_{ij}$ maps $\mathcal H_k\to\mathcal H_{k+q}$. Its conjugate word is $(w^\dagger)_{ji}\equiv(w_{ij})^\dagger$ (so $\Psi^\dagger=\bar\Psi$ as matrices). Only **normal-ordered** words (all $\Psi$ left of all $\bar\Psi$) are enumerated: by (D2.1) any other ordering equals a normal-ordered word of the same charge plus shorter words, all of which are in the set, so the span of $\{w_{ij}|\psi\rangle\}$ is unchanged.
+
+*Channels.* For a gauge-invariant functional the Gram matrix of the vectors $\{w_{ij}|\psi\rangle\}$ decomposes into $U(N)$ tensor structures (Cho et al. 2024, eq. 3.5). We impose the two consequences that are valid for **any** positive $\rho_k$, gauge-invariant or not:
+$$\text{adjoint channel:}\quad A_{ww'}=\phi\big(\mathrm{Tr}[w^\dagger w']\big)=\sum_{ij}\phi\big((w_{ij})^\dagger w'_{ij}\big)\succeq0\ \ (q(w)=q(w')),\tag{D3.2}$$
+$$\text{singlet channel:}\quad S_{ww'}=\phi\big((\mathrm{Tr}\,w)^\dagger\,\mathrm{Tr}\,w'\big)\succeq0\ \ (q(w)=q(w')),\tag{D3.3}$$
+(D3.2) is the sum of the diagonal $ij$-blocks of the full Gram matrix, hence PSD; (D3.3) is the Gram matrix of traced words and includes $Q=\mathrm{Tr}[\Psi^aX_a]$ and $\bar Q$ when $L_{\rm sing}\ge3$ (they are added explicitly otherwise), which yields the SUSY floor $\phi(H)=\phi(\bar QQ)+\phi(Q\bar Q)\ge0$. Blocks with $q(w)\ne q(w')$ vanish identically by (D3.1). (D3.2) is what was missing in the earlier gauge-invariant-only formulation: it contains entries such as $\phi(\mathrm{Tr}[\Psi\bar\Psi])$ and $\phi(\mathrm{Tr}[\bar\Psi^\dagger X])$ whose positivity/Cauchy–Schwarz relations encode that annihilators act first on the sector.
+
+*Equations of motion.* $\phi([H,X])=0$ for every charge-neutral operator $X$ that appears as an entry of (D3.2)–(D3.3), plus the charge-neutral traced words up to length $L_{\rm eom}$. (For the single-matrix model all these $X$ are gauge invariant and commute with $H=3N(N^2-1)-9\hat C_2$, so the EOM are empty there; they are non-trivial for $p\ge2$.)
+
+*Ground-state positivity (optional).* $\phi(\mathrm{Tr}[w^\dagger[H,w']])\succeq0$ and its singlet analogue, **only for $q(w)=q(w')=0$**: for charge-changing $w$ the state $w|\Omega_k\rangle$ leaves the sector, where the energy may be lower, so the inequality is not valid.
+
+*Gauge Ward identities (optional).* $\phi([J^x,X])=0$; legitimate because the sector minimiser may be taken gauge invariant (multiplet-averaged). Not needed in the runs so far.
+
+### D3.3 Reduction and SDP
+
+Let $V$ be the span of the Hermitian and anti-Hermitian parts of all operators appearing in the constraints (closed under $\dagger$ by construction). $\phi$ restricted to these operators depends only on the projection of $\rho_k$ onto $V$, and every projection is realised by some Hermitian $\rho_k$, so we may parametrise $\rho_k=\sum_\alpha y_\alpha E_\alpha$ with $\{E_\alpha\}$ an orthonormal Hermitian basis of $V$ and $y\in\mathbb R^r$, $r=\dim V$. Then $\phi(X)=\sum_\alpha y_\alpha\mathrm{Tr}[E_\alpha X]$ is linear in $y$ with computable complex coefficients, and the problem is a standard SDP: minimise $\phi(H_k)$ subject to $\phi(\mathbf 1)=1$, the PSD blocks (D3.2)–(D3.3) (and GS blocks), and the linear EOM. $r$ is the number of SDP variables and is independent of $d_k$ in principle; in the single-matrix model $r\le5$ at level 2 because the touched operators are functions of $\hat C_2$ and $N_\Psi$ on the block.
+
+The basis is obtained from the Gram matrix $\mathcal G_{ab}=\langle O_a,O_b\rangle$ of the touched operators; this costs $O(n_h^2)$ memory and is the step that must be budgeted (see the results note).
+
+### D3.4 Validity summary
+
+Every constraint above is satisfied by the exact sector ground state: (D3.2)–(D3.3) by positivity of the Hilbert-space inner product, EOM by stationarity within the block, GS positivity by the variational principle restricted to sector-preserving perturbations, Ward identities by gauge invariance of the multiplet average. Hence $\min\phi(H)$ is a rigorous lower bound on $E_0(k)$ at every truncation level, and it can only increase with $L_{\rm adj},L_{\rm sing},L_{\rm eom}$.

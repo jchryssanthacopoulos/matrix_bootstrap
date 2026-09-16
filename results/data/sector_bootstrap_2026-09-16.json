@@ -1,0 +1,373 @@
+{
+ "description": "Sector-resolved bootstrap lower bounds on E_0(N_Psi) with adjoint-valued operators (docs/derivations.md D3; src/sector_bootstrap.py, pre-memory-fix version). Levels: L_adj = max open-word length in the adjoint channel, L_sing = max traced-word length in the singlet channel (+Q,Qbar), L_eom = max traced-word length added to the EOM set. Solver: CLARABEL unless noted (SCS). All numbers transcribed from the 2026-09-16 session; scratch logs were lost in a machine restart.",
+ "single_matrix": {
+  "N2": {
+   "levels": {
+    "L_adj": 2,
+    "L_sing": 2,
+    "gs": true
+   },
+   "k": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "bound": [
+    18,
+    0,
+    0,
+    0,
+    18
+   ],
+   "exact": [
+    18,
+    0,
+    0,
+    0,
+    18
+   ],
+   "note": "trivial: H_k=0 in BPS sectors"
+  },
+  "N3": {
+   "levels": {
+    "L_adj": 2,
+    "L_sing": 2,
+    "gs": true
+   },
+   "k": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "bound": [
+    72,
+    45,
+    18,
+    0,
+    0,
+    0,
+    0,
+    18,
+    45,
+    72
+   ],
+   "exact": [
+    72,
+    45,
+    18,
+    0,
+    0,
+    0,
+    0,
+    18,
+    45,
+    72
+   ],
+   "r": [
+    1,
+    2,
+    4,
+    5,
+    5,
+    5,
+    5,
+    4,
+    2,
+    1
+   ],
+   "nontrivial_EOM": 0
+  },
+  "N3_ablation": {
+   "k": [
+    1,
+    2,
+    3
+   ],
+   "exact": [
+    45,
+    18,
+    0
+   ],
+   "full": [
+    45,
+    18,
+    0
+   ],
+   "no_adjoint_channel": [
+    45,
+    0,
+    0
+   ],
+   "no_singlet_channel": [
+    24,
+    -12,
+    -36
+   ],
+   "no_gs": [
+    45,
+    18,
+    0
+   ],
+   "no_Q": [
+    45,
+    18,
+    -9
+   ],
+   "singlet_only_no_gs": [
+    45,
+    0,
+    0
+   ],
+   "adjoint_only_no_gs": [
+    24,
+    -12,
+    -36
+   ]
+  },
+  "N4": {
+   "levels": {
+    "L_adj": 2,
+    "L_sing": 2,
+    "gs": false
+   },
+   "k": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ],
+   "bound": [
+    180,
+    144,
+    108,
+    72,
+    36,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    36,
+    72,
+    108,
+    144,
+    180
+   ],
+   "exact_old_ED": [
+    180,
+    144,
+    108,
+    72,
+    36,
+    18,
+    0,
+    0,
+    0,
+    0,
+    0,
+    18,
+    36,
+    72,
+    108,
+    144,
+    180
+   ],
+   "r_max": 5
+  },
+  "N4_k5_level_scan": {
+   "exact": 18,
+   "runs": [
+    {
+     "L_adj": 2,
+     "L_sing": 2,
+     "gs": true,
+     "bound": 0.0,
+     "r": 5
+    },
+    {
+     "L_adj": 3,
+     "L_sing": 2,
+     "gs": false,
+     "bound": 0.0,
+     "r": 11
+    },
+    {
+     "L_adj": 2,
+     "L_sing": 3,
+     "gs": false,
+     "bound": 0.0,
+     "r": 8
+    },
+    {
+     "L_adj": 3,
+     "L_sing": 3,
+     "gs": false,
+     "bound": 0.0,
+     "r": 12
+    },
+    {
+     "L_adj": 3,
+     "L_sing": 3,
+     "gs": true,
+     "bound": 0.0,
+     "r": 12
+    },
+    {
+     "L_adj": 4,
+     "L_sing": 2,
+     "gs": false,
+     "bound": 1.9072,
+     "r": 26,
+     "solver": "SCS"
+    },
+    {
+     "L_adj": 4,
+     "L_sing": 4,
+     "gs": false,
+     "bound": 5.7184,
+     "r": 32,
+     "solver": "SCS",
+     "status": "optimal_inaccurate"
+    },
+    {
+     "L_adj": 4,
+     "L_sing": 4,
+     "gs": true,
+     "bound": 11.4203,
+     "r": 46,
+     "solver": "SCS",
+     "time_s": 142
+    },
+    {
+     "L_adj": 5,
+     "L_sing": 4,
+     "gs": true,
+     "bound": 14.7344,
+     "r": 68,
+     "solver": "SCS",
+     "status": "optimal_inaccurate",
+     "time_s": 268,
+     "peak_rss_gb": 6.9,
+     "note": "post-memory-fix code"
+    }
+   ]
+  }
+ },
+ "three_matrix_chen_N2": {
+  "levels": {
+   "L_adj": 2,
+   "L_sing": 2,
+   "L_eom": 3
+  },
+  "solver": "SCS",
+  "runs": [
+   {
+    "k": 0,
+    "d": 1,
+    "bound": 98.0,
+    "exact": 98.0,
+    "r": 1
+   },
+   {
+    "k": 1,
+    "d": 12,
+    "bound": 22.0,
+    "exact": 22.0,
+    "r": 18,
+    "nEOM": 489,
+    "gs_makes_no_difference": true
+   },
+   {
+    "k": 2,
+    "d": 66,
+    "bound": 0.0,
+    "exact": 5.1654,
+    "r": 267,
+    "nEOM": 1008
+   },
+   {
+    "k": 2,
+    "d": 66,
+    "gs": true,
+    "bound": 0.0,
+    "exact": 5.1654,
+    "r": 270
+   },
+   {
+    "k": 3,
+    "d": 220,
+    "bound": 0.0,
+    "exact": 1.2271,
+    "r": 368,
+    "nEOM": 1008
+   },
+   {
+    "k": 3,
+    "d": 220,
+    "gs": true,
+    "bound": -0.0001,
+    "exact": 1.2271,
+    "r": 604
+   },
+   {
+    "k": 2,
+    "d": 66,
+    "L_adj": 3,
+    "L_sing": 3,
+    "L_eom": 3,
+    "gs": false,
+    "solver": "SCS",
+    "bound": 4.5475,
+    "exact": 5.1654,
+    "r": 270,
+    "nEOM": 23970,
+    "status": "optimal_inaccurate",
+    "time_s": 5308,
+    "peak_rss_gb": 5.74,
+    "note": "post-memory-fix code, all word orderings; CLARABEL attempt on the same problem killed at 8.9 GB"
+   },
+   {
+    "k": 2,
+    "d": 66,
+    "L_adj": 3,
+    "L_sing": 3,
+    "L_eom": 3,
+    "gs": false,
+    "solver": "CLARABEL",
+    "bound": 4.5593,
+    "exact": 5.1654,
+    "r": 270,
+    "nEOM": 23970,
+    "status": "optimal_inaccurate",
+    "time_s": 2201,
+    "peak_rss_gb": 9.88,
+    "note": "agrees with SCS (4.5475) within solver tolerance; interior-point memory ~10 GB for 2.4e4 equality rows -- the reduction-step budget does not cover solver memory"
+   }
+  ],
+  "level3": "k=2 done (bound 4.548 of 5.165); k>=3 infeasible within 6 GB (dry-run estimate 13-22 GB)"
+ }
+}

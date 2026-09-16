@@ -23,13 +23,16 @@
 - [x] Section-4 bootstrap validations reproduced (`mm_bootstrap.py`, `sm_charge_profile.py`).
 - [x] Single-trace $H$: constant corrected to $-\tfrac32N(N^2-1)$ (docs/derivations.md D1); the fitted $-9(N-1)^2$ fails at $N=4$.
 - [x] Covariant single-trace bootstrap at $N=3$: ground-state positivity runs (36 s) and level 4 runs (3 min) — both leave lifted sectors at the trivial bound 0. Diagnosis in the addendum to `research/notes/matrix_syk_covariant_bootstrap.md`.
-- [ ] Redesign the covariant bootstrap with adjoint-valued (open-index) operators organised into $SU(N)$ irreps; test on $N=3$ lifted sectors.
+- [x] (done, see above)
 
 ## From the second batch of papers (2026-09-15)
 - [ ] Implement the Turiaci–Witten chaos test: singular values of $Q_k:\mathcal H_k\to\mathcal H_{k+3}$ per $(k,\text{irrep})$, $r$-ratio vs $\beta=2$ surmise; try $p=2,N=3$ and edge sectors of $p=3,N=3$ by sparse Lanczos on $Q_k^\dagger Q_k$.
 - [ ] Compute BPS counts per charge and per $SU(N)$ irrep for the 3-matrix model at $N=2$ and compare with $\cos(\pi k/3)$; state the $N\ge3$ prediction (Q1d) precisely.
 - [ ] Refined index $\mathrm{Tr}[(-1)^Fe^{2\pi irN_\Psi/3}\chi_R]$ per irrep (FGMS (5.5) + character insertion) for both models; check saturation at $N=2$.
-- [ ] Rebuild the covariant bootstrap with adjoint-valued operators and $U(N)$ tensor-structure decomposition (Cho–Gabai–Sandor–Yin (3.5)); test on the $N=3$ single-matrix lifted sectors.
+- [x] Rebuild the covariant bootstrap with adjoint-valued operators (2026-09-16: `src/sector_bootstrap.py`, formulation D3). Single matrix: exact in all sectors at $N=3$, 15/17 at $N=4$; edge sector converging slowly with level. See `research/notes/sector_bootstrap_results.md`.
+- [ ] Symmetry-reduced version (gauge-invariant $\rho_k$ via Ward identities + $\mathbb Z_3$ Fourier flavor basis) to bring three-matrix $N=2$ sectors $k=3,4$ at level 3 under a few GB.
+- [ ] Prune linearly dependent EOM rows before the SDP (23 970 rows for $r=270$ variables in the three-matrix $k=2$ run); this would cut interior-point solver memory (9.9 GB observed) by orders of magnitude.
+- [ ] Faster convergence in window-edge sectors: try including $Q$-descendant words ($X_a$, $\Psi^aX_b$, …) and the gauge Ward identities; consider SDPB/SDPA-GMP for the 'inaccurate' SCS solves.
 - [ ] (Later) KMS/thermal bootstrap of the 3-matrix model for $E(\beta)$ and the near-BPS density of states (Cho et al. (1.6), (2.11)).
 
 ## From derivation D2 (2026-09-16)

@@ -34,4 +34,5 @@ Sub-questions:
 
 - Single matrix: $E_0(N_\Psi)$ exact for $N\le4$; BPS window $[N(N-1)/2,N(N+1)/2]$ confirmed; covariant single-trace bootstrap tight at $N=2$ in all sectors and at $N=3$ in BPS sectors; lifted sectors at $N=3$ not yet tight.
 - 3-matrix, $N=2$: 972 BPS states at $N_\Psi\in\{5,6,7\}$ with counts $243:486:243$; 168 distinct energies; gauge-singlet BPS multiplets present.
+- 2026-09-16: sector-resolved bootstrap with adjoint-valued operators (D3) is exact for the single-matrix model in all sectors at $N=3$ and in 15/17 sectors at $N=4$; the window-edge sectors converge slowly in level ($0\to11.4\to14.7$ of $18$ at levels $\le3,4,5$). Three-matrix $N=2$: $k=0,1$ exact (analytic anchors), $k=2,3$ at the SUSY floor at level 2; level 3 feasible only for $k=2$ within memory.
 - Corrections: the single-trace $H$ constant is $-\tfrac32N(N^2-1)$ (docs/derivations.md D1); the covariant gauge-invariant-only bootstrap gives trivial bounds in lifted sectors at $N=3$ (levels 3 and 4, with or without ground-state positivity) and must be rebuilt with adjoint-valued operators.
