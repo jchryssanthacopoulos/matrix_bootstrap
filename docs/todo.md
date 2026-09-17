@@ -34,6 +34,8 @@
 - [x] Prune linearly dependent EOM rows before the SDP (done 2026-09-16; $23\,970\to226$). Remaining solver-memory driver is the PSD cone size (interior point $\sim O(m^2)$); use SCS or shrink cones by symmetry.
 - [x] Island/archipelago scans implemented (`scripts/scan_sector.py`, `scripts/plot_scans.py`); results in `research/notes/sector_bootstrap_results.md` §7.
 - [x] (duplicate of the item above; confirmed done 2026-09-17 — in the symmetry-reduced path the EOM span is accumulated as a $2D\times2D$ Gram matrix and an orthonormal basis of it is used directly, so no redundant rows ever reach the solver.)
+- [ ] Memory: the cvxpy→SCS pipeline triples the coefficient data (peak 18.3 GB for $k=3$ level 4 vs 6.4 GB estimated). To go further (level 4 with $L_{\rm sing}=4$, $k=4$ level 4, or $N=3$) feed SCS/SDPA directly from the coefficient arrays, or store coefficients in float32 for the solver stage; recalibrate `plan_sector` (currently: peak ≈ 3× estimate at level 4).
+- [ ] $k=4$ (almost-BPS, $E_0=0.08796$): level 3 gives 0; level 4 needs the memory item above. Also try level $(4,3,4)$ with only the $q=0$ cones at length 4 as a cheaper intermediate.
 - [~] Faster convergence in window-edge sectors (assessed 2026-09-17, D4.4): gauge Ward identities are implied by the invariant functional (verified: zero extra rows); $Q$-descendant words at a fixed length are linear combinations of words already present and cannot enlarge a Gram cone, so they help only as a sparser *subset* at a higher length — low priority. Still open: SDPB/SDPA-GMP for the 'inaccurate' SCS solves.
 - [ ] (Later) KMS/thermal bootstrap of the 3-matrix model for $E(\beta)$ and the near-BPS density of states (Cho et al. (1.6), (2.11)).
 
