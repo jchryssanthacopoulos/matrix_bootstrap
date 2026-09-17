@@ -67,14 +67,17 @@ def main():
     ap.add_argument('--Emin', type=float, required=True); ap.add_argument('--Emax', type=float, required=True); ap.add_argument('--nE', type=int, default=41)
     ap.add_argument('--observables', default='C2gauge,QbarQ,Ns'); ap.add_argument('--solver', default='SCS')
     ap.add_argument('--budget_gb', type=float, default=6.0); ap.add_argument('--out', required=True)
+    ap.add_argument('--symmetry', action='store_true', help='invariant functional (SU(2) gauge for N=2, Z_p flavor); D4')
+    ap.add_argument('--adjoint_projected', action='store_true', help='Cho et al. singlet/adjoint split (needs --symmetry)')
     a = ap.parse_args()
     C = chen_C(a.p) if a.p == 3 else np.ones((a.p, a.p, a.p))
-    model = build_model(a.N, a.p, C)
+    model = build_model(a.N, a.p, C, fourier=(a.symmetry and a.p > 1))
     obs_all = observables_for(model, a.k)
     obs = {n_: obs_all[n_] for n_ in a.observables.split(',') if n_ in obs_all}
     t0 = time.time()
     S = SectorSDP(model, a.k, a.L_adj, a.L_sing, a.L_eom, add_Q=True, gs=a.gs, observables=obs,
-                  eigenstate=a.eigenstate, verbose=True, budget_gb=a.budget_gb)
+                  eigenstate=a.eigenstate, verbose=True, budget_gb=a.budget_gb,
+                  symmetry=a.symmetry, adjoint_projected=a.adjoint_projected)
     res = dict(params=vars(a), r=S.r, d=S.d, n_eom_independent=int(S.eom_rows.shape[0]), build_time_s=S.build_time,
                exact=exact_pairs(S, obs), E_bound=S.solve('H', 'min', solver=a.solver)['value'],
                E_max_bound=S.solve('H', 'max', solver=a.solver)['value'], scan=[])

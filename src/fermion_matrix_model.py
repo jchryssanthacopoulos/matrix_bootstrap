@@ -32,7 +32,9 @@ def chen_C(p=3):
     return cyclic(Ct)
 
 
-def build_model(N, p, C):
+def build_model(N, p, C, fourier=False):
+    """fourier=True: letters are the Z_p Fourier combinations Psi^(m) = p^{-1/2} sum_c w^{mc} Psi^c (m = 0..p-1),
+    which carry definite Z_p flavor charge (+m for Psi^(m), -m for its conjugate); requires C cyclically symmetric."""
     n = p * N * N
     dim = 2 ** n
     cd = jw_creation_sparse(n)
@@ -74,7 +76,26 @@ def build_model(N, p, C):
     charge = np.rint(Npsi.diagonal().real).astype(int)
     sectors = {k: np.where(charge == k)[0] for k in range(n + 1)}
     return dict(N=N, p=p, n=n, dim=dim, C=C, Psi=Psi, Psibar=Psibar, Q=Q, Qbar=Qbar, H=H,
-                Npsi=Npsi, Ja=Ja, C2=C2, charge=charge, sectors=sectors)
+                Npsi=Npsi, Ja=Ja, C2=C2, charge=charge, sectors=sectors, fourier=fourier)
+
+
+def letter_op(model, let, i, j):
+    """Sparse operator for matrix element (i,j) of letter let=(a, 'P'|'B').  In the Fourier basis a is the Z_p charge."""
+    a, t = let
+    p = model['p']
+    if not model.get('fourier') or p == 1:
+        return model['Psi'](a, i, j) if t == 'P' else model['Psibar'](a, i, j)
+    w = np.exp(2j * np.pi / p)
+    if t == 'P':
+        return sum((w ** (a * c) * model['Psi'](c, i, j) for c in range(p)), sp.csr_matrix((model['dim'], model['dim']), dtype=complex)) / np.sqrt(p)
+    return sum((w ** (-a * c) * model['Psibar'](c, i, j) for c in range(p)), sp.csr_matrix((model['dim'], model['dim']), dtype=complex)) / np.sqrt(p)
+
+
+def word_zcharge(model, word):
+    """Z_p flavor charge of a word in the Fourier basis (0 if not in the Fourier basis)."""
+    if not model.get('fourier') or model['p'] == 1:
+        return 0
+    return sum((a if t == 'P' else -a) for a, t in word) % model['p']
 
 
 # ---------------------------------------------------------------- open-index words
@@ -86,10 +107,8 @@ def letters(model):
 
 
 def letter_matrix(model, let):
-    a, t = let
     N = model['N']
-    f = model['Psi'] if t == 'P' else model['Psibar']
-    return [[f(a, i, j) for j in range(N)] for i in range(N)]
+    return [[letter_op(model, let, i, j) for j in range(N)] for i in range(N)]
 
 
 def word_matrix(model, word):

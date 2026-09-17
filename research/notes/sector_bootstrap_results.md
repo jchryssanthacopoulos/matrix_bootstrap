@@ -93,3 +93,40 @@ Tooling: `scripts/scan_sector.py` (fix $\phi(H)=E$, test feasibility — optiona
 **Implications.** (i) The convex, scannable object of interest remains $E_0(k)$ (and its irrep refinements) — that is what large-$N$ needs. (ii) The eigenstate-constrained scan is a powerful *finite-$N$* tool: one could locate levels by a root-finding strategy on an infeasibility measure rather than a grid, or use it to certify that a candidate $E$ is *not* an eigenvalue. (iii) For the physics question the relevant sectors are the window-edge ones; there the level needed grows with $N$ (single matrix: level 4–5 at $N=4$), and for the three-matrix model at level $\ge3$ the PSD cones ($84\times84$) make interior-point solvers memory-hungry (CLARABEL exceeded 17 GB on the $k=2$ level-3 problem after EOM pruning; SCS solves it in $\sim1.5$ h at $<6$ GB). Symmetry reduction of the Gram blocks ($\mathbb Z_3$ flavor, $SU(N)$ irreps) is the way to shrink the cones.
 
 **Solver notes.** CLARABEL fails numerically on some of these (not strictly feasible) SDPs where SCS succeeds; `SectorSDP.solve` now retries with a bounded SCS run. EOM rows are pruned to an independent set before the SDP (e.g. $23\,970\to226$ at level 3), which removes the equality-row memory problem; the remaining cost is the PSD cone size.
+
+## 8. Symmetry-reduced bootstrap (2026-09-17): three-matrix $k=2$ exact at level 3, first $k=3$ bound
+
+*Formulation: `docs/derivations.md` D4. Code: `src/symmetry_reduction.py`, `symmetry=True` / `adjoint_projected=True` in `src/sector_bootstrap.py`, runner `scripts/run_sector_bound.py` (one JSON line per run in `results/data/sector_bounds_symmetric_2026-09-17.jsonl`), memory guard `scripts/watchdog.sh`. All runs: Chen's $C$, $N=2$, $p=3$, Fourier flavor letters, budget 10 GB, watchdog kill at 12 GB, single process.*
+
+### 8.1 What was implemented
+
+1. **Invariant functional.** $\rho_k=\oplus_R\sigma_R\otimes\mathbf 1$ over the isotypic components of the $k$-block under $SU(2)_{\rm gauge}\times\mathbb Z_3$; every operator is reduced to its $D=\sum_Rm_R^2$ invariant components the moment it is formed (streaming), and the touched span and the EOM span are accumulated as $2D\times2D$ Gram matrices. Nothing of size $d^2$ or $n_h\times D$ is stored. $D$: 6, 90, 666, 2727, 6156, 8112 for $k=1..6$ (versus $d^2$ = 144, 4356, 48 400, 245 025, 627 264, 853 776).
+2. **$\mathbb Z_3$ Fourier letters** $\Psi^{(m)}$ carry a $\mathbb Z_3$ charge $z$; Gram cones are graded by $(q,z)$, so each level-3 cone has $\le28$ words instead of $84$.
+3. **Adjoint-projected channel** (Cho et al. 2024 eq. 3.5): for an invariant $\rho$ the singlet and adjoint parts of $\langle(w_{ij})^\dagger w'_{kl}\rangle$ are separately PSD, so $\phi(\mathrm{Tr}[w^\dagger w'])-\tfrac1N\phi((\mathrm{Tr}w)^\dagger\mathrm{Tr}w')\succeq0$ is imposed in place of the plain adjoint channel. This was not available before because the old functional was not gauge invariant.
+4. **Conditioning.** Each Gram cone is rescaled by a diagonal congruence (unit-norm diagonal coefficient rows). CLARABEL converges only with chordal decomposition *and* equilibration disabled (`solver_options`); SCS is always run with a bounded iteration count.
+5. **Diagnostics.** `SectorSDP.exact_coordinates()` evaluates every constraint on the multiplet-averaged exact ground state. This caught a real bug (a round-off "Hermitian part" of an anti-Hermitian commutator was normalised into a spurious EOM row, making the SDP infeasible); the cut is now relative to $\|X\|$ in all code paths (D4.3).
+
+Regression: unreduced and reduced SDPs agree on every earlier number (single matrix $N=2,3$ all sectors; three-matrix $k=1$: 22, $k=2$ level 2: 0). With `ward=True` no extra rows appear (Ward identities are implied by invariance).
+
+### 8.2 Results (three-matrix Chen model, $N=2$; exact $E_0(k)$ from ED: $98,\,22,\,5.16536,\,1.22706,\,0.08796,\,0,0,0,\dots$)
+
+| $k$ | level $(L_{\rm adj},L_{\rm sing},L_{\rm eom})$ | channel | bound | exact | status | $r$ / $D$ | EOM rows raw→indep. | build / solve | peak RSS |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | (2,2,3) | adj-proj | 22.00000 | 22.00000 | optimal | 6 / 6 | 0 | 1 s / 0 s | 0.15 GB |
+| 2 | (2,2,3) | adj-proj | 0.00000 | 5.16536 | optimal | 87 / 90 | 468→46 | 1 s / 0 s | 0.19 GB |
+| 2 | (3,3,4) | plain adjoint | 4.55415 | 5.16536 | SCS inaccurate | 90 / 90 | 14 862→66 | 14 s / 255 s | 0.94 GB |
+| 2 | (3,3,4) | **adj-proj** | **5.16536** | 5.16536 | **optimal** | 90 / 90 | 15 102→66 | 15 s / 14 s | 1.0 GB |
+| 3 | (2,2,3) | adj-proj | 0.00000 | 1.22706 | optimal | 122 / 666 | 468→60 | 3 s / 0 s | 0.39 GB |
+| 3 | (3,3,4) | adj-proj | **0.95350** | 1.22706 | SCS inaccurate | 666 / 666 | 20 718→583 | 70 s / 1910 s | 6.3 GB |
+| 3 | (3,3,4) | adj-proj, CLARABEL | 0.96218 | 1.22706 | CLARABEL inaccurate | 666 / 666 | 20 718→583 | 69 s / 68 s | 9.0 GB |
+| 3 | (3,3,4) + GS | adj-proj, CLARABEL | **0.96218** | 1.22706 | **optimal** | 666 / 666 | 20 718→583 | 69 s / 71 s | 9.2 GB |
+| 4 | (3,3,4) | adj-proj | 0.00000 | 0.08796 | SCS optimal (CLARABEL failed) | 1218 / 2727 | 20 718→649 | 502 s / 167 s | 10.1 GB |
+
+Cross-checks on the $k=2$, level-3 problem: plain adjoint channel with CLARABEL 5.1737 (inaccurate, chordal off), 5.16536 (optimal, chordal + equilibration off, 22 s), SCS 5.16536 (optimal, 13 s); the plain-channel value 4.554 agrees with the unreduced runs of §6 (4.548 SCS / 4.559 CLARABEL, 88 min / 37 min, 5.7 / 9.9 GB) — the same bound, now in 4 min and under 1 GB.
+
+### 8.3 Reading of the results
+
+* **$k=2$ is solved exactly at level 3** once the adjoint-projected channel is used: $E_0(2)=5.16536$ to solver precision. The plain adjoint channel saturates at 88 % at the same level. Since $r=D=90$ already at level 3, the functional is fully general within the invariant class; the remaining gap of the plain channel was a *constraint* deficit, and the singlet/adjoint split supplies exactly the missing information. This is the first three-matrix sector outside the trivially exact ones ($k=0,1$: SUSY floor / one-particle levels of D2) obtained exactly by the bootstrap.
+* **$k=3$ at level 3 for the first time:** $E_0(3)\ge0.9622$ (exact 1.22706, 78 %). Level 2 gives 0 (SUSY floor) as for $k=2$. Three solves agree: SCS 0.9535 (inaccurate, 32 min), CLARABEL 0.96218 (inaccurate, 68 s), CLARABEL with GS blocks 0.96218 (*optimal*, 71 s) — so 0.9622 is the accurate level-3 optimum and GS positivity adds nothing here, as in the single-matrix model. $r=D=666$ is saturated at level 3, so the remaining gap is a constraint deficit and the next lever is level 4 words.
+* **$k=4$ at level 3:** bound 0 against $E_0(4)=0.08796$ — the level-3 constraints cannot lift the almost-BPS sector off the SUSY floor; here $r=1218<D=2727$, so both the functional and the constraints are still unsaturated. (The build took 8 min because `reduce` costs $O(d\cdot D)$ per operator at $d=495$; the SDP itself took 3 min.)
+* **Costs.** The build is now negligible (70 s for $k=3$ level 3, which was estimated at 13–37 GB before the reduction and never ran). The cost has moved entirely to the SDP solve: the number of variables is $\le D$, but the total cone size $\sum m^2\approx10^4$ (level 3) $\to3\times10^5$ (level 4) with dense $r$-vectors per entry. $k=3$ level 4 with $L_{\rm sing}=3$ is estimated at $\sim7$ GB of coefficient data (with cvxpy overhead), $L_{\rm sing}=4$ at $\sim12$ GB — inside the 20 GB ceiling but not the 10 GB one. $k=4$ level 3 ($D=2727$) is estimated at 2 GB and is the natural next run; $k=5,6$ are BPS ($E_0=0$) and the SUSY floor already makes the bound exact there, as at $k=0$.
