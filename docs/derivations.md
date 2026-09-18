@@ -255,3 +255,26 @@ Because only the Gram matrix of the touched span is needed, it is **accumulated 
 1. Unreduced and reduced SDPs agree on every regression value: single-matrix $N=2$ (all sectors) and $N=3$ (all ten sectors, $72,45,18,0,\dots$); three-matrix $N=2$: $k=1\to22.000$, $k=2$ level 2 $\to0$ with and without GS blocks, with and without the adjoint-projected channel.
 2. `lift∘reduce` and `adjoint` consistency to $10^{-13}$ on all $8058$ commutators of the $k=2$ level-3 set; the exact ground-state functional satisfies all EOM rows to $10^{-14}$ and all cones to $-10^{-13}$ after the fix of D4.3.
 3. Eigenstate constraints in reduced form: feasible at $E=E_0$, infeasible at $E_0+0.05$ ($k=2$, level 2).
+
+
+## D6. Refined Witten index of the fermionic matrix models (2026-09-19)
+
+*Implemented in `src/bps_index.py`; results in `research/notes/bps_index_results.md`.*
+
+**Setup.** Fock space $\mathcal F=\wedge^\bullet V$, $V=\mathbb C^p\otimes\mathbf{adj}_{U(N)}$, spanned by the modes $\Psi^{(m)}_{ij}$ ($m$ the $\mathbb Z_p$ Fourier flavor charge, $(i,j)$ the $U(N)$ weight $u_i/u_j$). The gradings commuting with $Q=C_{abc}\mathrm{Tr}\Psi^a\Psi^b\Psi^c$ are $U(N)$, the flavor $\mathbb Z_p$ (Chen's $C$ is cyclic), and $N_\Psi$ **mod 3** (since $[N_\Psi,Q]=3Q$). The Fock character is
+$$Z(t,z;u)=\prod_{m=0}^{p-1}\prod_{i,j=1}^N\big(1+t\,z^m\,u_i/u_j\big),\tag{D6.1}$$
+and $n(k,\lambda,\omega)$, the multiplicity of the $U(N)$ irrep $\lambda$ ($\sum\lambda_i=0$; all states are $U(1)$-neutral) in the $(N_\Psi{=}k,\ \omega)$ subspace, is obtained from the weight multiplicities $W(k,\omega,\mu)=[t^kz^\omega u^\mu]Z$ by the Weyl alternating sum
+$$n(k,\lambda,\omega)=\sum_{\sigma\in S_N}\mathrm{sgn}(\sigma)\,W\big(k,\omega,\lambda+\delta-\sigma(\delta)\big),\qquad\delta=(N-1,\dots,1,0).\tag{D6.2}$$
+(D6.1)–(D6.2) are evaluated exactly: $W$ by multiplying the $pN^2$ linear factors as integer shifts of an array indexed by $(k,\omega,e)$, $e$ the $SU(N)$-torus exponents ($u_N=1/u_1\cdots u_{N-1}$; each $e_i\in[-2p(N-1),2p(N-1)]$, stored modulo $M=4p(N-1)+1$ without aliasing).
+
+**Index.** The complex $(c,\lambda,\omega)$ is $\cdots\to\mathcal H_{k}\xrightarrow{Q}\mathcal H_{k+3}\to\cdots$ restricted to $\lambda,\omega$ with $k\equiv c$; its Euler characteristic is
+$$I_{c,\lambda,\omega}=\sum_{k\equiv c\,(3)}(-1)^{k}\,n(k,\lambda,\omega)=\pm\sum_{j}(-1)^j\dim H_Q^{c+3j}\big|_{\lambda,\omega},\tag{D6.3}$$
+(the overall sign per complex is conventional). Hence $|I|\le\#\{\text{BPS multiplets in the complex}\}$ with equality iff the cohomology is concentrated in a single degree.
+
+**Closed form of the class totals.** Summing over all irreps and flavors, $\sum_k(-1)^k\binom{n}{k}z^k=(1-z)^n$ with $n=pN^2$ gives, with $\varpi=e^{2\pi i/3}$ and $1-\varpi=\sqrt3\,e^{-i\pi/6}$,
+$$I_c(N)=\frac13\sum_{r=0}^{2}\varpi^{-rc}(1-\varpi^r)^{n}=\frac23\,3^{n/2}\cos\!\Big(\frac{2\pi c}{3}+\frac{\pi n}{6}\Big)\;\xrightarrow{\,p=3\,}\;\frac23\,3^{3N^2/2}\cos\!\Big(\frac{2\pi c}{3}+\frac{\pi N^2}{2}\Big).\tag{D6.4}$$
+Writing $k=c+3j$ and $k_*=n/2$, (D6.4) is $\propto\cos\big(\pi(k-k_*)/3\big)$: the Turiaci–Witten profile about half filling. Checks: $N=2$: $486,-243,-243$ (= ED: $972$ BPS states at $k=5,6,7$ with $243{:}486{:}243$); $N=3$: $0,-3^{13},3^{13}$; $N=4$: $2\cdot3^{23},-3^{23},-3^{23}$. The refined tables reproduce these totals exactly.
+
+**Verified.** At $N=2$ the refined index equals the BPS multiplet count in every complex (36 complexes, spins $0..3$, three flavor charges) computed by exact diagonalisation with the isotypic reducer of D4 — index saturation, as concentration requires and as the $\{5,6,7\}$ window forces.
+
+**Not derived here.** The degree in which the cohomology of each complex sits; the per-irrep large-$N$ asymptotics (a saddle point of (D6.1) against Schur functions — open); the analogous formula for the traceless ($su(N)$) variant, which would differ by the trace-mode factors $(1+tz^m)^{N}$.

@@ -61,6 +61,48 @@ def _independent_rows(A_eq, b_eq, max_dense=4e7, tol=1e-10):
     return A_eq[keep], b_eq[keep], True
 
 
+# ---- parallel fixed-N build: module-level state for forked workers -------------------------------------------------
+_W = {}
+
+
+def _w_init(C, p, k, N, L_eom_gram, adjoint_projected):
+    _W['H'] = ta.hamiltonian(C); _W['Nk'] = ta.number_operator(p) + ta.scalar(-k)
+    _W['N'] = N; _W['L_eom_gram'] = L_eom_gram; _W['adj'] = adjoint_projected
+
+
+def _w_adj_entry(pair):
+    """Adjoint(-projected) Gram entry for open words (wa, wb) and, if short enough, its EOM and sector rows."""
+    wa, wb = pair
+    wad = ta.word_dagger(wa)
+    A = ta.trace(wad + wb)
+    if _W['adj']:
+        A = A - ta.canonical((wad, wb)) * NPoly.N(-1)
+    N = _W['N']
+    rows = []
+    if _W['L_eom_gram'] is None or len(wa) + len(wb) <= _W['L_eom_gram']:
+        rows = [ta.commutator(_W['H'], A).at(N), ta.mul(_W['Nk'], A).at(N)]
+    return A.at(N), rows
+
+
+def _w_sing_entry(pair):
+    Ea, Eb = pair                      # Exprs of the two traced operators
+    S = ta.mul(ta.dagger(Ea), Eb)
+    N = _W['N']
+    rows = []
+    if _W['L_eom_gram'] is None or S.total_length() <= _W['L_eom_gram']:
+        rows = [ta.commutator(_W['H'], S).at(N), ta.mul(_W['Nk'], S).at(N)]
+    return S.at(N), rows
+
+
+def _w_word_rows(e):
+    N = _W['N']
+    return [ta.commutator(_W['H'], e).at(N), ta.mul(_W['Nk'], e).at(N)]
+
+
+def _w_dagger(m):
+    return m, ta.canonical(tuple(ta.word_dagger(w) for w in reversed(m))).at(_W['N'])
+
+
 class TraceSDP:
     def __init__(self, C, p, k, L_adj=2, L_sing=2, L_eom=3, finiteN_len=0, N_for_relations=None,
                  adjoint_projected=True, fourier=True, gs=False, verbose=False):
@@ -178,6 +220,96 @@ class TraceSDP:
                   f"cones {[len(c['labels']) for c in self.cones]}, {self.n_eom_rows} EOM/sector rows, {self.n_rel} finite-N rows, "
                   f"build {self.build_time:.1f}s", flush=True)
 
+    @classmethod
+    def fixed_N(cls, C, p, k, N, L_adj=2, L_sing=2, L_eom=3, L_eom_gram=None, adjoint_projected=True, fourier=True,
+                workers=8, verbose=False):
+        """Build directly at numerical N with all coefficients evaluated (no N-polynomials stored) and the algebra
+        run in `workers` forked processes.  L_eom_gram: EOM/sector rows only for Gram entries of total word length
+        <= L_eom_gram (None = all); at level 4 the length-8 entries' commutators create ~10^6 length-10 monomials that
+        carry almost no information (Hilbert-space experience: 9 new EOM directions out of 3x10^5 rows)."""
+        import multiprocessing as mp
+        Pool = mp.get_context('fork').Pool        # fork: no re-import of the caller's script (macOS defaults to spawn)
+        self = cls.__new__(cls)
+        t0 = time.time()
+        self.p, self.k, self.N_fixed = p, k, N
+        self.fourier = fourier and p > 1
+        self.C = ta.fourier_C(np.asarray(C, dtype=complex)) if self.fourier else np.asarray(C, dtype=complex)
+        self.letters = [(a, t) for a in range(p) for t in ('P', 'B')]
+        self.H = ta.hamiltonian(self.C); self.Npsi = ta.number_operator(p); self.Nk = self.Npsi + ta.scalar(-k)
+        zch = (lambda w: ta.word_z(w, p)) if self.fourier else (lambda w: 0)
+        groups = {}
+        for w in _all_words(self.letters, L_adj):
+            groups.setdefault((ta.word_q(w), zch(w)), []).append(w)
+        sing, seen = {}, {}
+        for w in _all_words(self.letters, L_sing):
+            e = ta.trace(w)
+            if not e:
+                continue
+            key = tuple(sorted((m, tuple(sorted(c.items()))) for m, c in e.items()))
+            if key in seen:
+                continue
+            seen[key] = w; sing.setdefault((ta.word_q(w), zch(w)), []).append(e)
+        if L_sing < 3:
+            Q = ta.supercharge(self.C)
+            sing.setdefault(('Q', 0), []).append(Q); sing.setdefault(('Qbar', 0), []).append(ta.dagger(Q))
+        word_ops = [ta.trace(w) for w in _all_words(self.letters, L_eom) if ta.word_q(w) == 0 and zch(w) == 0]
+        word_ops = [e for e in word_ops if e]
+        self.cones, self.rows = [], []
+        with Pool(workers, initializer=_w_init, initargs=(self.C, p, k, N, L_eom_gram, adjoint_projected)) as pool:
+            for key, ws in sorted(groups.items()):
+                pairs = [(ws[a], ws[b]) for a in range(len(ws)) for b in range(a, len(ws))]
+                ent = {}
+                for (a, b), (A, rows) in zip(((a, b) for a in range(len(ws)) for b in range(a, len(ws))),
+                                             pool.imap(_w_adj_entry, pairs, chunksize=32)):
+                    ent[(a, b)] = A; self.rows += rows
+                self.cones.append(dict(name=f"adj q={key[0]} z={key[1]}", labels=ws, entries=ent))
+                if verbose:
+                    print(f"    cone {key}: {len(ws)} words, {time.time()-t0:.0f}s", flush=True)
+            for key, es in sorted(sing.items(), key=lambda kv: str(kv[0])):
+                pairs = [(es[a], es[b]) for a in range(len(es)) for b in range(a, len(es))]
+                ent = {}
+                for (a, b), (S, rows) in zip(((a, b) for a in range(len(es)) for b in range(a, len(es))),
+                                             pool.imap(_w_sing_entry, pairs, chunksize=8)):
+                    ent[(a, b)] = S; self.rows += rows
+                self.cones.append(dict(name=f"sing q={key[0]} z={key[1]}", labels=es, entries=ent))
+            for rows in pool.imap(_w_word_rows, word_ops, chunksize=8):
+                self.rows += rows
+            self.rows.append(self.Nk.at(N))
+            self.rows = [r for r in self.rows if r]
+            self.n_eom_rows = len(self.rows); self.n_rel = 0
+            monos = set([()])
+            for cone in self.cones:
+                for e in cone['entries'].values():
+                    monos.update(e.keys())
+            for r in self.rows:
+                monos.update(r.keys())
+            monos.update(self.H.keys())
+            # dagger closure + reality rows
+            daggers = {}
+            todo = list(monos)
+            while todo:
+                batch, todo = todo, []
+                for m, md in pool.imap_unordered(_w_dagger, batch, chunksize=64):
+                    daggers[m] = md
+                    for m2 in md:
+                        if m2 not in monos:
+                            monos.add(m2); todo.append(m2)
+        self.monos = sorted(monos, key=ta.mono_key)
+        self.index = {m: i for i, m in enumerate(self.monos)}
+        self.reality = []
+        for m in self.monos:
+            md = daggers[m]
+            if len(md) == 1 and m in md and abs(md[m] - 1) < 1e-12:
+                self.reality.append((m, None))
+            else:
+                self.reality.append((m, md))
+        self._evaluated = True
+        self.build_time = time.time() - t0
+        if verbose:
+            print(f"  TraceSDP(fixed N={N}) k={k} level ({L_adj},{L_sing},{L_eom}) L_eom_gram={L_eom_gram}: {len(self.monos)} monomials, "
+                  f"cones {[len(c['labels']) for c in self.cones]}, {self.n_eom_rows} EOM/sector rows, build {self.build_time:.0f}s", flush=True)
+        return self
+
     def _finiteN_rows(self, N, Lmax, zch):
         """Antisymmetriser relations with N+1 blocks of total length <= Lmax, neutral in (q,z)."""
         out = []
@@ -197,13 +329,27 @@ class TraceSDP:
         return out
 
     # ------------------------------------------------------------------------------------------------------------
+    def _ev(self, obj, N):
+        """Coefficients at N: Expr -> dict, or an already-evaluated dict."""
+        if getattr(self, '_evaluated', False):
+            return obj
+        return obj.at(N)
+
     def assemble(self, N, solver='clarabel', prune=True):
         """Standard-form data at numerical N.  Real unknowns z[2i] = Re phi(m_i), z[2i+1] = Im phi(m_i)."""
+        if getattr(self, '_evaluated', False):
+            assert N == self.N_fixed, "this instance was built at a fixed N"
         n = 2 * len(self.monos)
         rows_i, rows_j, rows_v, b = [], [], [], []
         r = 0
         def add_complex_row(coeffs):        # sum_m c_m phi(m) = 0  ->  two real rows
             nonlocal r
+            # a row whose coefficients are all round-off (cancellations leave ~1e-16) must not be normalised into a
+            # spurious O(1) constraint; drop such rows and the round-off entries of genuine rows (genuine
+            # coefficients are >= 1/9 in magnitude)
+            coeffs = {m: c for m, c in coeffs.items() if abs(c) > 1e-9}     # absolute floor: genuine |c| >~ 1e-3
+            if not coeffs:
+                return
             for part in (0, 1):
                 for m, c in coeffs.items():
                     i = self.index[m]
@@ -223,7 +369,7 @@ class TraceSDP:
                 rows_i += [r]; rows_j += [2 * i + 1]; rows_v += [1.0]; b.append(0.0); r += 1
             else:
                 # conj x_m - sum_j d_j x_j = 0 :  real: u_m - sum(Re d u_j - Im d v_j);  imag: -v_m - sum(Im d u_j + Re d v_j)
-                cj = {mj: d.at(N) for mj, d in md.items()}
+                cj = {mj: d for mj, d in self._ev(md, N).items() if abs(d) > 1e-10}
                 rows_i += [r]; rows_j += [2 * i]; rows_v += [1.0]
                 for mj, d in cj.items():
                     j = self.index[mj]; rows_i += [r, r]; rows_j += [2 * j, 2 * j + 1]; rows_v += [-d.real, d.imag]
@@ -234,7 +380,7 @@ class TraceSDP:
                 b.append(0.0); r += 1
         # EOM / sector / finite-N
         for e in self.rows:
-            add_complex_row(e.at(N))
+            add_complex_row(self._ev(e, N))
         n_eq = r
         A_eq = sp.csc_matrix((rows_v, (rows_i, rows_j)), shape=(n_eq, n)); b_eq = np.array(b)
         # normalise every equality row to unit 2-norm (rows mix coefficients from N^0 to N^4; without this the
@@ -261,7 +407,9 @@ class TraceSDP:
                     I, J = J, I
                 entries.setdefault((I, J), {}); entries[(I, J)][col] = entries[(I, J)].get(col, 0.0) + val
             for (a, bb), e in cone['entries'].items():
-                for m, c in e.at(N).items():
+                for m, c in self._ev(e, N).items():
+                    if abs(c) < 1e-12:
+                        continue
                     i = self.index[m]
                     # M_ab = c x = (c_r + i c_i)(u + i v) = (c_r u - c_i v) + i (c_i u + c_r v)
                     Xr = [(2 * i, c.real), (2 * i + 1, -c.imag)]
@@ -295,10 +443,69 @@ class TraceSDP:
         colscale = np.repeat(np.power(float(N), w), 2)
         A = (A @ sp.diags(colscale)).tocsc()
         c = c * colscale / float(N) ** 3
-        return dict(A=A, b=np.array(b), c=c, n_eq=n_eq, psd_dims=psd_dims, n=n, pruned=pruned, colscale=colscale,
-                    objscale=float(N) ** 3)
+        # reality at the variable level: z = T y with y the independent real unknowns (Hermitian monomials keep
+        # only Re; a monomial whose dagger is a single monomial times a phase shares its unknowns with the partner)
+        T = self._reality_substitution(N)
+        A = (A @ T).tocsr(); c = T.T @ c; b = np.array(b)
+        # equality rows made empty by the substitution (the reality rows it absorbed) would break the solvers'
+        # row scaling: drop them
+        rown = np.sqrt(np.asarray(A.multiply(A).sum(axis=1)).ravel())
+        nz = rown > 1e-8                          # rows were unit-normalised before the substitution
+        nz[n_eq:] = True
+        assert np.all(np.abs(b[:n_eq][~nz[:n_eq]]) < 1e-8)
+        A = A[nz].tocsc(); b = b[nz]; n_eq = int(nz[:n_eq].sum())
+        A.data[np.abs(A.data) < 1e-13] = 0.0; A.eliminate_zeros()
+        return dict(A=A, b=b, c=c, n_eq=n_eq, psd_dims=psd_dims, n=T.shape[1], n_full=n, pruned=pruned,
+                    colscale=colscale, objscale=float(N) ** 3, T=T)
 
-    def solve(self, N, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, budget_gb=10.0, prune=None):
+    def _reality_substitution(self, N):
+        """Sparse T (2*n_monos x n_red) with z = T y.  Uses the reality data: Hermitian monomials -> Im = 0;
+        single-term daggers  conj x_m = c x_r  ->  x_m = conj(c) conj(x_r)  eliminate (u_m, v_m) in favour of the
+        representative r (the smaller monomial); everything else stays independent (and is constrained by the
+        reality rows already in A)."""
+        n_m = len(self.monos)
+        rep = {}                                  # monomial index -> (r, conj(c)) meaning x_m = conj(c) * conj(x_r)
+        herm = set()
+        for m, md in self.reality:
+            i = self.index[m]
+            if md is None:
+                herm.add(i); continue
+            mdv = self._ev(md, N)
+            if len(mdv) == 1:
+                (mr, cval), = mdv.items()
+                if abs(abs(cval) - 1) < 1e-12 and mr != m:
+                    j = self.index[mr]
+                    if j < i:                     # eliminate the larger index in favour of the smaller
+                        rep[i] = (j, np.conj(cval))
+        keep_cols = []                            # list of (z_col) that remain independent, in order
+        col_of = {}
+        for i in range(n_m):
+            if i in rep:
+                continue
+            col_of[(i, 0)] = len(keep_cols); keep_cols.append(2 * i)
+            if i not in herm:
+                col_of[(i, 1)] = len(keep_cols); keep_cols.append(2 * i + 1)
+        rows, cols, vals = [], [], []
+        for i in range(n_m):
+            if i in rep:
+                j, cc = rep[i]
+                assert j not in rep               # dagger is an involution and rep only points to smaller indices
+                # x_i = cc * conj(x_j):  u_i = Re(cc) u_j + Im(cc) v_j ;  v_i = Im(cc) u_j - Re(cc) v_j
+                ju = col_of[(j, 0)]; jv = col_of.get((j, 1))
+                rows += [2 * i]; cols += [ju]; vals += [cc.real]
+                if jv is not None:
+                    rows += [2 * i]; cols += [jv]; vals += [cc.imag]
+                rows += [2 * i + 1]; cols += [ju]; vals += [cc.imag]
+                if jv is not None:
+                    rows += [2 * i + 1]; cols += [jv]; vals += [-cc.real]
+            else:
+                rows += [2 * i]; cols += [col_of[(i, 0)]]; vals += [1.0]
+                if i not in herm:
+                    rows += [2 * i + 1]; cols += [col_of[(i, 1)]]; vals += [1.0]
+        return sp.csc_matrix((vals, (rows, cols)), shape=(2 * n_m, len(keep_cols)))
+
+    def solve(self, N, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, budget_gb=10.0, prune=None, indirect=False,
+              adaptive_scale=True):
         """Clarabel: pruned equality rows, chordal decomposition off, equilibration on (settings found by sweep,
         2026-09-18).  SCS: unpruned rows (first-order methods tolerate redundancy; the pruned system converged worse)."""
         if prune is None:
@@ -321,10 +528,18 @@ class TraceSDP:
             status, x, val = str(sol.status), np.array(sol.x), float(sol.obj_val)
         else:
             import scs
+            # rho_x = 1e-3 (default 1e-6): with the redundant, rank-deficient equality block SCS stalls at the default
+            # (found 2026-09-18 on N=2, k=1: 20 000 iterations without convergence vs 'solved' in 5 925)
+            # linear solver: Apple Accelerate LDL when available (level-4 KKT: 120 s setup, 0.7 s/iteration, 7 GB,
+            # where QDLDL had not finished its factorisation after 30 min); the CG 'indirect' solver is hopeless here
+            import platform
+            lin = {"linear_solver": "cpu_indirect"} if indirect else ({"linear_solver": "accelerate"} if platform.system() == 'Darwin' else {})
+            # adaptive_scale=False: each rescaling re-factorises the KKT system (~2 min at level 4), which turned a
+            # 0.7 s/iteration solve into a >4 h one; without it the scale is fixed after setup
             sol = scs.SCS(dict(A=A, b=b, c=c), dict(z=data['n_eq'], s=data['psd_dims']), eps_abs=eps, eps_rel=eps,
-                          max_iters=max_iters, verbose=verbose).solve()
+                          max_iters=max_iters, verbose=verbose, rho_x=1e-3, adaptive_scale=adaptive_scale, **lin).solve()
             status, x, val = sol['info']['status'], np.array(sol['x']), float(sol['info']['pobj'])
-        val = val * data['objscale']; x = x * data['colscale']
+        val = val * data['objscale']; x = (data['T'] @ x) * data['colscale']
         self.last = dict(status=status, value=val, x=x, solve_time=time.time() - t0, n_rows=A.shape[0], nnz=A.nnz,
                          n=data['n'], n_eq=data['n_eq'], psd_dims=data['psd_dims'], pruned=data['pruned'])
         return self.last
@@ -360,18 +575,18 @@ class TraceSDP:
         """Residuals of all constraints on the exact ground-state functional (rows, reality, cones)."""
         N = model['N']
         phi, E0 = self.exact_functional(model)
-        row_res = max((abs(sum(c * phi[m] for m, c in e.at(N).items())) for e in self.rows), default=0.0)
+        row_res = max((abs(sum(c * phi[m] for m, c in self._ev(e, N).items())) for e in self.rows), default=0.0)
         real_res = 0.0
         for m, md in self.reality:
             if md is None:
                 real_res = max(real_res, abs(phi[m].imag))
             else:
-                real_res = max(real_res, abs(np.conj(phi[m]) - sum(d.at(N) * phi[mj] for mj, d in md.items())))
+                real_res = max(real_res, abs(np.conj(phi[m]) - sum(d * phi[mj] for mj, d in self._ev(md, N).items())))
         cone_min = []
         for cone in self.cones:
             d = len(cone['labels']); M = np.zeros((d, d), dtype=complex)
             for (a, b), e in cone['entries'].items():
-                M[a, b] = sum(c * phi[m] for m, c in e.at(N).items()); M[b, a] = np.conj(M[a, b])
+                M[a, b] = sum(c * phi[m] for m, c in self._ev(e, N).items()); M[b, a] = np.conj(M[a, b])
             cone_min.append(float(np.linalg.eigvalsh(M)[0]) if d else 0.0)
         EH = sum(c * phi[m] for m, c in self.H.at(N).items())
         return dict(E0=E0, phi_H=EH, max_row_residual=row_res, max_reality_residual=real_res, cone_min_eig=cone_min)
