@@ -105,7 +105,7 @@ def _w_dagger(m):
 
 class TraceSDP:
     def __init__(self, C, p, k, L_adj=2, L_sing=2, L_eom=3, finiteN_len=0, N_for_relations=None,
-                 adjoint_projected=True, fourier=True, gs=False, verbose=False):
+                 adjoint_projected=True, fourier=True, gs=False, verbose=False, bps=False, L_bps=None, bps_split=False):
         """C: cyclic couplings in the FLAVOR basis (p x p x p).  The algebra runs in the Z_p Fourier basis when
         fourier=True (cones graded by the Z_p charge).  All Exprs carry N-polynomial coefficients; the numerical
         value of N enters only in assemble(N) -- except the finite-N relations, which are generated for the integer
@@ -178,6 +178,40 @@ class TraceSDP:
         self.rows.append(self.Nk)       # X = 1
         self.rows = _dedupe_exprs([r for r in self.rows if r])
         self.n_eom_rows = len(self.rows)
+        # ---- BPS (exclusion) rows: phi(X Q) = phi(Q X) = 0 for charge -3 operators X, and the Qbar conjugates ---
+        self.bps = bps; self.n_bps_rows = 0
+        if bps:
+            Lb = L_bps if L_bps is not None else max(L_adj, L_sing)
+            Qe = ta.supercharge(self.C); Qb = ta.dagger(Qe)
+            Xm, Xp = [], []                                      # charge -3 and +3 neutral-flavor operators
+            for w in _all_words(self.letters, Lb):
+                if zch(w) == 0 and abs(ta.word_q(w)) == 3:
+                    e = ta.trace(w)
+                    if e:
+                        (Xm if ta.word_q(w) == -3 else Xp).append(e)
+            ws = list(_all_words(self.letters, L_adj))
+            for wa in ws:
+                for wb in ws:
+                    dq = ta.word_q(wb) - ta.word_q(wa)
+                    if abs(dq) == 3 and zch(wa) == zch(wb):
+                        wad = ta.word_dagger(wa)
+                        for e in (ta.trace(wad + wb), ta.canonical((wad, wb))):
+                            if e:
+                                (Xm if dq == -3 else Xp).append(e)
+            bps_rows = []
+            for X in Xm:
+                bps_rows += [ta.mul(X, Qe), ta.mul(Qe, X)]
+            for X in Xp:
+                bps_rows += [ta.mul(X, Qb), ta.mul(Qb, X)]
+            if bps_split:
+                # phi(X Qbar Q) = phi(X Q Qbar) = phi(Qbar Q X) = phi(Q Qbar X) = 0 for every neutral X in the cones:
+                # the BPS condition applied to X Qbar (charge -3) etc.; ties the exclusion to the energy structure
+                QbQ = ta.mul(Qb, Qe); QQb = ta.mul(Qe, Qb)
+                for X in Xs:
+                    bps_rows += [ta.mul(X, QbQ), ta.mul(X, QQb), ta.mul(QbQ, X), ta.mul(QQb, X)]
+            bps_rows = _dedupe_exprs([r for r in bps_rows if r])
+            self.n_bps_rows = len(bps_rows)
+            self.rows += bps_rows
         # ---- variables -----------------------------------------------------------------------------------------
         monos = set([()])
         for cone in self.cones:
@@ -216,9 +250,9 @@ class TraceSDP:
                 self.reality.append((m, md))
         self.build_time = time.time() - t0
         if verbose:
-            print(f"  TraceSDP k={k} level ({L_adj},{L_sing},{L_eom}) finiteN_len={finiteN_len}: {len(self.monos)} monomials, "
+            print(f"  TraceSDP k={k} level ({L_adj},{L_sing},{L_eom}) finiteN_len={finiteN_len} bps={bps}: {len(self.monos)} monomials, "
                   f"cones {[len(c['labels']) for c in self.cones]}, {self.n_eom_rows} EOM/sector rows, {self.n_rel} finite-N rows, "
-                  f"build {self.build_time:.1f}s", flush=True)
+                  f"{self.n_bps_rows} BPS rows, build {self.build_time:.1f}s", flush=True)
 
     @classmethod
     def fixed_N(cls, C, p, k, N, L_adj=2, L_sing=2, L_eom=3, L_eom_gram=None, adjoint_projected=True, fourier=True,
@@ -335,8 +369,10 @@ class TraceSDP:
             return obj
         return obj.at(N)
 
-    def assemble(self, N, solver='clarabel', prune=True):
-        """Standard-form data at numerical N.  Real unknowns z[2i] = Re phi(m_i), z[2i+1] = Im phi(m_i)."""
+    def assemble(self, N, solver='clarabel', prune=True, margin=False):
+        """Standard-form data at numerical N.  Real unknowns z[2i] = Re phi(m_i), z[2i+1] = Im phi(m_i).
+        margin=True appends one more unknown t and replaces every cone M >= 0 by M - t*1 >= 0 (plus t <= 1);
+        maximising t gives the feasibility margin (t* < 0  <=>  infeasible)."""
         if getattr(self, '_evaluated', False):
             assert N == self.N_fixed, "this instance was built at a fixed N"
         n = 2 * len(self.monos)
@@ -432,20 +468,33 @@ class TraceSDP:
             for (I, J) in order:
                 for col, val in entries.get((I, J), {}).items():
                     rows_i.append(r); rows_j.append(col); rows_v.append(-val * (1.0 if I == J else np.sqrt(2)))
+                if margin and I == J:
+                    rows_i.append(r); rows_j.append(n); rows_v.append(1.0)      # s = svec(R(z)) - t svec(1)
                 b.append(0.0); r += 1
-        A = sp.vstack([A_eq, sp.csc_matrix((rows_v, (rows_i, rows_j)), shape=(r, n))[n_eq:]]).tocsc()
-        c = np.zeros(n)
+        ncol = n + 1 if margin else n
+        A = sp.vstack([sp.hstack([A_eq, sp.csc_matrix((A_eq.shape[0], ncol - n))]),
+                       sp.csc_matrix((rows_v, (rows_i, rows_j)), shape=(r, ncol))[n_eq:]]).tocsc()
+        c = np.zeros(ncol)
         for m, cf in self.H.at(N).items():
             i = self.index[m]; c[2 * i] += cf.real; c[2 * i + 1] += -cf.imag     # Re(cf x)
         # 't Hooft rescaling of the unknowns: phi(m) = N^{w(m)} y_m with w = sum_traces (1 + L_i/2) (the natural
         # upper bound on the size of a trace word), objective divided by N^3.  Undone in solve().
         w = np.array([sum(1 + len(word) / 2 for word in m) for m in self.monos])
         colscale = np.repeat(np.power(float(N), w), 2)
+        if margin:
+            colscale = np.append(colscale, 1.0)
         A = (A @ sp.diags(colscale)).tocsc()
         c = c * colscale / float(N) ** 3
         # reality at the variable level: z = T y with y the independent real unknowns (Hermitian monomials keep
         # only Re; a monomial whose dagger is a single monomial times a phase shares its unknowns with the partner)
         T = self._reality_substitution(N)
+        if margin:
+            T = sp.block_diag([T, sp.identity(1)]).tocsc()
+            c = np.zeros(ncol); c[-1] = -1.0                 # maximise t
+            # t <= 1 as an extra equality-free bound: add the row t + s = 1 with s >= 0 (nonnegative cone) is not
+            # available in our cone list, so bound t through a 1x1 PSD cone [1 - t] >= 0
+            A = sp.vstack([A, sp.csc_matrix(([1.0], ([0], [ncol - 1])), shape=(1, ncol))]).tocsc()
+            b = np.append(b, 1.0); psd_dims = psd_dims + [1]
         A = (A @ T).tocsr(); c = T.T @ c; b = np.array(b)
         # equality rows made empty by the substitution (the reality rows it absorbed) would break the solvers'
         # row scaling: drop them
@@ -543,6 +592,33 @@ class TraceSDP:
         self.last = dict(status=status, value=val, x=x, solve_time=time.time() - t0, n_rows=A.shape[0], nnz=A.nnz,
                          n=data['n'], n_eq=data['n_eq'], psd_dims=data['psd_dims'], pruned=data['pruned'])
         return self.last
+
+    def bps_margin(self, N, solver='clarabel', eps=1e-8, max_iters=50000, verbose=False, prune=None, adaptive_scale=True):
+        """Feasibility margin t* = max t s.t. all cones >= t*1 (and the equality rows).  t* < 0: the sector admits
+        no functional compatible with the constraints -> with bps=True, no BPS state in the sector at this level."""
+        if prune is None:
+            prune = (solver == 'clarabel')
+        data = self.assemble(N, solver, prune=prune, margin=True)
+        A, b, c = data['A'], data['b'], data['c']
+        t0 = time.time()
+        if solver == 'clarabel':
+            import clarabel
+            P = sp.csc_matrix((data['n'], data['n']))
+            cones = [clarabel.ZeroConeT(data['n_eq'])] + [clarabel.PSDTriangleConeT(D) for D in data['psd_dims']]
+            st = clarabel.DefaultSettings(); st.verbose = verbose; st.chordal_decomposition_enable = False
+            st.tol_gap_abs = eps; st.tol_gap_rel = eps; st.tol_feas = eps; st.max_iter = 500
+            st.static_regularization_constant = 1e-7 if data['pruned'] else 1e-5
+            sol = clarabel.DefaultSolver(P, c, A, b, cones, st).solve()
+            status, x = str(sol.status), np.array(sol.x)
+        else:
+            import scs, platform
+            lin = {"linear_solver": "accelerate"} if platform.system() == 'Darwin' else {}
+            sol = scs.SCS(dict(A=A, b=b, c=c), dict(z=data['n_eq'], s=data['psd_dims']), eps_abs=eps, eps_rel=eps,
+                          max_iters=max_iters, verbose=verbose, rho_x=1e-3, adaptive_scale=adaptive_scale, **lin).solve()
+            status, x = sol['info']['status'], np.array(sol['x'])
+        t_star = float(x[-1]) if x is not None and len(x) else float('nan')
+        return dict(margin=t_star, status=status, solve_time=time.time() - t0, n=data['n'], n_eq=data['n_eq'],
+                    n_rows=A.shape[0])
 
     # ------------------------------------------------------------------------------------------------------------
     def exact_functional(self, model):
