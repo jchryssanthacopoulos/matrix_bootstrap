@@ -28,3 +28,15 @@ Same constraint set as at $N=2$, evaluated at $N=3,4$ (seconds per sector):
 | 4 | $k\le11$ | 12 | $-9.42\to-0.20$, again linear in $k$ |
 
 So the **reach of a fixed level grows with $N$**, roughly like $0.7N^2$ (the margin decreases linearly in $k$ with an $N$-dependent slope) — the $N=2$ extrapolation "level $\approx k$" was misleading because at $N=2$ every sector is close to the window. By particle–hole symmetry the same sectors are excluded from the top ($k\ge3N^2-6$ at $N=3$, $k\ge37$ at $N=4$). At $N=3$ this already excludes BPS states from $k\le6$ and $k\ge21$; the index says the $k\equiv0$ classes carry zero net index, so the remaining question for the window $\{13,14\}$ is the exclusion of $k=7..12$ and $15..20$ (equivalently, by symmetry, $k=7..12$). Level 3 sweeps at $N=3$ ($k=7..13$) and $N=4$ ($k=12..24$) are running.
+
+## 3. Level 3 at $N=3,4$ (2026-09-19/20; same data file)
+
+| $N$ | level 2 reach | level 3 reach | level-3 margins at the edge | window predicted by index + TW profile |
+|---|---|---|---|---|
+| 2 | $k\le2$ | $k\le3$ | $-0.0167$ ($k=3$) | $\{5,6,7\}$ (ED: correct) |
+| 3 | $k\le6$ | $k\le6$ | $-1.32$ ($k=6$), $0$ ($k=7..13$) | $\{13,14\}$ |
+| 4 | $k\le11$ | $k\le12$ | $-4.18$ ($k=11$), $-1.25$ ($k=12$), $0$ ($k=13..24$) | $\{23,24,25\}$ |
+
+Level 3 sharply amplifies the margins of the already-excluded sectors but extends the reach by at most one sector. The non-excluded range at $N=3$ is $7\le k\le20$: the class-1 BPS states ($3^{13}$ of them) therefore sit at $k\in\{7,10,13\}$ and, by particle–hole symmetry, the class-2 ones at $\{14,17,20\}$; the index alone cannot distinguish these, all of which give the same $0{:}1{:}1$ profile. (The level-3 solves at $N=4$ took 1–3 h each with Clarabel at 5 GB — the AlmostSolved statuses are interior-point tolerance flags, the margins are far from 0 where exclusion is claimed.)
+
+**Assessment.** Exclusion is real and cheap (level 2, seconds per sector at any $N$) and reaches roughly half-way to the window ($6/13.5$ at $N=3$, $12/24$ at $N=4$), well beyond the free sectors $k\le N-1$; but the remaining half needs either higher level (not available) or a different idea. Candidates: (i) few-body / sparse ED at $N=3$ for $k=5..7$ to see whether the gap is closing where exclusion stops; (ii) irrep-resolved exclusion (Casimir rows) — the index says which irreps carry the BPS states, so excluding *those* irreps in a sector suffices and is a much smaller problem; (iii) the cohomology-rank computation for the window itself.
