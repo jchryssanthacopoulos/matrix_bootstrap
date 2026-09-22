@@ -429,6 +429,26 @@ def hamiltonian(C):
     return H.clean()
 
 
+def casimir(p):
+    """Quadratic gauge Casimir as a trace polynomial (docs/derivations.md D7):
+        C2 = 1/2 Tr[M^2] - (Tr M)^2/(2N),   M = sum_a (Psi^a Psibar^a + Psibar^a Psi^a),   Tr M = p N^2,
+    in the normalisation Tr T^a T^b = delta/2 (C2 = j(j+1) at N=2).  Flavor-U(p) invariant, so valid in the Fourier
+    letter basis as well.  Verified against the explicit operator at (N,p) = (2,3), (2,1), (3,1)."""
+    P = lambda c: (c, 'P'); B = lambda c: (c, 'B')
+    e = Expr()
+    for a in range(p):
+        for b in range(p):
+            for w in ((P(a), B(a), P(b), B(b)), (P(a), B(a), B(b), P(b)), (B(a), P(a), P(b), B(b)), (B(a), P(a), B(b), P(b))):
+                for m2, c2 in trace(w).items():
+                    e.add(m2, c2 * 0.5)
+    return e + Expr({(): NPoly({3: -p * p / 2.0})})
+
+
+def casimir_value(N, lam):
+    """C2 eigenvalue of the U(N) irrep lam (sum lam_i = 0) in the same normalisation: 1/2 sum_i lam_i (lam_i + N + 1 - 2i)."""
+    return 0.5 * sum(l * (l + N + 1 - 2 * (i + 1)) for i, l in enumerate(lam))
+
+
 # ----------------------------------------------------------------------------------------------------------------
 # finite-N relations
 # ----------------------------------------------------------------------------------------------------------------

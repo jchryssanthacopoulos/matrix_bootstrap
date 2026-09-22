@@ -105,7 +105,8 @@ def _w_dagger(m):
 
 class TraceSDP:
     def __init__(self, C, p, k, L_adj=2, L_sing=2, L_eom=3, finiteN_len=0, N_for_relations=None,
-                 adjoint_projected=True, fourier=True, gs=False, verbose=False, bps=False, L_bps=None, bps_split=False):
+                 adjoint_projected=True, fourier=True, gs=False, verbose=False, bps=False, L_bps=None, bps_split=False,
+                 casimir=None):
         """C: cyclic couplings in the FLAVOR basis (p x p x p).  The algebra runs in the Z_p Fourier basis when
         fourier=True (cones graded by the Z_p charge).  All Exprs carry N-polynomial coefficients; the numerical
         value of N enters only in assemble(N) -- except the finite-N relations, which are generated for the integer
@@ -171,11 +172,18 @@ class TraceSDP:
                 if e:
                     Xs.append(e)
         self.rows = []                  # list of Expr that must vanish
+        # irrep restriction: rho supported on the C2 = casimir eigenspace  <=>  phi((C2 - c) X) = 0 for all X
+        self.casimir = casimir
+        Ck = (ta.casimir(p) + ta.scalar(-casimir)) if casimir is not None else None
         for X in Xs:
             self.rows.append(ta.commutator(self.H, X))
             self.rows.append(ta.mul(self.Nk, X))
             self.rows.append(ta.mul(X, self.Nk))
+            if Ck is not None:
+                self.rows.append(ta.mul(Ck, X)); self.rows.append(ta.mul(X, Ck))
         self.rows.append(self.Nk)       # X = 1
+        if Ck is not None:
+            self.rows.append(Ck)
         self.rows = _dedupe_exprs([r for r in self.rows if r])
         self.n_eom_rows = len(self.rows)
         # ---- BPS (exclusion) rows: phi(X Q) = phi(Q X) = 0 for charge -3 operators X, and the Qbar conjugates ---

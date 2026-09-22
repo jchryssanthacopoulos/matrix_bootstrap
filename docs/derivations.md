@@ -278,3 +278,22 @@ Writing $k=c+3j$ and $k_*=n/2$, (D6.4) is $\propto\cos\big(\pi(k-k_*)/3\big)$: t
 **Verified.** At $N=2$ the refined index equals the BPS multiplet count in every complex (36 complexes, spins $0..3$, three flavor charges) computed by exact diagonalisation with the isotypic reducer of D4 — index saturation, as concentration requires and as the $\{5,6,7\}$ window forces.
 
 **Not derived here.** The degree in which the cohomology of each complex sits; the per-irrep large-$N$ asymptotics (a saddle point of (D6.1) against Schur functions — open); the analogous formula for the traceless ($su(N)$) variant, which would differ by the trace-mode factors $(1+tz^m)^{N}$.
+
+
+## D7. The quadratic gauge Casimir as a trace polynomial, and irrep-resolved constraints (2026-09-21)
+
+*Implemented as `trace_algebra.casimir(p)` / `casimir_value(N, lam)`; used by the `casimir=` option of `TraceSDP`.*
+
+**Generators.** Under $\Psi^a\to U\Psi^aU^\dagger$ the creation operators $c^\dagger_{(a,i,j)}=\Psi^a_{ij}$ transform as $c^\dagger_{(a,i,j)}\to U_{ii'}\bar U_{jj'}c^\dagger_{(a,i',j')}$. For $U=e^{i\theta T}$ the one-body generator is $E(T)=\sum c^\dagger_\alpha M_{\alpha\beta}c_\beta$ with $M=T\otimes\mathbf 1-\mathbf 1\otimes T^{T}$, i.e.
+$$E(T)=\sum_{a}\Big[\sum_{i,i',j}T_{ii'}\,\Psi^a_{ij}\bar\Psi^a_{ji'}-\sum_{i,j,j'}T_{j'j}\,\Psi^a_{ij}\bar\Psi^a_{j'i}\Big]
+=\sum_{ii'}T_{ii'}\Big[(\Psi^a\bar\Psi^a)_{ii'}+(\bar\Psi^a\Psi^a)_{ii'}\Big]-N\,\mathrm{Tr}\,T\cdot p ,$$
+where the second form uses $\sum_i\Psi_{ij}\bar\Psi_{j'i}=-(\bar\Psi\Psi)_{j'j}+N\delta_{jj'}$ (the anticommutator (D2.1)) and matrix words are in operator order. For traceless $T$ the constant drops: $E(T)=\sum_{ii'}T_{ii'}M_{ii'}$ with the matrix word
+$$M=\sum_{a=1}^p\big(\Psi^a\bar\Psi^a+\bar\Psi^a\Psi^a\big),\qquad \mathrm{Tr}\,M=\sum_a\big(N_\Psi^a+(N^2-N_\Psi^a)\big)=pN^2 .$$
+
+**Casimir.** With $\mathrm{Tr}\,T^aT^b=\tfrac12\delta^{ab}$ and the completeness relation $\sum_aT^a_{ii'}T^a_{kk'}=\tfrac12(\delta_{ik'}\delta_{i'k}-\tfrac1N\delta_{ii'}\delta_{kk'})$,
+$$\boxed{\ \hat C_2=\sum_aJ^aJ^a=\tfrac12\,\mathrm{Tr}[M^2]-\frac{(\mathrm{Tr}M)^2}{2N}=\tfrac12\sum_{a,b}\mathrm{Tr}\big[(\Psi^a\bar\Psi^a+\bar\Psi^a\Psi^a)(\Psi^b\bar\Psi^b+\bar\Psi^b\Psi^b)\big]-\tfrac12p^2N^3\ }\tag{D7.1}$$
+a trace polynomial of degree four, flavor-$U(p)$ invariant (hence identical in the $\mathbb Z_p$ Fourier letter basis). The algebra of D5/M1 canonicalises it to $\sum_a\big(N\,\mathrm{Tr}[\bar\Psi^a\Psi^a]-\mathrm{Tr}\bar\Psi^a\mathrm{Tr}\Psi^a-\mathrm{Tr}[\bar\Psi^a\bar\Psi^a\Psi^a\Psi^a]\big)+\sum_{a\ne b}(\dots)$, which for $p=1$ is (D1.3). **Verified** against the explicit $\sum_aJ^aJ^a$ of `fermion_matrix_model` to $10^{-16}$ at $(N,p)=(2,3),(2,1),(3,1)$, in both letter bases. Eigenvalue on the $U(N)$ irrep $\lambda$ ($\sum\lambda_i=0$): $c_\lambda=\tfrac12\sum_i\lambda_i(\lambda_i+N+1-2i)$ ($=j(j+1)$ at $N=2$; $3$ for the adjoint at $N=3$).
+
+**Irrep-resolved functional.** A functional supported on the $\hat C_2=c_\lambda$ eigenspace satisfies $\phi((\hat C_2-c_\lambda)X)=\phi(X(\hat C_2-c_\lambda))=0$ for all $X$ — linear rows of exactly the same form as the sector rows $\phi((N_\Psi-k)X)=0$. Combined with the BPS rows this gives a **BPS-exclusion test per $(k,\hat C_2)$**. Legitimacy: if a BPS state exists in sector $k$ and irrep $\lambda$, its multiplet average is a functional obeying all rows, so infeasibility certifies absence in that $(k,c_\lambda)$ cell; different irreps sharing a Casimir value are not separated (they could be, with the cubic Casimir, also a trace polynomial).
+
+**First results (2026-09-21, `research/notes/bps_exclusion_results.md` §4).** At $N=2$ the Casimir rows do not extend the reach ($k=4$ not excluded in any spin at level 3). At $N=3$, where the plain sector $k=7$ is not excludable, the level-2 test excludes its large-Casimir cells $C_2=36,38,42,48$ — an exclusion frontier in the $(k,C_2)$ plane that penetrates the window at high Casimir, which is where the index says the largest complexes live.

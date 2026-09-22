@@ -40,3 +40,29 @@ So the **reach of a fixed level grows with $N$**, roughly like $0.7N^2$ (the mar
 Level 3 sharply amplifies the margins of the already-excluded sectors but extends the reach by at most one sector. The non-excluded range at $N=3$ is $7\le k\le20$: the class-1 BPS states ($3^{13}$ of them) therefore sit at $k\in\{7,10,13\}$ and, by particle–hole symmetry, the class-2 ones at $\{14,17,20\}$; the index alone cannot distinguish these, all of which give the same $0{:}1{:}1$ profile. (The level-3 solves at $N=4$ took 1–3 h each with Clarabel at 5 GB — the AlmostSolved statuses are interior-point tolerance flags, the margins are far from 0 where exclusion is claimed.)
 
 **Assessment.** Exclusion is real and cheap (level 2, seconds per sector at any $N$) and reaches roughly half-way to the window ($6/13.5$ at $N=3$, $12/24$ at $N=4$), well beyond the free sectors $k\le N-1$; but the remaining half needs either higher level (not available) or a different idea. Candidates: (i) few-body / sparse ED at $N=3$ for $k=5..7$ to see whether the gap is closing where exclusion stops; (ii) irrep-resolved exclusion (Casimir rows) — the index says which irreps carry the BPS states, so excluding *those* irreps in a sector suffices and is a much smaller problem; (iii) the cohomology-rank computation for the window itself.
+
+## 4. Irrep-resolved exclusion (2026-09-21/22): the frontier in the $(k,\hat C_2)$ plane
+
+*The quadratic Casimir is a trace polynomial (D7), so $\phi((\hat C_2-c_\lambda)X)=0$ are linear rows of the same kind as the sector rows; with the BPS rows this tests each $(k,\hat C_2)$ cell separately. Data: `results/data/bps_exclusion_irrep_2026-09-21.jsonl`.*
+
+**$N=2$ (ED truth: BPS only at $k=5,6,7$).** Level 2: the Casimir rows sharpen the margins of the already-excluded sectors $k\le2$ (e.g. $k=0$: $-0.96,-1.00,-1.08,-1.23$ for $j=0..3$) but exclude nothing new. Level 3: $k=3$ is excluded in every spin with margins growing with $j$ ($-0.018,-0.091,-0.357$ for $j=1,2,3$), and — new — **$(k=4,\ j=3)$ is excluded** ($-0.033$) although the whole sector $k=4$ is not ($j=0,1,2$: $0$). The reach extends from the high-Casimir end.
+
+**$N=3$, level 2** ($k=7$ is the first non-excludable sector). Per Casimir value at $k=7$: $C_2=48,42,38,36$ excluded ($-0.20,-0.10,-0.036,-0.004$), $C_2\le35$ not; at $k\ge8$ nothing at level 2. Finite-$N$ relations (length $\le6$) do not change any margin.
+
+**$N=3$, level 3** (7 min and $\le7$ GB per cell):
+
+| cell $(k,C_2)$ | class | margin | verdict |
+|---|---|---|---|
+| $(7,35)$ | 1 | $-0.962$ | excluded |
+| $(7,30)$ | 1 | $-0.681$ | excluded |
+| $(7,24)$ | 1 | $-0.446$ | excluded (this is $(4,0,-4)$, the largest complex, $540$ multiplets/flavour) |
+| $(8,48)$ | 2 | $-0.876$ | excluded |
+| $(8,42)$ | 2 | $-0.281$ | excluded |
+| $(8,38)$ | 2 | $-0.114$ | excluded |
+| $(9,48)$ | 0 | $-0.340$ | excluded (index already zero in class 0) |
+| $(10,48)$ | 1 | $-0.050$ | **excluded** |
+| $(10,42)$ | 1 | $0$ | not excluded |
+
+So the frontier moves down in $C_2$ at fixed $k$ with level ($k=7$: from $C_2\ge36$ at level 2 to $\le24$ at level 3) and moves out in $k$ at fixed high $C_2$ ($C_2=48$: $k=7$ at level 2, $k=10$ at level 3). Margins are roughly linear in $C_2$ at fixed $k$ ($k=7$: $-0.96,-0.68,-0.45$ at $35,30,24$; $k=8$: $-0.88,-0.28,-0.11$ at $48,42,38$).
+
+**Localisation of the $C_2=48$ complex $(6,0,-6)$** (index $\mp27$ per flavour in classes $1,2$; $81$ multiplets per class in all). Class 1 ($k\equiv1$): $k=1,4$ excluded as whole sectors, $k=7,10$ by the cells above; $k=19,22,25$ are particle–hole images of the excluded class-2 cells $k=8,5,2$. Remaining: $k\in\{13,16\}$. The cell $(11,48)$ (class 2, image $k=16$) decides: if excluded, the class-1 complex sits at $k=13$ and the class-2 complex at $k=14$ — the first BPS multiplets at $N=3$ localised to a single R-charge, with count fixed by the index. Running, together with $(13,48)$ as the consistency check (must come back *not* excluded).
