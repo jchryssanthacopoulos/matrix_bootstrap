@@ -67,7 +67,7 @@ So the frontier moves down in $C_2$ at fixed $k$ with level ($k=7$: from $C_2\ge
 
 **Localisation of the $C_2=48$ complex $(6,0,-6)$** (index $\mp27$ per flavour in classes $1,2$; $81$ multiplets per class in all). Class 1 ($k\equiv1$): $k=1,4$ excluded as whole sectors, $k=7,10$ by the cells above; $k=19,22,25$ are particle–hole images of the excluded class-2 cells $k=8,5,2$. Remaining: $k\in\{13,16\}$. The cell $(11,48)$ (class 2, image $k=16$) decides: if excluded, the class-1 complex sits at $k=13$ and the class-2 complex at $k=14$ — the first BPS multiplets at $N=3$ localised to a single R-charge, with count fixed by the index. Running, together with $(13,48)$ as the consistency check (must come back *not* excluded).
 
-**Confirmation of the deciding $N=3$ cell $(11,48)$.** Clarabel with pruned rows at tolerance $10^{-9}$: $t^*=-0.002556$; Clarabel with all rows and stronger regularisation: $-0.002556$ (six digits agree); SCS (independent first-order solver, $\epsilon=10^{-7}$, stopped at its 40 000-iteration cap, 2.4 h): $-0.002329$ — same sign and magnitude, the 10 % difference being SCS's residual inaccuracy. The controls $(13,48)$ and $(12,48)$ are feasible ($t^*=0$ at tolerance $10^{-9}$), $(12,48)$ being in class $0$ where the index vanishes (empty or cancelling; exclusion cannot tell). With three solves on two solvers agreeing: **the complexes $(c{=}1,(6,0,-6),\omega)$ sit at $k=13$ and $(c{=}2,(6,0,-6),\omega)$ at $k=14$, each with exactly $27$ BPS multiplets (dimension $125$) per flavour charge** — the first BPS multiplets of the three-matrix model at $N=3$ localised to a single R-charge, at the half-filling position the Turiaci–Witten profile predicts. (A fully rigorous version would extract and verify the dual certificate in high precision; the margin is $\sim10^{3}$ times the solver tolerance and reproduced across solvers, so we regard it as established numerically.)
+**Confirmation of the deciding $N=3$ cell $(11,48)$.** Clarabel with pruned rows at tolerance $10^{-9}$: $t^*=-0.002556$; Clarabel with all rows and stronger regularisation: $-0.002556$ (six digits agree); SCS (independent first-order solver, $\epsilon=10^{-7}$, stopped at its 40 000-iteration cap, 2.4 h): $-0.002329$ — same sign and magnitude, the 10 % difference being SCS's residual inaccuracy. The controls $(13,48)$ and $(12,48)$ are feasible ($t^*=0$ at tolerance $10^{-9}$), $(12,48)$ being in class $0$ where the index vanishes (empty or cancelling; exclusion cannot tell). With three solves on two solvers agreeing: **the complexes $(c{=}1,(6,0,-6),\omega)$ sit at $k=13$ and $(c{=}2,(6,0,-6),\omega)$ at $k=14$, each with exactly $27$ BPS multiplets (dimension $343$) per flavour charge** — the first BPS multiplets of the three-matrix model at $N=3$ localised to a single R-charge, at the half-filling position the Turiaci–Witten profile predicts. (A fully rigorous version would extract and verify the dual certificate in high precision; the margin is $\sim10^{3}$ times the solver tolerance and reproduced across solvers, so we regard it as established numerically.)
 
 ## 5. $N=4$: the top-Casimir complex (2026-09-22)
 
@@ -85,3 +85,69 @@ The maximal-Casimir irrep at $N=4$ is $\lambda=(9,3,-3,-9)$, $C_2=120$, $\dim=11
 Result: the top complex is narrowed to $k\in\{22,25\}$ (class 1), $\{23,26\}$ (class 2) and $\{21,24,27\}$ (class 0); the frontier at $C_2=120$ lies between $k=20$ and $21$, i.e. $k_*-4$ at $N=4$ versus $k_*-2.5$ at $N=3$. Level 3 excludes $k\le20$ in this irrep against $k\le12$ for the whole sector. The last step (one more unit in $k$) is beyond level 3.
 
 **Assessment.** Irrep resolution is the principled extension it promised to be: the exclusion frontier lives in the $(k,C_2)$ plane, is monotone in both variables, and penetrates deepest at maximal Casimir — where the single-matrix intuition (BPS = maximal Casimir) says the "least fortuitous" states live. It completes the localisation of the top complex at $N=3$ and comes within one sector of doing so at $N=4$. The physically weightier complexes (Casimirs $15$–$40$, multiplicities $10^2$–$10^5$) remain partially localised; reaching them needs either level 4 (solver-limited) or a new source of constraints — the cubic Casimir (which separates irreps sharing $C_2$ and is also a trace polynomial) is cheap to add but does not obviously deepen the frontier; the finite-$N$ relations do not help at $N\ge3$.
+
+
+## 6. Two attempted extensions, both negative (2026-09-22)
+
+*Recommended as the cheap levers before the expensive level-4 route; both are now implemented, validated and tested, and neither moves the frontier. Recorded so they are not tried again.*
+
+**A. Using $E=0$ more fully.** For a BPS density matrix $H\rho=\rho H=0$, so (i) $\phi(XH)=\phi(HX)=0$ for *every* $X$, not only the charge-$\mp3$ ones already used, and (ii) the ground-state cone $\big[\phi(X^\dagger HY)\big]\succeq0$ is available (valid for any state, since $H\succeq0$; for a BPS functional its $X=\mathbf 1$ row vanishes, which is (i) again). Both are implemented — (ii) needed a new algebra primitive, `trace_algebra.sandwich`, which inserts $H$ in operator order between two open words contracted into a single trace; it is verified to $10^{-14}$ against explicit operators at $(N,p)=(2,3),(2,1),(3,1)$, and the rows are satisfied by the exact BPS functional to $10^{-11}$. **Effect on the frontier: none.** At level 2 the margins at $N=2$, $k=3,4$ and $N=3$, $k=7,8$ are unchanged (all $0$). The $E=0$ information is already implied by the existing BPS rows at these levels. (The `gs` option of the trace engine, previously unimplemented, is now filled in as a by-product.)
+
+**B. Irrep resolution beyond the quadratic Casimir.** The cubic Casimir is also a trace polynomial, $\hat C_3=\mathrm{Tr}[\tilde M^3]$ with $\tilde M=M-pN\mathbf 1$ (D7); it is verified to $10^{-15}$ against the explicit operator and commutes exactly with every gauge generator. Its eigenvalue was obtained empirically from the joint $(\hat C_2,\hat C_3)$ spectrum of the $k=1,2$ sectors and then validated as
+$$c_3(\lambda)=f(l)-f(l^0),\qquad f(x)=\sum_i\big[x_i^3+(\tfrac32-N)x_i^2\big],\qquad l_i=\lambda_i+N-i,\quad l^0_i=N-i,$$
+which reproduces the full $(\hat C_2,\hat C_3)$ multiset (with multiplicities) at $N=2,3,4$ and correctly degenerates to $c_3=2c_2$ at $N=2$, where $su(2)$ has no independent cubic invariant. Adding the rows $\phi((\hat C_3-c_3)X)=0$ splits the $\hat C_2$-degenerate cells into single irreps. **Effect on the frontier: none.** The test cell is $N=3$, $k=10$, $\hat C_2=42$, which the unsplit test leaves at $t^*=0$; its two irreps $(6,-1,-5)$ and $(5,1,-6)$ (dimensions $260$; $c_3=252$ and $0$) both give $t^*=0$ with the full $C_2$ rows plus $C_3$ rows against operators of length $\le2$ (288 s, 6.5 GB per cell). A first version of this test also restricted the $C_2$ rows, which would have made the comparison unfair; the numbers quoted are from the corrected run.
+
+**Interpretation.** Restricting the *state* further — by charge, by $\hat C_2$, now by $\hat C_3$ — helped enormously the first time ($k\le6$ whole-sector $\to$ $k\le11$ at $\hat C_2=48$) and not at all the second. What sets the frontier at a given level is the *operator content* of the cones, not the resolution of the state: once the cone entries cannot see the interaction that would force infeasibility, no additional linear restriction on $\rho$ recovers it. The remaining lever is therefore level 4, where for exclusion we need only an infeasibility (Farkas) certificate rather than an accurate optimum — plus the reversal $\mathbb Z_2$ (transposition, a symmetry of $\mathrm{Tr}\Psi^3$) which halves every cone and would bring level-4 cones from 168 to $\sim84$.
+
+**Cost note.** Level-3 irrep cells with the $C_3$ rows: build 1.5 GB / 90 s, solve 5.6–6.5 GB / $\sim5$ min (Clarabel). The $C_3$ rows must be restricted to short operators (`L_cas`): applied against every Gram entry they reach length 12 and exceed 5 GB in the build alone.
+
+## 7. Level 4 for exclusion: feasibility mode and Farkas certificates (2026-09-22)
+
+**The idea.** At levels 2–3 we used the *margin* form (maximise $t$ with every cone $\succeq t\mathbf 1$), which is an optimisation and needs convergence. Exclusion, however, only needs a yes/no plus a certificate: the pure feasibility problem (objective $\equiv0$) is infeasible exactly when a Farkas certificate exists, i.e. a $y$ with
+$$A^{\!\top}y=0,\qquad y\in K^*,\qquad b\cdot y<0 .$$
+`TraceSDP.feasibility` solves that problem and returns $y$ together with the three residuals. This is what makes level 4 reachable: the level-4 *energy* problem never converged (4.5 h, 18 GB, residual $10^{-2}$), whereas a level-4 *feasibility* problem solves in **5 minutes at 2.5 GB**.
+
+**Machinery validated before use.** (i) Level 2, both solvers: on cells known to be excluded ($N=2$, $k=0$; $N=3$, $k=6$) both return `infeasible` with a clean certificate ($\|A^{\!\top}y\|/\|y\|\sim10^{-15}$–$10^{-10}$, $b\cdot y/\|y\|<0$, dual-cone eigenvalue $\ge-10^{-18}$); on the feasible cell $N=3$, $k=7$ they return `solved` with $b\cdot y\approx0$, i.e. no certificate. (ii) Level 3: $(10,C_2{=}48)$ → `infeasible`, $(13,C_2{=}48)$ → `solved`, matching the margins. A bug worth recording: the two solvers use *different* svec conventions (Clarabel packs the upper triangle column-major, SCS the lower); unpacking with the wrong one made a valid certificate look like a dual-cone violation of $-2\times10^{-2}$.
+
+**Level-4 problem.** `TraceSDP.fixed_N` now carries the exclusion rows, built from a deliberately small operator set (short words only): the length-8 Gram entries must never enter the row generator — multiplying them by $Q$, $\hat C_2$ or $\hat C_3$ reaches length 11–14 and explodes the monomial count (this OOM'd the machine once). With `L_eom_gram=4`, `L_short=6`: 47 421 monomials, 13 538 rows (1 284 BPS), 85 713 cone entries, cones of 168 words (real embedding 336), $n=77\,106$ unknowns, 426 547 rows; build 29 s / 0.86 GB, SCS setup 17 s / 2.5 GB.
+
+**First result.** $N=3$, $k=10$, $C_2=42$ (the cell just beyond the level-3 frontier): **feasible** at level 4 — $b\cdot y=+1.2\times10^{-7}$, so no certificate exists — i.e. level 4 does *not* exclude it. Controls on cells with known level-3 verdicts are running; they are needed because the memory trimming (`L_eom_gram=4`) removes EOM rows that level 3 had, so level 4 as configured is not automatically stronger than level 3.
+
+**Note on the reversal $\mathbb Z_2$.** Earlier outlooks proposed halving the cones with the transposition symmetry $w\to w^{\rm T}$. It does not exist for this model: under transposition $Q\to-C^{\rm rev}_{abc}\mathrm{Tr}[\Psi^a\Psi^b\Psi^c]$, and Chen's $C$ is not reversal-symmetric ($\langle C,C^{\rm rev}\rangle=5$ against $\|C\|^2=16/3$, D2.12). It *is* available for the single-matrix model.
+
+## 8. Calibration against exact cohomology (2026-09-22) — supersedes the guesswork in §6
+
+The exact $Q$-cohomology computation (D8, `research/notes/cohomology_results.md`) now gives the ground truth for
+every $N=3$ cell in `results/data/bps_exclusion_irrep_2026-09-21.jsonl`, so the exclusion bootstrap can be graded
+rather than argued about.
+
+**Reading the margins correctly.** Margins of order $10^{-7}$–$10^{-10}$ are numerically zero: they mean the SDP
+sits *on* the boundary and the test is **inconclusive**, not that the cell is excluded. Only margins bounded away
+from zero (plus a Farkas certificate) are exclusions. Several cells in §3–§5 were recorded with margins in that
+range; they should be read as inconclusive. With that convention:
+
+| $C_2$ | bootstrap excludes up to | true BPS onset | gap |
+|---|---|---|---|
+| 48 | $k=11$ ($-2.6\times10^{-3}$) | $k=12$ | **0 — exactly sharp** |
+| 42 | $k=8$ | $k=12$ | 3 |
+| 38 | $k=8$ | $k=12$ | 3 |
+| 35 | $k=7$ | $k=12$ | 4 |
+
+* **Soundness: zero contradictions.** No cell was ever excluded that in fact carries BPS states — over all $N=3$
+  cells run, at levels 3 and 4.
+* **Sharpness at the top irrep.** For $(6,0,-6)$ the level-3 frontier is *exactly* the true boundary: it excludes
+  $k\le11$ with a genuine margin and goes inconclusive at precisely $k=12$, the true onset. That is the strongest
+  validation the method has received.
+* **The deficit, now measured.** At $C_2=42,38,35$ the degrees $k=9,10,11$ are genuinely empty but could not be
+  certified — including $(10,42)$ at level 4. §6 concluded that the frontier is set by operator level rather than
+  by state resolution; that stands, and the shortfall is 3–4 degrees rather than an unknown amount.
+
+**Status of the level-4 controls.** The control runs at $(10,48)$, $(13,48)$ and $(10,42)$ announced in §7 never
+completed — the job died without writing output and was not restarted. They are now moot: the question they were
+meant to settle (whether the trimmed level-4 configuration dominates level 3) is answered directly by the table
+above, which shows level 4 failing to exclude $(10,42)$ where the truth is that the cell is empty.
+
+**Consequence for the programme.** The $N=3$ concentration question no longer needs the bootstrap: cohomology
+answered it exactly, in minutes, at 1 GB. The level-4/level-5 and HPC escalation discussed earlier is not the route
+to this particular question. The exclusion bootstrap's remaining value is as a method that scales to $N$ where
+cohomology does not — and it now has a measured accuracy at $N=3$ to justify trusting it there.

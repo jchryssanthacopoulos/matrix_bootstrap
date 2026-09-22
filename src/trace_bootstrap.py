@@ -106,7 +106,7 @@ def _w_dagger(m):
 class TraceSDP:
     def __init__(self, C, p, k, L_adj=2, L_sing=2, L_eom=3, finiteN_len=0, N_for_relations=None,
                  adjoint_projected=True, fourier=True, gs=False, verbose=False, bps=False, L_bps=None, bps_split=False,
-                 casimir=None):
+                 casimir=None, casimir3=None, bps_H=True, L_cas=None):
         """C: cyclic couplings in the FLAVOR basis (p x p x p).  The algebra runs in the Z_p Fourier basis when
         fourier=True (cones graded by the Z_p charge).  All Exprs carry N-polynomial coefficients; the numerical
         value of N enters only in assemble(N) -- except the finite-N relations, which are generated for the integer
@@ -162,8 +162,6 @@ class TraceSDP:
                         Eb = exprs[b] if exprs[b] is not None else ta.trace(ws[b])
                         ent[(a, b)] = ta.mul(ta.dagger(Ea), Eb)
             self.cones.append(dict(name=f"sing q={key[0]} z={key[1]}", labels=ws, entries=ent))
-        if gs:
-            raise NotImplementedError("ground-state positivity not implemented in the trace engine yet")
         # ---- equality rows -------------------------------------------------------------------------------------
         Xs = [e for cone in self.cones for e in cone['entries'].values()]
         for w in _all_words(self.letters, L_eom):
@@ -171,19 +169,53 @@ class TraceSDP:
                 e = ta.trace(w)
                 if e:
                     Xs.append(e)
+        # ground-state / energy positivity, built AFTER Xs so that its (already H-weighted, long) entries do not
+        # generate equations of motion of their own -- doing so multiplies the monomial count catastrophically.
+        if gs:
+            # [phi(X^dag H Y)] >= 0 is valid for any state because H >= 0; for a BPS functional (H rho = 0) its
+            # X = 1 row vanishes, which is the linear content phi(XH) = 0.
+            n_before = len(self.cones)
+            for key, ws in sorted(groups.items()):
+                ent = {}
+                for a in range(len(ws)):
+                    for b in range(a, len(ws)):
+                        ent[(a, b)] = ta.sandwich(ws[a], ws[b], self.H)
+                self.cones.append(dict(name=f"gs-adj q={key[0]} z={key[1]}", labels=ws, entries=ent))
+            for key, ws in sorted(sing.items(), key=lambda kv: str(kv[0])):
+                exprs = [w if isinstance(w, Expr) else ta.trace(w) for w in ws]
+                ent = {}
+                for a in range(len(ws)):
+                    for b in range(a, len(ws)):
+                        ent[(a, b)] = ta.mul(ta.mul(ta.dagger(exprs[a]), self.H), exprs[b])
+                self.cones.append(dict(name=f"gs-sing q={key[0]} z={key[1]}", labels=ws, entries=ent))
+            if verbose:
+                ngs = sum(len(c['entries']) for c in self.cones[n_before:])
+                nm = len({m for c in self.cones[n_before:] for e in c['entries'].values() for m in e})
+                print(f"    GS cones: {len(self.cones) - n_before} cones, {ngs} entries, {nm} distinct monomials", flush=True)
+
         self.rows = []                  # list of Expr that must vanish
         # irrep restriction: rho supported on the C2 = casimir eigenspace  <=>  phi((C2 - c) X) = 0 for all X
         self.casimir = casimir
         Ck = (ta.casimir(p) + ta.scalar(-casimir)) if casimir is not None else None
+        C3k = (ta.casimir3(p) + ta.scalar(-casimir3)) if casimir3 is not None else None
+        self.casimir3 = casimir3
+        # L_cas restricts only the C3 rows (C3 has length 6, so C3 * X with the longest Gram entries would reach
+        # length 12 and explode); the C2 rows are always applied against every X, as in the earlier runs.  Any
+        # subset of valid rows is valid, so the restriction is sound.
+        short = (lambda X: True) if L_cas is None else (lambda X: X.total_length() <= L_cas)
         for X in Xs:
             self.rows.append(ta.commutator(self.H, X))
             self.rows.append(ta.mul(self.Nk, X))
             self.rows.append(ta.mul(X, self.Nk))
             if Ck is not None:
                 self.rows.append(ta.mul(Ck, X)); self.rows.append(ta.mul(X, Ck))
+            if C3k is not None and short(X):
+                self.rows.append(ta.mul(C3k, X)); self.rows.append(ta.mul(X, C3k))
         self.rows.append(self.Nk)       # X = 1
         if Ck is not None:
             self.rows.append(Ck)
+        if C3k is not None:
+            self.rows.append(C3k)
         self.rows = _dedupe_exprs([r for r in self.rows if r])
         self.n_eom_rows = len(self.rows)
         # ---- BPS (exclusion) rows: phi(X Q) = phi(Q X) = 0 for charge -3 operators X, and the Qbar conjugates ---
@@ -211,6 +243,13 @@ class TraceSDP:
                 bps_rows += [ta.mul(X, Qe), ta.mul(Qe, X)]
             for X in Xp:
                 bps_rows += [ta.mul(X, Qb), ta.mul(Qb, X)]
+            if bps_H:
+                # H rho = rho H = 0 for a BPS state, hence phi(X H) = phi(H X) = 0 for EVERY X -- not implied by the
+                # rows above unless the products X Q, X Qbar happen to be in the enumerated families.  (Equivalently:
+                # the ground-state positivity matrix [phi(X^dag H Y)] is PSD with a zero diagonal entry at X = 1,
+                # which forces its whole first row to vanish.)
+                for X in Xs:
+                    bps_rows += [ta.mul(X, self.H), ta.mul(self.H, X)]
             if bps_split:
                 # phi(X Qbar Q) = phi(X Q Qbar) = phi(Qbar Q X) = phi(Q Qbar X) = 0 for every neutral X in the cones:
                 # the BPS condition applied to X Qbar (charge -3) etc.; ties the exclusion to the energy structure
@@ -264,7 +303,7 @@ class TraceSDP:
 
     @classmethod
     def fixed_N(cls, C, p, k, N, L_adj=2, L_sing=2, L_eom=3, L_eom_gram=None, adjoint_projected=True, fourier=True,
-                workers=8, verbose=False):
+                workers=8, verbose=False, bps=False, casimir=None, casimir3=None, L_short=4):
         """Build directly at numerical N with all coefficients evaluated (no N-polynomials stored) and the algebra
         run in `workers` forked processes.  L_eom_gram: EOM/sector rows only for Gram entries of total word length
         <= L_eom_gram (None = all); at level 4 the length-8 entries' commutators create ~10^6 length-10 monomials that
@@ -317,8 +356,54 @@ class TraceSDP:
             for rows in pool.imap(_w_word_rows, word_ops, chunksize=8):
                 self.rows += rows
             self.rows.append(self.Nk.at(N))
+            self.n_eom_rows = len([r for r in self.rows if r])
+            # ---- exclusion rows, from a deliberately SMALL operator set --------------------------------------
+            # The level-4 Gram entries (length 8) must never enter the row generator: multiplying them by Q, C2 or
+            # C3 reaches length 11-14 and explodes the monomial count.  We therefore build the BPS and Casimir rows
+            # from short operators only -- exactly the families that carried the information at levels 2-3.  Any
+            # subset of valid rows is valid, so this only weakens the test, never invalidates it.
+            self.bps = bps; self.n_bps_rows = 0; self.casimir = casimir; self.casimir3 = casimir3
+            if bps or casimir is not None or casimir3 is not None:
+                short_words = list(_all_words(self.letters, L_short // 2))
+                Xshort = [e for e in (ta.trace(w) for w in _all_words(self.letters, L_eom)
+                                      if ta.word_q(w) == 0 and zch(w) == 0) if e]
+                for wa in short_words:                       # neutral short Gram entries as Exprs
+                    wad = ta.word_dagger(wa)
+                    for wb in short_words:
+                        if ta.word_q(wa) == ta.word_q(wb) and zch(wa) == zch(wb) and len(wa) + len(wb) <= L_short:
+                            e = ta.trace(wad + wb)
+                            if e:
+                                Xshort.append(e)
+                extra = []
+                if casimir is not None:
+                    Ck = ta.casimir(p) + ta.scalar(-casimir)
+                    extra += [ta.mul(Ck, X) for X in Xshort] + [ta.mul(X, Ck) for X in Xshort] + [Ck]
+                if casimir3 is not None:
+                    C3k = ta.casimir3(p) + ta.scalar(-casimir3)
+                    extra += [ta.mul(C3k, X) for X in Xshort] + [ta.mul(X, C3k) for X in Xshort] + [C3k]
+                if bps:
+                    Qe = ta.supercharge(self.C); Qb = ta.dagger(Qe)
+                    Xm, Xp = [], []
+                    for w in _all_words(self.letters, 3):     # traced words of charge -+3
+                        if zch(w) == 0 and abs(ta.word_q(w)) == 3:
+                            e = ta.trace(w)
+                            if e:
+                                (Xm if ta.word_q(w) == -3 else Xp).append(e)
+                    for wa in short_words:                    # short cross-charge Gram products
+                        wad = ta.word_dagger(wa)
+                        for wb in short_words:
+                            dq = ta.word_q(wb) - ta.word_q(wa)
+                            if abs(dq) == 3 and zch(wa) == zch(wb) and len(wa) + len(wb) <= L_short:
+                                for e in (ta.trace(wad + wb), ta.canonical((wad, wb))):
+                                    if e:
+                                        (Xm if dq == -3 else Xp).append(e)
+                    bl = [ta.mul(X, Qe) for X in Xm] + [ta.mul(Qe, X) for X in Xm] \
+                       + [ta.mul(X, Qb) for X in Xp] + [ta.mul(Qb, X) for X in Xp]
+                    bl = _dedupe_exprs([r for r in bl if r])
+                    self.n_bps_rows = len(bl); extra += bl
+                self.rows += [e.at(N) for e in extra]
             self.rows = [r for r in self.rows if r]
-            self.n_eom_rows = len(self.rows); self.n_rel = 0
+            self.n_rel = 0
             monos = set([()])
             for cone in self.cones:
                 for e in cone['entries'].values():
@@ -601,6 +686,59 @@ class TraceSDP:
                          n=data['n'], n_eq=data['n_eq'], psd_dims=data['psd_dims'], pruned=data['pruned'])
         return self.last
 
+    def feasibility(self, N, solver='scs', eps=1e-7, max_iters=50000, verbose=False, prune=None, adaptive_scale=False):
+        """Pure feasibility test (no objective, no margin variable): is there a functional obeying every constraint?
+        `infeasible` certifies that the cell contains no BPS state.  Unlike bps_margin this needs no convergence to
+        an optimum -- only a Farkas certificate y with A^T y = 0, y in K*, b.y < 0, which is returned and verified.
+        That is what makes level 4 affordable."""
+        if prune is None:
+            prune = (solver == 'clarabel')
+        data = self.assemble(N, solver, prune=prune, margin=False)
+        A, b = data['A'], data['b']
+        c = np.zeros(data['n'])                                  # feasibility: no objective
+        t0 = time.time()
+        if solver == 'clarabel':
+            import clarabel
+            P = sp.csc_matrix((data['n'], data['n']))
+            cones = [clarabel.ZeroConeT(data['n_eq'])] + [clarabel.PSDTriangleConeT(D) for D in data['psd_dims']]
+            st = clarabel.DefaultSettings(); st.verbose = verbose; st.chordal_decomposition_enable = False
+            st.tol_gap_abs = eps; st.tol_gap_rel = eps; st.tol_feas = eps; st.max_iter = 500
+            st.static_regularization_constant = 1e-7 if data['pruned'] else 1e-5
+            sol = clarabel.DefaultSolver(P, c, A, b, cones, st).solve()
+            status = str(sol.status); y = np.array(sol.z) if hasattr(sol, 'z') else None
+        else:
+            import scs, platform
+            lin = {"linear_solver": "accelerate"} if platform.system() == 'Darwin' else {}
+            sol = scs.SCS(dict(A=A, b=b, c=c), dict(z=data['n_eq'], s=data['psd_dims']), eps_abs=eps, eps_rel=eps,
+                          eps_infeas=eps, max_iters=max_iters, verbose=verbose, rho_x=1e-3,
+                          adaptive_scale=adaptive_scale, **lin).solve()
+            status = sol['info']['status']; y = np.array(sol['y'])
+        out = dict(status=status, solve_time=time.time() - t0, n=data['n'], n_eq=data['n_eq'], n_rows=A.shape[0])
+        if y is not None and len(y) == A.shape[0]:
+            out.update(self._check_certificate(A, b, y, data, solver))
+        return out
+
+    @staticmethod
+    def _check_certificate(A, b, y, data, solver='scs'):
+        """Farkas check for primal infeasibility: A^T y = 0, y in K* (free on the zero cone, PSD on the PSD blocks),
+        b.y < 0.  Residuals are reported relative to |y| so they can be read as a certificate quality."""
+        ny = np.linalg.norm(y) or 1.0
+        res_AT = np.linalg.norm(A.T @ y) / ny
+        by = float(b @ y) / ny
+        off = data['n_eq']; worst = 0.0
+        for D in data['psd_dims']:
+            L = D * (D + 1) // 2
+            blk = y[off:off + L]; off += L
+            M = np.zeros((D, D)); idx = 0
+            # svec conventions differ: Clarabel packs the UPPER triangle column-major, SCS the LOWER triangle
+            # (verified against a known SDP).  Unpacking with the wrong one makes the dual-cone test meaningless.
+            pairs = ([(i, j) for j in range(D) for i in range(j + 1)] if solver == 'clarabel'
+                     else [(i, j) for j in range(D) for i in range(j, D)])
+            for (i, j) in pairs:
+                v = blk[idx] / (1.0 if i == j else np.sqrt(2)); M[i, j] = v; M[j, i] = v; idx += 1
+            worst = min(worst, float(np.linalg.eigvalsh(M)[0]) / ny)
+        return dict(cert_ATy=res_AT, cert_by=by, cert_min_eig=worst)
+
     def bps_margin(self, N, solver='clarabel', eps=1e-8, max_iters=50000, verbose=False, prune=None, adaptive_scale=True):
         """Feasibility margin t* = max t s.t. all cones >= t*1 (and the equality rows).  t* < 0: the sector admits
         no functional compatible with the constraints -> with bps=True, no BPS state in the sector at this level."""
@@ -629,6 +767,9 @@ class TraceSDP:
                     n_rows=A.shape[0])
 
     # ------------------------------------------------------------------------------------------------------------
+    MAX_CHECK_LEN = 4      # check_exact builds word matrices on the full Fock space; in the Fourier basis
+                           # these get dense fast (18 MB at length 6), so refuse beyond this
+
     def exact_functional(self, model):
         """phi_GS(m) for every monomial from the exact sector ground state (multiplet-averaged) of `model`
         (must be the same N, p, C, basis).  Diagnostic for small N."""
@@ -639,8 +780,16 @@ class TraceSDP:
         full = np.zeros((model['dim'], vecs.shape[1]), dtype=complex); full[ix] = vecs
         from fermion_matrix_model import word_matrix
         Nn = model['N']; cache = {}
+        longest = max((len(w) for m in self.monos for w in m), default=0)
+        if longest > self.MAX_CHECK_LEN and model.get('fourier'):
+            raise MemoryError(f"check_exact would build word matrices of length {longest} on the {model['dim']}-dim "
+                              f"Fock space; use a lower level (the sandwich/GS primitives are verified separately)")
         def T(word):
+            # bounded cache: in the Fourier basis a length-6 word matrix holds ~18 MB (45x the flavour basis), so an
+            # unbounded cache over hundreds of distinct words costs several GB (this OOM'd the machine once)
             if word not in cache:
+                if len(cache) > 24:
+                    cache.clear()
                 W = word_matrix(model, word)
                 cache[word] = sum(W[i][i] for i in range(Nn)).tocsr() if word else Nn * sp.identity(model['dim'], format='csr')
             return cache[word]

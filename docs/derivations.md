@@ -297,3 +297,96 @@ a trace polynomial of degree four, flavor-$U(p)$ invariant (hence identical in t
 **Irrep-resolved functional.** A functional supported on the $\hat C_2=c_\lambda$ eigenspace satisfies $\phi((\hat C_2-c_\lambda)X)=\phi(X(\hat C_2-c_\lambda))=0$ for all $X$ — linear rows of exactly the same form as the sector rows $\phi((N_\Psi-k)X)=0$. Combined with the BPS rows this gives a **BPS-exclusion test per $(k,\hat C_2)$**. Legitimacy: if a BPS state exists in sector $k$ and irrep $\lambda$, its multiplet average is a functional obeying all rows, so infeasibility certifies absence in that $(k,c_\lambda)$ cell; different irreps sharing a Casimir value are not separated (they could be, with the cubic Casimir, also a trace polynomial).
 
 **First results (2026-09-21, `research/notes/bps_exclusion_results.md` §4).** At $N=2$ the Casimir rows do not extend the reach ($k=4$ not excluded in any spin at level 3). At $N=3$, where the plain sector $k=7$ is not excludable, the level-2 test excludes its large-Casimir cells $C_2=36,38,42,48$ — an exclusion frontier in the $(k,C_2)$ plane that penetrates the window at high Casimir, which is where the index says the largest complexes live.
+
+## D8. Exact $Q$-cohomology by weight-space decomposition, and Kostant inversion to per-irrep BPS counts (2026-09-22)
+
+**Goal.** Compute the exact number of BPS states of the three-matrix model at finite $N$, per degree $k=N_\Psi$,
+per $U(N)$ irrep and per $\mathbb Z_p$ flavour charge — without the bootstrap and without diagonalising anything.
+
+**Assumptions.** Only that $H=\{Q,\bar Q\}$ with $Q^2=0$ (verified numerically in `tests/test_cohomology.py` and
+established in D2), so that BPS states ($H|\psi\rangle=0$) are in bijection with $Q$-cohomology classes:
+$\mathcal H_{\rm BPS}\cong\ker Q/\operatorname{im}Q$. No large-$N$, no truncation, no conjecture.
+
+**Variables.** $N$ = gauge rank, $p$ = number of flavours (here $p=3$), modes $\Psi^a_{ij}$ with
+$a\in\{0,\dots,p-1\}$, $i,j\in\{1,\dots,N\}$; $k=N_\Psi$ = fermion number; $\lambda$ = a $U(N)$ weight (integer
+$N$-vector, here always of total charge $0$); $\mu$ = a dominant weight, i.e. an irrep highest weight;
+$K(\mu,\lambda)$ = multiplicity of the weight $\lambda$ in the irrep $\mu$; $h^k_\mu$ = number of BPS multiplets
+of irrep $\mu$ at degree $k$; $W_\lambda(k)$ = the weight-$\lambda$ subspace of $\mathcal H_k$.
+
+### D8.1 The complex splits over weights
+
+$Q=\sum_{abc}C_{abc}\sum_{ijk}\Psi^a_{ij}\Psi^b_{jk}\Psi^c_{ki}$ is a $U(N)$ singlet: every term is a closed index
+loop, so each raised index $i$ is matched by a lowered $i$. Hence $[\,\mathfrak h,Q\,]=0$ for the Cartan
+$\mathfrak h$, and $Q$ preserves the weight. Since $[N_\Psi,Q]=3Q$, for each weight $\lambda$ we get a complex
+
+$$\cdots\xrightarrow{\;Q\;}W_\lambda(k)\xrightarrow{\;Q\;}W_\lambda(k+3)\xrightarrow{\;Q\;}\cdots,\qquad
+\dim H^k(W_\lambda)=\dim W_\lambda(k)-\operatorname{rank}Q_k-\operatorname{rank}Q_{k-3}. \tag{D8.1}$$
+
+The mode $\Psi^a_{ij}$ carries weight $e_i-e_j$, so a state's weight depends only on the *occupation matrix*
+$n_{ij}\in\{0,\dots,p\}$ counting filled flavours of $(\cdot,i,j)$: the weight is $\lambda_i=\sum_j n_{ij}-\sum_j n_{ji}$
+(row sums minus column sums). Enumerating $W_\lambda(k)$ is therefore a small search over $n_{ij}$ followed by
+$\prod_{ij}\binom{p}{n_{ij}}$ flavour choices, never a scan of the $2^{pN^2}$ Fock space.
+
+**Why this is the decisive gain.** At $N=3$, $\dim\mathcal H_{13}=2\times10^7$, hopeless for a rank. But
+$\dim W_{(6,0,-6)}(13)=126$. The cost is set by the weight, not by the sector.
+
+Ranks are computed by Gaussian elimination over $\mathbb F_P$, $P=2^{31}-1$. A mod-$P$ rank can only *under*-estimate
+the rational rank (never over-estimate), which would inflate $\dim H^k$; all reported ranks were re-checked against
+a second prime $2147483629$ and against floating point, with exact agreement.
+
+### D8.2 Kostant inversion: from weights to irreps
+
+A weight space collects contributions from every irrep containing that weight:
+
+$$\dim H^k(W_\lambda)=\sum_{\mu\ \ge\ \lambda}K(\mu,\lambda)\,h^k_\mu, \tag{D8.2}$$
+
+where $\mu\ge\lambda$ means $\mu-\lambda$ is a non-negative integer combination of positive roots. For the
+**maximal** weight of the Fock space there is no $\mu>\lambda$, so $H^k(W_\lambda)$ *is* the multiplicity space and
+$h^k_\lambda=\dim H^k(W_\lambda)$ directly. For lower weights (D8.2) is triangular and is solved from the top down.
+
+The weight multiplicities come from Kostant's formula
+
+$$K(\mu,\lambda)=\sum_{w\in W}\operatorname{sgn}(w)\,\mathcal P\!\big(w(\mu+\rho)-(\lambda+\rho)\big),\qquad \rho=(N-1,N-2,\dots,0), \tag{D8.3}$$
+
+with $W=S_N$ and $\mathcal P$ the Kostant partition function (the number of ways to write a vector as a
+non-negative integer combination of the positive roots $e_i-e_j$, $i<j$), evaluated by a recursion pruned with the
+fact that such combinations have non-negative partial sums. *(Note $\rho$ may be shifted by any multiple of
+$(1,\dots,1)$: $w$ permutes, the constant is $W$-invariant, and it cancels between $w(\mu+\rho)$ and $\lambda+\rho$.)*
+Implementation `cohomology.kostant`; verified by $\sum_\lambda K(\mu,\lambda)=\dim\mu$ (Weyl) for every irrep used.
+
+**Closure.** The inversion needs every $\mu>\lambda$ with $h_\mu\neq0$. Higher weights are more extreme and so have
+*smaller* weight spaces: the set of affordable weights is automatically closed upward, and the peel over the eight
+$N=3$ weights with $C_2\ge35$ is exact and complete, not a truncation. This was checked exhaustively — those eight
+are all the irreps of the $N=3$ Fock space with $C_2\ge35$.
+
+### D8.3 Checks performed
+
+1. **$N=2$ against ED.** Cohomology supported only at $k=5,6,7$; per-weight peeling reproduces the ED multiplet
+   counts exactly ($j=3\to9$, $j=2\to18$, $j=1\to27$, $j=0\to9$ at $k=5$; total $243$).
+2. **Weight dimensions.** $\dim W_\lambda(k)=\sum_\mu m(k,\mu)K(\mu,\lambda)$ for every $(\lambda,k)$, against the
+   independently computed multiplicities of D6 — exact for all eight weights.
+3. **Euler characteristic.** For every peeled irrep and every class $c$,
+   $\sum_{k\equiv c}(-1)^k h^k_\mu = I_{c,\mu}$, the refined index of D6 — exact in all cases, and in all $27$
+   flavour-refined complexes $(\lambda,w,c)$ of the top three irreps.
+4. **Non-negativity.** Every peeled $h^k_\mu\ge0$ (a strong constraint: the peel subtracts large numbers).
+5. **Particle–hole.** $h^k=h^{pN^2-k}$ emerges, unimposed.
+6. **Rank robustness.** Two primes plus floating point agree on every rank.
+
+### D8.4 Result and its interpretation
+
+At $N=3$, for all eight irreps with $C_2\ge35$, the cohomology is supported on exactly
+$k\in\{12,13,14,15\}$. Since the complexes are graded by $c=k\bmod3$:
+
+$$c=1:\ \{13\}\quad\text{(single degree)},\qquad c=2:\ \{14\}\quad\text{(single degree)},\qquad c=0:\ \{12,15\}.$$
+
+**Proven** (by exact computation, for these irreps at $N=3$): the $c=1$ and $c=2$ complexes — the ones carrying
+macroscopic index — are *index-saturated*, so R-charge concentration holds exactly there and the refined index of D6
+counts the BPS states without error. The $c=0$ complexes have vanishing index yet non-zero cohomology, in
+cancelling pairs at $k=12$ and $k=15$: $149{,}526$ index-invisible BPS states, $19.7\%$ of the $758{,}808$ total.
+
+**Not proven, and not claimed:** that this persists at larger $N$; that the pattern $1:3:3:1$ observed for the
+maximal-Casimir family is general (it already fails at $(5,0,-5)$, where $h^{12}:h^{13}=38:486$); or anything about
+the low-Casimir bulk of the spectrum, which this computation has not reached.
+
+**Limiting cases.** At $N=2$ the method reproduces ED exactly (check 1). For the maximal weight the Kostant step is
+the identity and (D8.2) degenerates correctly to $h=\dim H(W)$.

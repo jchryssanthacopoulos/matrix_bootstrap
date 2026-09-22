@@ -19,3 +19,10 @@
 {"N": 4, "k": 23, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -5.388880601201229e-07, "status": "AlmostSolved", "solve_s": 202}
 {"N": 4, "k": 24, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -2.451876801831569e-07, "status": "AlmostSolved", "solve_s": 201}
 {"N": 4, "k": 25, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -5.278132869934634e-07, "status": "AlmostSolved", "solve_s": 206}
+{"N": 3, "k": 10, "irrep": [6, -1, -5], "casimir": 42.0, "casimir3": 252.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "L_cas": 2, "margin": -2.8689399287133778e-08, "status": "AlmostSolved", "solve_s": 62}
+{"N": 3, "k": 10, "irrep": [5, 1, -6], "casimir": 42.0, "casimir3": 0.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "L_cas": 2, "margin": -1.8828633942474122e-09, "status": "Solved", "solve_s": 60}
+{"N": 3, "k": 10, "irrep": [6, -1, -5], "casimir": 42.0, "casimir3": 252.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "L_cas": 2, "full_C2_rows": true, "margin": -2.868869330583649e-08, "status": "AlmostSolved", "solve_s": 195}
+{"N": 3, "k": 10, "irrep": [5, 1, -6], "casimir": 42.0, "casimir3": 0.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "L_cas": 2, "full_C2_rows": true, "margin": -1.8832460973133563e-09, "status": "Solved", "solve_s": 170}
+{"N": 3, "k": 10, "casimir": 42.0, "L_adj": 4, "L_sing": 3, "L_eom": 4, "L_eom_gram": 6, "L_short": 6, "mode": "feasibility", "status": "solved", "cert_ATy": 1.4961559743058816e-05, "cert_by": 1.1779695990515692e-07, "cert_min_eig": -1.2679276326084414e-13, "solve_s": 280, "peak_rss_gb": 2.56, "date": "2026-09-22"}
+{"N": 3, "k": 10, "casimir": 48.0, "L_adj": 4, "L_sing": 3, "L_eom": 4, "L_eom_gram": 4, "L_short": 6, "mode": "margin", "margin": -0.049690709085121784, "status": "solved (inaccurate - reached max_iters)", "solve_s": 4911, "date": "2026-09-22"}
+{"N": 3, "k": 13, "casimir": 48.0, "L_adj": 4, "L_sing": 3, "L_eom": 4, "L_eom_gram": 4, "L_short": 6, "mode": "margin", "margin": -1.5263168232638149e-09, "status": "solved", "solve_s": 2403, "date": "2026-09-22"}

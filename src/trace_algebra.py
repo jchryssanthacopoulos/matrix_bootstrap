@@ -429,6 +429,33 @@ def hamiltonian(C):
     return H.clean()
 
 
+def sandwich(wa, wb, S):
+    """Sum_ij (wa)_ij^dag S (wb)_ij for open words wa, wb and a scalar operator S (an Expr): the open indices are
+    contracted into a single cycle (as in Tr[wa^dag wb]) while S sits between them in OPERATOR order, its own traces
+    forming separate cycles.  Used for the ground-state / BPS positivity cone [phi(X^dag H Y)] >= 0."""
+    wad = word_dagger(wa)
+    out = Expr()
+    for mono, coeff in S.items():
+        ops = list(wad)
+        cyc_starts = []
+        for word in mono:
+            cyc_starts.append((len(ops), len(word))); ops += list(word)
+        nb = len(ops)
+        ops += list(wb)
+        L = len(ops)
+        nxt = [0] * L
+        outer = list(range(len(wad))) + list(range(nb, L))     # wa^dag then wb, contracted into one cycle
+        for t, pos in enumerate(outer):
+            nxt[pos] = outer[(t + 1) % len(outer)]
+        for st, ln in cyc_starts:                              # S's traces: own cycles
+            for t in range(ln):
+                nxt[st + t] = st + (t + 1) % ln
+        c = coeff if outer else coeff * NPoly.N(1)             # both words empty: a closed index loop gives N
+        for m2, c2 in canonicalize_routed(ops, nxt, c).items():
+            out.add(m2, c2)
+    return out.clean()
+
+
 def casimir(p):
     """Quadratic gauge Casimir as a trace polynomial (docs/derivations.md D7):
         C2 = 1/2 Tr[M^2] - (Tr M)^2/(2N),   M = sum_a (Psi^a Psibar^a + Psibar^a Psi^a),   Tr M = p N^2,
@@ -442,6 +469,47 @@ def casimir(p):
                 for m2, c2 in trace(w).items():
                     e.add(m2, c2 * 0.5)
     return e + Expr({(): NPoly({3: -p * p / 2.0})})
+
+
+def _M_terms(p):
+    """M = sum_a (Psi^a Psibar^a + Psibar^a Psi^a) as a list of length-2 matrix words (the gauge-generator matrix;
+    its trace is the c-number p N^2)."""
+    out = []
+    for a in range(p):
+        out.append(((a, 'P'), (a, 'B')))
+        out.append(((a, 'B'), (a, 'P')))
+    return out
+
+
+def casimir3(p):
+    """Cubic gauge Casimir as a trace polynomial: Tr[Mtilde^3] with Mtilde = M - (p N) 1 (traceless part, since
+    Tr M = p N^2).  Central like C2 (a Gelfand invariant of gl(N)); flavour-U(p) invariant, so basis-independent."""
+    terms = _M_terms(p)
+    e = Expr()
+    for w1 in terms:                                            # Tr[M^3]
+        for w2 in terms:
+            for w3 in terms:
+                for m, c in trace(w1 + w2 + w3).items():
+                    e.add(m, c)
+    e2 = Expr()                                                 # -3 p N Tr[M^2]
+    for w1 in terms:
+        for w2 in terms:
+            for m, c in trace(w1 + w2).items():
+                e2.add(m, c * NPoly.N(1, -3.0 * p))
+    e3 = Expr()                                                 # +3 (p N)^2 Tr[M]
+    for w1 in terms:
+        for m, c in trace(w1).items():
+            e3.add(m, c * NPoly({2: 3.0 * p * p}))
+    return (e + e2 + e3 + Expr({(): NPoly({4: -1.0 * p ** 3})})).clean()   # - N (p N)^3 / N^0: Tr[1 (pN)^3] = N (pN)^3
+
+
+def casimir3_value(N, lam):
+    """Eigenvalue of casimir3(p) = Tr[Mtilde^3] on the U(N) irrep lam (sum lam_i = 0):
+        c3 = f(l) - f(l0),  f(x) = sum_i [x_i^3 + (3/2 - N) x_i^2],  l_i = lam_i + N - i,  l0_i = N - i.
+    Fitted and then verified against the joint (C2, C3) spectrum of the k = 1, 2 sectors at N = 2, 3, 4 (full
+    multiset match).  At N = 2 it gives c3 = 2 c2, as it must (su(2) has no independent cubic Casimir)."""
+    f = lambda x: sum(t ** 3 + (1.5 - N) * t ** 2 for t in x)
+    return f([lam[i] + N - (i + 1) for i in range(N)]) - f([N - (i + 1) for i in range(N)])
 
 
 def casimir_value(N, lam):
