@@ -11,3 +11,11 @@
 {"N": 3, "k": 11, "casimir": 42.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -6.975234911877272e-09, "status": "AlmostSolved", "solve_s": 171}
 {"N": 3, "k": 13, "casimir": 48.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -3.693155713887128e-08, "status": "AlmostSolved", "solve_s": 194}
 {"N": 3, "k": 12, "casimir": 48.0, "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -4.1527108448737713e-08, "status": "AlmostSolved", "solve_s": 189}
+{"N": 4, "k": 22, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -1.3908150582960387e-07, "status": "AlmostSolved", "solve_s": 218}
+{"N": 4, "k": 21, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -1.0622106377919073e-07, "status": "AlmostSolved", "solve_s": 223}
+{"N": 4, "k": 20, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -0.011921879340926545, "status": "Solved", "solve_s": 273}
+{"N": 4, "k": 19, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -0.10078424458300118, "status": "Solved", "solve_s": 284}
+{"N": 4, "k": 18, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -0.4593459562376781, "status": "Solved", "solve_s": 255}
+{"N": 4, "k": 23, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -5.388880601201229e-07, "status": "AlmostSolved", "solve_s": 202}
+{"N": 4, "k": 24, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -2.451876801831569e-07, "status": "AlmostSolved", "solve_s": 201}
+{"N": 4, "k": 25, "casimir": 120.0, "irrep": [9, 3, -3, -9], "L_adj": 3, "L_sing": 3, "L_eom": 4, "margin": -5.278132869934634e-07, "status": "AlmostSolved", "solve_s": 206}

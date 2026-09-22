@@ -66,3 +66,22 @@ Level 3 sharply amplifies the margins of the already-excluded sectors but extend
 So the frontier moves down in $C_2$ at fixed $k$ with level ($k=7$: from $C_2\ge36$ at level 2 to $\le24$ at level 3) and moves out in $k$ at fixed high $C_2$ ($C_2=48$: $k=7$ at level 2, $k=10$ at level 3). Margins are roughly linear in $C_2$ at fixed $k$ ($k=7$: $-0.96,-0.68,-0.45$ at $35,30,24$; $k=8$: $-0.88,-0.28,-0.11$ at $48,42,38$).
 
 **Localisation of the $C_2=48$ complex $(6,0,-6)$** (index $\mp27$ per flavour in classes $1,2$; $81$ multiplets per class in all). Class 1 ($k\equiv1$): $k=1,4$ excluded as whole sectors, $k=7,10$ by the cells above; $k=19,22,25$ are particle–hole images of the excluded class-2 cells $k=8,5,2$. Remaining: $k\in\{13,16\}$. The cell $(11,48)$ (class 2, image $k=16$) decides: if excluded, the class-1 complex sits at $k=13$ and the class-2 complex at $k=14$ — the first BPS multiplets at $N=3$ localised to a single R-charge, with count fixed by the index. Running, together with $(13,48)$ as the consistency check (must come back *not* excluded).
+
+**Confirmation of the deciding $N=3$ cell $(11,48)$.** Clarabel with pruned rows at tolerance $10^{-9}$: $t^*=-0.002556$; Clarabel with all rows and stronger regularisation: $-0.002556$ (six digits agree); SCS (independent first-order solver, $\epsilon=10^{-7}$, stopped at its 40 000-iteration cap, 2.4 h): $-0.002329$ — same sign and magnitude, the 10 % difference being SCS's residual inaccuracy. The controls $(13,48)$ and $(12,48)$ are feasible ($t^*=0$ at tolerance $10^{-9}$), $(12,48)$ being in class $0$ where the index vanishes (empty or cancelling; exclusion cannot tell). With three solves on two solvers agreeing: **the complexes $(c{=}1,(6,0,-6),\omega)$ sit at $k=13$ and $(c{=}2,(6,0,-6),\omega)$ at $k=14$, each with exactly $27$ BPS multiplets (dimension $125$) per flavour charge** — the first BPS multiplets of the three-matrix model at $N=3$ localised to a single R-charge, at the half-filling position the Turiaci–Witten profile predicts. (A fully rigorous version would extract and verify the dual certificate in high precision; the margin is $\sim10^{3}$ times the solver tolerance and reproduced across solvers, so we regard it as established numerically.)
+
+## 5. $N=4$: the top-Casimir complex (2026-09-22)
+
+The maximal-Casimir irrep at $N=4$ is $\lambda=(9,3,-3,-9)$, $C_2=120$, $\dim=117\,649$, self-conjugate, with index $162:{-}81:{-}81$ per flavour in classes $0:1:2$ (the $2{:}1{:}1$ pattern). It occurs only in sectors $k=18..30$ (multiplicities $1,4,22,76,165,264,312,264,\dots$), so the candidate degrees are $\{18,21,24,27,30\}$, $\{19,22,25,28\}$, $\{20,23,26,29\}$ for the three classes, and particle–hole symmetry ($k\to48-k$) maps class 0 to itself and classes 1↔2. Level 3, one constraint set, $\sim5$ min and 6 GB per cell ($N=4$ is *not* more expensive than $N=3$):
+
+| $k$ | class | $t^*$ | verdict |
+|---|---|---|---|
+| 18 | 0 | $-0.459$ | excluded (hence $30$) |
+| 19 | 1 | $-0.101$ | excluded (hence $29$) |
+| 20 | 2 | $-0.012$ | excluded (hence $28$) |
+| 21 | 0 | $0$ | not excluded |
+| 22 | 1 | $0$ | not excluded |
+| 23, 24, 25 | 2, 0, 1 | $0$ | feasible (controls, as required) |
+
+Result: the top complex is narrowed to $k\in\{22,25\}$ (class 1), $\{23,26\}$ (class 2) and $\{21,24,27\}$ (class 0); the frontier at $C_2=120$ lies between $k=20$ and $21$, i.e. $k_*-4$ at $N=4$ versus $k_*-2.5$ at $N=3$. Level 3 excludes $k\le20$ in this irrep against $k\le12$ for the whole sector. The last step (one more unit in $k$) is beyond level 3.
+
+**Assessment.** Irrep resolution is the principled extension it promised to be: the exclusion frontier lives in the $(k,C_2)$ plane, is monotone in both variables, and penetrates deepest at maximal Casimir — where the single-matrix intuition (BPS = maximal Casimir) says the "least fortuitous" states live. It completes the localisation of the top complex at $N=3$ and comes within one sector of doing so at $N=4$. The physically weightier complexes (Casimirs $15$–$40$, multiplicities $10^2$–$10^5$) remain partially localised; reaching them needs either level 4 (solver-limited) or a new source of constraints — the cubic Casimir (which separates irreps sharing $C_2$ and is also a trace polynomial) is cheap to add but does not obviously deepen the frontier; the finite-$N$ relations do not help at $N\ge3$.
