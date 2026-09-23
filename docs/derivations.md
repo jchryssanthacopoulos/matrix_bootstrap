@@ -596,3 +596,36 @@ maximal-weight sector outright — every state there is BPS because nothing acts
 That is the single-matrix/solvable situation (Chen 2025 item 1: $H$ a Casimir function, non-chaotic). So the
 counting criterion alone is satisfiable in the free branch; a useful model needs $Q$ to act non-trivially **and**
 the window to fit inside one period, and D9.3–D9.4 say those two demands are incompatible beyond rank 2.
+
+
+### D9.5 Random couplings do not help, and at $p=3$ there are none to draw (2026-09-23)
+
+A natural objection to D9 is that SYK owes its behaviour to disorder, so perhaps random couplings rescue
+concentration. They do not, for two reasons.
+
+**(i) At $p=3$, $q=3$ the coupling space is a point.** By (D9.1) the maximal-weight cohomology depends on $C$ only
+through $\omega=\mathrm{Alt}(C)\in\Lambda^q\mathbb C^p$, and only through its $GL(p)$ orbit. Since
+$\dim\Lambda^3\mathbb C^3=1$, $\omega$ is unique up to scale, and rescaling does not change cohomology. **Chen's
+tensor is the only non-degenerate three-flavour cubic supercharge up to $GL(3)$.** Drawing $C$ at random can
+therefore only reproduce it ($\mathrm{Alt}(C)\ne0$) or destroy it ($\mathrm{Alt}(C)=0$, whence $\omega=0$,
+$z_{\rm slot}=(1+t)^3$ and the window *widens* to $3N+1$). This accounts exactly for the earlier sample of 30
+random cyclic tensors: 26 gave Chen's profile and 4 gave width 10 — not 26 models agreeing, but 26 draws of one
+model. Likewise $\dim\Lambda^3\mathbb C^4=4$ with a single non-zero $GL(4)$ orbit (every 3-form in 4 variables is
+decomposable), so $p=4$ is also rigid.
+
+**(ii) Generic couplings are optimal.** Matrix ranks are lower semicontinuous in $\omega$, so the cohomology
+dimensions are upper semicontinuous: specialising $\omega$ can only enlarge $H^j$ and hence widen the support.
+Random draws sample the generic orbit, so they *minimise* $w_s$. Verified directly at $q=3$:
+
+| $p$ | generic | $e_{123}$ | $e_{123}+e_{456}$ | $e_{123}+e_{145}$ |
+|---|---|---|---|---|
+| 6 | **3** | 5 | 3 | 5 |
+| 7 | **2** | 6 | 4 | 6 |
+| 8 | **3** | 7 | 5 | 7 |
+
+No special orbit beats the generic one. Every width quoted in D9.2--D9.4 is therefore the best case available, and
+the no-go (D9.3) applies at the optimum rather than at some arbitrary choice of couplings.
+
+**Contrast with SYK.** There, disorder over $\binom Nq$ independent couplings is what produces chaos and the
+$\cos(\pi k/q)$ BPS profile. Here the couplings collapse to a single point of $\Lambda^q\mathbb C^p/GL(p)$ at
+small $p$, and to the generic orbit at larger $p$ — and the obstruction sits at the generic orbit.
