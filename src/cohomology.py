@@ -43,25 +43,56 @@ def weight_of(N, p, idx):
     return tuple(w)
 
 
-def weight_basis(N, p, k, lam):
-    """Sorted tuples of k mode indices whose weights sum to lam.  Enumerated through the occupation matrix
-    n_ij (how many flavours of mode (.,i,j) are filled), which makes the search tiny."""
+def occupation_matrices(N, p, k, lam):
+    """All occupation matrices n_ij in 0..p with sum n = k and row-sums minus column-sums = lam.
+
+    Enumerated row by row with pruning, which is what makes N >= 4 reachable: the naive product over all N^2
+    cells is (p+1)^(N^2) = 4.3e9 at N=4, p=3, while the pruned search visits only what survives the constraints
+    (the maximal weight at N=4 has just 4096 basis states in total)."""
     lam = tuple(lam)
+    rows_choices = [c for c in itertools.product(range(p + 1), repeat=N)]
     out = []
-    for flat in itertools.product(range(p + 1), repeat=N * N):
-        n = np.array(flat).reshape(N, N)
-        if n.sum() != k:
-            continue
-        if tuple(n.sum(axis=1) - n.sum(axis=0)) != lam:
-            continue
-        choices = []
-        for i in range(N):
+    chosen, colsum = [], [0] * N
+
+    def rec(i, used):
+        if used > k or k - used > p * N * (N - i):
+            return
+        # a fixed row i' < i needs its column to finish at r_{i'} - lam_{i'}; later rows can add 0..p*(N-i)
+        for t in range(i):
+            need = chosen[t][1] - lam[t] - colsum[t]
+            if need < 0 or need > p * (N - i):
+                return
+        # a row not yet chosen will have r_t = colsum_t(final) + lam_t, which must be a legal row sum
+        for t in range(i, N):
+            if colsum[t] + lam[t] > p * N:
+                return
+        if i == N:
+            if used == k and all(chosen[t][1] - lam[t] == colsum[t] for t in range(N)):
+                out.append(tuple(r for r, _ in chosen))
+            return
+        for row in rows_choices:
+            r = sum(row)
+            chosen.append((row, r))
             for j in range(N):
-                cnt = n[i, j]
-                choices.append([tuple(sorted(c)) for c in itertools.combinations(range(p), cnt)])
+                colsum[j] += row[j]
+            rec(i + 1, used + r)
+            for j in range(N):
+                colsum[j] -= row[j]
+            chosen.pop()
+
+    rec(0, 0)
+    return out
+
+
+def weight_basis(N, p, k, lam):
+    """Sorted tuples of k mode indices whose weights sum to lam.  The search runs over the occupation matrix
+    n_ij (how many flavours of mode (.,i,j) are filled), then over which flavours fill each cell."""
+    out = []
+    for n in occupation_matrices(N, p, k, lam):
+        choices = [[tuple(sorted(c)) for c in itertools.combinations(range(p), n[i][j])]
+                   for i in range(N) for j in range(N)]
         for combo in itertools.product(*choices):
-            state = []
-            pos = 0
+            state, pos = [], 0
             for i in range(N):
                 for j in range(N):
                     for a in combo[pos]:
@@ -142,7 +173,25 @@ def rank_mod_p(M, prime=PRIME):
     return r
 
 
-def complex_cohomology(N, p, C, lam, verbose=False):
+def exact_rank(M, cross_check=False):
+    """Exact rank of an integer matrix: blocked (BLAS) elimination once the matrix is big enough for it to pay,
+    plain elimination otherwise.  With cross_check, the rank is recomputed over a second prime and the two must
+    agree (a rank over F_p can only under-estimate the rank over Q)."""
+    n = min(M.shape)
+    if n == 0:
+        return 0
+    if n < 1200:
+        r = rank_mod_p(M)
+        if cross_check:
+            assert r == rank_mod_p(M, 2147483629), "rank disagreed between primes"
+        return r
+    r = rank_mod_p_blocked(M, SMALL_PRIMES[0], block=128)
+    if cross_check:
+        assert r == rank_mod_p_blocked(M, SMALL_PRIMES[1], block=128), "rank disagreed between primes"
+    return r
+
+
+def complex_cohomology(N, p, C, lam, verbose=False, cross_check=False):
     """Dimensions of H^k for the weight-lambda complex, all k.  Returns dict k -> (dim W, rank Q_k, dim H^k)."""
     n_modes = p * N * N
     bases = {}
@@ -154,7 +203,8 @@ def complex_cohomology(N, p, C, lam, verbose=False):
     for k in sorted(bases):
         if k + 3 in bases:
             M, _, _ = Q_matrix(N, p, C, k, lam, bases[k], bases[k + 3])
-            ranks[k] = rank_mod_p(M)
+            ranks[k] = exact_rank(M, cross_check=cross_check)
+            del M
         else:
             ranks[k] = 0
         if verbose:
@@ -328,3 +378,297 @@ def peel(N, H_by_weight, order=None):
                     hh[k] = hh.get(k, 0) - kmu * v
         h[lam] = {k: v for k, v in hh.items() if v}
     return h
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Blocked exact rank: the same elimination, but with the trailing update done by BLAS
+# ---------------------------------------------------------------------------------------------------------------
+
+# Primes small enough that block * (p-1)^2 < 2^53, so a float64 matmul of inner dimension <= block is EXACT
+# integer arithmetic and can be reduced mod p afterwards.  Two of them, to cross-check ranks.
+SMALL_PRIMES = (1048573, 1048571)
+
+
+def rank_mod_p_blocked(M, prime=SMALL_PRIMES[0], block=256, copy=True):
+    """Exact rank of an integer matrix over F_prime, by right-looking blocked Gaussian elimination (LU with
+    partial pivoting, skipping rank-deficient columns).
+
+    Identical mathematics to `rank_mod_p`, but the O(n^3) work is moved into one `L21 @ U12` matmul per panel,
+    which numpy hands to BLAS.  That is the difference between hours and minutes at n ~ 10^4.  Exactness of the
+    float64 arithmetic requires block * (prime - 1)^2 < 2^53 (asserted): each product of two reduced residues is
+    < (prime-1)^2 and at most `block` of them are summed before the reduction mod prime.
+
+    A rank over F_prime is a lower bound on the rank over Q, with equality unless the prime divides the relevant
+    minors; callers should confirm with a second prime (see SMALL_PRIMES).
+
+    With copy=False and a float64 input whose entries are already reduced mod `prime`, the elimination runs in
+    place and DESTROYS the input; this avoids two full-size temporaries, which matters at n ~ 10^4 (1.3 GB each).
+    """
+    assert block * (prime - 1) ** 2 < 2 ** 53, "float64 matmul would not be exact"
+    A = np.asarray(M)
+    if A.dtype == np.float64 and not copy:
+        pass                                   # already reduced mod prime; eliminate in place, no extra copies
+    elif A.dtype == np.float64:
+        A = A.copy()
+    else:
+        A = (A.astype(np.int64) % prime).astype(np.float64)
+    m, n = A.shape
+    r, j = 0, 0
+    while r < m and j < n:
+        b = min(block, n - j)
+        r0, pcols = r, []
+        # --- panel: eliminate inside columns [j, j+b) only, leaving the unit multipliers in place of the zeros ---
+        for c in range(j, j + b):
+            if r >= m:
+                break
+            nz = np.nonzero(A[r:, c])[0]
+            if len(nz) == 0:
+                continue                      # rank-deficient column: no pivot, nothing to do
+            piv = r + int(nz[0])
+            if piv != r:
+                A[[r, piv]] = A[[piv, r]]     # full-row swap, so multipliers already stored travel with the row
+            inv = pow(int(A[r, c]), prime - 2, prime)
+            col = A[r + 1:, c]                # becomes the column of unit multipliers, stored in place
+            np.multiply(col, inv, out=col)
+            np.mod(col, prime, out=col)
+            if c + 1 < j + b:                 # eliminate, inside the panel only; no fancy indexing (it is slow)
+                blk = A[r + 1:, c + 1:j + b]
+                blk -= np.outer(col, A[r, c + 1:j + b])
+                np.mod(blk, prime, out=blk)
+            pcols.append(c)
+            r += 1
+        k = r - r0
+        # --- trailing update: U12 = L11^{-1} A12, then A22 -= L21 @ U12 ---
+        if k and j + b < n:
+            U = A[r0:r0 + k, j + b:].copy()
+            L11 = A[r0:r0 + k, pcols]                 # unit lower triangular in its strict lower part
+            for t in range(k - 1):
+                col = L11[t + 1:, t]
+                nzt = np.nonzero(col)[0]
+                if len(nzt):
+                    U[t + 1:][nzt] = (U[t + 1:][nzt] - np.outer(col[nzt], U[t])) % prime
+            A[r0:r0 + k, j + b:] = U
+            if r < m:                         # the one big matmul; in place, to avoid n^2 temporaries
+                A22 = A[r:, j + b:]
+                A22 -= A[r:, pcols] @ U
+                np.mod(A22, prime, out=A22)
+        j += b
+    return r
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Z_p flavour blocking: splits each weight space into p blocks of ~n/p, i.e. p^2-fold less rank work
+# ---------------------------------------------------------------------------------------------------------------
+
+def _is_prime(n):
+    if n < 2:
+        return False
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
+
+
+def blocking_primes(p=3, count=2, below=1 << 20):
+    """Primes P just under `below` with P = 1 (mod p), so that F_P contains a primitive p-th root of unity and
+    the flavour eigenbasis can be written down exactly over F_P."""
+    out, n = [], below - 1
+    while len(out) < count and n > 2:
+        if n % p == 1 and _is_prime(n):
+            out.append(n)
+        n -= 1
+    return out
+
+
+def root_of_unity(prime, p=3):
+    """A primitive p-th root of unity in F_prime (requires prime = 1 mod p)."""
+    assert prime % p == 1
+    for g in range(2, prime):
+        w = pow(g, (prime - 1) // p, prime)
+        if w != 1 and pow(w, p, prime) == 1:
+            return w
+    raise RuntimeError("no primitive root found")
+
+
+def flavour_orbits(N, p, basis):
+    """Orbits of the Z_p flavour rotation on a weight basis, carrying the fermionic signs.
+
+    Returns a list of orbits; each is a list of (index_into_basis, d_t) of length 1 or p, where d_t is the sign
+    defined by sigma^t |s_0> = d_t |s_t> (so d_0 = 1).  A fixed point must have d = +1, since sigma^p = 1."""
+    index = {s: i for i, s in enumerate(basis)}
+    seen = [False] * len(basis)
+    orbits = []
+    for i, s in enumerate(basis):
+        if seen[i]:
+            continue
+        orb, st, d = [], s, 1
+        for _ in range(p):
+            orb.append((index[st], d))
+            seen[index[st]] = True
+            sg, st = flavour_permutation(N, p, st)
+            d = d * sg
+            if st == s:
+                break
+        assert d == 1, "sigma^p must act as the identity with sign +1"
+        orbits.append(orb)
+    return orbits
+
+
+def Q_matrix_flavour(N, p, C, k, lam, basis_k, basis_k3, prime, orbits_k=None, orbits_k3=None):
+    """The p flavour blocks of Q : W_lambda(k) -> W_lambda(k+3), as matrices over F_prime.
+
+    Q commutes with the flavour rotation, so it is block diagonal in the eigenbasis.  For a source orbit with
+    representative s_0, writing Q|s_0> = sum_u a_u |u>, the entry into a target orbit with signs d_r is
+
+        (Q_w)_{O', O} = sum_r a_{u_r} d_r omega^{w r},
+
+    derived from |u_r> = (d_r / p) sum_w omega^{w r} v'_w and Q v_w = sum_t omega^{-w t} sigma^t (Q|s_0>).
+    Orbits of size 1 exist only in the w = 0 block.  Returns a list of p matrices (int64, entries in F_prime).
+    """
+    ok = orbits_k if orbits_k is not None else flavour_orbits(N, p, basis_k)
+    o3 = orbits_k3 if orbits_k3 is not None else flavour_orbits(N, p, basis_k3)
+    omega = root_of_unity(prime, p)
+    idx3 = {}                                   # basis index -> (orbit number, position r, sign d_r)
+    for oi, orb in enumerate(o3):
+        for r, (bi_, d) in enumerate(orb):
+            idx3[bi_] = (oi, r, d)
+    # column / row numbering inside each block
+    cols = [{} for _ in range(p)]
+    for oi, orb in enumerate(ok):
+        for w in (range(p) if len(orb) == p else [0]):
+            cols[w][oi] = len(cols[w])
+    rows = [{} for _ in range(p)]
+    for oi, orb in enumerate(o3):
+        for w in (range(p) if len(orb) == p else [0]):
+            rows[w][oi] = len(rows[w])
+    mats = [np.zeros((len(rows[w]), len(cols[w])), dtype=np.float64) for w in range(p)]
+    for oi, orb in enumerate(ok):
+        s0 = basis_k[orb[0][0]]
+        a = apply_Q(N, p, C, s0)
+        contrib = {}                            # (target orbit, w) -> accumulated entry
+        for st, v in a.items():
+            oj, r, d = idx3[index_of(basis_k3, st)]
+            for w in (range(p) if len(o3[oj]) == p else [0]):
+                key = (oj, w)
+                contrib[key] = (contrib.get(key, 0) + int(v) * d * pow(omega, w * r, prime)) % prime
+        for (oj, w), val in contrib.items():
+            if val and oi in cols[w] and oj in rows[w]:
+                mats[w][rows[w][oj], cols[w][oi]] = val
+    return mats, cols, rows
+
+
+_index_cache = {}
+
+
+def index_of(basis, state):
+    """Index of a state in a basis list (cached per basis object)."""
+    key = id(basis)
+    d = _index_cache.get(key)
+    if d is None or len(d) != len(basis):
+        d = {s: i for i, s in enumerate(basis)}
+        _index_cache.clear()
+        _index_cache[key] = d
+    return d[state]
+
+
+def complex_cohomology_blocked(N, p, C, lam, prime=None, verbose=False):
+    """Cohomology of the weight-lambda complex, computed one flavour block at a time.
+
+    Same answer as `complex_cohomology` (summed over the blocks) at ~p^2 less cost and ~p^2 less memory, and it
+    additionally resolves the Z_p flavour charge.  Returns (per_charge, totals) where per_charge[w][k] = dim H^k
+    in that block and totals[k] = (dim W, rank Q_k, dim H^k)."""
+    prime = prime or blocking_primes(p, 1)[0]
+    bases, orbits = {}, {}
+    for k in range(p * N * N + 1):
+        b = weight_basis(N, p, k, lam)
+        if b:
+            bases[k] = b
+            orbits[k] = flavour_orbits(N, p, b)
+    ranks = {w: {} for w in range(p)}
+    dims = {w: {} for w in range(p)}
+    for k in sorted(bases):
+        nblk = [sum(1 for o in orbits[k] if len(o) == p or w == 0) for w in range(p)]
+        for w in range(p):
+            dims[w][k] = nblk[w]
+        if k + 3 in bases:
+            mats, _, _ = Q_matrix_flavour(N, p, C, k, lam, bases[k], bases[k + 3], prime,
+                                          orbits[k], orbits[k + 3])
+            for w in range(p):                # rank in place, releasing each block as it is consumed
+                ranks[w][k] = rank_mod_p_blocked(mats[w], prime, block=128, copy=False) if mats[w].size else 0
+                mats[w] = None
+            del mats
+        else:
+            for w in range(p):
+                ranks[w][k] = 0
+        if verbose:
+            print(f"    k={k}: dim W={len(bases[k])} -> blocks {nblk}, ranks {[ranks[w][k] for w in range(p)]}",
+                  flush=True)
+    per_charge = {w: {k: dims[w][k] - ranks[w][k] - ranks[w].get(k - 3, 0) for k in sorted(bases)}
+                  for w in range(p)}
+    totals = {k: (len(bases[k]),
+                  sum(ranks[w][k] for w in range(p)),
+                  sum(per_charge[w][k] for w in range(p))) for k in sorted(bases)}
+    return per_charge, totals
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Screening: supercharges of arbitrary odd degree q,  Q = sum C_{a1..aq} Tr[Psi^{a1} ... Psi^{aq}]
+# ---------------------------------------------------------------------------------------------------------------
+
+def apply_Q_degree(N, p, C, state, q):
+    """Q|state> for a degree-q supercharge.  C is a rank-q flavour tensor (C = 1 for p = 1).
+
+    Only ODD q is admissible: Tr[Psi^q] picks up (-1)^{q-1} under a cyclic shift, so it vanishes identically for
+    even q; and Q^2 = 0 is automatic exactly when q is odd, since exchanging the two q-tuples in C (x) C is a
+    permutation of 2q fermions with q^2 transpositions, odd iff q is odd, against a totally antisymmetric product.
+    """
+    assert q % 2 == 1, "only odd q gives a non-zero nilpotent Tr[Psi^q]"
+    out = {}
+    for flav in itertools.product(range(p), repeat=q):
+        coef = C[flav] if p > 1 else 1.0
+        if coef == 0:
+            continue
+        for loop in itertools.product(range(N), repeat=q):
+            ms = tuple(mode_index(N, flav[t], loop[t], loop[(t + 1) % q]) for t in range(q))
+            s, st, ok = 1, state, True
+            for m in reversed(ms):
+                r = _create(st, m)
+                if r is None:
+                    ok = False; break
+                sg, st = r; s *= sg
+            if ok:
+                out[st] = out.get(st, 0) + s * coef
+    return {st: v for st, v in out.items() if v != 0}
+
+
+def maximal_weight_window(N, p, C, q, prime=PRIME):
+    """Cohomology of the maximal-weight complex for a degree-q supercharge.  Returns (window, h, dims).
+
+    The grading is by k mod q (since [N_Psi, Q] = q Q), so concentration on this complex requires the window to
+    contain at most one degree per residue class.
+    """
+    lam = tuple(p * (N + 1 - 2 * i) for i in range(1, N + 1))
+    n_modes = p * N * N
+    bases = {}
+    for k in range(n_modes + 1):
+        b = weight_basis(N, p, k, lam)
+        if b:
+            bases[k] = b
+    ranks = {}
+    for k in sorted(bases):
+        if k + q in bases:
+            idx = {s: r for r, s in enumerate(bases[k + q])}
+            M = np.zeros((len(bases[k + q]), len(bases[k])), dtype=np.int64)
+            for col, st in enumerate(bases[k]):
+                for st2, v in apply_Q_degree(N, p, C, st, q).items():
+                    M[idx[st2], col] += int(round(v))
+            r1 = rank_mod_p(M, prime)
+            assert r1 == rank_mod_p(M, 2147483629), "rank disagreed between primes"
+            ranks[k] = r1
+        else:
+            ranks[k] = 0
+    h = {k: len(bases[k]) - ranks[k] - ranks.get(k - q, 0) for k in sorted(bases)}
+    h = {k: v for k, v in h.items() if v}
+    return sorted(h), h, {k: len(b) for k, b in bases.items()}

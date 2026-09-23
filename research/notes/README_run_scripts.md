@@ -68,3 +68,21 @@ its **width vs the single-matrix baseline** at that $N$.
   needed sectors ($k-3,k,k+3$) are built.
 - `E_0` is clamped at 0 (the true ground energy is $\ge0$ by SUSY); a value like
   $10^{-5}$ means "BPS", a value like $0.09$ or $1.2$ means "lifted".
+
+## `scripts/list_casimirs.py` (2026-09-23)
+
+Enumerates the $U(N)$ irreps of the $p$-flavour Fock space and their quadratic Casimirs (derivation D7.4).
+
+    python scripts/list_casimirs.py --N 3 --p 3
+    python scripts/list_casimirs.py --N 5 --p 3 --no-multiplicities
+
+An irrep occurs iff its highest weight is dominant, traceless ($\sum_i\lambda_i=0$), and **dominated by**
+$\lambda^*_i=p(N+1-2i)$. The looser box bound $|\lambda_i|\le p(N-1)$ over-counts (241 vs 213 at $N=4$) and must
+not be used on its own. With multiplicities enabled the script asserts the dominance filter against the Weyl
+alternating sum. $C_2^{\max}=p(p+1)N(N^2-1)/6$, generalising Chen (2.18).
+
+| $N$ | irreps | distinct $C_2$ | $C_2^{\max}$ |
+|---|---|---|---|
+| 3 | 25 | 16 | 48 |
+| 4 | 213 | 69 | 120 |
+| 5 | 2131 | 208 | 240 |

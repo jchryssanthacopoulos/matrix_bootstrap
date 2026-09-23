@@ -106,10 +106,82 @@ def test_euler_characteristic_equals_refined_index():
     print("  Euler characteristics equal the refined index: OK")
 
 
+def test_blocked_rank_matches_reference():
+    """The BLAS-blocked elimination must give the same rank as the plain one, for every block size and prime."""
+    rng = np.random.default_rng(0)
+    for (m, n, rk) in [(80, 60, 25), (200, 200, 137), (300, 150, 90), (150, 300, 120),
+                       (513, 400, 301), (1000, 700, 512), (77, 77, 0)]:
+        X = rng.integers(-5, 6, size=(m, rk)); Y = rng.integers(-5, 6, size=(rk, n))
+        A = (X @ Y).astype(np.int64) if rk else np.zeros((m, n), dtype=np.int64)
+        ref = co.rank_mod_p(A)
+        assert ref == int(np.linalg.matrix_rank(A.astype(float))) == (rk if rk else 0), (m, n, rk, ref)
+        for prime in co.SMALL_PRIMES:
+            for block in (16, 64, 256):
+                assert co.rank_mod_p_blocked(A, prime, block=block) == ref, (m, n, prime, block)
+    print("  blocked rank == reference rank for all sizes/blocks/primes: OK")
+
+
+def test_flavour_blocking_matches_dense():
+    """Z_3 blocking must reproduce the dense cohomology, and the block ranks must sum to the dense rank."""
+    C = _C(3)
+    for N, lam, expected in [(2, (3, -3), {5: 9, 6: 18, 7: 9}),
+                             (3, (6, 0, -6), {12: 27, 13: 81, 14: 81, 15: 27})]:
+        pc, tot = co.complex_cohomology_blocked(N, 3, C, lam)
+        assert {k: v[2] for k, v in tot.items() if v[2]} == expected, (N, lam, tot)
+        dense = co.complex_cohomology(N, 3, C, lam)
+        for k in dense:
+            assert tot[k][1] == dense[k][1], (N, lam, k, tot[k][1], dense[k][1])   # ranks agree
+            assert tot[k][0] == dense[k][0]
+        # the three charges are equal for these weights, and sum to the total
+        for k, v in expected.items():
+            assert sum(pc[w][k] for w in range(3)) == v, (N, lam, k)
+    # the primes used for blocking must admit a cube root of unity
+    for prime in co.blocking_primes(3, 2):
+        w = co.root_of_unity(prime, 3)
+        assert w != 1 and pow(w, 3, prime) == 1 and prime % 3 == 1
+    print("  Z_3 flavour blocking reproduces the dense cohomology and ranks: OK")
+
+
+def test_N4_maximal_weight():
+    """N=4 maximal weight: the enumerator must match the D6 generating function, and the cohomology must be
+    81*binom(4,j) over k=22..26 with Euler characteristics equal to the refined index."""
+    N, p, lam = 4, 3, (9, 3, -3, -9)
+    C = _C(p)
+    W, M = bi._weights_exact(N, p)
+    e = tuple(int(x) % M for x in bi._exponents_of_weight(np.array(lam)))
+    bases = {}
+    for k in range(p * N * N + 1):
+        b = co.weight_basis(N, p, k, lam)
+        assert len(b) == int(W[(k, slice(None)) + e].sum()), (k, len(b))
+        if b:
+            bases[k] = b
+    ranks = {}
+    for k in sorted(bases):
+        if k + 3 in bases:
+            Mx, _, _ = co.Q_matrix(N, p, C, k, lam, bases[k], bases[k + 3])
+            ranks[k] = co.rank_mod_p(Mx)
+        else:
+            ranks[k] = 0
+    h = {k: len(bases[k]) - ranks[k] - ranks.get(k - 3, 0) for k in sorted(bases)}
+    h = {k: v for k, v in h.items() if v}
+    assert h == {22: 81, 23: 324, 24: 486, 25: 324, 26: 81}, h        # 81 * binom(4, j)
+    ridx = bi.refined_index(bi.irrep_multiplicities(N, p))
+    for c in range(3):
+        chi = sum((-1) ** k * v for k, v in h.items() if k % 3 == c)
+        I = sum(v for (cc, w, l), v in ridx.items() if cc == c and l == lam)
+        assert chi == I, (c, chi, I)
+    # saturation fails in c=1,2 even though their index is non-zero
+    assert sorted(k for k in h if k % 3 == 0) == [24]
+    assert sorted(k for k in h if k % 3 == 1) == [22, 25]
+    assert sorted(k for k in h if k % 3 == 2) == [23, 26]
+    print("  N=4 maximal weight: h = 81*binom(4,j) over k=22..26, Euler = index: OK")
+
+
 if __name__ == '__main__':
     for fn in [test_Q_squared_is_zero, test_weight_basis_counts, test_kostant_against_weyl_dimension,
                test_rank_is_prime_independent, test_N2_cohomology_matches_index_and_ED,
-               test_euler_characteristic_equals_refined_index]:
+               test_euler_characteristic_equals_refined_index, test_blocked_rank_matches_reference,
+               test_flavour_blocking_matches_dense, test_N4_maximal_weight]:
         print(f"{fn.__name__} ...")
         fn()
     print("\nall cohomology tests passed")

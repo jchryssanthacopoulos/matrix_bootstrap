@@ -298,6 +298,37 @@ a trace polynomial of degree four, flavor-$U(p)$ invariant (hence identical in t
 
 **First results (2026-09-21, `research/notes/bps_exclusion_results.md` §4).** At $N=2$ the Casimir rows do not extend the reach ($k=4$ not excluded in any spin at level 3). At $N=3$, where the plain sector $k=7$ is not excludable, the level-2 test excludes its large-Casimir cells $C_2=36,38,42,48$ — an exclusion frontier in the $(k,C_2)$ plane that penetrates the window at high Casimir, which is where the index says the largest complexes live.
 
+### D7.4 Which irreps occur, and the closed form for $C_2^{\max}$ (2026-09-23)
+
+`scripts/list_casimirs.py` enumerates the $U(N)$ content of the $p$-flavour Fock space and its Casimirs.
+
+**Which highest weights occur.** Three conditions, the third being the subtle one:
+
+1. *Traceless.* Each mode $\Psi^a_{ij}$ has weight $e_i-e_j$, of total zero, so every Fock state has total weight
+   zero and only $\sum_i\lambda_i=0$ appears.
+2. *Dominant*, $\lambda_1\ge\cdots\ge\lambda_N$, integers.
+3. *Dominated by the maximal weight*: $\lambda\le\lambda^*$, i.e. $\sum_{i\le m}\lambda_i\le\sum_{i\le m}\lambda^*_i$
+   for every $m$, where $\lambda^*_i=p(N+1-2i)$.
+
+The box bound $|\lambda_i|\le p(N-1)$ — from $\lambda_i=(\text{row }i)-(\text{col }i)$ with $n_{ii}$ cancelling,
+leaving at most the $p(N-1)$ off-diagonal modes of row $i$ — is **necessary but not sufficient**. For example
+$(12,12,0,-12,-12)$ at $N=5,p=3$ respects the box yet cannot occur: row 1 full forces $n_{12}=p$, contradicting
+column 2 empty. Dominance is the exact criterion, verified against the Weyl alternating sum of D6: it reproduces
+the occurring set exactly, $25/25$ at $N=3$ and $213/241$ at $N=4$. *(Verified at $N=3,4$; not proved here.)*
+
+**Casimir.** $c_2(\lambda)=\tfrac12\sum_i\lambda_i(\lambda_i+N+1-2i)$ (D7.1).
+
+**Maximum.** At $\lambda^*$ one has $\lambda^*_i+N+1-2i=(p+1)(N+1-2i)$, so
+
+$$C_2^{\max}=\tfrac12\,p(p+1)\sum_{i=1}^N(N+1-2i)^2=\frac{p(p+1)\,N(N^2-1)}{6}, \tag{D7.6}$$
+
+using $\sum_i(N+1-2i)^2=N(N^2-1)/3$. For $p=1$ this is $N(N^2-1)/3$, which is **Chen 2025 (2.18)**, so (D7.6)
+is its multi-flavour generalisation; for $p=3$ it gives $C_2^{\max}=2N(N^2-1)$, i.e. $48,120,240$ at $N=3,4,5$
+(all three confirmed numerically).
+
+**Counts.** $N=3$: 25 irreps, 16 distinct Casimirs. $N=4$: 213 irreps, 69 distinct. $N=5$: 2131 irreps, 208
+distinct.
+
 ## D8. Exact $Q$-cohomology by weight-space decomposition, and Kostant inversion to per-irrep BPS counts (2026-09-22)
 
 **Goal.** Compute the exact number of BPS states of the three-matrix model at finite $N$, per degree $k=N_\Psi$,
@@ -390,3 +421,178 @@ the low-Casimir bulk of the spectrum, which this computation has not reached.
 
 **Limiting cases.** At $N=2$ the method reproduces ED exactly (check 1). For the maximal weight the Kostant step is
 the identity and (D8.2) degenerates correctly to $h=\dim H(W)$.
+
+### D8.5 $N=4$ (2026-09-23)
+
+The enumeration of $W_\lambda(k)$ must be pruned to reach $N=4$: the direct product over the $N^2$ cells of the
+occupation matrix is $(p+1)^{N^2}=4^{16}\approx4.3\times10^9$. `cohomology.occupation_matrices` instead recurses
+over rows, pruning on (i) the remaining $k$ budget against the remaining capacity $pN(N-m)$, (ii) for each fixed
+row $i'<m$, the requirement that its column finish at $r_{i'}-\lambda_{i'}$, reachable only if the shortfall lies
+in $[0,\,p(N-m)]$, and (iii) for each unfixed row $t\ge m$, that $r_t=c_t+\lambda_t$ remain a legal row sum.
+Validated exhaustively: $\sum_\lambda\dim W_\lambda(k)=\binom{pN^2}{k}$ for every $k$ at $N=3$, and agreement with
+the D6 generating function for every $k$ at the four highest $N=4$ weights.
+
+For the maximal weight $\lambda=(9,3,-3,-9)$ there is nothing above it, so (D8.2) is trivial and the weight-space
+cohomology is already the multiplet count. In 6 s at 0.33 GB (against $\dim\mathcal H_{24}=3.2\times10^{13}$):
+
+$$h^{22},\dots,h^{26} \;=\; 81,\;324,\;486,\;324,\;81 \;=\; 81\binom{4}{j},$$
+
+with all other degrees empty. Together with $N=2$ ($1{:}2{:}1$) and $N=3$ ($1{:}3{:}3{:}1$ at the top of the
+spectrum) this supports, but does not prove, a window of width $N+1$ centred at $k=pN^2/2$ with profile
+$\binom{N}{j}$.
+
+**Proven at $N=4$ for this irrep** (exact integers, Euler characteristics matching the refined index in all nine
+$(c,w)$ complexes): the $c=0$ complex is saturated (cohomology at $k=24$ alone), while the $c=1$ and $c=2$
+complexes have cohomology in *two* degrees, $\{22,25\}$ and $\{23,26\}$, with **non-vanishing** index
+($-81$ per flavour charge) and $135$ multiplets against $|I|=81$. This is stronger than the $N=3$ statement, where
+saturation failed only in the zero-index complexes: at $N=4$ it fails where the index is non-zero. Over the irrep,
+$1296$ multiplets versus $972$ counted by the index, a $25\%$ excess.
+
+**Not proven:** that the excess persists or grows with $N$ (the two data points, $19.7\%$ at $N=3$ and $25\%$ at
+$N=4$, are over different portions of the spectrum and are not directly comparable), or anything about the
+low-Casimir bulk at $N=4$.
+
+### D8.6 Blocked and flavour-blocked exact ranks; thirteen irreps at $N=4$ (2026-09-23)
+
+Two devices move the rank wall far enough to reach weight spaces of $3\times10^4$ (from $924$), at $\sim30$ min
+and $6.1$ GB for the whole $N=4$ run.
+
+**(a) Blocked elimination with an exact BLAS update** (`rank_mod_p_blocked`). Right-looking LU with partial
+pivoting, skipping columns in which no pivot is found (the matrices are rank-deficient by construction — that is
+what is being measured). Per panel of $b$ columns: factor the panel, solve $U_{12}=L_{11}^{-1}A_{12}$, then update
+the trailing block with the single matmul $A_{22}\mathrel{-}=L_{21}U_{12}$, reduced mod $P$. Exactness comes from
+choosing $P$ small enough that float64 holds every partial sum of the matmul as an exact integer,
+
+$$b\,(P-1)^2 < 2^{53},\qquad P\approx2^{20},$$
+
+so `dgemm` performs integer arithmetic. No rescaling of pivot rows is done anywhere: normalising the pivot row
+across the panel only, or normalising before rather than after the elimination (the two operations do not
+commute), both give wrong ranks, and both were caught by the plain routine on random matrices of known rank.
+
+**(b) $\mathbb Z_p$ flavour blocking** (`complex_cohomology_blocked`). $Q$ commutes with the flavour rotation
+$\sigma$, so each weight-space complex splits into $p$ blocks of $\approx n/p$: a $p^2$-fold saving in both time
+and memory. To keep it exact, work over $\mathbb F_P$ with $P\equiv1\pmod p$, where a primitive $p$-th root of
+unity $\omega$ exists. Orbits of $\sigma$ on a weight basis have size $1$ or $p$, with signs $d_t$ defined by
+$\sigma^t|s_0\rangle=d_t|s_t\rangle$; the charge-$w$ eigenvector on an orbit is $v_w=\sum_t\omega^{-wt}d_t|s_t\rangle$,
+a fixed point necessarily has $d=+1$ and contributes only to $w=0$, and from $|u_r\rangle=(d_r/p)\sum_w\omega^{wr}v'_w$
+together with $Qv_w=\sum_t\omega^{-wt}\sigma^t(Q|s_0\rangle)$ one gets
+
+$$(Q_w)_{O',O}=\sum_r a_{u_r}\,d_r\,\omega^{wr},\qquad Q|s_0\rangle=\sum_u a_u|u\rangle. \tag{D8.4}$$
+
+Validated at $N=2,3,4$ against the dense computation: identical totals, identical per-charge counts, and the block
+ranks sum to the dense rank for every $k$.
+
+**Result.** All thirteen $N=4$ irreps with $C_2\ge107$ (`results/data/cohomology_N4_top.json`), totalling
+$3\,008\,825\,568$ BPS states exactly, of which $19.0\%$ are invisible to the index. Uniformly across all
+thirteen: the window is exactly $k\in\{22,\dots,26\}$; the $c=0$ complex is saturated at $k=24$; and the $c=1,2$
+complexes are never saturated, occupying $\{22,25\}$ and $\{23,26\}$ with non-vanishing index.
+
+**Proven / not proven.** The $\binom Nj$ profile holds for eleven of the thirteen and **fails** for the two at
+$C_2=107$ ($114,1572,2916,1572,114$), exactly as it fails at $(5,0,-5)$ for $N=3$; in both cases the centre is
+unchanged and the edges are suppressed. So the profile is a feature of the high-Casimir top, not a theorem. The
+*width* $N+1$ centred at $pN^2/2$ has held for all 25 irreps computed across $N=2,3,4$ without exception, but
+remains a conjecture: nothing here reaches the low-Casimir bulk, where the weight spaces run to $\sim10^9$.
+
+
+## D9. The maximal-weight BPS sector in closed form, and a rank-vs-degree no-go for concentration (2026-09-23)
+
+**Setting.** $u(N)$ adjoint complex fermions $\Psi^a_{ij}$, $a=1..p$, with
+$Q=\sum C_{a_1\ldots a_q}\mathrm{Tr}[\Psi^{a_1}\cdots\Psi^{a_q}]$, $q$ odd (even $q$ gives
+$\mathrm{Tr}[\Psi^q]\equiv0$ by cyclicity, and $Q^2=0$ is automatic precisely for odd $q$). Write
+$r=\mathrm{rank}\,G$ ($=N$ for $u(N)$).
+
+### D9.1 The maximal-weight complex factorises over Cartan slots
+
+At the maximal weight $\lambda^*_i=p(N+1-2i)$ every off-diagonal mode is saturated, so the only unoccupied modes
+are the diagonal ones. $Q$ creates a closed index loop; any loop entering an index cannot leave it (its outgoing
+edges are occupied), so the only surviving loops are **self-loops** at a single index $i$, creating $q$ diagonal
+modes of distinct flavours. Hence $Q=\sum_{i=1}^{r}Q_i$ with $Q_i$ acting only on slot $i$'s flavour space, and
+$Q_i$ is wedging with the totally antisymmetric part of $C$,
+
+$$\omega=\mathrm{Alt}(C)\in\Lambda^q\mathbb C^p,\qquad Q_i=\omega\wedge-\ \text{ on }\ \Lambda^\bullet\mathbb C^p .$$
+
+The complex is a tensor product of $r$ identical factors, so by Künneth
+
+$$Z_{\max}(t)=t^{k_0}\big(z_{\rm slot}(t)\big)^{r},\qquad
+z_{\rm slot}(t)=\sum_j \dim H^j\!\left(\Lambda^\bullet\mathbb C^p,\ \omega\wedge\right) t^j . \tag{D9.1}$$
+
+**Verified** against every measured $u(N)$ case: $(p,q)=(1,3),(2,3),(3,3),(4,3),(3,5)$ at $N=2,3,4,5$ — ten cells,
+exact agreement including $27,81,81,27$; $81,324,486,324,81$; $243,1215,2430,2430,1215,243$;
+$27,162,405,540,405,162,27$; $1,6,15,20,15,6,1$.
+
+### D9.2 Width
+
+If $z_{\rm slot}$ is supported on $w_s$ degrees then (D9.1) gives window width
+
+$$W=r\,(w_s-1)+1. \tag{D9.2}$$
+
+This reproduces all the empirical patterns: $p=1,3$ with $q=3$ have $w_s=2$, giving $W=r+1$ (Chen's $(1+q)^N$);
+$p=2,4$ have $w_s=3$, giving $W=2r+1$; $q>p$ forces $\omega=0$, $z_{\rm slot}=(1+t)^p$, $w_s=p+1$, $W=rp+1$.
+
+### D9.3 $w_s\ge2$, hence a no-go
+
+Let $E_c=\sum_{j\equiv c\ (\mathrm{mod}\ q)}(-1)^j\binom pj$ be the Euler characteristic of the class-$c$
+subcomplex; $E_c\ne0$ forces $H^j\ne0$ for some $j\equiv c$. Two facts:
+
+* $\sum_{c}E_c=\sum_j(-1)^j\binom pj=(1-1)^p=0$ for $p\ge1$ — so **exactly one** non-zero $E_c$ is impossible.
+* $E_c=\frac1q\sum_{m=1}^{q-1}\zeta^{-mc}(1-\zeta^m)^p$ with $\zeta=e^{2\pi i/q}$ and $1-\zeta^m\ne0$ — so they
+  cannot **all** vanish.
+
+Therefore at least two classes carry non-zero Euler characteristic, so $z_{\rm slot}$ has support on at least two
+degrees: $w_s\ge2$. (Checked exhaustively for $1\le p\le25$, odd $3\le q\le15$: no exceptions, and no
+single-degree slot cohomology found in a direct scan of $p\le10$.) With (D9.2),
+
+$$W\ \ge\ r+1 .$$
+
+**No-go.** Concentration requires the window to fit inside one grading period, $W\le q$, hence
+
+$$\boxed{\ \mathrm{rank}(G)\ \le\ q-1\ } \tag{D9.3}$$
+
+So for any **fixed** supercharge degree $q$ the rank is bounded and concentration fails at large $N$. Increasing
+$q$ does not help at fixed $p$: once $q>p$ one has $\omega=0$ and $W=rp+1$, the widest possible. Since $\omega\ne0$
+requires $q\le p$, keeping concentration as $N\to\infty$ demands
+
+$$p\ \ge\ q\ \ge\ \mathrm{rank}+1 ,$$
+
+i.e. both the flavour count and the interaction order must grow with $N$ — an interaction touching $O(N)$ of the
+$N^2$ matrix entries, outside the class of $q$-local "matrix SYK" models.
+
+**Scope.** Proved for the maximal weight of $u(N)$. The factorisation uses that the $N$ diagonal modes $E_{ii}$ are
+independent, which fails for $su(N)$ (the Cartan directions $E_{mm}-E_{m+1,m+1}$ straddle slots) — consistent with
+the measured $su(4)$ anomaly $13,81,81,13$ against the factorised $27,81,81,27$. Lower-Casimir irreps are not
+covered by (D9.1); empirically (note section 4g) their window matches the maximal one at $N=3$, but that is not
+derived here.
+
+
+### D9.4 Solving $z_{\rm slot}$: the complete list of concentrating models (2026-09-23)
+
+Concentration needs $W=r(w_s-1)+1\le q$, i.e. $r\le(q-1)/(w_s-1)$, so the question is how small $w_s$ can be.
+
+**With $\omega\ne0$ (i.e. $q\le p$).** Direct computation of $z_{\rm slot}$ for generic $\omega$ over all
+$q\le p\le14$:
+
+* $w_s=2$ occurs **only at $q=3$**, and there exactly for $p\equiv3\pmod4$ ($p=3,7,11,\dots$), with support
+  $\{(p-1)/2,\ (p+1)/2\}$.
+* For $q\ge5$ the minimum is $w_s=q-1$ (observed at $q=3,5,7,9\Rightarrow w_s^{\min}=2,4,6,8$), so
+
+$$r_{\max}=\Big\lfloor\tfrac{q-1}{w_s-1}\Big\rfloor=\Big\lfloor\tfrac{q-1}{q-2}\Big\rfloor=1\quad(q\ge5),
+\qquad r_{\max}=2\quad(q=3).$$
+
+The exact maximum of $r_{\max}$ over every cell with $q\le p\le14$ is **2**, attained at $(p,q)=(3,3)$ and its
+relatives $p\equiv3\ (4)$. The necessary Euler condition agrees at much larger scale: scanning $p\le400$ and odd
+$q\le31$, exactly two non-zero classes $E_c$ occurs for every odd $p$ when $q=3$, but for $q\ge5$ only at $p=1$.
+
+**Conclusion.** The complete list of concentrating models in this family is $\mathrm{rank}\,G\le2$ — i.e. $u(2)$
+and $su(3)$ (plus the trivial $u(1)$, $su(2)$) — with $q=3$ and $p\equiv3\pmod4$. This matches the numerics
+exactly: $u(2)$ and $su(3)$ concentrate with identical content $9,18,9$, and nothing else does.
+
+**Scaling $p$ does not help.** It produces infinitely many concentrating models ($p=3,7,11,15,\dots$ at $q=3$) but
+never lifts the rank ceiling above 2, because only $q$ can raise the ceiling and $w_s^{\min}$ grows with $q$ at
+least as fast as the ceiling would.
+
+**The $\omega=0$ loophole.** When $q>p$, $\omega\in\Lambda^q\mathbb C^p=0$, giving $z_{\rm slot}=(1+t)^p$; at
+$p=1$ this is $w_s=2$ for every $q$, hence $r\le q-1$, unbounded. But $\omega=0$ means $Q$ annihilates the
+maximal-weight sector outright — every state there is BPS because nothing acts on it, not because of fortuity.
+That is the single-matrix/solvable situation (Chen 2025 item 1: $H$ a Casimir function, non-chaotic). So the
+counting criterion alone is satisfiable in the free branch; a useful model needs $Q$ to act non-trivially **and**
+the window to fit inside one period, and D9.3–D9.4 say those two demands are incompatible beyond rank 2.
