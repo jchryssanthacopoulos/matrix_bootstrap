@@ -380,9 +380,8 @@ to the index — and that aggregate is again dominated by the flat-ratio top, so
 property of the spectrum.
 
 **Still untested:** $C_2\le20$, where the multiplicity keeps growing to the peak $511\,488$ at $(2,0,-2)$,
-$C_2=8$. Reachability (§4f): $C_2=20$ needs blocked dimension 25 528 (hours, ~5 GB with the float64 fix);
-$C_2\le15$ needs $\ge61\,000$ and is out of reach. So "the window is 4 at every $N=3$ complex" is established
-over multiplicities $512$–$110\,080$, a factor of 215, but not over the final factor of ~5 to the peak.
+$C_2=8$. With *dense* elimination $C_2=20$ needs blocked dimension 25 528 (hours, ~5 GB) and $C_2\le15$ needs
+$\ge61\,000$, which looked out of reach. **That assessment was algorithm-bound, not fundamental** — see §4m.
 
 ## 4h. Is the negative result an artefact of under-refinement?  No — the flavour symmetry is $\mathbb Z_3$, not $S_3$ (2026-09-23)
 
@@ -553,6 +552,45 @@ $q\le N$ and $q>3$ (running: $p=2$, $N=5$, $q=5$). The $p=1$ sweep across $q=3,5
 independent of $q$, but there $Q$ vanishes on the maximal weight for *every* $q$ (this is Chen's (2.22), where the
 whole maximal-weight space is BPS), so it only exhibits the pigeonhole and is not evidence of genuine
 $q$-independence.
+
+## 4m. The remaining wall is the algorithm, not the problem (2026-09-24)
+
+Earlier sections call the low-Casimir bulk "out of reach". That is true of *dense* elimination and false in general.
+Measured sparsity of the $Q$ matrices at $N=3$:
+
+| weight | $\dim W$ | nnz | nnz/col | density |
+|---|---|---|---|---|
+| $(5,0,-5)$ | 3 978 | 37 428 | 9.4 | 0.45% |
+| $(4,0,-4)$ | 38 763 | 620 571 | 16.0 | 0.07% |
+| $(3,0,-3)$ | 183 267 | 3 876 879 | 21.2 | **0.02%** |
+
+**The matrices get sparser as they grow**: density falls 40-fold while non-zeros per column merely double. At the
+central weight $(0,0,0)$ (blocked size $372\,954$) this extrapolates to $\sim2.2\times10^7$ non-zeros, i.e. $0.3$ GB.
+
+| method | memory | operations | wall time |
+|---|---|---|---|
+| dense blocked LU (what we use) | 1.1 TB | $5\times10^{16}$ | impossible |
+| **block Wiedemann over $\mathbb F_P$** | **0.3 GB** | $8\times10^{12}$ | $\sim2$ h per matrix in C |
+
+Block Wiedemann computes exact ranks of sparse matrices in $O(n\cdot\mathrm{nnz})$ time and $O(\mathrm{nnz})$ memory,
+never forming the dense matrix and never incurring fill-in; LinBox implements sparse rank over $\mathbb F_P$
+directly. **The complete $N=3$ spectrum — all 25 irreps, including the peak-multiplicity $(2,0,-2)$ with
+$511\,488$ copies — is then tens of hours rather than the $\sim140\,000$ estimated for dense.** That irrep is the
+macroscopic-index complex CCSY's conjecture actually concerns, so this is the single change that would move the
+evidence from "the high-Casimir top" to "the regime the conjecture is about".
+
+Caveats: block Wiedemann for *rank* (as opposed to minimal polynomial) needs preconditioning, and the 2 h estimate
+is order-of-magnitude. It also means leaving numpy for a specialist toolchain. $N\ge4$ remains impossible by any
+method — the central weight space there holds $2.5\times10^{11}$ states, which cannot even be enumerated.
+
+**On machine learning.** Not applicable to the bottleneck: the quantity needed is an *exact* rank over
+$\mathbb F_P$, where an approximation carries no information (the difference between $h^{12}=0$ and $h^{12}=27$ is
+the entire physics). Pattern-finding was not the constraint either — the closed forms of D9 came from inspecting
+tables of a dozen integers and were then derived. The tempting use, training on the computable high-Casimir
+irreps to extrapolate into the bulk, extrapolates precisely into the regime where the pattern is known to break
+($(5,0,-5)$ at $N=3$, $C_2=107$ at $N=4$) and offers no way to verify. The only sound pattern would be
+ML-proposes/exactly-verifies over a large space of candidate models, and D9.4 has already solved this family's
+search space in closed form.
 
 ## 5. What this changes
 

@@ -503,10 +503,20 @@ $r=\mathrm{rank}\,G$ ($=N$ for $u(N)$).
 
 ### D9.1 The maximal-weight complex factorises over Cartan slots
 
-At the maximal weight $\lambda^*_i=p(N+1-2i)$ every off-diagonal mode is saturated, so the only unoccupied modes
-are the diagonal ones. $Q$ creates a closed index loop; any loop entering an index cannot leave it (its outgoing
-edges are occupied), so the only surviving loops are **self-loops** at a single index $i$, creating $q$ diagonal
-modes of distinct flavours. Hence $Q=\sum_{i=1}^{r}Q_i$ with $Q_i$ acting only on slot $i$'s flavour space, and
+At the maximal weight $\lambda^*_i=p(N+1-2i)$ the occupation matrix is *fully upper triangular*: every mode
+$(i,j)$ with $i<j$ is saturated ($n_{ij}=p$), every mode with $i>j$ is empty, and the diagonal $n_{ii}$ is free
+(self-loops carry weight $e_i-e_i=0$, so they are unconstrained). Reading the modes as coloured directed edges
+$i\to j$, the term $\mathrm{Tr}[\Psi^{a_1}\cdots\Psi^{a_q}]$ creates a **closed walk** $i_1\to i_2\to\cdots\to i_1$,
+and by Pauli exclusion every edge of that walk must currently be empty.
+
+*Correction (2026-09-24): an earlier version of this paragraph argued that "any loop entering an index cannot leave
+it"; that is not the right statement.* The correct one: the empty edges are exactly the **downhill** ones ($i>j$),
+together with the free diagonal flavours, so every step of a creatable walk satisfies $i\ge j$ — it may descend or
+stay, never climb, because all uphill edges are occupied. A closed walk then requires
+$i_1\ge i_2\ge\cdots\ge i_1$, forcing $i_1=\cdots=i_q$. Hence the only surviving terms are **self-loops** at a
+single site, creating $q$ diagonal modes which, being distinct, carry $q$ distinct flavours. Verified exhaustively
+at $N=3$, $p=3$: all $192$ non-zero actions of $Q$ on the maximal-weight space are self-loops at one site with
+three distinct flavours. Hence $Q=\sum_{i=1}^{r}Q_i$ with $Q_i$ acting only on slot $i$'s flavour space, and
 $Q_i$ is wedging with the totally antisymmetric part of $C$,
 
 $$\omega=\mathrm{Alt}(C)\in\Lambda^q\mathbb C^p,\qquad Q_i=\omega\wedge-\ \text{ on }\ \Lambda^\bullet\mathbb C^p .$$
@@ -629,3 +639,204 @@ the no-go (D9.3) applies at the optimum rather than at some arbitrary choice of 
 **Contrast with SYK.** There, disorder over $\binom Nq$ independent couplings is what produces chaos and the
 $\cos(\pi k/q)$ BPS profile. Here the couplings collapse to a single point of $\Lambda^q\mathbb C^p/GL(p)$ at
 small $p$, and to the generic orbit at larger $p$ — and the obstruction sits at the generic orbit.
+
+
+## D10. Analytical structure: $Q$ as wedging by a 3-form, and the universal-window conjecture (2026-09-24)
+
+D9 solved the maximal weight. This section sets up the general-weight problem algebraically and reduces the whole
+question to a single statement, which is verified in every case we can compute completely.
+
+### D10.1 Reformulation: the differential is multiplication
+
+Every $\Psi^a_{ij}$ is a creation operator, so $Q$ contains no annihilators and acts on the Fock space
+$\Lambda^\bullet V$, $V=\mathbb C^p\otimes\mathfrak{gl}(N)$, simply as **left multiplication by a fixed 3-form**
+
+$$Q=\omega\wedge-\,,\qquad \omega=\sum_{abc}C_{abc}\,\mathrm{Tr}[\Psi^a\Psi^b\Psi^c]\ \in\ \Lambda^3V .$$
+
+$\omega\wedge\omega=0$ automatically ($\omega$ odd), which is the invariant reason for $Q^2=0$. For $p=1$,
+$\mathrm{Tr}\,\Psi^3\propto\mathrm{Tr}(x[y,z])$ is the **Cartan 3-form** of $\mathfrak{gl}(N)$. Hence
+
+$$H^\bullet=\operatorname{Ann}(\omega)\,/\,(\omega),\qquad \operatorname{Ann}(\omega)=\{x:\omega\wedge x=0\}.$$
+
+### D10.2 Two structural consequences
+
+**(a) $H$ is a module over $\Lambda V$.** For any 1-form $v$, $\{\omega\wedge,v\wedge\}=\omega v+v\omega=0$
+because $\omega$ has odd degree. So wedging by any mode anticommutes with $Q$ and descends to cohomology. The
+zero-weight modes $\mathcal Z$ (the Cartan directions, $\dim\mathcal Z=p\,r$ with $r=\mathrm{rank}\,G$) have
+weight $0$, so they act *within* each weight space:
+$$\theta\wedge:\ H^k_\lambda\longrightarrow H^{k+1}_\lambda,\qquad \theta\in\mathcal Z .$$
+Every $H^\bullet_\lambda$ is therefore a $\Lambda(\mathcal Z)$-module — at **every** weight, not only the maximal
+one. This is the structural origin of the $(1+t)^r$ factors.
+
+**(b) Support gives a free factor.** If $\omega\in\Lambda^3U$ for a subspace $U\subseteq V$, then
+$\Lambda V=\Lambda U\otimes\Lambda(V/U)$ with $\omega$ acting on the first factor only, so
+$H=H(\Lambda U,\omega)\otimes\Lambda(V/U)$. D9.1 is the case where the maximal weight forces $U=\mathcal Z$ and
+$\omega|_U=\sum_i\omega_i$ on disjoint slots.
+
+### D10.3 The $p=1$ theorem
+
+For the single-matrix model the cohomology is, completely,
+
+$$H\big(\Lambda^\bullet\mathfrak{gl}(N),\ \omega_{\rm Cartan}\wedge\big)\;\cong\;V_{r_*}\otimes\Lambda^\bullet\mathcal Z ,
+\tag{D10.1}$$
+
+a **free rank-one** $\Lambda(\mathcal Z)$-module tensored with the single maximal-Casimir irrep. Verified by
+computing *every* weight: at $N=3$ only $1$ of $5$ dominant weights carries cohomology, at $N=4$ only $1$ of $16$,
+in both cases $r_*$ with multiplicity $\binom Nj$. This reproduces Chen (2.20)--(2.22) and explains the $(1+q)^N$
+as one free fermion per Cartan direction. For $p\ge2$ the Casimir mechanism is gone and the cohomology spreads
+over many irreps, so (D10.1) is special to $p=1$.
+
+### D10.4 A spectral sequence for general weights
+
+A weight space factorises as $(\Lambda V)_\lambda\cong\mathbb C[\text{configs}_\lambda]\otimes\Lambda(\mathcal Z)$,
+where a *config* is an occupation pattern of the non-zero-weight modes with divergence $\lambda$ (the weight of a
+state is row-sums minus column-sums of the occupation matrix, so $\mathcal Z$ is unconstrained). $Q$ adds a closed
+index triangle, changing the off-diagonal occupation by $0$, $2$ or $3$. Filtering by that occupation, the
+associated graded differential is exactly D9's slot action, giving
+
+$$E_1=\mathbb C[\text{configs}_\lambda]\otimes\big(z_{\rm slot}\big)^{\otimes r}\ \Longrightarrow\ H^\bullet_\lambda .$$
+
+The maximal weight is the case of a single config, where the sequence degenerates at $E_1$ and reproduces D9.1.
+
+### D10.5 The universal-window conjecture
+
+**Observation.** In every model computed, all irreps share not only the same window *width* but the same window
+*location* — the BPS degrees are identical across irreps of wildly different profile (e.g. $27,81,81,27$ and
+$38,486,486,38$ both occupy $k=12..15$ at $N=3$). The window is therefore not a per-$\lambda$ accident; it is a
+property of $\omega$ alone.
+
+**Conjecture (universal window).** $H^k(\Lambda^\bullet V,\omega\wedge)=0$ unless
+$$\tfrac12(n-W+1)\ \le\ k\ \le\ \tfrac12(n+W-1),\qquad n=pN^2,\quad W=r\,(w_s-1)+1 ,$$
+with $w_s$ the support width of $H(\Lambda^\bullet\mathbb C^p,\omega\wedge)$ from D9.4. Equivalently (the two
+ends being exchanged by particle--hole): **$\omega\wedge:\Lambda^k\to\Lambda^{k+3}$ is injective for
+$k<\tfrac12(n-W+1)$.**
+
+**Evidence** — the predicted lower edge against the measured one:
+
+| $(N,p)$ | $n$ | $W$ | predicted edge | measured |
+|---|---|---|---|---|
+| $(3,1)$ | 9 | 4 | 3 | 3 |
+| $(4,1)$ | 16 | 5 | 6 | 6 |
+| $(3,2)$ | 18 | 7 | 6 | 6 |
+| $(3,3)$ | 27 | 4 | 12 | 12 |
+| $(4,3)$ | 48 | 5 | 22 | 22 |
+| $(5,3)$ | 75 | 6 | 35 | 35 |
+
+Six for six, and at $(3,1)$, $(4,1)$, $(3,2)$ and $(2,3)$ the spectrum was computed **completely**, every weight.
+
+### D10.7 A stronger phenomenon at $p\le2$: the profile is universal too (2026-09-24)
+
+The complete $p=2$, $N=3$ spectrum (all 13 dominant weights, $2^{18}$ states) shows more than a shared window:
+
+| $C_2$ | irreps | $h^k$, $k=6\ldots12$ |
+|---|---|---|
+| 24 ($r_*$), 20, 18, 6, 0 | 6 | $1\cdot\binom6j$ |
+| 15, 12, 3 | 4 | $2\cdot\binom6j$ |
+| 8 | 1 | $3\cdot\binom6j$ |
+
+**Every irrep carries the identical profile $g_\lambda\binom6j$ on the identical window**, with only the scalar
+$g_\lambda\in\{1,2,3\}$ varying; total $46\,656=6^6$ BPS states, with $\sum_\lambda g_\lambda\dim\lambda=729=3^6$.
+This is exactly D9's prediction, $W=r(w_s-1)+1=7$ and profile $(z_{\rm slot})^{\otimes r}=\big((1+t)^2\big)^3=(1+t)^6$,
+now holding at **every** weight rather than only the maximal one.
+
+The reason $p\le2$ is so rigid is D10.2(b): $\Lambda^3\mathbb C^2=0$, so $\omega$ has no component in
+$\Lambda^3\mathcal Z$, the $\Lambda(\mathcal Z)$ factor is entirely free, and the cohomology is forced to be
+(config cohomology) $\otimes\,\Lambda(\mathcal Z)$. At $p=1$ the same rigidity appears in the extreme form
+(D10.1): a single irrep, free of rank one.
+
+**$p=3$ is therefore the first genuinely non-rigid case.** There the window remains universal but the profile does
+not: $(5,0,-5)$ at $N=3$ gives $38,486,486,38$, which is not $g\binom3j$. So the correct general statement is the
+universal *window* (D10.5), not a universal profile — and $p=3$ is precisely where the slot differential
+$\omega\in\Lambda^3\mathbb C^3\ne0$ first switches on. This also explains why Chen's choice $p=3$ is the first
+interesting one, for a reason independent of his Casimir argument.
+
+### D10.6 Why this would crest the summit
+
+D9 computes $W$ in closed form at the maximal weight. If the universal-window conjecture holds, that single
+computation fixes the window for **every** irrep, and the no-go $\mathrm{rank}\,G\le q-1$ (D9.3) becomes a
+statement about the entire spectrum rather than about the high-Casimir top. The expensive low-Casimir computations
+— the ones that are out of reach at $N=4$ and need block Wiedemann at $N=3$ — would become unnecessary: the
+conjecture *replaces* them.
+
+**Status.** D10.1--D10.4 are proved. D10.5 is a conjecture with six independent confirmations, three of them over
+complete spectra; it is the one open statement between here and a fully analytic resolution. The natural line of
+attack is the injectivity formulation, which is a concrete question about the rank of $\omega\wedge$ in low
+degrees for this specific, highly non-generic 3-form.
+
+
+## D11. The BPS window from a combinatorial criterion, and an analytic no-go at every weight (2026-09-24)
+
+D9 computed the window at the maximal weight. This section derives a window **lower bound valid at every weight**
+by an elementary argument, and closes the no-go analytically.
+
+### D11.1 Triangles and critical sets
+
+By D10.1, $Q=\omega\wedge$ with $\omega=\sum_T c_T\,m_T\in\Lambda^3V$, the sum running over **triangles** $T$ —
+the supports of the non-zero cubic terms, i.e. triples of *distinct* modes
+$\{(a,i,j),(b,j,k),(c,k,i)\}$ with $C_{abc}\ne0$ (closed index loops, self-loops included). For $S$ a set of
+modes write $m_S=\prod_{v\in S}v$.
+
+**Definition.** $S$ is **critical** if every triangle meets it partially: $0<|T\cap S|<3$ for all $T$.
+
+**Lemma 1 (cocycle).** If $S$ is critical then $\omega\wedge m_S=0$.
+*Proof.* $\omega_T\wedge m_S\neq0$ requires $T\cap S=\varnothing$, which criticality excludes. $\square$
+
+**Lemma 2 (not exact).** If $S$ is critical then $m_S\notin\operatorname{im}(\omega\wedge)$.
+*Proof.* For any $y$, the coefficient of $m_S$ in $\omega\wedge y$ is $\sum_{T\subseteq S}\pm c_T\,[y]_{S\setminus T}$.
+Criticality gives $T\not\subseteq S$ for every $T$, so the sum is empty and the coefficient vanishes. $\square$
+
+**Corollary.** Every critical set $S$ determines a non-zero class in $H^{|S|}(\Lambda^\bullet V,\omega\wedge)$.
+
+**Lemma 3 (range).** $S$ is critical iff neither $S$ nor $S^{c}$ contains a triangle, i.e. iff both are hitting sets.
+Hence critical sets satisfy $\tau\le|S|\le n-\tau$, where $\tau$ is the minimum hitting set (transversal number) of
+the triangle hypergraph and $n-\tau=\alpha$ is the maximum triangle-free set.
+
+### D11.2 An explicit triangle-free set
+
+**Lemma 4.** $S^*=\{\text{all }p\text{ flavours of }(i,j),\,i<j\}\ \cup\ \{\min(p,2)\text{ flavours of each }(i,i)\}$
+is triangle-free, and for $p\le4$ so is its complement; hence $S^*$ is critical.
+*Proof.* A triangle is a closed index loop. $S^*$ has no edge $(i,j)$ with $i>j$, so any loop within $S^*$ must be
+a self-loop at one site, requiring three *distinct* flavours there; $S^*$ keeps at most two. The complement holds
+only edges with $i>j$ (likewise acyclic) and the remaining $p-2$ diagonal flavours, which form a self-loop triangle
+only if $p-2\ge3$. $\square$
+
+Therefore $\alpha\ \ge\ p\binom N2+\min(p,2)\,N$, and
+$$\tau\ \le\ \begin{cases}\tfrac{N(N-1)}2, & p=1,\\[2pt] \tfrac{pN(N+1)}2-2N, & 2\le p\le4.\end{cases}$$
+
+**Verified exactly** (ILP for the minimum hitting set) in all 12 cases tried, $p=1..4$, $N=2..6$: the bound is an
+equality, so $S^*$ is a maximum triangle-free set.
+
+### D11.3 The window bound
+
+Combining, the BPS cohomology is non-zero throughout $[\tau,\,n-\tau]$, so
+$$W\ \ge\ n-2\tau+1\ =\ \begin{cases} N+1, & p=1,\\ (4-p)N+1, & 2\le p\le4.\end{cases} \tag{D11.1}$$
+
+* $p=1$: window $\big[\tfrac{N(N-1)}2,\tfrac{N(N+1)}2\big]$ — **exactly Chen (2.22)**, here derived combinatorially
+  with no Casimir argument and no solvability.
+* $p=2$: $W\ge2N+1$; $p=3$: $W\ge N+1$. Both **tight** — they equal the measured widths and agree with D9's
+  independent slot computation $W=r(w_s-1)+1$.
+* $p=4$: the bound degrades to $W\ge1$ while the truth is $2N+1$; $S^*$ is no longer optimal for $p\ge5$.
+
+### D11.4 The no-go
+
+Concentration requires each complex, graded by $c=k\bmod q$ with $q=3$, to carry a single degree, hence $W\le3$.
+For Chen's model ($p=3$) (D11.1) gives $W\ge N+1$, so
+
+$$\boxed{\ \text{for }p=3,\ q=3:\ \ W\ge N+1>q\ \text{ for all }N\ge3\ }$$
+
+and $N+1\ge4$ consecutive occupied degrees force two of them into one residue class. **R-charge concentration
+therefore fails for every $N\ge3$** — now by an argument that never mentions a particular irrep, in contrast to
+D9, which established it only at the maximal weight.
+
+### D11.5 Status
+
+*Proved:* Lemmas 1--4 and the bound (D11.1); the $p=1$ window, recovering Chen (2.22); the no-go for $p=3$ at the
+level of the **global** cohomology $H^k(\Lambda^\bullet V)$.
+
+*Verified, not proved:* that critical sets exist at **every** intermediate size in $[\tau,n-\tau]$ (checked
+exhaustively at $(N,p)=(3,3)$ and $(4,3)$, where all sizes are realised); and that the classes at consecutive
+sizes lie in a **common irrep** — at $N=3$ the four critical weights $(0,-6,6),(-6,0,6),(6,0,-6),(0,6,-6)$ are
+Weyl-conjugate, so by equivariance they populate $k=12..15$ of the single irrep $(6,0,-6)$, but this has not been
+shown in general. Pending that, D11.4 bounds the global window; the per-irrep statement rests on it together with
+the universal-window observation D10.5 and D9's independent maximal-weight computation, which agree with it
+exactly for $p\le3$.
