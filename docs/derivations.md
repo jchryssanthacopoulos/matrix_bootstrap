@@ -828,7 +828,26 @@ and $N+1\ge4$ consecutive occupied degrees force two of them into one residue cl
 therefore fails for every $N\ge3$** — now by an argument that never mentions a particular irrep, in contrast to
 D9, which established it only at the maximal weight.
 
-### D11.5 Status
+### D11.5 Relation to the D10.5 conjecture — they are opposite directions
+
+It is worth being explicit that **D11 does not prove D10.5**, and does not use the line of attack proposed in
+D10.6 (estimating the rank of $\omega\wedge$ in low degrees). The two results bound the window from opposite
+sides:
+
+| | statement | bounds | status |
+|---|---|---|---|
+| D10.5 | $H^k=0$ *outside* the band; equivalently $\omega\wedge$ injective below it | $W$ from **above** | open |
+| D11.3 | $H^k\ne0$ *inside* $[\tau,n-\tau]$, via explicit critical-set classes | $W$ from **below** | proved |
+
+The no-go (D11.4) needs only the lower bound, since concentration requires $W\le q$; it is therefore secure
+independently of D10.5. But a full analytic determination of the window still requires the upper bound, i.e. the
+injectivity statement, which remains untouched.
+
+The two bounds *coincide numerically* for $p\le3$ — $\tau$ lands exactly on the measured window edge in every such
+case — which is evidence that $\tau=\tfrac12(n-W+1)$ there. They demonstrably differ at $p=4$, where D11 gives
+$[18,18]$ against the true $[15,21]$, so D11 is not a disguised proof of D10.5.
+
+### D11.6 Status
 
 *Proved:* Lemmas 1--4 and the bound (D11.1); the $p=1$ window, recovering Chen (2.22); the no-go for $p=3$ at the
 level of the **global** cohomology $H^k(\Lambda^\bullet V)$.
@@ -840,3 +859,258 @@ Weyl-conjugate, so by equivariance they populate $k=12..15$ of the single irrep 
 shown in general. Pending that, D11.4 bounds the global window; the per-irrep statement rests on it together with
 the universal-window observation D10.5 and D9's independent maximal-weight computation, which agree with it
 exactly for $p\le3$.
+
+
+## D12. Exact consequences of the binomial profile: effective narrowing and index decay (2026-09-25)
+
+D9 proves that the maximal irrep has profile $h^{k_0+r+j}=g\binom rj$, $j=0..r$, with $r=\mathrm{rank}\,G$. Everything
+below is an exact corollary — no fitting.
+
+### D12.1 Effective width $\sqrt r$ against nominal width $r+1$
+
+$\binom rj$ has mean $r/2$ and variance $r/4$, so the BPS states occupy a band of standard deviation
+$\sqrt r/2$ inside a window of $r+1$ degrees. The **relative** spread is therefore
+$$\frac{\sqrt r/2}{r+1}\ \sim\ \frac1{2\sqrt r}\ \longrightarrow\ 0 .$$
+The window widens linearly in the rank while the states concentrate in a band of width $\sqrt r$: the distribution
+*effectively narrows* even though the support never does. Relatedly, the two outermost degrees hold
+$\binom r0+\binom rr=2$ of $2^r$ states, i.e. a fraction $2^{1-r}$ — the window edges are always present and
+always exponentially negligible.
+
+### D12.2 Closed form for the index-visible fraction
+
+Group the degrees by class $c=k\bmod 3$. Within a class the index is an alternating binomial sum, and by roots of
+unity with $\zeta=e^{2\pi i/3}$, using $1-\zeta=\sqrt3\,e^{-i\pi/6}$ and $(1-1)^r=0$,
+$$\sum_{j\equiv m\ (3)}(-1)^j\binom rj=\frac13\sum_{s=0}^{2}\zeta^{-ms}(1-\zeta^s)^r=\frac23\,3^{r/2}\cos\!\Big(\frac{2\pi m}{3}+\frac{\pi r}{6}\Big).$$
+Since the total is $2^r$,
+$$\text{visible fraction}=\frac{\sum_c|I_c|}{\text{all BPS}}=\frac23\Big(\frac{\sqrt3}{2}\Big)^{r}\sum_{m=0}^{2}\Big|\cos\Big(\frac{2\pi m}{3}+\frac{\pi r}{6}\Big)\Big| . \tag{D12.1}$$
+
+**Verified exactly** against a direct count from the profile for $r=2,\dots,14$, and against measurement: $r=2$
+gives $1$ (the $N=2$ saturation), $r=3$ and $r=4$ give $0.75$, i.e. $25\%$ invisible — matching the measured
+$25\%$ at both the $N=3$ and $N=4$ maximal irreps.
+
+### D12.3 The index becomes exponentially useless
+
+$\sum_m|\cos(\cdot)|$ is periodic and bounded in $[\sqrt3,2]$, so (D12.1) gives
+$$\text{visible fraction}\ =\ \Theta\Big(\big(\tfrac{\sqrt3}{2}\big)^{r}\Big)\ \longrightarrow\ 0 ,\qquad \tfrac{\sqrt3}2\approx0.866 .$$
+Values: $1,\ 0.75,\ 0.75,\ 0.5625,\ 0.5625,\ 0.4219,\dots$ for $r=2,3,\dots$
+
+**Interpretation, and the tension it resolves.** Two things happen at once and they pull in opposite directions.
+The states *concentrate* — a $\sqrt r$ band inside an $r+1$ window (D12.1) — but each residue class mod $3$ collects
+$\sim r/3$ degrees with *alternating signs*, so cancellation grows and the index sees an exponentially shrinking
+share. Concentration of states and accuracy of the index are not the same thing, and here they move opposite ways.
+
+**Scope.** D12 concerns the maximal irrep, where D9 supplies the profile exactly. The separate empirical trend
+along the *Casimir* axis at fixed $N$ (note section 4n: edge/centre $\sim(\dim W)^{-0.19}$, the index improving as
+one descends) is a different direction in the spectrum and remains a fit, not a derivation.
+
+
+## D13. Concentration is a statement about a *family*; the rank/flavour dichotomy (2026-09-25)
+
+**Terminology, corrected.** Earlier sections say things like "$u(2)$ and $su(3)$ concentrate". Read literally that
+is a category error, and it should be read as the finite-$N$ diagnostic "the BPS window of this model fits inside
+one degree per residue class", i.e. $W\le q$. CCSY's criterion is indeed stated per-complex, so it is well defined
+at fixed $N$ — which is what made it testable — but its *physical* content is asymptotic: the window must stay
+$O(1)$ while the entropy grows, since that is what the super-Schwarzian and any gravity dual require.
+**Concentration is therefore a property of a family, not of a model.**
+
+The family parameter need not be a gauge rank: in SYK it is the fermion count, with no gauge group, and the
+window stays $q+1$. But for a *matrix* model in Chen's sense the growing parameter must be the rank.
+
+**The dichotomy.** With $W=r(w_s-1)+1$ (D9.2) and $w_s\ge2$ always (D9.3):
+
+| family | window as the parameter grows | matrix large-$N$ limit? |
+|---|---|---|
+| fix rank, grow flavours $p$ | $W$ bounded — e.g. $u(2)$, $p\equiv3\ (4)$: $W=3$ for all $p$, entropy density $\approx0.28$/mode, profile $1{:}2{:}1$ | **no** — this is gauged SYK |
+| grow rank $r$ | $W\ge r+1\to\infty$ | yes — but **concentration fails** |
+
+Both cannot hold: bounded $W$ with $r\to\infty$ requires $w_s=1$, which D9.3 forbids.
+
+**Consequence.** There is no chaotic *matrix* model with R-charge concentration and a supercharge of fixed degree
+$q$. This is not an absence of examples but a theorem: concentration demands the window stay bounded as the rank
+grows, and the window is $r(w_s-1)+1$.
+
+**Mechanism.** Gauge invariance restricts the cubic couplings to closed index loops, so the interaction hypergraph
+is sparse: the fraction of triples that are coupled is $\sim6/N^3$ for the adjoint, against $1$ for SYK. Measured
+by the transversal number, $\tau/n\to\tfrac12$ for matrix models (large triangle-free sets, hence a wide window)
+versus $\tau/n\to1$ for SYK (no triangle-free set bigger than 2, hence no lower bound at all). Sparse invariants
+are forced by a large gauge group, since $\dim(\Lambda^3V)^G/\dim\Lambda^3V$ shrinks as $G$ grows. **Large gauge
+rank and dense interactions are incompatible, and concentration needs density.**
+
+**The only escape** is $q$ growing with the rank, so that the grading period keeps pace with the window. That
+leaves the $q$-local class entirely: the interaction would touch $O(N)$ of the $N^2$ matrix entries.
+
+
+## D14. Gauge invariance obstructs R-charge concentration: the Borel theorem (2026-09-25)
+
+D11 showed that a *critical* set (one meeting every interaction term partially) yields a non-zero cohomology
+class. This section identifies **what makes such sets large in a gauge theory and small in SYK**, and turns the
+contrast into a theorem. The short version: gauge invariance forces every term to carry total weight zero, and the
+positive-root half of the algebra supports no such term.
+
+### D14.1 Setup
+
+Let $\mathfrak g$ be reductive of rank $r$ with positive roots $\Delta^+$, so $\dim\mathfrak g=2|\Delta^+|+r$.
+Take $p$ flavours of adjoint fermions, $n=p\dim\mathfrak g$ modes, and
+$Q=\sum C_{a_1\ldots a_q}\mathrm{Tr}[\Psi^{a_1}\cdots\Psi^{a_q}]$ with $q$ odd. Call the support of a non-zero
+term a *term-set*; write $\alpha$ for the largest set of modes containing no term-set.
+
+### D14.2 The positive-root subspace is term-free (any $\mathfrak g$)
+
+**Lemma.** No term-set is contained in $\mathfrak n^+\otimes\mathbb C^p$ (all flavours of all positive-root vectors).
+
+*Proof.* Gauge invariance means each term of $Q$ is a singlet, so the weights of its $q$ modes sum to zero. Inside
+$\mathfrak n^+$ every mode carries a positive root, and a non-empty sum of positive roots is a positive-root
+combination, never $0$. $\square$
+
+Since $|\Delta^+|=\tfrac12(\dim\mathfrak g-r)$, this already gives $\alpha\ge p|\Delta^+|=\tfrac12(n-pr)$:
+**half the modes are automatically term-free, for every gauge group.** This is the structural fact; everything
+else is bookkeeping in the Cartan.
+
+### D14.3 The bound
+
+Let $\alpha_{\rm cart}$ be the largest term-free subset of the Cartan--flavour space ($pr$ modes). Then
+$A=(\mathfrak n^+\otimes\mathbb C^p)\cup(\text{that Cartan subset})$ is term-free, and so is $A^c$ when the leftover
+Cartan modes contain no term. By D11 (Lemmas 1--2) both $m_A$ and $m_{A^c}$ are non-zero classes, at degrees
+$|A|$ and $n-|A|$, so with $|A|=p|\Delta^+|+\alpha_{\rm cart}$ and $n=p(2|\Delta^+|+r)$ the $|\Delta^+|$ cancels:
+
+$$\boxed{\ W\ \ge\ 2|A|-n+1\ =\ 2\alpha_{\rm cart}-p\,r+1\ } \tag{D14.1}$$
+
+**The window bound depends only on the rank and the Cartan sector.**
+
+**For $\mathfrak{gl}(N)$ (equivalently $u(N)$), $\alpha_{\rm cart}=\min(p,q-1)\,N$.** A trace of $q$ diagonal
+matrices localises to a single site, $\mathrm{Tr}[H_1\cdots H_q]=\sum_i\prod_t(H_t)_{ii}$, so a Cartan term needs
+$q$ *distinct flavours at one site*; keeping $\min(p,q-1)$ per site blocks this and is maximal. Hence
+
+$$W\ \ge\ N\big(2\min(p,q-1)-p\big)+1 . \tag{D14.2}$$
+
+Verified **tight in all six measured cases**: $gl(3)$ at $p=1,2,3$ gives $4,7,4$; $gl(2),gl(4),gl(5)$ at $p=3$
+give $3,5,6$ — each equal to the measured window.
+
+**Corollary.** For $p\le q-1$, $W\ge pN+1$. Concentration requires $W\le q$, so it fails for every
+$N>(q-1)/p$. With Chen's values $p=q=3$: $W\ge N+1>3$ for all $N\ge3$.
+
+### D14.4 Contrast: SYK is not obstructed
+
+With no gauge symmetry and generic $q$-local couplings, *every* $q$-subset of the $n$ fermions is a term-set, so a
+term-free set has at most $q-1$ elements: $\alpha_{\rm SYK}=q-1$. The same bound reads $W\ge2(q-1)-n+1$, which is
+**negative** once $n\ge2q-1$ — vacuous. D11 imposes no obstruction, consistent with the theorem of
+Chang--Chen--Sia--Yang that $\mathcal N=2$ SYK concentrates.
+
+### D14.5 The pinpoint
+
+$$\alpha_{\rm SYK}=q-1=O(1)\qquad\text{versus}\qquad \alpha_{\rm gauge}\ \ge\ \tfrac12(n-pr)=\Theta(n).$$
+
+The entire difference is the Borel subalgebra. It is **not** the flavour count, **not** randomness of the
+couplings (D9.5: at $p=q=3$ the coupling space is a single point, and generic couplings are optimal), and **not**
+the loss of the Casimir structure at $p=3$. It is that gauge invariance forces weight-zero terms, and half of a
+reductive Lie algebra — the positive roots — admits none. Sparsity of the interaction hypergraph is the symptom;
+the Borel subalgebra is the cause.
+
+### D14.6 Critical sets at every intermediate size (completing the proof for $\mathfrak{gl}(N)$)
+
+The two extreme sets $A$, $A^c$ give occupied degrees differing by $2|A|-n$, which violates concentration only if
+that difference is $\equiv0\bmod q$. The gap is closed by exhibiting critical sets at **every** size in between.
+
+**Construction.** For $\mathbf s=(s_1,\dots,s_N)$ put
+$$A_{\mathbf s}=\{\text{all }p\text{ flavours of }E_{ij},\ i<j\}\ \cup\ \{s_i\text{ flavours of }E_{ii}\},\qquad
+\max(0,p-q+1)\le s_i\le\min(p,q-1).$$
+Each $A_{\mathbf s}$ is critical: it is term-free (the strictly upper part admits no closed loop, and site $i$ holds
+$s_i\le q-1$ flavours, one short of the $q$ a self-loop needs), and its complement is term-free by the same
+argument with the lower part and $p-s_i\le q-1$. As $\mathbf s$ varies, $\sum_i s_i$ takes **every** integer value
+in a range of length $N(2\min(p,q-1)-p)$.
+
+**Theorem ($\mathfrak{gl}(N)$, complete).** The BPS cohomology is non-zero at $N(2\min(p,q-1)-p)+1$
+*consecutive* degrees; hence
+$$W\ \ge\ N\big(2\min(p,q-1)-p\big)+1 ,$$
+and once this exceeds $q$, pigeonhole puts two occupied degrees in a single residue class mod $q$, so **no complex
+concentrates**. For $p\le q-1$ the bound is $pN+1$, failing concentration for all $N>(q-1)/p$; at $p=q=3$ it is
+$N+1$, failing for all $N\ge3$. Verified tight in 6/6 measured cases.
+
+### D14.7 $su(N)$: the method degenerates (open)
+
+Measured windows at the maximal weight, $p=3$: $W=3,4,5$ for $N=3,4,5$ — consistent with the rank formula
+$W=r+1$, $r=N-1$. (All three now computed; $su(5)$ gives window $\{34..38\}$ with $h=15,258,486,258,15$.)
+
+But the critical-set bound is **not usable** here. Computing the true transversal number of the full $su(N)$
+triangle hypergraph by ILP:
+
+| | $n$ | $\tau$ | $\alpha=n-\tau$ | $n-2\tau+1$ | measured $W$ |
+|---|---|---|---|---|---|
+| $su(3)$ | 24 | 12 | $12=n/2$ | **1** | 3 |
+| $su(4)$ | 45 | 21 | 24 | **4** | 4 (tight) |
+| $su(5)$ | 72 | 36 | $36=n/2$ | **1** | 5 |
+
+For odd $N$ the maximum term-free set is exactly $n/2$, so critical sets exist only at the single size $n/2$ and
+the bound collapses to $W\ge1$.
+
+Both of our methods therefore miss $su(N)$: D9's slot factorisation fails because the Cartan directions
+$E_{mm}-E_{m+1,m+1}$ straddle two sites (visible in the non-binomial profiles $13,81,81,13$ and
+$15,258,486,258,15$), and D11's critical sets are vacuous at odd $N$. The extra width must come from cohomology
+classes that are **not single monomials**, which the critical-set construction cannot produce. A sharp $su(N)$
+statement is open.
+
+The physical conclusion is unaffected: $W=N>q=3$ for $N\ge4$, while $su(3)$ is the rank-2 boundary case that does
+fit inside one degree per class.
+
+### D14.8 Scope
+
+*Proved in general:* D14.2, and (D14.1) given a term-free Cartan subset whose complement is also term-free.
+*Proved and tight for $\mathfrak{gl}(N)/u(N)$:* $\alpha_{\rm cart}=\min(p,q-1)N$ and (D14.2), 6/6 against
+measurement.
+*Weaker for $\mathfrak{su}(N)$:* the naive choice of $\min(p,q-1)$ flavours per Cartan generator is **not**
+term-free there — the Cartan is $(N-1)$-dimensional and spread over sites, so Cartan terms need not localise.
+Computing $\alpha_{\rm cart}$ directly gives $3,6,6$ for $N=3,4,5$ at $p=3$, whence $W\ge1,4,1$ against measured
+$3,4,5$: valid but not tight. A sharp $su(N)$ statement needs $\alpha_{\rm cart}$ in closed form.
+*Not addressed:* non-adjoint matter, and the upper bound on $W$ (D10.5).
+
+
+## D15. Fortuity: no BPS state survives a rank increase (2026-09-25)
+
+Chen 2025 section 2.2 argues that the single-matrix BPS states are *fortuitous* from their Young diagram: $r_*$ is
+the staircase with $2N-2i$ boxes in row $i$ and exactly $N-1$ rows, which does not exist as a $U(M)$ irrep for
+$M<N-1$ and is not the maximal-Casimir rep for $M>N$. Both halves generalise to arbitrary $p$, and the
+critical-set picture (D11) gives a sharper, purely local version.
+
+### D15.1 The Young diagram is $p$ times Chen's staircase
+
+Shifting the maximal weight $\lambda^*_i=p(N+1-2i)$ so the last part is zero gives row lengths $p(2N-2i)$ —
+**exactly $p$ times Chen's staircase**, with the same $N-1$ non-empty rows. Verified at $N=3,4,5$:
+$[12,6,0]=3\times[4,2,0]$, $[18,12,6,0]=3\times[6,4,2,0]$, $[24,18,12,6,0]=3\times[8,6,4,2,0]$. Adding flavours
+stretches each row by $p$ and leaves the row count alone, so Chen's argument carries over unchanged: the diagram
+is rank-specific.
+
+### D15.2 The stabilisation map is identically zero
+
+Embed $\mathfrak{gl}(N)\hookrightarrow\mathfrak{gl}(N+1)$ as the upper-left block; since
+$\mathrm{Tr}$ of a product of block matrices restricts correctly, this is a chain map and induces
+$H_N\to H_{N+1}$.
+
+**Theorem.** For $p\ge q$, *every* state of the rank-$N$ model is lifted at rank $N+1$; in particular the induced
+map $H_N\to H_{N+1}$ is zero and no BPS state is monotone.
+
+*Proof.* Under the embedding, every mode carrying the new index $N+1$ is unoccupied. The self-loop at the new
+site, $T=\{\Psi^{a_1}_{N+1,N+1},\dots,\Psi^{a_q}_{N+1,N+1}\}$ with $q$ distinct flavours (available since
+$p\ge q$), therefore satisfies $|T\cap S|=0$ for any embedded $S$. By D11 Lemma 1's converse — a term disjoint
+from $S$ is creatable — $Q_{N+1}m_S\ne0$, so $m_S$ is not closed. $\square$
+
+For $p<q$ the same conclusion holds for Borel-type critical sets via the mixed loop $i\to N+1\to j\to i$ with
+$i<j$: the two edges through $N+1$ are new hence empty, and the return edge $(j,i)$ is lower-triangular hence
+empty.
+
+**Verified:** at $p=q=3$, $9/9$ BPS states of rank 2 and $27/27$ of rank 3 are lifted on embedding, with explicit
+disjoint triangles exhibited (e.g. $\{1{:}(1,4),1{:}(2,1),1{:}(4,2)\}$ for the $3\to4$ embedding).
+
+### D15.3 Reading
+
+This is fortuity in its strongest form. It is not that particular states fail to persist — **nothing persists**:
+the whole BPS sector of rank $N$ is annihilated by the rank-$(N+1)$ supercharge. The mechanism is the same
+"empty triangle" that governs the window (Row 1 of the criticality table, D11): enlarging the gauge group creates
+a fresh site whose self-loop is necessarily unoccupied, and that single term lifts everything.
+
+Note the contrast with concentration. Fortuity is *helped* by the gauge structure — the new site provides the
+lifting term — whereas concentration is *destroyed* by it (D14). The two properties Chen wants respond to gauge
+invariance in opposite ways, which is perhaps why the combination is hard to realise.
+
+**Scope.** Proved for $\mathfrak{gl}(N)$ with $p\ge q$; the $p<q$ case is proved for Borel-type critical sets and
+verified numerically. The argument uses only that new-index modes are empty, so it applies to every state, BPS or
+not, and hence to all irreps rather than just the maximal one.

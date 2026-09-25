@@ -592,6 +592,56 @@ irreps to extrapolate into the bulk, extrapolates precisely into the regime wher
 ML-proposes/exactly-verifies over a large space of candidate models, and D9.4 has already solved this family's
 search space in closed form.
 
+## 4n. Effective narrowing: the window stays width 4, but the edges become negligible (2026-09-25)
+
+The window width is $N+1$ at every irrep (§4g), yet the *shape* is not constant: the profile sharpens as the
+Casimir ladder deepens. Quantified on the weight-space cohomology at $N=3$ (these are cleaner and strictly
+monotonic, unlike the peeled numbers quoted earlier in §4g):
+
+| irrep | $C_2$ | $\dim W_{12}$ | edge $h^{12}$ | centre $h^{13}$ | edge/centre | $h^{12}/\sqrt{\dim W_{12}}$ |
+|---|---|---|---|---|---|---|
+| $(6,0,-6)$ | 48 | 84 | 27 | 81 | 0.333 | 2.95 |
+| $(6,-1,-5)$ | 42 | 486 | 81 | 243 | 0.333 | 3.67 |
+| $(6,-2,-4)$ | 38 | 1161 | 162 | 486 | 0.333 | 4.75 |
+| $(6,-3,-3)$ | 36 | 1543 | 189 | 567 | 0.333 | 4.81 |
+| $(5,0,-5)$ | 35 | 3213 | 200 | 972 | 0.206 | 3.53 |
+| $(4,1,-5)$ | 30 | 9324 | 371 | 2187 | 0.170 | 3.84 |
+| $(3,2,-5)$ | 27 | 15291 | 497 | 3159 | 0.157 | 4.02 |
+| $(4,0,-4)$ | 24 | 32508 | 671 | 5589 | 0.120 | 3.72 |
+
+**Two structural facts.**
+
+1. *The centre is exactly the index.* At $N=3$ the classes $c=1,2$ contain a single degree each ($k=13,14$), so
+   saturation there is automatic and $h^{13}=|I_1(\lambda)|$, known in closed form from D6.
+2. *The edge is purely a failure of genericity.* For the class-$c{=}0$ subcomplex, the maximal-rank (generic)
+   prediction is $h^{12}=0$ — in **every** row above. The window edges therefore exist only because the complex
+   is non-generic, and the relative defect $h^{12}/\dim W_{12}$ falls monotonically
+   $0.32\to0.021$ across the range.
+
+**Empirical scaling.** Log-log fits over the eight irreps (a 400-fold range in $\dim W$):
+$$h^{12}\sim(\dim W)^{0.53},\qquad h^{13}\sim(\dim W)^{0.74},\qquad \frac{h^{12}}{h^{13}}\sim(\dim W)^{-0.19}.$$
+The edge grows like $\sqrt{\dim W}$ — the ratio $h^{12}/\sqrt{\dim W_{12}}$ sits between $2.95$ and $4.81$ across
+the whole range — while the centre grows nearly linearly.
+
+**Interpretation.** The window never narrows: it is $N+1$ degrees at every irrep, and strict concentration fails
+everywhere (D11). But the *weight* in the outer two degrees is subextensive, so the index becomes an
+ever-better proxy as one descends toward the macroscopic-index complexes. Concentration is exactly false and
+asymptotically almost true — which reconciles the negative result with the $96$–$97\%$ index accuracy of §4g, and
+is the honest statement to make about CCSY's asymptotic conjecture.
+
+Note the edge/centre ratio is pinned at exactly $1/3$ for the top four irreps (those with the rigid binomial
+$1{:}3{:}3{:}1$) and only begins to fall at $(5,0,-5)$ — precisely where the profile first departs from binomial
+(§4g).
+
+**Caveats.** Eight irreps at $N=3$ only; the exponents are least-squares fits, not derived. **Along the other
+axis the exact answer is known and goes the other way** (D12): at the maximal irrep the states do effectively
+narrow — a $\sqrt N$ band inside an $N+1$ window, outer degrees holding only $2^{1-N}$ — but the index-visible
+fraction *decays* like $(\sqrt3/2)^N$, because each class mod 3 collects $\sim N/3$ degrees with alternating
+signs. Concentration of states and accuracy of the index move in opposite directions. The critical-set
+construction of D11 accounts for the edge *exactly* at the maximal weight ($27=27$) but gives **zero** at every
+lower weight, so the deeper edge classes are linear combinations rather than single monomials and D11 does not
+explain the $\sqrt{\dim W}$ law.
+
 ## 5. What this changes
 
 * The $N=3$ concentration question is **answered exactly** for the high-Casimir end of the spectrum. It no longer
@@ -620,3 +670,31 @@ search space in closed form.
 * The flavour refinement uses a dense projector built from $U^t$; for the larger weight spaces it should be
   replaced by an orbit construction (orbits of the $\mathbb Z_p$ action have size 1 or $p$, giving the eigenvectors
   directly) before it is pushed further.
+
+## 4o. Summary report: gauge invariance, concentration, fortuity (2026-09-25)
+
+Written up as `research/tex/gauge_concentration_report.tex` → `research/pdfs/gauge_concentration_report.pdf`
+(8 pp., four figures in `research/tex/report_figs/`; written as continuous prose with boxed key
+equations rather than numbered lemmas/theorems, at the user's request 2026-09-25). It presents the $(p,q,N)$ family as a single object and
+collects the analytic results into one narrative:
+
+1. **Setup.** $Q=\omega\wedge-$ with $\omega\in\Lambda^qV$, $V=\mathbb C^p\otimes\mathfrak g$, $n=p\dim\mathfrak g$;
+   $q$ odd is forced twice over (cyclicity of the trace, and $Q^2=0$). Complexes labelled $(\lambda,\omega_{\rm fl},c)$
+   with $c=k\bmod q$; concentration needs $W\le q$.
+2. **Maximal irrep.** $\lambda^*_i=p(N+1-2i)$, $C_2^{\max}=p(p+1)N(N^2-1)/6$; Young diagram is exactly $p\times$
+   Chen's staircase, same $N-1$ rows. Index-loop restriction (only self-loops survive) ⟹ Künneth ⟹
+   $Z_{\max}=t^{k_0}z_{\rm slot}^r$, $W=r(w_s-1)+1$, with $w_s\ge2$ proved by the roots-of-unity Euler argument.
+3. **Triangles and critical sets.** Closedness and non-exactness of critical states, range $[\tau,n-\tau]$, the explicit family
+   $A_{\mathbf s}$, and $W\ge N(2\min(p,q-1)-p)+1$ — tight for $p\le3$, valid but loose at $p=4$.
+4. **The pinpoint.** Positive-root observation (no triangle inside $\mathfrak n^+\otimes\mathbb C^p$) ⟹ $\alpha\ge\frac12(n-pr)$
+   for *any* reductive $\mathfrak g$, so $W\ge2\alpha_{\rm cart}-pr+1$ depends only on the rank and the Cartan.
+   SYK has $\alpha=q-1$ and the bound is vacuous. Flavour count, coupling randomness, and loss of Casimir
+   solvability are each excluded as the cause.
+5. **Fortuity.** Chen §2.2 generalises verbatim (the diagram gains no rows), but our BPS states are spread over
+   13 irreps at $N=3$, so a local argument is given instead: the stabilisation map $H_N\to H_{N+1}$ is identically
+   zero, because the new site's self-loop is an empty triangle. Verified 9/9 and 27/27.
+
+**Stated honestly in the report as open:** the tight theorem is for $\mathfrak{gl}(N)/u(N)$; $\mathfrak{su}(N)$ has
+$\tau=12,21,36$ giving bounds $1,4,1$ against measured widths $3,4,5$ — valid, tight only at $N=4$, vacuous at odd
+$N$ — and the factorisation fails there too (profiles $13,81,81,13$ and $15,258,486,258,15$ are not binomial).
+D10.5 (the upper bound) also remains open and is *not* implied by the critical-set theorem.

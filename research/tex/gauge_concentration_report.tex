@@ -1,0 +1,487 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\setlist{itemsep=2pt,topsep=3pt,leftmargin=1.4em}
+\setlength{\parskip}{2pt}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\su}{\mathfrak{su}}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\n}{\mathfrak{n}}
+\newcommand{\rank}{\mathrm{rank}\,}
+\newcommand{\Alt}{\mathrm{Alt}}
+\title{\vspace{-1.5cm}\Large\textbf{Gauge Invariance Obstructs R-Charge Concentration\\ in Fermionic Matrix Models}\vspace{-6pt}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.0cm}
+\begin{center}\begin{minipage}{0.95\textwidth}\small
+\textbf{Abstract.} We study a three-parameter family of purely fermionic gauge quantum mechanics: $p$ flavours of
+adjoint fermions for a rank-$r$ gauge algebra, with a nilpotent supercharge of odd degree $q$. The BPS states are
+the cohomology of $Q$, which acts on the Fock space as multiplication by a fixed $q$-form $\omega\in\Lambda^qV$.
+We find that the BPS states occupy a window of consecutive R-charges whose width grows \emph{linearly in the
+rank}, $W=r(w_s-1)+1$ at the maximal weight and $W\ge r(2\min(p,q-1)-p)+1$ at every weight for $u(N)$.
+Since the irreducible complexes are graded by $N_\Psi$ mod $q$, a window wider than $q$ cannot place one degree
+per class, and R-charge concentration fails for all $r$ beyond a fixed bound. The mechanism is identifiable:
+gauge invariance forces every interaction term to carry zero weight, and the positive-root subspace --- half of
+any reductive Lie algebra --- admits no such term. The resulting interaction hypergraph is sparse, with
+transversal density $\tau/n\to\frac12$, whereas ungauged SYK has $\tau/n\to1$ and is unobstructed. The obstruction
+is therefore attributable to gauge invariance itself, not to the flavour count, the choice of couplings, or the
+loss of Casimir solvability. Fortuity, by contrast, responds to gauge invariance in the \emph{opposite} way: the
+stabilisation map $H_N\to H_{N+1}$ vanishes identically, because embedding creates a new site whose self-loop is
+necessarily unoccupied. All statements are established for $u(N)$ and verified against exact integer computations
+for $N\le5$; the $\su(N)$ case is discussed and left open.
+\end{minipage}\end{center}
+\vspace{8pt}
+
+\section{The models}\label{sec:model}
+
+Let $\g$ be a reductive Lie algebra of rank $r$ with a fixed invariant form, and let $\Psi^a$, $a=1,\dots,p$, be
+complex fermionic fields valued in $\g$. For $\g=\gl(N)$ we write $\Psi^a_{ij}$ with $i,j=1,\dots,N$ and
+\begin{equation}
+\{\Psi^a_{ij},\bar\Psi^b_{kl}\}=\delta^{ab}\delta_{il}\delta_{jk},
+\end{equation}
+the gauge group acting by conjugation. The Fock space is the exterior algebra
+\begin{equation}
+\mathcal H=\Lambda^\bullet V,\qquad V=\mathbb C^p\otimes\g,\qquad n\equiv\dim V=p\dim\g ,
+\end{equation}
+graded by the R-charge $k=N_\Psi=\Tr\Psi^a\bar\Psi^a$, so that $\Lambda^kV$ is the $k$-fermion sector, of
+dimension $\binom nk$. We call a basis vector of $V$ a \emph{mode}; a basis vector of $\Lambda^kV$ is then a set
+$S$ of $k$ modes, and we write $m_S=\prod_{v\in S}v$ for the corresponding state. The wedge product is the
+anticommuting product, so that $v\wedge v=0$ is Pauli exclusion written algebraically. All dynamics comes from a
+single supercharge,
+\begin{equation}
+Q=\sum_{a_1\dots a_q}C_{a_1\dots a_q}\,\Tr\!\big[\Psi^{a_1}\cdots\Psi^{a_q}\big],\qquad H=\{Q,\bar Q\}\ \ge0,
+\qquad [N_\Psi,Q]=q\,Q .
+\label{eq:Q}
+\end{equation}
+
+Only \emph{odd} $q$ is admissible, and for two independent reasons. A cyclic shift inside $\Tr[\Psi^q]$ costs
+$(-1)^{q-1}$, so the trace vanishes identically for even $q$; and $Q^2=0$ requires that exchanging the two
+$q$-tuples in $C\otimes C$ --- a permutation of $2q$ fermions built from $q^2$ transpositions, contracted against
+a totally antisymmetric product --- produce a relative minus sign, which again happens precisely for odd $q$.
+The case $(p,q)=(1,3)$ is Chen's exactly solvable single-matrix model, in which $H=3N(N^2-1)-9\hat C_2$ is a
+function of the gauge Casimir alone; $(p,q)=(3,3)$ is his proposed ``matrix SYK'' model, for which that Casimir
+structure is lost.
+
+The structural fact that organises everything below is that $Q$ is multiplication by a form. Every $\Psi$ is a
+creation operator, so $Q$ contains no annihilators whatsoever and acts on $\Lambda^\bullet V$ as nothing more
+than left multiplication:
+\begin{equation}
+Q=\omega\wedge-\,,\qquad \omega=\sum C_{a_1\dots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV ,
+\qquad H^\bullet=\operatorname{Ann}(\omega)/(\omega).
+\label{eq:wedge}
+\end{equation}
+For $p=1$ the form $\Tr\Psi^3$ is proportional to the Cartan $3$-form $\Tr(x[y,z])$ of $\g$. The entire problem is
+thus the cohomology of multiplication by one specific, highly non-generic element of $\Lambda^qV$, and the
+question of R-charge concentration becomes a question about where in the exterior algebra that multiplication
+fails to be injective or surjective.
+
+The Cartan torus acts on $\Psi_{ij}$ by $u_iu_j^{-1}$, so that mode carries weight $e_i-e_j$ and a state's weight
+is the sum over its modes, i.e.\ the row sums minus the column sums of the occupation matrix $n_{ij}$. Diagonal
+modes carry $e_i-e_i=0$ and are invisible to the weight. Because $Q$ is a gauge singlet it preserves the weight,
+and because $[N_\Psi,Q]=qQ$ it raises $k$ by $q$; the cohomology therefore splits into irreducible complexes
+labelled by
+\begin{equation}
+(\lambda,\ \omega_{\rm fl},\ c),\qquad \lambda\in\widehat{U(N)},\quad \omega_{\rm fl}\in\mathbb Z_p,\quad
+c=k \bmod q .
+\end{equation}
+R-charge concentration, in the sense of Chang, Chen, Sia and Yang, is the statement that in each complex of
+macroscopic index all BPS states sit at a single degree. Writing $W$ for the number of consecutive R-charges that
+carry BPS states, a necessary condition is therefore
+\begin{equation}
+\boxed{\ W\le q\ }
+\label{eq:concentration}
+\end{equation}
+since a window wider than the grading period must, by pigeonhole, place two occupied degrees in one residue class.
+Everything that follows is an estimate of $W$.
+
+\section{The maximal irrep: index loops and the slot factorisation}\label{sec:max}
+
+\subsection{The maximal weight}
+
+The highest weight appearing in the Fock space is found greedily: fill row $1$ and empty column $1$, then do the
+same with row $2$, and so on. The result is the fully upper-triangular occupation, with
+\begin{equation}
+\lambda^*_i=p\,(N+1-2i),\qquad
+C_2^{\max}=\tfrac12 p(p+1)\textstyle\sum_i(N+1-2i)^2=\frac{p(p+1)N(N^2-1)}{6},
+\label{eq:lamstar}
+\end{equation}
+where we used $\lambda^*_i+N+1-2i=(p+1)(N+1-2i)$ together with $\sum_i(N+1-2i)^2=N(N^2-1)/3$. At $p=1$ this
+reduces to $N(N^2-1)/3$, which is Chen's $C_2(r_*)$, so \eqref{eq:lamstar} is its multi-flavour generalisation; at
+$p=3$ it gives $2N(N^2-1)=48,120,240$ for $N=3,4,5$. Shifting $\lambda^*$ to a partition gives row lengths
+$p(2N-2i)$ --- exactly $p$ times Chen's staircase, with the same $N-1$ non-empty rows. Adding flavours stretches
+the diagram sideways without adding a single row, a point we return to in \S\ref{sec:fortuity}.
+
+\subsection{Index loops}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.93\textwidth]{report_figs/g_loops.pdf}
+\caption{(a) At the maximal weight the occupation is forced: every mode with $i<j$ is full, every mode with $i>j$
+is empty, and only the diagonal is free. (b) Reading modes as coloured directed edges, $Q$ creates a closed walk
+$i\to j\to k\to i$ and needs all its edges empty. Uphill edges are occupied, so every creatable step is
+non-increasing; a cycle of non-increasing steps must be constant, leaving only self-loops.}
+\label{fig:loops}
+\end{figure}
+
+At $\lambda^*$ the off-diagonal sector is completely rigid --- every upper mode occupied, every lower mode empty
+(Fig.~\ref{fig:loops}a) --- so the weight space is just an exterior algebra on the zero-weight modes,
+\begin{equation}
+(\Lambda V)_{\lambda^*}\cong\Lambda^\bullet(\mathcal Z),\qquad \mathcal Z=\text{Cartan}\otimes\mathbb C^p,
+\qquad\dim\mathcal Z=p\,r .
+\end{equation}
+What survives of $Q$ on this space is severely restricted, and the restriction is best seen graphically. Think of
+a mode $\Psi^a_{ij}$ as a directed edge $i\to j$ carrying colour $a$. A term of $Q$ is a trace, so the $q$ modes
+it creates form a closed walk $i_1\to i_2\to\cdots\to i_1$, and by Pauli exclusion the term acts non-trivially
+only if every edge of that walk is currently empty. But at the maximal weight the empty modes are exactly those
+with $i>j$, together with whatever diagonal flavours happen to be free. Every step of a creatable walk therefore
+satisfies $i_t\ge i_{t+1}$: the walk may descend or stay level, but it can never climb, because all the uphill
+edges are already occupied. Closing the walk forces $i_1\ge i_2\ge\cdots\ge i_1$, hence $i_1=\cdots=i_q$, and the
+$q$ modes must be distinct and so carry $q$ distinct flavours. \textbf{Only self-loops survive}: $q$ diagonal
+modes of distinct flavours sitting at a single site. We have checked this exhaustively at $N=3$, $p=3$, where all
+$192$ non-zero actions of $Q$ on the maximal-weight space are of exactly this form.
+
+\subsection{Factorisation and the width formula}
+
+Since every surviving term sits at one site, $Q$ splits as $Q=\sum_{i=1}^r Q_i$ with $Q_i$ acting only inside site
+$i$'s flavour space. The $q$ creation operators of a self-loop all live at the same site and anticommute, so only
+the totally antisymmetric part of the coupling tensor survives and
+\begin{equation}
+Q_i=\omega_{\rm sl}\wedge-\ \text{ on }\Lambda^\bullet\mathbb C^p,\qquad \omega_{\rm sl}=\Alt(C)\in\Lambda^q\mathbb C^p .
+\end{equation}
+The $Q_i$ act on disjoint tensor factors of $\Lambda(\mathcal Z)=\big(\Lambda^\bullet\mathbb C^p\big)^{\otimes r}$,
+so K\"unneth applies and the Poincar\'e polynomials simply multiply:
+\begin{equation}
+\boxed{\ Z_{\max}(t)=t^{k_0}\big(z_{\rm slot}(t)\big)^{r}\ },\qquad
+z_{\rm slot}(t)=\sum_j\dim H^j\big(\Lambda^\bullet\mathbb C^p,\ \omega_{\rm sl}\wedge\big)t^j ,
+\label{eq:kunneth}
+\end{equation}
+with $k_0=p|\Delta^+|$ counting the frozen off-diagonal modes. Multiplying $r$ copies of a polynomial adds their
+degree-spans, so if $z_{\rm slot}$ is supported on $w_s$ degrees then
+\begin{equation}
+W=r\,(w_s-1)+1 .
+\label{eq:Wformula}
+\end{equation}
+This is the width of the BPS window at the maximal weight, in closed form, for every $(p,q,N)$.
+
+It is worth seeing the machinery run once. Take $p=q=3$ and $N=3$. The slot algebra $\Lambda^\bullet\mathbb C^3$
+has dimensions $1,3,3,1$, and $\Alt(C)$ spans the one-dimensional $\Lambda^3\mathbb C^3$, so $\omega_{\rm
+sl}\wedge$ is non-zero only as the map $\Lambda^0\to\Lambda^3$. Hence $H^0=0$ because that map is injective,
+$H^1=H^2=3$ because the differential neither enters nor leaves those degrees, and $H^3=1-1=0$; that is,
+$z_{\rm slot}=3t+3t^2=3t(1+t)$. Cubing and restoring the prefactor gives
+$Z_{\max}=t^9\big(3t(1+t)\big)^3=27t^{12}+81t^{13}+81t^{14}+27t^{15}$, i.e.\ $h^{12..15}=27,81,81,27$, in exact
+agreement with the computed spectrum in Table~\ref{tab:profiles}.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{llrl}
+\toprule
+$N$ & window ($N_\Psi$) & $W$ & BPS multiplets $h^k$\\
+\midrule
+2 & $5,6,7$ & 3 & $9,\ 18,\ 9$\\
+3 & $12,\dots,15$ & 4 & $27,\ 81,\ 81,\ 27$\\
+4 & $22,\dots,26$ & 5 & $81,\ 324,\ 486,\ 324,\ 81$\\
+5 & $35,\dots,40$ & 6 & $243,\ 1215,\ 2430,\ 2430,\ 1215,\ 243$\\
+\bottomrule
+\end{tabular}
+\caption{Exact BPS multiplets of the maximal irrep at $p=q=3$, as predicted by \eqref{eq:kunneth}: $3^N\binom Nj$
+spread over $N+1$ consecutive charges centred on $pN^2/2$, totalling $6^N$. The factor $(1+t)^N$ is identical to
+Chen's single-matrix $Z_{\rm BPS}$ --- the model he identifies as \emph{not} concentrated.}
+\label{tab:profiles}
+\end{table}
+
+\subsection{The slot is never one degree wide}
+
+Everything now hinges on $w_s$, and a short argument shows it can never be $1$. Grade $\Lambda^\bullet\mathbb C^p$
+by $j$ mod $q$ and let $E_c=\sum_{j\equiv c}(-1)^j\binom pj$ be the Euler characteristic of class $c$; whenever
+$E_c\ne0$ there must be cohomology somewhere in that class. Now $\sum_cE_c=(1-1)^p=0$, so it is impossible for
+exactly one $E_c$ to be non-zero. On the other hand, writing $\zeta=e^{2\pi i/q}$ and resolving the constraint,
+$E_c=\frac1q\sum_{m=1}^{q-1}\zeta^{-mc}(1-\zeta^m)^p$ with every $1-\zeta^m\ne0$, so they cannot all vanish
+either. At least two classes must therefore carry cohomology, and
+\begin{equation}
+w_s\ge2\qquad\Longrightarrow\qquad W\ge r+1 \quad\text{at the maximal weight.}
+\label{eq:wsbound}
+\end{equation}
+Comparing with \eqref{eq:concentration}, concentration already requires $\rank G\le q-1$ --- a bound on the gauge
+group that is independent of the flavour content entirely.
+
+Computing $z_{\rm slot}$ for generic $\omega_{\rm sl}$ at $q=3$ gives $w_s=2,3,2,3,4,3,2,3$ for $p=1,\dots,8$,
+periodic with period four, so that
+\begin{equation}
+W=N+1\ \ (p\equiv3\ \mathrm{mod}\ 4\text{, and }p=1),\qquad 2N+1\ \ (p\text{ even}),\qquad
+3N+1\ \ (p\equiv1\ \mathrm{mod}\ 4,\ p>1).
+\end{equation}
+Two degenerations deserve comment. Whenever $q>p$ the space $\Lambda^q\mathbb C^p$ vanishes, the slot differential
+dies, and $z_{\rm slot}=(1+t)^p$: pushing $q$ past the flavour count \emph{widens} the window to its maximum
+rather than narrowing it. And $\dim\Lambda^3\mathbb C^3=1$, so at $p=q=3$ the coupling $\omega_{\rm sl}$ is unique
+up to scale --- Chen's tensor is the only non-degenerate three-flavour cubic supercharge there is, and
+randomising $C$ can only reproduce it or destroy it. Neither knob offers an escape.
+
+\section{Triangles and critical sets}\label{sec:critical}
+
+The width formula \eqref{eq:Wformula} is derived at the maximal weight, where the rigidity of the off-diagonal
+sector does most of the work. We now give an estimate valid at \emph{every} weight, by an elementary
+combinatorial argument that has the additional virtue of exposing the mechanism.
+
+Call a \emph{triangle} $T$ the support --- a set of $q$ distinct modes --- of a non-zero term of $\omega$, so that
+$\omega=\sum_Tc_T\,m_T$ with $c_T\ne0$. Triangles are the elementary moves available to $Q$: the operator does
+nothing but add one. At $N=3$, $p=q=3$ there are $195$ of them on $27$ modes, of three kinds: $3$ with all modes
+on one diagonal cell, $144$ of the form $\{(d,d),(d,e),(e,d)\}$, and $48$ with three distinct off-diagonal cells.
+(Only $24$ of the $27$ flavour triples have $C_{abc}\ne0$, and cyclic rotations produce the same mode set.) The
+number to keep in mind is $195$ out of $\binom{27}{3}=2925$ possible triples: the interaction hypergraph is
+\textbf{sparse}, and that sparsity turns out to be the whole story.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.93\textwidth]{report_figs/g_critical.pdf}
+\caption{The three cases. If a triangle is entirely empty, $Q$ can create it and $S$ is not closed. If it is
+entirely occupied, $S$ could have been produced by $Q$ and the non-exactness argument fails. Only straddling
+triangles avoid both.}
+\label{fig:critical}
+\end{figure}
+
+Say that a set of modes $S$ is \emph{critical} if every triangle meets it partially, $0<|T\cap S|<3$ for all $T$.
+Equivalently, neither $S$ nor its complement contains a triangle; equivalently again, colouring each mode by
+whether it lies in $S$, no triangle comes out monochromatic. The two inequalities do two different jobs, and
+Fig.~\ref{fig:critical} shows what each of them rules out.
+
+The upper inequality makes $m_S$ closed. For $\omega_T\wedge m_S$ to be non-zero all $q$ modes of $T$ must be
+absent from $S$, i.e.\ $T\cap S=\varnothing$, and criticality excludes exactly that; every term of $\omega$ is
+Pauli-blocked, so $\omega\wedge m_S=0$. The lower inequality makes $m_S$ non-exact. Since $Q$ only ever adds a
+triangle, the only states that can reach $S$ are those of the form $S\setminus T$ with $T\subseteq S$, so for any
+$y=\sum_{S'}y_{S'}m_{S'}$ the coefficient of $m_S$ in $\omega\wedge y$ is $\sum_{T\subseteq S}\pm c_T\,y_{S\setminus T}$.
+Criticality gives $T\not\subseteq S$ for every triangle, the sum is empty, and the coefficient vanishes for every
+$y$ --- while $m_S$ of course has coefficient $1$ on itself. Each critical set therefore determines a non-zero
+class in $H^{|S|}$, and distinct critical sets give linearly independent classes, since no combination of them
+can be exact either.
+
+This converts the question of the window into a purely combinatorial one: at which sizes do critical sets exist?
+Let $\alpha$ be the size of the largest triangle-free set of modes and $\tau=n-\alpha$ the transversal number of
+the triangle hypergraph, i.e.\ the size of the smallest set meeting every triangle. A set $S$ is critical exactly
+when neither $S$ nor $S^c$ contains a triangle, which is to say that both are hitting sets, which is to say that
+both have size at least $\tau$. Critical sets are thus confined to $\tau\le|S|\le n-\tau$, and whenever they exist
+throughout that range the BPS cohomology is non-zero at $n-2\tau+1$ consecutive degrees:
+\begin{equation}
+W\ \ge\ n-2\tau+1\ =\ 2\alpha-n+1 .
+\label{eq:taubound}
+\end{equation}
+Wide windows are therefore the signature of a hypergraph with large triangle-free sets --- a sparse one.
+
+For $u(N)$ we can write the critical sets down. Let
+\begin{equation}
+A_{\mathbf s}=\{\text{all }p\text{ flavours of }E_{ij},\ i<j\}\ \cup\ \{s_i\text{ flavours of }E_{ii}\},\qquad
+\max(0,p-q+1)\le s_i\le\min(p,q-1).
+\label{eq:As}
+\end{equation}
+Each $A_{\mathbf s}$ is triangle-free: its strictly upper part admits no closed loop, by the index-loop argument
+of \S\ref{sec:max}, and site $i$ holds only $s_i\le q-1$ flavours, one short of the $q$ that a self-loop needs.
+Its complement --- the strictly lower part, acyclic for the same reason, together with $p-s_i\le q-1$ flavours per
+site --- is triangle-free by the identical argument. Every $A_{\mathbf s}$ is thus critical, and as the $s_i$ range
+over their allowed values $\sum_is_i$ realises \emph{every} integer in a range of length $N(2\min(p,q-1)-p)$.
+Hence
+\begin{equation}
+\boxed{\ W\ \ge\ N\big(2\min(p,q-1)-p\big)+1\ }
+\label{eq:main}
+\end{equation}
+which at $p=1$ reads $W\ge N+1$, i.e.\ the window $\big[\tfrac{N(N-1)}2,\tfrac{N(N+1)}2\big]$ --- \textbf{exactly
+Chen's single-matrix result, recovered combinatorially with no Casimir argument and no appeal to solvability}.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{lrrrrl}
+\toprule
+$p$ & $\tau$ (closed form) & $\tau$ (ILP) & bound \eqref{eq:main} & measured $W$ & status\\
+\midrule
+1 & $N(N-1)/2$ & $3,6,10,15$ & $N+1$ & $N+1$ & tight\\
+2 & $pN(N+1)/2-2N$ & $6,12,20$ & $2N+1$ & $2N+1$ & tight\\
+3 & $pN(N+1)/2-2N$ & $5,12,22,35$ & $N+1$ & $N+1$ & tight\\
+4 & $pN(N+1)/2-2N$ & $18$ & $1$ & $2N+1$ & valid, loose\\
+\bottomrule
+\end{tabular}
+\caption{The transversal number and the resulting bound. The closed form agrees with an exact integer program in
+all $12$ cases tested ($p=1..4$, $N=2..6$), and \eqref{eq:main} is tight for $p\le3$. At $p=4$ the explicit set
+\eqref{eq:As} is no longer optimal and the bound degrades, though it remains valid.}
+\label{tab:tau}
+\end{table}
+
+The no-go follows immediately. For $p\le q-1$ we have $W\ge pN+1$, so concentration fails for every
+$N>(q-1)/p$; at Chen's values $p=q=3$ this reads $W\ge N+1>q$ for all $N\ge3$. The failure is not marginal and it
+does not improve with $N$ --- it gets worse linearly.
+
+\section{Why gauge invariance is responsible}\label{sec:gauge}
+
+\subsection{Positive roots carry no terms}
+
+The bound \eqref{eq:taubound} is driven entirely by $\alpha$, the largest triangle-free set, so the question
+becomes why gauge theories have such large ones. The answer is a single observation about weights. Gauge
+invariance means each term of $Q$ is a singlet, so the weights of its $q$ modes sum to zero. Inside
+$\n^+\otimes\mathbb C^p$ --- all flavours of all positive-root vectors --- every mode carries a positive root, and
+a non-empty sum of positive roots is a positive combination of simple roots, which is never zero. \textbf{No
+triangle fits inside the positive-root subspace}, for any reductive $\g$ and any invariant coupling whatsoever.
+
+Since $|\Delta^+|=\frac12(\dim\g-r)$, this alone gives
+\begin{equation}
+\alpha\ \ge\ p|\Delta^+|=\tfrac12(n-pr),
+\end{equation}
+so half of the modes of any gauge theory are automatically triangle-free. Writing $\alpha_{\rm cart}$ for the
+largest triangle-free subset of the Cartan sector and feeding this into \eqref{eq:taubound}, the $|\Delta^+|$
+cancels and
+\begin{equation}
+W\ \ge\ 2\alpha_{\rm cart}-p\,r+1 ,
+\label{eq:cartan}
+\end{equation}
+so the window bound depends only on the rank and on what happens in the Cartan --- the root sector contributes a
+fixed half and drops out. For $u(N)$ the Cartan piece is easy: a trace of $q$ diagonal matrices localises,
+$\Tr[H_1\cdots H_q]=\sum_i\prod_t(H_t)_{ii}$, so a Cartan triangle needs $q$ distinct flavours at a single site
+and $\alpha_{\rm cart}=\min(p,q-1)N$, which recovers \eqref{eq:main}. We have found \eqref{eq:cartan} tight in all
+six measured cases.
+
+\subsection{SYK is not obstructed}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.95\textwidth]{report_figs/g_window.pdf}
+\caption{(a) Window width against gauge rank. The grading period $q=3$ is fixed, so concentration is possible only
+inside the shaded band; every gauge model leaves it by $N=3$, while SYK stays flat at $q+1$. (b) The transversal
+density $\tau/n$: SYK approaches $1$ (no triangle-free set larger than $q-1$), gauge models sit near $\frac12$
+(the Borel half), and $\Lambda^2$ matter is worse still.}
+\label{fig:window}
+\end{figure}
+
+The contrast with SYK is stark, and it is visible in the same quantity. With no gauge symmetry and generic
+$q$-local couplings, \emph{every} $q$-subset of the $n$ fermions is a triangle. A triangle-free set can then have
+at most $q-1$ elements, so $\alpha_{\rm SYK}=q-1$ and the estimate \eqref{eq:taubound} reads
+$W\ge2(q-1)-n+1$, which is negative as soon as $n\ge2q-1$. The bound is simply \textbf{vacuous}: the argument of
+\S\ref{sec:critical} imposes no obstruction at all on SYK, which is consistent with the result of Chang, Chen, Sia
+and Yang that $\mathcal N=2$ SYK does concentrate, with a window of width $O(q)$ independent of $n$.
+
+\subsection{The pinpoint}
+
+Everything reduces to one comparison:
+\begin{equation}
+\alpha_{\rm SYK}=q-1=O(1)\qquad\text{versus}\qquad\alpha_{\rm gauge}\ \ge\ \tfrac12(n-pr)=\Theta(n),
+\end{equation}
+and the entire difference is the Borel subalgebra. The measured transversal densities in
+Fig.~\ref{fig:window}b make the contrast concrete: $\tau/n=0.83,0.89,0.93$ for SYK at $n=12,18,27$, against
+$0.44,0.46,0.47$ for $u(3),u(4),u(5)$ at $p=3$. The fraction of triples that gauge invariance permits falls like
+$6/N^3$ for adjoint matter, while for SYK it is $1$.
+
+This excludes three candidate explanations one might otherwise reach for. It is not the flavour count, since
+\eqref{eq:main} holds for every $p$ and the parity pattern in $w_s$ never brings $W$ below $N+1$. It is not
+randomness of the couplings: at $p=q=3$ the coupling space is a single point, and in general generic couplings are
+the \emph{best} case, because matrix ranks are lower semicontinuous in $\omega$, so specialising can only enlarge
+the cohomology. And it is not the loss of Casimir solvability at $p=3$, which is a symptom rather than a cause ---
+indeed \eqref{eq:main} reproduces the $p=1$ solvable answer without ever using solvability. What remains is gauge
+invariance itself: it forces weight-zero terms, and half of a reductive Lie algebra admits none.
+
+There is a dichotomy lurking here that is worth stating plainly, because it explains why no amount of tuning
+inside this class will help. Since $w_s\ge2$ always, a window that stays bounded as $r\to\infty$ would require
+$w_s=1$, which \eqref{eq:wsbound} forbids. One may fix the rank and grow $p$, in which case $W$ does stay bounded
+--- $u(2)$ with $p\equiv3$ mod $4$ has $W=3$ for every $p$, with extensive BPS entropy and a $1{:}2{:}1$ profile
+--- but such a family has no matrix large-$N$ limit at all. Or one may grow the rank, obtaining the matrix limit
+but with $W\ge r+1\to\infty$. Both cannot hold at once. Concentration is a property of a \emph{family} rather than
+of any single model, and for a matrix model the family parameter must be the rank.
+
+\section{Fortuity}\label{sec:fortuity}
+
+\subsection{Chen's argument, and why it does not suffice here}
+
+For the single-matrix model the BPS states fill the representation $r_*$, whose Young diagram is the staircase
+with $2N-2i$ boxes in row $i$ and exactly $N-1$ rows. Going down in rank, that diagram has too many rows to exist
+as a $U(M)$ irrep; going up, it is no longer the maximal-Casimir representation. The states therefore exist at one
+rank only --- they are \emph{fortuitous} rather than monotone.
+
+As noted in \S\ref{sec:max}, the diagram of $\lambda^*$ has rows $p(2N-2i)$, i.e.\ $p$ times Chen's staircase with
+the same $N-1$ rows, so adding flavours stretches the rows without producing any new ones and his argument
+generalises verbatim to all $p$. The difficulty is elsewhere: unlike the single-matrix case, our BPS states are
+\emph{not} confined to one irrep. At $N=3$, $p=3$ all thirteen irreps with $C_2\ge24$ carry BPS states, each with
+window width $4$. A representation-theoretic argument about $\lambda^*$ alone therefore cannot settle fortuity for
+this family, and we give a local argument instead --- one that works state by state and does not care which irrep
+the state sits in.
+
+\subsection{The stabilisation map vanishes}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.85\textwidth]{report_figs/g_fortuity.pdf}
+\caption{Embedding $\gl(N)\hookrightarrow\gl(N+1)$ as the upper-left block leaves every mode carrying the new
+index unoccupied. The self-loop at the new site is then an entirely empty triangle, so $Q_{N+1}$ creates it and
+the state is lifted.}
+\label{fig:fortuity}
+\end{figure}
+
+Embed $\gl(N)\hookrightarrow\gl(N+1)$ as the upper-left block. Traces of products of block matrices restrict
+correctly, so this is a chain map and induces a stabilisation map $H_N\to H_{N+1}$ on cohomology. The claim is
+that this map is identically zero whenever $p\ge q$, so that no BPS state is monotone.
+
+The reason is visible in Fig.~\ref{fig:fortuity}. Under the embedding, every mode carrying the index $N+1$ is
+unoccupied --- there is nothing in the new row or column. Consider the self-loop at the new site,
+$T=\{\Psi^{a_1}_{N+1,N+1},\dots,\Psi^{a_q}_{N+1,N+1}\}$ with $q$ distinct flavours, which exists because $p\ge q$.
+It satisfies $T\cap S=\varnothing$ for any embedded state $S$, and a triangle disjoint from $S$ is precisely one
+that $Q$ can create: the Pauli blocking that made critical states closed in \S\ref{sec:critical} is absent here.
+So $Q_{N+1}m_S\ne0$, the state is not closed at rank $N+1$, and it is lifted. For $p<q$ the same conclusion holds
+for the explicit sets \eqref{eq:As}, using the mixed loop $i\to N+1\to j\to i$ with $i<j$: the two edges through
+$N+1$ are new and hence empty, and the return edge $(j,i)$ is lower-triangular and hence empty as well. We have
+verified this at $p=q=3$, where $9/9$ BPS states of rank $2$ and $27/27$ of rank $3$ are lifted, with the
+disjoint triangle exhibited explicitly in each case.
+
+It is striking that this argument and the no-go of \S\ref{sec:critical} rest on the same object --- an empty
+triangle --- yet pull in opposite directions. Enlarging the gauge group manufactures a fresh site whose self-loop
+is necessarily empty, and that \emph{produces} fortuity; the very same enlargement leaves the Borel half of the
+algebra free of triangles, and that \emph{destroys} concentration. The two properties one wants a fortuitous
+matrix model to have respond to the single available structural knob with opposite signs, which may be why the
+combination has proved hard to realise.
+
+\section{Status, and what is open}
+
+\paragraph{Established.} The reduction \eqref{eq:wedge} of the whole problem to multiplication by a form; the
+index-loop restriction and the resulting factorisation \eqref{eq:kunneth} with its width formula
+\eqref{eq:Wformula}; the bound $w_s\ge2$ and hence $W\ge r+1$ at the maximal weight, \eqref{eq:wsbound}; the
+closed and non-exact properties of critical states and the range \eqref{eq:taubound}; the explicit family
+\eqref{eq:As} and the resulting \eqref{eq:main} for $u(N)$, together with the no-go for $N>(q-1)/p$; the
+positive-root observation and \eqref{eq:cartan} for any reductive $\g$; and the vanishing of the stabilisation map.
+
+\paragraph{Verified numerically.} All cohomology is computed by exact integer linear algebra --- Gaussian
+elimination over $\mathbb F_P$, with every rank confirmed against a second prime --- using the $U(N)$ weight
+decomposition to replace $2^{pN^2}$ by weight spaces of dimension at most $3\times10^4$, and Kostant inversion to
+obtain per-irrep counts. Every number is cross-checked against the refined Witten index, against exact
+diagonalisation at $N=2$, and against Chen's closed form at $p=1$.
+
+\paragraph{Open.}
+\begin{itemize}
+\item \textbf{$\su(N)$.} The set \eqref{eq:As} is \emph{not} triangle-free there: the Cartan is
+$(N-1)$-dimensional and spread across sites, so Cartan triangles need not localise and the counting that gave
+$\alpha_{\rm cart}$ for $u(N)$ fails. The true transversal numbers are $\tau=12,21,36$ for $N=3,4,5$ at $p=3$,
+giving bounds $1,4,1$ against measured widths $3,4,5$ --- valid, tight only at $N=4$, and vacuous at odd $N$,
+where $\alpha=n/2$ exactly. The factorisation \eqref{eq:kunneth} also fails, the measured profiles
+$13,81,81,13$ and $15,258,486,258,15$ being manifestly non-binomial. A sharp $\su(N)$ statement needs
+$\alpha_{\rm cart}$ in closed form, or classes that are not single monomials.
+\item \textbf{An upper bound on $W$.} Everything above bounds the window from below. The complementary statement
+--- that the cohomology \emph{vanishes} outside a band, equivalently that $\omega\wedge$ is injective in low
+degrees --- is verified in six models, three of them over complete spectra, but has not been established. It is
+not implied by the critical-set argument, which constructs classes rather than excluding them. It is the more
+valuable of the two open items: with it, the closed-form $W$ at the maximal weight would fix the window for every
+irrep and the no-go would become spectrum-wide.
+\item \textbf{Non-adjoint matter.} Fundamental matter forces $q=N$ (the baryon) but has $\tau=p$ independent of
+$N$, hence $W\ge p(N-2)+1$: worse, not better. Two-index antisymmetric matter at $SU(6)$ gives $\tau/n=0.33$, also
+worse. A general statement across representations is open.
+\item \textbf{Chaos.} Nothing here bears on whether these models are chaotic. The three-flavour $H$ is not a
+Casimir function, so a super-Schwarzian near-BPS spectrum remains possible without concentration.
+\end{itemize}
+
+\begin{thebibliography}{9}\small
+\bibitem{Chen} Y.~Chen, \emph{Revisiting fortuity in matrix models}, 2025.
+\bibitem{CCSY} C.~Chang, Y.~Chen, W.~Sia, S.~Yang, \emph{Fortuity in SYK models}, 2024.
+\bibitem{ChangLin} C.~Chang, Y.~Lin, \emph{Words to describe fortuitous states}, 2024.
+\bibitem{FGMS} W.~Fu, D.~Gaiotto, J.~Maldacena, S.~Sachdev, \emph{Supersymmetric SYK models},
+Phys.\ Rev.\ D \textbf{95} (2017) 026009.
+\bibitem{TW} G.~Turiaci, E.~Witten, \emph{$\mathcal N=2$ JT supergravity and matrix models}, 2023.
+\end{thebibliography}
+
+\end{document}
