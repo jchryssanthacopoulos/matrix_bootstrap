@@ -698,3 +698,92 @@ collects the analytic results into one narrative:
 $\tau=12,21,36$ giving bounds $1,4,1$ against measured widths $3,4,5$ — valid, tight only at $N=4$, vacuous at odd
 $N$ — and the factorisation fails there too (profiles $13,81,81,13$ and $15,258,486,258,15$ are not binomial).
 D10.5 (the upper bound) also remains open and is *not* implied by the critical-set theorem.
+
+## 4p. Rank, the Weyl group, and SYK as the $N=1$ member (2026-09-26)
+
+Three results, all from `src/multitrace.py` + `scripts/run_weyl_window.py` (both validated against the existing
+single-trace answers before use: they reproduce $9,18,9$ at $N=2$ and $27,81,81,27$ at $N=3$ exactly).
+
+**(a) SYK is the $N=1$ member of the family.** At $N=1$ the trace is the identity and
+$Q=C_{a_1\dots a_q}\psi^{a_1}\cdots\psi^{a_q}$, i.e. $\mathcal N=2$ SYK with $n=p$. The gauge algebra is $u(1)$,
+adjoint action trivial, so $C$ is unconstrained. **Verified**: running the full matrix machinery at $N=1$
+reproduces the bare generic $q$-form spectrum for every $p$ from 4 to 12, identical Betti numbers, 9/9.
+Consequence: the rank law $W=r(w_s-1)+1$ already contains SYK at $r=1$, and $W=r+1$ holds across every measured
+model (SYK, $u(2)$, $\su(3)$, $u(3)$, $\su(4)$, $u(4)$, $\su(5)$, $u(5)$). Concentration is a **rank $\le q-1$
+phenomenon**, not a SYK-versus-gauge-theory contrast. That $u(2)$ and $\su(3)$ (different $N$, different
+dimension, same rank 2) give the same $W=3$ is a non-trivial check that rank is the right variable.
+
+**(b) $\min_p w_s = q-1$, so $q=3$ is forced.** Scans of the generic $q$-form window give floors
+$w_s=2,4,6$ at $q=3,5,7$ ($p\le13$). Hence the best rank law is $W=r(q-2)+1$ and concentration needs
+$r\le(q-1)/(q-2)$: rank 2 at $q=3$, **rank 1 only (SYK) for every $q\ge5$**. Raising $q$ raises the slope faster
+than the ceiling. Degenerate loophole: $p<q$ gives $w_s=p+1$, and $p=1$ with $q\ge N+1$ satisfies $W\le q$ at
+every $N$, but only because $Q\equiv0$ on the maximal-weight complex and the index is $e^{O(N)}$, failing the
+macroscopic-index hypothesis.
+
+**(c) The mechanism is the Weyl group, not the trace structure.** Gauge invariance restricted to the Cartan says
+$\omega|_{\mathcal Z}$ is $\Wg=N(T)/T$ invariant. Generic $q$-forms have bounded window ($W=3,4,3,2$ by
+$n\bmod4$ at $q=3$); $\Wg$-invariant ones do not. Holding $n=pr=12$ fixed and varying only $|\Wg|=|S_N|$:
+
+| $p$ | $N$ | $\lvert\Wg\rvert$ | narrowest $W$ over 20 draws |
+|---|---|---|---|
+| 12 | 1 | 1 | 3 (this row is SYK) |
+| 6 | 2 | 2 | 3 (20/20) |
+| 4 | 3 | 6 | 5 (20/20) |
+| 3 | 4 | 24 | 5 (19/20, one 7) |
+| 2 | 6 | 720 | 11 |
+| 1 | 12 | 12! | invariant form vanishes, $W=13$ |
+
+**Multi-trace does not escape.** $\Tr[\Psi^a]\Tr[\Psi^b\Psi^c]$ delocalises the Cartan interaction, collapsing
+$\alpha_0$ from $2N$ to $N+1$ and making the D11/D14 bound **vacuous**, yet $W$ is unchanged (only the edges
+thin, $27,81,81,27\to11,81,81,11$). Double-trace alone is worse ($W=7$ at $N=4$). Multi-trace forms are still
+Weyl invariant, so they live inside the class already measured, and are not even optimal in it.
+**This corrects the earlier diagnosis**: the transversal number is a valid lower bound but is *not* the binding
+constraint. The report's §4 attribution to "gauge invariance" via $\alpha_{\rm cart}$ was one level too coarse.
+
+**Most gauge groups are worse.** If $-\mathrm{id}\in\Wg$ it acts as $(-1)^q=-1$ on a $q$-form with $q$ odd, so
+$\omega|_{\mathcal Z}=0$ identically and $W=pr+1$, the widest possible. That covers $B_r$, $C_r$, $D_{\rm even}$,
+$G_2$, $F_4$, $E_7$, $E_8$. Only $A_r$, $D_{\rm odd}$, $E_6$ escape, so the unitary series is already optimal.
+The tempting small-Weyl-group option $\su(2)^r$ ($|\Wg|=2^r$) is a trap for exactly this reason.
+
+**Report reworked** (`research/tex/gauge_concentration_report.tex`, 9 pp.) around the rank framing from the start,
+with new figures `g_rank.pdf`, `g_weyl.pdf`, `g_tau.pdf`. (b) and (c) are **measured, not proved** and the report
+says so.
+
+## 4q. Tierz 2026 pulled in: cross-validation and two corrections (2026-09-26)
+
+`papers/tierz_2026.pdf`, note at `literature/notes/tierz_2026.md`. **His $p$ is our $q$**; he has one fermion
+matrix, i.e. our one-flavour axis at general odd $q$. Found after the report was drafted; it is the closest
+published work to it.
+
+**Cross-validation.** Our machinery independently reproduces his $(q,N)=(5,3)$ result exactly: $Z_{\rm BPS}=440$
+on a Fock space of $512$, profile $h_{2..7}=20,75,125,125,75,20$. This matches every entry of his Table 3 row,
+since $440=5\cdot x^2(1+x)^3T$ with $T=4+3x+4x^2$ ($b=1$, $\deg T=2$, $T(1)=11$). Two independently written
+codes agreeing on a published number. (He also happens to use the same two cross-check primes we do.)
+
+**Convergence.** His Prop. 2 ($Q^2=0$ from odd degree alone) is our $\omega\wedge\omega=0$. His §6.3 notes that
+the traceless diagonal modes make the cohomology a graded $\Lambda^\bullet(\mathbb C^{N-1})$-module and that
+**freeness** would explain his conjectural $(1+x)^N$ factor: that is our D10 module structure, and his open
+question is a close relative of D10.5. Our slot factorisation *proves* the freeness at the maximal weight; both
+sides leave the full complex open. His §6.1 measures the phenomenon our no-go is about (at matched fermion
+number SYK fills exactly $q$ sectors and saturates the index; the matrix model fills more and exceeds it) without
+drawing a no-go from it.
+
+**Correction 1: the §5 fortuity framing was wrong.** We claimed the block embedding
+$\gl(N)\hookrightarrow\gl(N+1)$ is a chain map inducing $H_N\to H_{N+1}$, then proved that map zero. It is not a
+chain map: $\omega_{N+1}\ne\iota(\omega_N)$, since $\Tr_{N+1}$ has terms in the new index. So no induced map
+exists and "the stabilisation map vanishes" is ill-formed. **The computational content survives and in fact
+corroborates his remark**: the embedded representative is never *closed* at rank $N+1$ (9/9 and 27/27). The
+correct functorial comparison is his projection $\pi_{M\to N}$, which is a chain map. Report §5 rewritten.
+
+**Correction 2: the §2.4 one-flavour loophole overclaimed.** We said $w_s=2$ at one flavour gives $W=r+1$ for any
+$q$, so $q\ge N+1$ concentrates at every $N$. True **at the maximal weight only**, which we now confirm at
+$(q,N)=(3,3),(3,4),(5,3),(5,4),(7,4)$ with profile $\binom Nj$ in every case. But the *total* support at $(5,3)$
+is six sectors $R=2\dots7$, residues $2,3,4,0,1,2$ mod 5, so $R=2$ and $R=7$ collide and **concentration fails**.
+Hence **irrep-independence of the window, verified only at $q=3$, is false at $q=5$.** The main no-go is at $q=3$
+and is unaffected (the Casimir descents verify irrep-independence there), and "raising $q$ hurts" is reinforced,
+but the rank law must be stated as a maximal-weight result. Report §2.4 rewritten.
+
+**Report updated** to 10 pp.: new §1.3 "Relation to prior work" covering both Tierz and the CCSY §5.1/§5.6
+sparsity precursor (their $\mathcal N=4$ SYM estimate $\tilde N^{-3/2}=N^{-3}$ is the same scaling as our adjoint
+hypergraph density, so §4 is partly a rigorous version of a known heuristic; the multi-trace data shows density
+is nonetheless not the controlling variable).
