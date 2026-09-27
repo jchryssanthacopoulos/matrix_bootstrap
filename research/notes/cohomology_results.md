@@ -787,3 +787,75 @@ but the rank law must be stated as a maximal-weight result. Report §2.4 rewritt
 sparsity precursor (their $\mathcal N=4$ SYM estimate $\tilde N^{-3/2}=N^{-3}$ is the same scaling as our adjoint
 hypergraph density, so §4 is partly a rigorous version of a known heuristic; the multi-trace data shows density
 is nonetheless not the controlling variable).
+
+## 4r. Index saturation for generic forms: $w_s\in\{q-1,q,q+1\}$ (2026-09-27)
+
+**Result.** For a generic $\omega\in\Lambda^q\mathbb C^n$, the cohomology of $\omega\wedge$ in each residue class
+$c$ mod $q$ is concentrated in a **single degree of dimension exactly $|E_c|$** whenever the Witten index
+$E_c=\sum_{j\equiv c}(-1)^j\binom nj$ is non-zero. Verified **27/27**: $q=3$ ($n=4..13$), $q=5$ ($n=5..14$),
+$q=7$ ($n=7..13$). Peak 0.54 GB.
+
+At most one class ever has $E_c=0$, and it is either empty or carries a pair of degrees. Hence
+
+$$w_s=\begin{cases}q-1 & \text{zero-index class empty}\\ q & \text{no zero-index class}\\ q+1 & \text{zero-index class carries a pair}\end{cases}$$
+
+which **explains the empirical $w_s$ table in the report and the floor $\min_p w_s=q-1$**, previously only a scan
+over $p\le13$. Best-case rank law is therefore $W=r(q-2)+1$, confirming that raising $q$ hurts.
+
+**Why this is the central quantity.** Index saturation *is* R-charge concentration (one degree per class), so
+concentration becomes a maximal-rank / Lefschetz property of $\omega\wedge$. Generic (SYK, $r=1$) saturates;
+Weyl-invariant (matrix, $r\ge2$) does not, and the **excess** $Z_{\rm BPS}-\sum_c|E_c|$ measures the failure. We
+had been tracking this without naming it (§4d 19.0% index-invisible at $N=4$, §4g 10.1% at $N=3$), and it is
+exactly Tierz's Table 3 column ($440$ vs $400$, $44\,000$ vs $38\,000$, $59\,136$ vs $55\,468$, $1.548\times10^7$
+vs $1.178\times10^7$) and his §6.1 observation that SYK equals the index bound while the matrix model exceeds it.
+
+**Remaining question (number-theoretic).** When is a zero-index class empty rather than a pair? Pairs are
+$h=(1,1)$ in every observed case except $q=3$, $n=9=q^2$, where it is $(3,3)$. Smells $q$-adic; plausibly the
+same phenomenon as Tierz's unexplained $p^{b_{p,N}}$ divisibility.
+
+**Induction setup (in progress).** With $\omega_n=\alpha+e_n\wedge\beta$, $\alpha\in\Lambda^q\mathbb C^{n-1}$,
+$\beta\in\Lambda^{q-1}\mathbb C^{n-1}$, and $q$ odd,
+$$\omega_n\wedge(x+e_ny)=\alpha x+e_n(\beta x-\alpha y),\qquad \omega_n\wedge=\begin{pmatrix}\alpha&0\\\beta&-\alpha\end{pmatrix},$$
+so $(\Lambda\mathbb C^n,\omega_n)$ is the **mapping cone of $\beta\wedge$ on $(\Lambda\mathbb C^{n-1},\alpha\wedge)$**
+($\alpha,\beta$ commute since $q(q-1)$ is even). This reduces the problem to the rank of $\beta\wedge$ on the
+small spaces $H^\bullet(\alpha)$, one per class of dimension $|E_c(n-1)|$. Euler characteristics are consistent:
+Pascal gives $E_c(n)=E_c(n-1)-E_{c-1}(n-1)$, matching the cone.
+
+**Snag resolved (same day).** It was ker/coker bookkeeping on my part: the cokernel term from a *zero* source is
+the whole target, not zero. The correct recursion is
+$$\dim H^m_n=\dim\mathrm{coker}\big(\delta:H^{m-q}_{n-1}\to H^{m-1}_{n-1}\big)+\dim\ker\big(\delta:H^{m}_{n-1}\to H^{m+q-1}_{n-1}\big),\qquad\delta=\beta\wedge,$$
+and it reproduces **every measured step, 9/9** at $q=3$, $n=4\to13$.
+
+**What the recursion says.** $\delta$ maps class $c$ to class $c-1$ and is non-zero only when the concentration
+degrees line up, $d_{c-1}=d_c+q-1$. When they do not, $\delta=0$ and $Z_n(t)=(1+t)Z_{n-1}(t)$: **each vanishing
+step contributes one factor of $(1+t)$**, which is suggestively the same mechanism shape as Tierz's conjectural
+$(1+x)^N$ divisibility (his Conjecture 1), though his is for the matrix model rather than the generic form.
+
+**The whole problem now reduces to one rank.** Required ranks of $\delta$, inferred from the data:
+
+| step | map | rank/max | corank |
+|---|---|---|---|
+| $4\to5$ | $H^1\to H^3$ | 2/3 | **1** |
+| $5\to6$ | two maps | 1/1, 1/1 | 0 |
+| $6\to7$ | $H^2\to H^4$ | 9/9 | 0 |
+| $7\to8$ | none | $\delta=0$ | -- |
+| $8\to9$ | $H^3\to H^5$ | 24/27 | **3** |
+| $9\to10$ | two maps | 3/3, 3/3 | 0 |
+| $10\to11$ | $H^4\to H^6$ | 81/81 | 0 |
+| $11\to12$ | none | $\delta=0$ | -- |
+| $12\to13$ | $H^5\to H^7$ | 242/243 | **1** |
+
+$\delta$ is full rank except at $n\equiv1\bmod4$, where the corank is $1,3,1$. Full rank leaves the zero-index
+class empty ($w_s=q-1$); corank $k$ gives a pair $(k,k)$ ($w_s=q+1$). So the pair sizes recorded above *are* these
+coranks. **Index saturation is therefore equivalent to: multiplication by a generic $(q-1)$-form between two
+cohomology spaces of known dimension has full rank except at isolated steps.** The maps are square in every case
+that matters.
+
+**Ruled out as the explanation.** Rank parity from Tierz's top-form pairing: $\beta\wedge$ is *self*-adjoint there,
+not skew, since $q-1$ is even, so there is no parity constraint, and several odd-dimensional steps do have full
+rank. The coranks $1,3,1$ are powers of $q$ and the corank-3 case sits at $n=q^2$, pointing instead at the same
+$q$-adic phenomenon as Tierz's unexplained $p^{b_{p,N}}$.
+
+**Also noted**: the obvious candidate witness $\omega=\sum_ie_{3i-2}e_{3i-1}e_{3i}$ is maximally *non*-generic
+here, since Künneth gives it support $m+1$; it is precisely our slot factorisation, i.e. the matrix model's
+maximal-weight structure. The decomposable normal form is the worst case, not a witness.
