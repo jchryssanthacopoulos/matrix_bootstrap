@@ -851,10 +851,30 @@ coranks. **Index saturation is therefore equivalent to: multiplication by a gene
 cohomology spaces of known dimension has full rank except at isolated steps.** The maps are square in every case
 that matters.
 
-**Ruled out as the explanation.** Rank parity from Tierz's top-form pairing: $\beta\wedge$ is *self*-adjoint there,
-not skew, since $q-1$ is even, so there is no parity constraint, and several odd-dimensional steps do have full
-rank. The coranks $1,3,1$ are powers of $q$ and the corank-3 case sits at $n=q^2$, pointing instead at the same
-$q$-adic phenomenon as Tierz's unexplained $p^{b_{p,N}}$.
+**MECHANISM FOUND (2026-09-27).** I first ruled parity out, wrongly: I checked self-adjointness of $\beta\wedge$
+as an *operator* and missed that at $w_s=q$ its source and target are **Poincaré dual**. Particle-hole gives
+$h^j=h^{p-j}$, and the single surviving map runs $H^j\to H^{j+q-1}$ with $j+(q-1)=p-j$, i.e.
+$$j=\tfrac12(p-q+1).$$
+So $\delta$ is a **bilinear form** on $H^j$, $\langle a,b\rangle_\delta=[\beta\wedge a\wedge b]_{\Lambda^p}$, with
+$\langle b,a\rangle_\delta=(-1)^{j^2}\langle a,b\rangle_\delta=(-1)^j\langle a,b\rangle_\delta$: **symmetric for
+$j$ even, antisymmetric for $j$ odd**. A generic symmetric form is non-degenerate (full rank, outer classes
+cancel, $w_s\to q-1$); an antisymmetric form on an **odd-dimensional** space cannot be (residue survives,
+$w_s\to q+1$). Hence $w_s$ cycles
+$$q-1\to q\to q+1\to q\to q-1\to\cdots$$
+with period four in $p$, turning at $j$ odd, i.e. $p\equiv q+1\bmod 4$. **This explains the period-4 pattern in
+the $w_s$ table.**
+
+**Verified by building $\delta$ explicitly** (`scripts/run_delta_corank.py`, exact over $\mathbb F_P$ with a
+second-prime cross-check), not inferred from Betti numbers. $q=3$: coranks $1,0,3,0,1$ at $p=4,6,8,10,12$ (ranks
+$2/3$, $9/9$, $24/27$, $81/81$, $242/243$), matching the inferred values exactly. $q=5$: coranks $1,0,1,0$ at
+$p=6,8,10,12$ (ranks $4/5$, $20/20$, $74/75$, $275/275$). Degenerate exactly when $j$ is odd, 9/9.
+
+**Residual puzzle.** A generic antisymmetric form on odd dimension has corank 1, which is what we see except at
+$q=3$, $p=8$, where it is 3. That case sits at $p=q^2$ and the coranks are powers of $q$: same unexplained
+$q$-adic divisibility as Tierz's factor $q^{b}$.
+
+**Two inputs still observed, not derived**: that at most one class has vanishing index, and that $H^j$ is
+odd-dimensional in the antisymmetric case (without which the argument forces nothing).
 
 **Also noted**: the obvious candidate witness $\omega=\sum_ie_{3i-2}e_{3i-1}e_{3i}$ is maximally *non*-generic
 here, since Künneth gives it support $m+1$; it is precisely our slot factorisation, i.e. the matrix model's

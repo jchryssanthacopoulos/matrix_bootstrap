@@ -31,19 +31,23 @@
 \textbf{Abstract.} We study a three-parameter family of purely fermionic quantum mechanics: $p$ flavours of
 adjoint matter for a gauge algebra of rank $r$, with a nilpotent supercharge of odd degree $q$ built from traces.
 The family contains $\mathcal N=2$ SYK as its rank-one member, since at $N=1$ the trace is the identity map and
-$Q$ becomes a generic $q$-fermion supercharge on $p$ modes, an identification we verify numerically. The BPS
-states are the cohomology of multiplication by a fixed $q$-form, and the width of the R-charge window they
-occupy is set by the rank: $W=r(w_s-1)+1$ at the maximal weight, where $w_s$ is the width contributed by a
-single Cartan site. R-charge concentration requires $W\le q$, hence $r(w_s-1)\le q-1$, and the measured floor
-$\min_p w_s=q-1$ leaves rank $2$ at $q=3$ and rank $1$, meaning SYK, for every $q\ge5$; the cubic supercharge is
-the only degree admitting a gauge group at all. The mechanism is the Weyl group. At the maximal weight the
-complex is the Cartan sector carrying a $q$-form that gauge invariance forces to be Weyl invariant, and while
-generic $q$-forms have bounded window, Weyl invariant ones do not: holding the Cartan at twelve modes and
-varying only the Weyl group gives $W=3,3,5,5,11$ for $|\Wg|=1,2,6,24,720$. The window sees membership in this
-symmetry class and nothing finer, so multi-trace couplings, which make the Cartan interaction far denser, leave
-$W$ unchanged. If $-1$ lies in the Weyl group, as for $B$, $C$, $D_{\rm even}$ and most exceptional algebras, the
-Cartan form vanishes and the window is maximal, so the unitary series is already optimal. Fortuity runs the
-opposite way and is total: an embedded BPS state is never closed at the next rank, so no class is monotone.
+$Q$ becomes a generic $q$-fermion supercharge on $p$ modes. The BPS states are the cohomology of multiplication
+by a fixed $q$-form, and the width of the R-charge window they occupy is set by the rank, $W=r(w_s-1)+1$ at the
+maximal weight, where $w_s$ is the width contributed by a single Cartan site. We then solve for $w_s$. For a
+generic $q$-form each grading class with non-vanishing Witten index carries cohomology in exactly one degree, of
+dimension $|E_c|$, so index saturation and R-charge concentration are the same statement for the rank-one model.
+Adjoining a flavour realises the complex as a mapping cone, and the whole of $w_s$ is controlled by one induced
+map $\delta$ whose source and target are Poincar\'e dual. It is therefore a bilinear form, symmetric or
+antisymmetric according to the parity of $j=\frac12(p-q+1)$; a generic symmetric form is non-degenerate while an
+antisymmetric one on an odd-dimensional space cannot be, and this alternation makes $w_s$ cycle through
+$q-1,q,q+1,q$ with period four in $p$. Consequently $W=r(q-2)+1$ at best, concentration needs
+$r\le(q-1)/(q-2)$, and only $q=3$ tolerates a gauge group, at rank $2$. The mechanism behind the rank law is the
+Weyl group: at the maximal weight the complex is the Cartan sector carrying a $q$-form that gauge invariance
+forces to be Weyl invariant, and while generic $q$-forms have bounded window, Weyl invariant ones do not.
+Holding the Cartan at twelve modes and varying only the Weyl group gives $W=3,3,5,5,11$ for
+$|\Wg|=1,2,6,24,720$. If $-1$ lies in the Weyl group, as for $B$, $C$, $D_{\rm even}$ and most exceptional
+algebras, the Cartan form vanishes and the window is maximal, so the unitary series is already optimal. Fortuity
+runs the opposite way and is total: an embedded BPS state is never closed at the next rank.
 \end{minipage}\end{center}
 \vspace{8pt}
 
@@ -60,8 +64,8 @@ graded by the R-charge $k=N_\Psi=\Tr\Psi^a\bar\Psi^a$, so $\Lambda^kV$ is the $k
 of $V$ is a \emph{mode}; a basis vector of $\Lambda^kV$ is a set $S$ of $k$ modes, written $m_S$. All dynamics
 comes from one supercharge,
 \begin{equation}
-Q=\sum_{a_1\dots a_q}C_{a_1\dots a_q}\,\Tr\!\big[\Psi^{a_1}\cdots\Psi^{a_q}\big],\qquad H=\{Q,\bar Q\}\ \ge0,
-\qquad [N_\Psi,Q]=q\,Q .
+Q=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\,\Tr\!\big[\Psi^{a_1}\cdots\Psi^{a_q}\big],\qquad
+H=\{Q,\bar Q\}\ \ge0,\qquad [N_\Psi,Q]=q\,Q .
 \label{eq:Q}
 \end{equation}
 Only odd $q$ is admissible, for two independent reasons: a cyclic shift inside $\Tr[\Psi^q]$ costs $(-1)^{q-1}$,
@@ -72,7 +76,7 @@ again happens exactly for odd $q$.
 Since every $\Psi$ is a creation operator, $Q$ contains no annihilators and acts on $\Lambda^\bullet V$ as plain
 left multiplication,
 \begin{equation}
-Q=\omega\wedge-\,,\qquad \omega=\sum C_{a_1\dots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV ,
+Q=\omega\wedge-\,,\qquad \omega=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV ,
 \qquad H^\bullet=\operatorname{Ann}(\omega)/(\omega).
 \label{eq:wedge}
 \end{equation}
@@ -80,31 +84,21 @@ The whole problem is the cohomology of multiplication by one specific element of
 $\omega\wedge\omega=0$ automatically for odd $q$, so nilpotency survives any modification of the couplings or of
 the index structure, a fact we use freely in \S\ref{sec:weyl}.
 
-\subsection{SYK is the member at $N=1$}
-
-The family is usually presented as a matrix generalisation of SYK, but SYK is already inside it. At $N=1$ the
-matrices are $1\times1$, the trace is the identity map, and \eqref{eq:Q} reads
+SYK is already inside this family rather than a limit of it. At $N=1$ the matrices are $1\times1$, the trace is
+the identity map, and \eqref{eq:Q} reads
 \begin{equation}
-Q=C_{a_1\dots a_q}\,\psi^{a_1}\cdots\psi^{a_q},
+Q=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\,\psi^{a_1}\cdots\psi^{a_q},
 \end{equation}
-which is $\mathcal N=2$ SYK with $n=p$ complex fermions. The gauge algebra is $u(1)$, whose adjoint action is
-trivial, so no constraint whatever is placed on $C$; this is why the SYK coupling is free while the matrix
-coupling is not. Randomness plays no role in what follows. What a Gaussian ensemble supplies is genericity, and
-genericity is optimal here for a structural reason: matrix ranks are lower semicontinuous in $\omega$, so
-specialising the couplings can only enlarge the cohomology.
-
-We checked the identification rather than assuming it, by running the full matrix machinery (weight
-decomposition, trace-structured $\omega$, exact integer ranks) at $N=1$ and comparing against a bare generic
-$q$-form. The two agree for every $p$ from $4$ to $12$, giving in both cases $W=3,4,3,2$ as $p\equiv0,1,2,3$
-mod $4$, with identical Betti numbers.
-
-What varies along the family is therefore not the coupling tensor but the \emph{interaction hypergraph}. Call a
-\emph{triangle} the support of a non-zero term of $\omega$, a set of $q$ distinct modes. SYK has every one of the
-$\binom p q$ possible triangles. At general $N$ there are $pN^2$ modes but only the index-loop triangles survive,
-a fraction of order $6/N^3$ for $q=3$. The parameter $N$ dials the hypergraph from complete to sparse, and the
-question is what that does to the cohomology.
-
-\subsection{What concentration asks}
+which is $\mathcal N=2$ SYK with $p$ complex fermions. The gauge algebra is $u(1)$, whose adjoint action is
+trivial, so nothing constrains $C$; this is why the SYK coupling is free while the matrix coupling is not.
+Randomness plays no role in what follows. What a Gaussian ensemble supplies is genericity, and genericity is
+optimal here for a structural reason: matrix ranks are lower semicontinuous in $\omega$, so specialising the
+couplings can only enlarge the cohomology. We checked the identification rather than assuming it, by running the
+full matrix machinery at $N=1$ against a bare generic $q$-form; the two agree for every $p$ from $4$ to $12$,
+with identical Betti numbers. What varies along the family is therefore not the coupling tensor but the
+\emph{interaction hypergraph}. Calling a \emph{triangle} the support of a non-zero term of $\omega$, SYK has all
+$\binom pq$ of them, whereas at general $N$ only the index-loop triangles survive out of the $\binom{pN^2}{q}$
+available, a fraction of order $6/N^3$ at $q=3$. The parameter $N$ dials the hypergraph from complete to sparse.
 
 The Cartan torus acts on $\Psi_{ij}$ by $u_iu_j^{-1}$, so that mode carries weight $e_i-e_j$ and a state's weight
 is the row sums minus the column sums of its occupation matrix; diagonal modes carry weight zero. Since $Q$ is a
@@ -112,36 +106,21 @@ gauge singlet it preserves the weight, and since $[N_\Psi,Q]=qQ$ it raises $k$ b
 into complexes labelled by $(\lambda,\omega_{\rm fl},c)$ with $\lambda$ a $U(N)$ irrep, $\omega_{\rm fl}\in\mathbb
 Z_p$ a flavour charge, and $c=k\bmod q$. R-charge concentration, in the sense of Chang, Chen, Sia and Yang, says
 that in each complex of macroscopic index all BPS states sit at one degree. Writing $W$ for the number of
-consecutive R-charges carrying BPS states, a necessary condition is
-\begin{equation}
-W\ \le\ q ,
-\label{eq:conc}
-\end{equation}
-since a window wider than the grading period must place two occupied degrees in one residue class. Everything
-below is an estimate of $W$.
+consecutive R-charges carrying BPS states, concentration therefore requires $W\le q$, since a window wider than
+the grading period must place two occupied degrees in one residue class. Everything below determines $W$.
 
-\subsection{Relation to prior work}
-
-The two ends of the family are each well studied. The $N=1$ end is $\mathcal N=2$ SYK, where R-charge
-concentration was formulated by Chang, Chen, Sia and Yang \cite{CCSY}; their \S5.1 also shows empirically that
-making the couplings sparse destroys concentration, and their \S5.6 estimates the sparsity of the
-$\mathcal N=4$ SYM supercharge as $\tilde N^{-3/2}$ with $\tilde N=N^2$, which is the same $N^{-3}$ scaling as
-the adjoint hypergraph density quoted in \S\ref{sec:family}. Our \S\ref{sec:everyweight} makes that heuristic precise for these models. The window itself is set by the
-symmetry class rather than by the density: the multi-trace models of \S\ref{sec:weyl} are substantially denser
-than the single-trace model and have the same window.
-
-The one-flavour end at general odd $q$ is the subject of Tierz \cite{Tierz}, who computes BPS multiplicities for
-$\Tr[\Psi^q]$ at $(q,N)=(5,3),(5,4),(5,5),(7,4)$ and observes a factorisation $Z_{\rm BPS}=p^{b}x^{q_{\min}}
-(1+x)^NT(x)$. That paper overlaps ours in three places, and we have used it to check and to correct what
-follows. Its $(1+x)^N$ is the factor our slot factorisation produces at the maximal weight, where one flavour
-admits no self-loop and $Q$ therefore vanishes; its observation that the traceless diagonal modes make the
-cohomology a module over $\Lambda^\bullet(\mathbb C^{N-1})$, with freeness left open, is the same module
-structure we use, and freeness is exactly what \eqref{eq:kunneth} establishes at the maximal weight and leaves
-open elsewhere; and its \S6.1 measures the phenomenon this report is about, namely that at matched fermion
-number SYK occupies exactly $q$ sectors and saturates the index while the matrix model occupies more and exceeds
-it. As a check on both codes, our machinery reproduces its $(q,N)=(5,3)$ total exactly, $Z_{\rm BPS}=440$ with
-profile $20,75,125,125,75,20$. Two corrections that paper forces on us are recorded in \S\ref{sec:rank} and
-\S\ref{sec:fortuity}.
+Both ends of the family have been studied. At $N=1$ concentration was formulated by Chang, Chen, Sia and Yang
+\cite{CCSY}, whose \S5.1 shows empirically that sparse couplings destroy it and whose \S5.6 estimates the
+sparsity of the $\mathcal N=4$ SYM supercharge as $N^{-3}$, the same scaling as the adjoint hypergraph density
+above; \S\ref{sec:everyweight} below makes that heuristic precise for these models, although the window turns
+out to be governed by the symmetry class rather than the density. The one-flavour line at general odd $q$ is the
+subject of Tierz \cite{Tierz}, who computes BPS multiplicities for $\Tr[\Psi^q]$ at
+$(q,N)=(5,3),(5,4),(5,5),(7,4)$ and finds a factorisation $Z_{\rm BPS}=q^{b}x^{q_{\min}}(1+x)^NT(x)$. His
+$(1+x)^N$ is the factor the slot factorisation of \S\ref{sec:rank} produces, his observation that the traceless
+diagonal modes make the cohomology a graded module over $\Lambda^\bullet(\mathbb C^{N-1})$ is the structure used
+there, with freeness left open on both sides away from the maximal weight, and his \S6.1 measures the phenomenon
+this report is about. As a check on both codes, our machinery reproduces his $(5,3)$ total exactly,
+$Z_{\rm BPS}=440$ with profile $20,75,125,125,75,20$.
 
 \section{The rank law}\label{sec:rank}
 
@@ -227,7 +206,7 @@ appears in Chen's single-matrix $Z_{\rm BPS}$.}
 Setting $r=1$ in \eqref{eq:ranklaw} gives $W=w_s$, and $r=1$ is exactly the $N=1$ member, so the rank law already
 contains SYK. This is not a coincidence of notation: $z_{\rm slot}$ is by definition the cohomology of a generic
 $q$-form on $\mathbb C^p$, which is the SYK computation. The single formula therefore covers both ends of the
-family, and concentration \eqref{eq:conc} becomes a condition on the rank,
+family, and the requirement $W\le q$ becomes a condition on the rank,
 \begin{equation}
 r\,(w_s-1)\ \le\ q-1 .
 \label{eq:conc-rank}
@@ -256,70 +235,151 @@ Concentration survives exactly to rank $2$.}
 \label{tab:rank}
 \end{table}
 
-\subsection{How small can $w_s$ be, and why $q=3$ is forced}
+\section{The slot width}\label{sec:slot}
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.95\textwidth]{report_figs/g_rank.pdf}
-\caption{(a) The rank law with the measured models on it. SYK is not a separate case but the point $r=1$.
-(b) The slot width for generic couplings. Its floor over $p$ is $w_s=q-1$, so larger $q$ raises the slope of the
-rank law faster than it raises the ceiling $q$.}
+\caption{(a) The rank law with the measured models on it; SYK is not a separate case but the point $r=1$.
+(b) The slot width for generic couplings, cycling through $q-1,q,q+1,q$ with period four in $p$ as the
+bilinear form \eqref{eq:form} alternates between symmetric and antisymmetric.}
 \label{fig:rank}
 \end{figure}
 
-Everything now turns on $w_s$, and a short argument shows it can never be $1$. Grade $\Lambda^\bullet\mathbb C^p$
-by $j$ mod $q$ and let $E_c=\sum_{j\equiv c}(-1)^j\binom pj$ be the Euler characteristic of class $c$; wherever
-$E_c\ne0$ there must be cohomology in that class. Now $\sum_cE_c=(1-1)^p=0$, so exactly one non-zero $E_c$ is
-impossible, while with $\zeta=e^{2\pi i/q}$ one has $E_c=\frac1q\sum_{m=1}^{q-1}\zeta^{-mc}(1-\zeta^m)^p$ with
-every $1-\zeta^m\ne0$, so they cannot all vanish. At least two classes carry cohomology, giving $w_s\ge2$ and
-hence $W\ge r+1$ at the maximal weight: concentration already requires $r\le q-1$, independently of the flavour
-content.
+By \eqref{eq:ranklaw} everything reduces to $w_s$, the number of degrees carrying cohomology for
+$\omega_{\rm sl}\wedge$ on $\Lambda^\bullet\mathbb C^p$. This is the rank-one problem, which is SYK itself, and
+it can be solved rather than tabulated.
 
-The measured values are stronger than this bound. Computing $z_{\rm slot}$ for generic couplings gives, for
-$q=3$, the sequence $w_s=2,3,4,3,2,3,4,3,2,3,4$ as $p$ runs from $3$ to $13$, and the analogous scans at $q=5$
-and $q=7$ give floors of $4$ and $6$ (Fig.~\ref{fig:rank}b). In every case
+\subsection{Each class saturates its index}
+
+Grade $\Lambda^\bullet\mathbb C^p$ by $j$ mod $q$ and let
 \begin{equation}
-\min_p w_s\ =\ q-1 ,
-\label{eq:floor}
+E_c=\sum_{j\equiv c\ (q)}(-1)^j\binom pj=\frac1q\sum_{m=0}^{q-1}\zeta^{-mc}\,(1-\zeta^m)^p ,
+\qquad \zeta=e^{2\pi i/q},
+\label{eq:index}
 \end{equation}
-so the best achievable rank law is $W=r(q-2)+1$ and the condition \eqref{eq:conc-rank} becomes $r\le
-(q-1)/(q-2)$. The consequence is sharp and slightly surprising: raising $q$ makes matters worse, because it
-raises the slope of the rank law faster than it raises the ceiling.
+be the Witten index of class $c$, a topological invariant independent of the coupling. Since
+$\sum_cE_c=(1-1)^p=0$ exactly one non-zero $E_c$ is impossible, and since no factor $1-\zeta^m$ vanishes they
+cannot all be zero, so at least two classes carry cohomology. This gives $w_s\ge2$ and hence $W\ge r+1$ at the
+maximal weight: concentration already requires $r\le q-1$, whatever the flavour content.
 
-\begin{center}\small
-\begin{tabular}{ccc}
-\toprule
-$q$ & best $w_s$ & largest rank admitting concentration\\
-\midrule
-3 & 2 & $2$\\
-5 & 4 & $1$, that is, SYK only\\
-7 & 6 & $1$, that is, SYK only\\
-\bottomrule
-\end{tabular}
-\end{center}
+Computation says considerably more. For generic $\omega_{\rm sl}$ every class with $E_c\ne0$ carries cohomology
+in a \emph{single} degree, of dimension exactly $|E_c|$. We find no exception in twenty-seven cases, checked
+class by class rather than in total: $q=3$ with $p\le13$, $q=5$ with $p\le14$, $q=7$ with $p\le13$. Saturation
+of the index is therefore the same statement as R-charge concentration for the rank-one model, and
+\eqref{eq:index} gives the BPS degeneracies in closed form. At most one class ever has $E_c=0$, and it is either
+empty or carries two degrees, so
+\begin{equation}
+w_s=\begin{cases} q-1,&\text{the zero-index class is empty},\\[1pt]
+q,&\text{no class has vanishing index},\\[1pt]
+q+1,&\text{the zero-index class is occupied}.\end{cases}
+\label{eq:trichotomy}
+\end{equation}
+The rest of this section decides which case occurs.
 
-So $q=3$ is the unique degree that tolerates a gauge group at all, and even there only rank $2$. Chen's choice
-of a cubic supercharge is forced rather than conventional, and the three concentrating members of the family with
-a non-trivial gauge group are $u(2)$ and $\su(3)$ at $q=3$, plus SYK at any $q$.
+\subsection{Adjoining a flavour is a mapping cone}
 
-One apparent loophole should be recorded and then closed, because closing it sharpens what the rank law may be
-asked to do. The table above assumes $p\ge q$. If $p<q$ then $\Lambda^q\mathbb C^p=0$, the slot differential
-dies and $z_{\rm slot}=(1+t)^p$, so $w_s=p+1$. At one flavour this gives $w_s=2$ and hence $W=r+1$ at the
-maximal weight for any $q$, which we confirm at $(q,N)=(3,3),(3,4),(5,3),(5,4),(7,4)$, in every case with the
-binomial profile $\binom Nj$. It is tempting to conclude that $q\ge N+1$ then satisfies \eqref{eq:conc} at every
-$N$. It does not. The window of the \emph{total} cohomology is wider than the window at the maximal weight once
-$q\ge5$: at $(q,N)=(5,3)$ the full Fock space carries $Z_{\rm BPS}=440$ BPS states spread over six sectors
-$R=2,\dots,7$ with profile $20,75,125,125,75,20$, against a maximal-weight window of four. The residues mod $5$
-are $2,3,4,0,1,2$, so $R=2$ and $R=7$ share a class and concentration fails. That total agrees exactly with the
-independent computation of Tierz \cite{Tierz}, whose single-matrix $\Tr[\Psi^q]$ model is the one-flavour member
-of this family at general odd $q$.
+Adjoin one mode $e$ to $\mathbb C^p$. Every state either contains it or does not, so
+$\Lambda^\bullet\mathbb C^{p+1}=\Lambda^\bullet\mathbb C^p\oplus e\wedge\Lambda^\bullet\mathbb C^p$, and the form
+splits the same way as
+$\omega_{p+1}=\alpha+e\wedge\beta$ with $\alpha\in\Lambda^q\mathbb C^p$ and $\beta\in\Lambda^{q-1}\mathbb C^p$.
+Writing a general element as $x+e\wedge y$, using that $\beta$ has even degree so passes $e$ freely while
+$\alpha$ has odd degree so costs a sign, and using $e\wedge e=0$,
+\begin{equation}
+\omega_{p+1}\wedge(x+e\,y)=\alpha x+e\,(\beta x-\alpha y),\qquad\text{that is}\qquad
+\omega_{p+1}\wedge=\begin{pmatrix}\alpha&0\\[2pt]\beta&-\alpha\end{pmatrix}.
+\label{eq:cone}
+\end{equation}
+The new complex is two copies of the old one glued by $\beta$. Were $\beta$ to act trivially the copies would
+not interact and $Z_{p+1}(t)=(1+t)Z_p(t)$; every departure from that free doubling is caused by $\beta$, and
+conversely every factor of $1+t$ records a step at which $\beta$ failed to act.
 
-Two things follow. The loophole is closed, and more importantly the irrep-independence of the window, which we
+Since $q(q-1)$ is even, $\alpha$ and $\beta$ commute, so $\beta$ carries $\alpha$-cocycles to $\alpha$-cocycles
+and coboundaries to coboundaries, and descends to
+\begin{equation}
+\delta=\beta\wedge-\ :\ H^j_p\longrightarrow H^{j+q-1}_p .
+\end{equation}
+The long exact sequence of \eqref{eq:cone} then gives
+\begin{equation}
+\dim H^m_{p+1}=\dim\operatorname{coker}\big(\delta:H^{m-q}_p\to H^{m-1}_p\big)
++\dim\ker\big(\delta:H^{m}_p\to H^{m+q-1}_p\big),
+\label{eq:recursion}
+\end{equation}
+a new class being either something in the $e$ copy that $\beta$ failed to hit or something in the plain copy
+that $\beta$ annihilates. We have checked that \eqref{eq:recursion} reproduces every step from $p=4$ to $p=13$
+at $q=3$. Everything in it is fixed by the inductive hypothesis except the rank of $\delta$.
+
+\subsection{Why $\delta$ usually cannot act}
+
+Because $\delta$ raises degree by $q-1$ it sends class $c$ to class $c-1$, and by saturation the occupied
+degrees at level $p$ form a run of $w_s$ consecutive integers. So $\delta$ can be non-zero only between two
+occupied degrees exactly $q-1$ apart, and the number of such pairs is $\max(0,\,w_s-(q-1))$. The three cases of
+\eqref{eq:trichotomy} therefore carry zero, one and two maps respectively, which settles two of them at once.
+When $w_s=q-1$ no $\delta$ exists, the doubling is free, and $w_s$ rises to $q$. When $w_s=q+1$ there are two
+maps; in every case computed both are square of dimension one and both have full rank, and $w_s$ falls back
+to $q$.
+
+\subsection{The remaining map is a bilinear form, and its symmetry decides}
+
+Everything thus turns on the single map present when $w_s=q$. Particle-hole conjugation gives $h^j=h^{p-j}$, so
+the occupied degrees are symmetric about $p/2$ and the outermost pair is $j$ and $p-j$ with
+\begin{equation}
+j=\tfrac12\,(p-q+1).
+\end{equation}
+Since $j+(q-1)=p-j$, the source and target of $\delta$ are Poincar\'e dual. The map is then not merely linear
+but a bilinear form on $H^j$,
+\begin{equation}
+\langle a,b\rangle_\delta:=\big[\beta\wedge a\wedge b\big]_{\Lambda^p},
+\qquad \langle b,a\rangle_\delta=(-1)^{j^2}\langle a,b\rangle_\delta=(-1)^{j}\langle a,b\rangle_\delta ,
+\label{eq:form}
+\end{equation}
+symmetric when $j$ is even and antisymmetric when $j$ is odd. The two behave in opposite ways. A generic
+symmetric form is non-degenerate, so $\delta$ has full rank, the two outer classes cancel against each other,
+and $w_s$ drops to $q-1$. An antisymmetric form has even rank, so on the odd-dimensional space $H^j$ it
+\emph{cannot} be non-degenerate; a residue survives, the zero-index class becomes occupied, and $w_s$ rises to
+$q+1$. Hence $w_s$ cycles with period four in $p$,
+\begin{equation}
+q-1\ \longrightarrow\ q\ \longrightarrow\ q+1\ \longrightarrow\ q\ \longrightarrow\ q-1\ \longrightarrow\ \cdots
+\label{eq:cycle}
+\end{equation}
+turning wherever $j$ is odd, that is at $p\equiv q+1$ mod $4$. This is the period-four pattern in the measured
+slot widths (Fig.~\ref{fig:rank}b), now with a reason attached.
+
+We built $\delta$ explicitly over $\mathbb F_P$, with every rank confirmed against a second prime, rather than
+inferring it from Betti numbers. The prediction holds in all nine available cases. At $q=3$ the coranks are
+$1,0,3,0,1$ for $p=4,6,8,10,12$; at $q=5$ they are $1,0,1,0$ for $p=6,8,10,12$; and in each series the
+degenerate entries are exactly those with $j$ odd. The one feature not explained by \eqref{eq:form} is the size
+of the defect: a generic antisymmetric form on an odd-dimensional space has corank one, which is what occurs
+except at $q=3$, $p=8$, where the corank is three. That case sits at $p=q^2$, and the coranks are powers of $q$,
+which suggests a $q$-adic mechanism of the same kind as the unexplained factor $q^{b}$ in Tierz's factorisation.
+
+\subsection{Consequences for concentration}
+
+Since $w_s\ge q-1$, the best available rank law is $W=r(q-2)+1$, and \eqref{eq:conc-rank} becomes
+\begin{equation}
+r\ \le\ \frac{q-1}{q-2}.
+\end{equation}
+At $q=3$ this permits rank $2$; for every $q\ge5$ it permits only rank $1$, which is SYK. The cubic supercharge
+is thus the only degree that tolerates a gauge group at all, not by convention but because raising $q$ steepens
+the rank law faster than it lifts the ceiling. The concentrating members of the family are therefore SYK at any
+$q$, together with $u(2)$ and $\su(3)$ at $q=3$.
+
+One apparent loophole should be recorded and closed, because closing it sharpens what the rank law may be asked
+to do. The above assumes $p\ge q$. If $p<q$ then $\Lambda^q\mathbb C^p=0$, the slot differential dies and
+$z_{\rm slot}=(1+t)^p$, so $w_s=p+1$. At one flavour this gives $w_s=2$ and hence $W=r+1$ at the maximal weight
+for any $q$, which we confirm at $(q,N)=(3,3),(3,4),(5,3),(5,4),(7,4)$, in every case with the binomial profile
+$\binom Nj$. It is tempting to conclude that $q\ge N+1$ then concentrates at every $N$. It does not: the window
+of the \emph{total} cohomology exceeds the maximal-weight window once $q\ge5$. At $(q,N)=(5,3)$ the full Fock
+space carries $Z_{\rm BPS}=440$ BPS states over six sectors $R=2,\dots,7$ with profile $20,75,125,125,75,20$,
+against a maximal-weight window of four; the residues mod $5$ are $2,3,4,0,1,2$, so $R=2$ and $R=7$ share a
+class and concentration fails. That total agrees exactly with Tierz \cite{Tierz}.
+
+Two things follow. The loophole is closed, and, more importantly, the irrep-independence of the window, which we
 verify at $q=3$ through the Casimir descents cited in Table~\ref{tab:rank}, is \emph{false} at $q=5$. The rank
-law is therefore a statement about the maximal weight, and we use it as such: at $q=3$ the descents license
-reading it as a statement about the spectrum, while at larger $q$ they do not. Since the total window is then
-wider than $r+1$, the conclusion that raising $q$ hurts is reinforced rather than weakened. A further caveat
-attaches to the whole maximal-weight analysis: the multiplicity $6^N$ of Table~\ref{tab:profiles} is not
-macroscopic, so the complexes reached here are not yet the ones the concentration hypothesis is about.
+law is a statement about the maximal weight and we use it as such: at $q=3$ the descents license reading it as a
+statement about the spectrum, while at larger $q$ they do not, and since the total window is then wider than
+$r+1$ the conclusion that raising $q$ hurts is reinforced rather than weakened. A further caveat attaches to the
+whole maximal-weight analysis: the multiplicity $6^N$ of Table~\ref{tab:profiles} is not macroscopic, so the
+complexes reached here are not yet the ones the concentration hypothesis is about.
 
 \section{Why rank: the Weyl group}\label{sec:weyl}
 
@@ -381,20 +441,11 @@ $\sum_{i,j}\Psi^a_{ii}\Psi^b_{jj}\Psi^c_{jj}$, straddling two sites, and the tri
 $\omega\wedge\omega=0$ for any odd form, nilpotency is untouched, so these are legitimate models.
 
 Their combinatorics is entirely different and their window is identical. Writing $\alpha_0$ for the largest
-triangle-free set of Cartan modes, at $N=4$ and $p=3$:
-
-\begin{center}\small
-\begin{tabular}{lrrrr}
-\toprule
-trace structure & Cartan triangles & $\alpha_0$ & bound \eqref{eq:cartan} & measured $W$\\
-\midrule
-single only & 4 & 8 & 5 & 5\\
-single $+$ double & 100 & 5 & $-1$ (vacuous) & 5\\
-single $+$ double $+$ triple & 124 & 5 & $-1$ (vacuous) & 5\\
-double only & 100 & 5 & $-1$ (vacuous) & 7\\
-\bottomrule
-\end{tabular}
-\end{center}
+triangle-free set of Cartan modes, at $N=4$ and $p=3$ the single-trace model has four Cartan triangles,
+$\alpha_0=8$ and a bound of $5$ from \eqref{eq:cartan}, which is attained. Switching on the double trace raises
+the triangle count to $100$ and collapses $\alpha_0$ to $5$, making the bound vacuous; adding the triple trace
+takes the count to $124$ with $\alpha_0$ unchanged. The measured $W$ is $5$ in all three cases, and $7$ if the
+single trace is dropped altogether.
 
 Delocalising the Cartan interaction multiplies the triangle count by thirty and collapses $\alpha_0$ from $2N$
 to $N+1$, and $W$ does not move; only the edge multiplicities thin, from $27,81,81,27$ to $11,81,81,11$ at $N=3$.
@@ -481,21 +532,10 @@ near $\frac12$, the positive-root half; two-index antisymmetric matter is worse 
 \label{fig:tau}
 \end{figure}
 
-\begin{table}[t]\centering\small
-\begin{tabular}{lrrrrl}
-\toprule
-$p$ & $\tau$ (closed form) & $\tau$ (ILP) & bound \eqref{eq:main} & measured $W$ & status\\
-\midrule
-1 & $N(N-1)/2$ & $3,6,10,15$ & $N+1$ & $N+1$ & tight\\
-2 & $pN(N+1)/2-2N$ & $6,12,20$ & $2N+1$ & $2N+1$ & tight\\
-3 & $pN(N+1)/2-2N$ & $5,12,22,35$ & $N+1$ & $N+1$ & tight\\
-4 & $pN(N+1)/2-2N$ & $18$ & $1$ & $2N+1$ & valid, loose\\
-\bottomrule
-\end{tabular}
-\caption{The transversal number and the resulting bound for single-trace $u(N)$. The closed form agrees with an
-exact integer program in all $12$ cases tested ($p$ from $1$ to $4$, $N$ from $2$ to $6$).}
-\label{tab:tau}
-\end{table}
+The transversal number itself has a closed form, $\tau=N(N-1)/2$ at $p=1$ and $\tau=pN(N+1)/2-2N$ for
+$p\ge2$, agreeing with an exact integer program in all twelve cases tested ($p$ from $1$ to $4$, $N$ from $2$ to
+$6$). The resulting bound is attained for $p\le3$ and degrades at $p=4$, where the family $A_{\mathbf s}$ below is no
+longer optimal.
 
 For SYK the same bound is vacuous, and instructively so. With generic couplings every $q$-subset is a triangle,
 so $\alpha_{\rm SYK}=q-1$ and \eqref{eq:taubound} gives $W\ge2(q-1)-n+1$, negative for $n\ge2q-1$. The
@@ -557,23 +597,35 @@ structural knob with opposite signs, which may be why the combination has proved
 weight; the identification of SYK as the $r=1$ member, verified against the matrix code for $p$ from $4$ to $12$;
 the vanishing of $\omega|_{\mathcal Z}$ whenever $-\mathrm{id}\in\Wg$, and the resulting classification of gauge
 algebras; the closed and non-exact properties of critical states, \eqref{eq:taubound}, the positive-root
-observation and \eqref{eq:cartan} for any reductive $\g$, with \eqref{eq:main} for $u(N)$; and the failure of
-every embedded BPS state to be closed at the next rank.
+observation and \eqref{eq:cartan} for any reductive $\g$, with \eqref{eq:main} for $u(N)$; the mapping-cone
+recursion \eqref{eq:recursion} and, given saturation, the symmetry argument \eqref{eq:form} that produces the
+cycle \eqref{eq:cycle}; and the failure of every embedded BPS state to be closed at the next rank.
 
-\paragraph{Measured, not proved.} Three loadbearing statements are currently numerical. The floor
-\eqref{eq:floor}, $\min_p w_s=q-1$, rests on scans at $q=3,5,7$ with $p\le13$. The growth of $W$ with $|\Wg|$ at
+\paragraph{Measured, not proved.} Three loadbearing statements are numerical. Index saturation, on which
+\S\ref{sec:slot} rests, is verified class by class in twenty-seven cases but not proved; it is the single most
+valuable gap, since with it the whole of \S\ref{sec:slot} becomes a theorem. The growth of $W$ with $|\Wg|$ at
 fixed mode count rests on five points and twenty coupling draws each. And the claim that the window is the same
 in every irrep, not just at the maximal weight, rests on the complete spectra at $(p,N)=(1,3),(1,4),(2,3),(3,2)$
-and the Casimir descents at $(3,3)$ and $(3,4)$. All cohomology is computed by exact integer linear algebra over
-$\mathbb F_P$ with every rank confirmed against a second prime, cross-checked against the refined Witten index,
-against exact diagonalisation at $N=2$, and against Chen's closed form at $p=1$.
+and the Casimir descents at $(3,3)$ and $(3,4)$; it is false at $q=5$. Two smaller inputs to \S\ref{sec:slot}
+are also observed rather than derived: that at most one class has vanishing index, and that $H^j$ is
+odd-dimensional in the antisymmetric case, without which \eqref{eq:form} forces nothing. All cohomology is
+computed by exact integer linear algebra over $\mathbb F_P$ with every rank confirmed against a second prime,
+cross-checked against the refined Witten index, against exact diagonalisation at $N=2$, and against Chen's
+closed form at $p=1$.
 
 \paragraph{Open.}
 \begin{itemize}
-\item \textbf{The Weyl growth, analytically.} The cleanest missing statement is a proof that a generic
-$\Wg$-invariant $q$-form on $\mathbb C^p\otimes\h$ has window growing with $r$, which would turn
-\S\ref{sec:weyl} from five measured points into the theorem the rank law deserves. A proof of \eqref{eq:floor}
-would complete the $q$ dependence at the same time.
+\item \textbf{Index saturation.} A proof that a generic $q$-form saturates its index class by class would make
+\S\ref{sec:slot} a theorem and, with it, R-charge concentration for the rank-one model. Ranks are lower
+semicontinuous, so one explicit witness per $(p,q)$ suffices; the obvious candidate is not one, since the
+decomposable form $\sum_ie_{3i-2}e_{3i-1}e_{3i}$ factorises by K\"unneth into support $m+1$ and is the worst
+rather than the best case, being exactly the maximal-weight structure of \S\ref{sec:rank}. The residual defect
+is smaller: a generic antisymmetric form on an odd-dimensional space has corank one, which is what we see except
+at $q=3$, $p=8$, where it is three. That case sits at $p=q^2$ and the coranks are powers of $q$, pointing at the
+same unexplained $q$-adic divisibility as the factor $q^{b}$ in Tierz's factorisation.
+\item \textbf{The Weyl growth, analytically.} A proof that a generic $\Wg$-invariant $q$-form on
+$\mathbb C^p\otimes\h$ has window growing with $r$ would turn \S\ref{sec:weyl} from five measured points into
+the theorem the rank law deserves.
 \item \textbf{An upper bound on $W$.} Everything here bounds the window from below, or computes it at the maximal
 weight. The complementary statement, that the cohomology vanishes outside a band, equivalently that
 $\omega\wedge$ is injective in low degrees, is verified in six models and four complete spectra but not
