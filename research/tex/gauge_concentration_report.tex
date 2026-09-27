@@ -45,7 +45,13 @@ $r\le(q-1)/(q-2)$, and only $q=3$ tolerates a gauge group, at rank $2$. The mech
 Weyl group: at the maximal weight the complex is the Cartan sector carrying a $q$-form that gauge invariance
 forces to be Weyl invariant, and while generic $q$-forms have bounded window, Weyl invariant ones do not.
 Holding the Cartan at twelve modes and varying only the Weyl group gives $W=3,3,5,5,11$ for
-$|\Wg|=1,2,6,24,720$. If $-1$ lies in the Weyl group, as for $B$, $C$, $D_{\rm even}$ and most exceptional
+$|\Wg|=1,2,6,24,720$. Away from the maximal weight a filtration by off-diagonal degree controls the general
+irrep, and at $q=3$ with $p<q$ it closes completely: the cohomology is a free $\Lambda^\bullet\mathcal Z$-module
+generated in one degree, and
+$Z_{\rm BPS}(t,x)=t^{p\binom N2}(1+t)^{pN}\prod_{i<j}(x_i/x_j+1+x_j/x_i)^p$. Every irrep carrying BPS states
+then has width $pN+1$ in the same absolute band, with all dependence on $\lambda$ reduced to one multiplicity
+read off from that character; at one flavour the character is $\chi_{2\rho}$ by the Weyl denominator identity,
+recovering Chen's $r_*$. We verify this on four complete spectra, including the singlet. If $-1$ lies in the Weyl group, as for $B$, $C$, $D_{\rm even}$ and most exceptional
 algebras, the Cartan form vanishes and the window is maximal, so the unitary series is already optimal. Fortuity
 runs the opposite way and is total: an embedded BPS state is never closed at the next rank.
 \end{minipage}\end{center}
@@ -64,10 +70,17 @@ graded by the R-charge $k=N_\Psi=\Tr\Psi^a\bar\Psi^a$, so $\Lambda^kV$ is the $k
 of $V$ is a \emph{mode}; a basis vector of $\Lambda^kV$ is a set $S$ of $k$ modes, written $m_S$. All dynamics
 comes from one supercharge,
 \begin{equation}
-Q=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\,\Tr\!\big[\Psi^{a_1}\cdots\Psi^{a_q}\big],\qquad
+Q=\sum_{a_1,\dots,a_q=1}^{p}C_{a_1\cdots a_q}\,\Tr\!\big[\Psi^{a_1}\cdots\Psi^{a_q}\big],\qquad
 H=\{Q,\bar Q\}\ \ge0,\qquad [N_\Psi,Q]=q\,Q .
 \label{eq:Q}
 \end{equation}
+The flavour sum runs over all tuples, not over increasing ones. Moving an odd matrix around the trace costs
+$(-1)^{q-1}=+1$, so $\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]$ is cyclically but not totally antisymmetric in the
+flavours, and terms with repeated flavours such as $\Tr[\Psi^1\Psi^1\Psi^2]$ are non-zero; only the
+cyclic-invariant part of $C$ contributes. This matters: requiring distinct flavours would force $Q\equiv0$
+whenever $p<q$, which is precisely the regime solved in \S\ref{sec:allirreps}. At $N=1$ the trace is trivial and
+the modes genuinely anticommute, so there the sum does collapse to $a_1<\cdots<a_q$ with $C$ antisymmetric.
+
 Only odd $q$ is admissible, for two independent reasons: a cyclic shift inside $\Tr[\Psi^q]$ costs $(-1)^{q-1}$,
 so the trace vanishes identically for even $q$; and $Q^2=0$ needs the exchange of the two $q$-tuples in
 $C\otimes C$, a permutation of $2q$ fermions built from $q^2$ transpositions, to produce a relative sign, which
@@ -76,7 +89,7 @@ again happens exactly for odd $q$.
 Since every $\Psi$ is a creation operator, $Q$ contains no annihilators and acts on $\Lambda^\bullet V$ as plain
 left multiplication,
 \begin{equation}
-Q=\omega\wedge-\,,\qquad \omega=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV ,
+Q=\omega\wedge-\,,\qquad \omega=\sum_{a_1,\dots,a_q=1}^{p}C_{a_1\cdots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV ,
 \qquad H^\bullet=\operatorname{Ann}(\omega)/(\omega).
 \label{eq:wedge}
 \end{equation}
@@ -89,7 +102,7 @@ the identity map, and \eqref{eq:Q} reads
 \begin{equation}
 Q=\sum_{1\le a_1<\cdots<a_q\le p}C_{a_1\cdots a_q}\,\psi^{a_1}\cdots\psi^{a_q},
 \end{equation}
-which is $\mathcal N=2$ SYK with $p$ complex fermions. The gauge algebra is $u(1)$, whose adjoint action is
+with $C$ now totally antisymmetric, which is $\mathcal N=2$ SYK with $p$ complex fermions. The gauge algebra is $u(1)$, whose adjoint action is
 trivial, so nothing constrains $C$; this is why the SYK coupling is free while the matrix coupling is not.
 Randomness plays no role in what follows. What a Gaussian ensemble supplies is genericity, and genericity is
 optimal here for a structural reason: matrix ranks are lower semicontinuous in $\omega$, so specialising the
@@ -380,6 +393,173 @@ statement about the spectrum, while at larger $q$ they do not, and since the tot
 $r+1$ the conclusion that raising $q$ hurts is reinforced rather than weakened. A further caveat attaches to the
 whole maximal-weight analysis: the multiplicity $6^N$ of Table~\ref{tab:profiles} is not macroscopic, so the
 complexes reached here are not yet the ones the concentration hypothesis is about.
+
+\section{The window away from the maximal weight}\label{sec:allirreps}
+
+Everything so far is computed at $\lambda^*$. This section gives the structure that governs a general weight,
+and solves it completely when $p<q$.
+
+\subsection{A filtration by off-diagonal degree}
+
+Split $V=V_{\rm off}\oplus\mathcal Z$ into off-diagonal modes and Cartan modes, so that
+$\Lambda V=\Lambda V_{\rm off}\otimes\Lambda\mathcal Z$ carries a bigrading by off-diagonal degree $d$ and Cartan
+degree $z$, with total degree $k=d+z$. The weight depends only on $d$-part. Decompose the form by how many of
+its legs are off-diagonal,
+\begin{equation}
+\omega=\sum_{a+b=q}\omega_{(a,b)},\qquad a=\text{off-diagonal legs},\quad b=\text{Cartan legs}.
+\end{equation}
+One piece vanishes for free: a term is a closed walk, and a walk that leaves its starting site by a single
+off-diagonal edge cannot return, so $\omega_{(1,q-1)}=0$. At $q=3$ this leaves
+$\omega=\omega_{(0,3)}+\omega_{(2,1)}+\omega_{(3,0)}$, raising $d$ by $0$, $2$ and $3$.
+
+Filtering by $d$, the $E_0$ differential is $\omega_{(0,3)}$, which is pure Cartan and therefore acts only on the
+$\Lambda\mathcal Z$ factor; it is the sum of the self-loops, so K\"unneth over sites applies and
+\begin{equation}
+E_1=\mathcal C_\lambda\otimes H_{\rm slot}^{\otimes N},\qquad
+Z_{E_1}(t)=P_\lambda(t)\,z_{\rm slot}(t)^{N},
+\label{eq:E1}
+\end{equation}
+where $P_\lambda(t)=\sum_d(\dim\mathcal C^d_\lambda)\,t^d$ counts off-diagonal configurations of weight $\lambda$.
+Then $d_1=0$ by the lemma, $d_2$ comes from $\omega_{(2,1)}$, $d_3$ from $\omega_{(3,0)}$, and the sequence
+degenerates. At the maximal weight there is exactly one off-diagonal configuration, $P_{\lambda^*}=t^{k_0}$ with
+$k_0=p\binom N2$, and \eqref{eq:E1} is already the answer: this rederives \S\ref{sec:rank} and shows precisely
+what is special about the top, namely that the filtration has a single step there.
+
+\subsection{A closed form at every irrep when $q=3$ and $p<q$}
+
+When $p<q$ a self-loop would need $q$ distinct flavours at one site, so $\omega_{(0,q)}=0$, the $E_0$
+differential vanishes and $z_{\rm slot}=(1+t)^p$. At $q=3$, which is the case of interest and the only one where
+we have complete spectra, what we find is much stronger than the resulting bound: at every weight the cohomology
+is a \emph{free} $\Lambda^\bullet\mathcal Z$-module, generated in the single degree $k_0=\frac12\dim V_{\rm off}$.
+Writing the answer as a $U(N)$ character then gives the whole BPS partition function in closed form,
+\begin{equation}
+Z_{\rm BPS}(t,x)=t^{\,p\binom N2}\,(1+t)^{pN}\prod_{i<j}\Big(\frac{x_i}{x_j}+1+\frac{x_j}{x_i}\Big)^{p},
+\label{eq:allirreps}
+\end{equation}
+so that irrep by irrep
+\begin{equation}
+Z_\lambda(t)=m_\lambda\,t^{\,p\binom N2}\,(1+t)^{pN},
+\qquad m_\lambda=\Big[\textstyle\prod_{i<j}\big(\tfrac{x_i}{x_j}+1+\tfrac{x_j}{x_i}\big)^{p}:\chi_\lambda\Big].
+\label{eq:mlambda}
+\end{equation}
+Every irrep that carries BPS states therefore has the same window, the same width and the same profile,
+\begin{equation}
+W_\lambda=pN+1,\qquad \text{support}=\Big[\,p\tbinom N2,\ p\tbinom{N+1}2\,\Big],
+\end{equation}
+centred on $pN^2/2$, and the entire dependence on $\lambda$ is the single integer $m_\lambda$, which
+\eqref{eq:mlambda} supplies. This is an analytic formula for the window at an arbitrary irrep, not a bound.
+Setting $x=1$ gives the total count $2^{pN}\,3^{\,p\binom N2}$, and the bracket has the highest weight
+$2\rho$, so the product has highest weight $p\cdot2\rho=\lambda^*$ as it must.
+
+\subsection{Deriving \eqref{eq:allirreps}}
+
+Equation \eqref{eq:allirreps} is not merely fitted to the data. It follows from two hypotheses together with an
+identity that holds for free, and it is worth separating the three.
+
+The identity first. For any complex whose differential raises degree by $q$, writing
+$r_k=\operatorname{rank}(Q:\Lambda^k\to\Lambda^{k+q})$ and $R(t)=\sum_kr_kt^k$, one has
+$Z_{\rm BPS}=Z_{\rm Fock}-(1+t^q)R(t)$, so
+\begin{equation}
+Z_{\rm BPS}(t,x)\ \equiv\ Z_{\rm Fock}(t,x) \pmod{1+t^{q}},
+\label{eq:congruence}
+\end{equation}
+weight by weight, since $Q$ preserves the weight. The Fock character factorises over modes,
+\begin{equation}
+Z_{\rm Fock}(t,x)=(1+t)^{pN}\prod_{i<j}F_{ij}^{\,p},\qquad F_{ij}=(1+t\,x_i/x_j)(1+t\,x_j/x_i),
+\end{equation}
+and writing $G_{ij}=t\,(x_i/x_j+1+x_j/x_i)$ for the pair factor appearing in \eqref{eq:allirreps},
+\begin{equation}
+F_{ij}-G_{ij}=1-t+t^{2},
+\end{equation}
+which is independent of $x$. Since $1+t^3=(1+t)(1-t+t^2)$ and $pN\ge1$, the difference
+$Z_{\rm Fock}-Z_{\rm BPS}$ is divisible by $1+t^3$, so \eqref{eq:allirreps} satisfies \eqref{eq:congruence}
+identically in $x$ and for every $p$ and $N$. This is what fixes the \emph{shape} of the answer: the pair factor
+$x_i/x_j+1+x_j/x_i$ and the prefactor $t^{p\binom N2}$, one power of $t$ per pair-flavour block, are exactly
+what $F_{ij}$ becomes at a primitive sixth root of unity.
+
+The congruence alone does not determine $Z_{\rm BPS}$, since it fixes only three coefficients. Adjoin two
+hypotheses:
+\begin{itemize}
+\item[(A)] $H_\lambda$ is a free $\Lambda^\bullet\mathcal Z$-module;
+\item[(B)] $\operatorname{supp}Z_\lambda$ lies in the band $[\,k_0,\ k_0+pN\,]$, of width $pN+1$.
+\end{itemize}
+Then \eqref{eq:allirreps} follows. By (A), $Z_\lambda(t)=M_\lambda(t)(1+t)^{pN}$ with $M_\lambda$ having
+non-negative coefficients. The factor $(1+t)^{pN}$ already spans $pN+1$ degrees, so by (B) the polynomial
+$M_\lambda$ can only be a monomial, $M_\lambda=m_\lambda t^{k_0}$. Feeding this into \eqref{eq:congruence} and
+working modulo $1-t+t^2$, where $F_{ij}\equiv G_{ij}$, the common factor $(1+t)^{pN}$ and the common $t^{k_0}$
+cancel and what remains is an equality of $t$-independent characters,
+\begin{equation}
+\sum_\lambda m_\lambda\chi_\lambda=\prod_{i<j}\Big(\frac{x_i}{x_j}+1+\frac{x_j}{x_i}\Big)^{p},
+\end{equation}
+which is \eqref{eq:mlambda}. So the whole content of \eqref{eq:allirreps}, multiplicities included, reduces to
+(A) and (B). Neither is proved here, and both are the middle-degree maximal-rank property discussed in
+\S\ref{sec:allirreps} and \S\ref{sec:slot}: the three open problems of this report are the same problem.
+
+At $(p,N)=(1,2)$ the argument closes, and in two ways. First, there $\omega=3\,\sigma\wedge u\wedge v$ with $\sigma=\Psi_{11}-\Psi_{22}$ the coroot direction,
+$u=\Psi_{12}$, $v=\Psi_{21}$, and the trace mode $\tau=\Psi_{11}+\Psi_{22}$ absent. So $\omega$ is
+\emph{decomposable}, the top form of $S=\langle\sigma,u,v\rangle$, and splitting
+$\Lambda V=\Lambda S\otimes\Lambda\langle\tau\rangle$ makes $\omega\wedge$ the isomorphism
+$\Lambda^0S\to\Lambda^3S$ and zero elsewhere, whence $H=(\Lambda^1S\oplus\Lambda^2S)\otimes\Lambda\langle\tau\rangle$.
+Reading off weights ($\sigma,\tau$ neutral, $u,v$ of weight $\pm\alpha$) gives
+$(1+x+x^{-1})(t+t^2)(1+t)$, which is \eqref{eq:allirreps}. Second, and without assuming (A): the band there has
+width $pN+1=3$, and reduction modulo the cubic $1+t^3$ is injective on polynomials supported on three
+consecutive degrees, so (B) and \eqref{eq:congruence} alone already pin $Z_\lambda$ down. Neither route
+survives: for $N\ge3$ the
+three-cycle terms $\Psi_{ij}\Psi_{jk}\Psi_{ki}$ couple three different pair blocks, and even without them the
+pair terms $\alpha^\vee_{ij}\wedge u_{ij}\wedge v_{ij}$ share Cartan directions, since the $\binom N2$ coroots
+span only the $(N-1)$-dimensional traceless Cartan. At $p=2$ the form is not decomposable even at $N=2$. So the
+factorisation of the answer is not mirrored by any factorisation of the complex, which is why no general proof
+is offered here.
+
+The one-flavour case of \eqref{eq:mlambda} is, by contrast, a theorem rather than an observation. The bracket is the character
+of the three-dimensional representation of the $SU(2)$ attached to the root $e_i-e_j$, and rescaling
+$e^\alpha\mapsto e^{3\alpha}$ in the Weyl denominator identity gives
+$\sum_w\det(w)e^{3w\rho}=\prod_{\alpha>0}(e^{3\alpha/2}-e^{-3\alpha/2})$, whence by the Weyl character formula
+\begin{equation}
+\prod_{\alpha>0}\big(e^{\alpha}+1+e^{-\alpha}\big)=\chi_{2\rho},
+\qquad \dim V_{2\rho}=3^{|\Delta^+|}.
+\end{equation}
+So at $p=1$ the cohomology is the single irrep $V_{2\rho}$ tensored with $\Lambda^\bullet\mathcal Z$, which is
+Chen's $r_*$, and \eqref{eq:mlambda} is its multi-flavour generalisation; for $p\ge2$ the product is no longer
+irreducible.
+
+We have checked \eqref{eq:allirreps} and \eqref{eq:mlambda} against four \emph{complete} spectra, resolved into
+irreps by Kostant inversion, with every rank confirmed against a second prime, and the predicted multiplicities
+agree with the measured ones in every irrep. At $(p,N)=(1,3)$ and $(1,4)$ only $V_{2\rho}$ survives, with $m=1$
+and profiles $1,3,3,1$ over $3\ldots6$ and $1,4,6,4,1$ over $6\ldots10$. At $(2,2)$ all three irreps survive
+with $m=1$. At $(2,3)$ all thirteen survive, including the singlet, with $m\in\{1,2,3\}$ and profile
+$m\binom6j$ over $6\ldots12$. The singlet is worth isolating: the gauge-invariant sector of the $(2,3)$ model
+has window width $7$, so concentration fails there too, not merely in the high-weight sectors where the explicit
+critical sets of \S\ref{sec:everyweight} live. As a further test, \eqref{eq:mlambda} predicts $76$ irreps at
+$(2,4)$ with window $12\ldots20$ and $\sum_\lambda m_\lambda\dim V_\lambda=3^{12}$; the full spectrum there is
+out of reach, but the maximal weight is not, and it returns $m_{\lambda^*}=1$ with profile $\binom8j$ over
+$12\ldots20$ as predicted.
+
+The restriction to $q=3$ is real, not caution. At $q=5$ with one flavour the same reasoning would give a window
+of width $pN+1=4$ at $N=3$, whereas the true support is the six sectors $2\ldots7$ recorded in
+\S\ref{sec:slot}. Irrep-independence of the window, and with it \eqref{eq:allirreps}, is a $q=3$ phenomenon.
+
+Equation \eqref{eq:allirreps} is Tierz's freeness conjecture for this family. He observes that the traceless
+diagonal modes make the cohomology a graded module over $\Lambda^\bullet(\mathbb C^{N-1})$ and notes that
+freeness would explain the factor $(1+x)^N$ he sees numerically but cannot derive; restoring the $u(1)$ he
+strips turns his $\Lambda^\bullet(\mathbb C^{N-1})$ into our $\Lambda^\bullet\mathcal Z$, and our $p=1$ spectra
+confirm the freeness at $q=3$ while $(2,2)$ and $(2,3)$ extend it to two flavours.
+
+\subsection{What survives at $p\ge q$}
+
+Once $p\ge q$ the self-loops reappear, $\omega_{(0,q)}\ne0$, and \eqref{eq:allirreps} fails: at $p=3$ the profile
+is no longer a fixed shape times $m_\lambda$. The clearest counterexample is $(p,N)=(3,4)$ at $C_2=107$, where
+the profile is $114,1572,2916,1572,114$, not proportional to the maximal-weight $81,324,486,324,81$; the same
+happens at $(5,0,-5)$ when $N=3$. What does survive, in all twenty-six irreps computed across $N=3$ and $N=4$,
+is the window itself: width $N(w_s-1)+1$ and the same absolute band in every case. So at $p\ge q$ we have the
+width empirically and the profile not at all, whereas at $p<q$ we have both, exactly.
+
+The obstruction is identifiable. With $\omega_{(0,q)}=0$ the purely off-diagonal piece $\omega_{(q,0)}$ is
+$\Lambda\mathcal Z$-linear and acts on the $\Lambda V_{\rm off}$ factor alone, and \eqref{eq:allirreps} amounts
+to the statement that its cohomology at each weight is concentrated in the middle degree
+$\frac12\dim V_{\rm off}$. That is once again a maximal-rank property, of the same kind as the index saturation
+of \S\ref{sec:slot} and as the injectivity of $\omega\wedge$ below the band. The three open problems of this
+report are therefore one problem in three places.
 
 \section{Why rank: the Weyl group}\label{sec:weyl}
 

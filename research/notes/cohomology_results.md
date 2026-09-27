@@ -879,3 +879,172 @@ odd-dimensional in the antisymmetric case (without which the argument forces not
 **Also noted**: the obvious candidate witness $\omega=\sum_ie_{3i-2}e_{3i-1}e_{3i}$ is maximally *non*-generic
 here, since Künneth gives it support $m+1$; it is precisely our slot factorisation, i.e. the matrix model's
 maximal-weight structure. The decomposable normal form is the worst case, not a witness.
+
+## 4s. The window at EVERY irrep, exactly, for $p<q$ (2026-09-27)
+
+**The formula.** For $q=3$ and $p<q$ (so $\Lambda^q\mathbb C^p=0$, no self-loops, $\omega_{(0,q)}=0$):
+$$Z_\lambda(t)=m_\lambda\,t^{\,p\binom N2}\,(1+t)^{pN},\qquad m_\lambda\in\mathbb Z_{\ge0},$$
+i.e. $H_\lambda$ is a **free $\Lambda^\bullet\mathcal Z$-module of rank $m_\lambda$ generated in the single
+degree $k_0=p\binom N2=\frac12\dim V_{\rm off}$**. Every irrep carrying BPS states has
+$$W_\lambda=pN+1,\qquad \text{support}=\big[p\tbinom N2,\ p\tbinom{N+1}2\big],$$
+the same absolute band, centred at $pN^2/2$. All $\lambda$-dependence is one integer. **This is an exact
+formula at an arbitrary irrep, not a bound** (D10.5 answered in this regime).
+
+**What $m_\lambda$ is (2026-09-27).** The whole BPS partition function, character included:
+$$Z_{\rm BPS}(t,x)=t^{\,p\binom N2}(1+t)^{pN}\prod_{i<j}\Big(\tfrac{x_i}{x_j}+1+\tfrac{x_j}{x_i}\Big)^{p},
+\qquad m_\lambda=\Big[\prod_{i<j}\big(\tfrac{x_i}{x_j}+1+\tfrac{x_j}{x_i}\big)^p:\chi_\lambda\Big].$$
+The bracket is the character of the 3-dim irrep of the $SU(2)$ on the root $e_i-e_j$. Setting $x=1$:
+$\dim H^{k_0}=3^{k_0}=3^{p\binom N2}$ and total BPS $=2^{pN}3^{p\binom N2}$ (verified: 27, 729, 9, 729 and
+216, 11664, 144, 46656). Predicted $m_\lambda$ matches measured in **every irrep of all four spectra**,
+including all 13 at $(2,3)$.
+
+**The $p=1$ case is a theorem.** Rescaling $e^\alpha\mapsto e^{3\alpha}$ in the Weyl denominator identity gives
+$\sum_w\det(w)e^{3w\rho}=\prod_{\alpha>0}(e^{3\alpha/2}-e^{-3\alpha/2})$, so by the Weyl character formula
+$\prod_{\alpha>0}(e^\alpha+1+e^{-\alpha})=\chi_{2\rho}$ with $\dim V_{2\rho}=3^{|\Delta^+|}$. Confirmed by direct
+decomposition at $N=2..6$: a single irrep every time. So at $p=1$, $H=V_{2\rho}\otimes\Lambda^\bullet\mathcal Z$
+(Chen's $r_*$), and the character product is its multi-flavour generalisation.
+
+**SCOPE: $q=3$ only.** At $q=5$, $p=1$, $N=3$ the formula would give window $3..6$ ($W=4$), but the true support
+is $2..7$ ($W=6$), from Tierz and our own reproduction. Irrep-independence, and with it the whole closed form,
+is a $q=3$ phenomenon. (Consistent with §4q, which already found irrep-independence false at $q=5$.)
+
+**Extra check**: at $(2,4)$ the character predicts 76 irreps, window $12..20$, $\sum m\dim=3^{12}$; the full
+spectrum is out of reach but the maximal weight returns $m_{\lambda^*}=1$ with profile $\binom8j$ over
+$12..20$, as predicted.
+
+**Verified on four complete spectra**, Kostant-resolved, two primes (`scripts/run_full_spectrum_p2N3.py`,
+data in `results/data/cohomology_N{3,4}_p1_full.json`, `cohomology_N{2,3}_p2_full.json`):
+
+| $(p,N)$ | irreps with BPS | $k_0$ | window | $W$ | $m_\lambda$ |
+|---|---|---|---|---|---|
+| $(1,3)$ | 1 of 5 | 3 | $3..6$ | 4 | 1 |
+| $(1,4)$ | 1 of 16 | 6 | $6..10$ | 5 | 1 |
+| $(2,2)$ | 3 of 3 | 2 | $2..6$ | 5 | $1,1,1$ |
+| $(2,3)$ | **13 of 13, incl. the singlet** | 6 | $6..12$ | 7 | $1,2,3$ |
+
+The $(2,3)$ singlet matters: the gauge-invariant sector has width 7, so concentration fails there too, not only
+in the high-weight sectors where the explicit critical sets of D11 live. That partly answers the worry recorded
+in §4q/§4r that our critical sets all sit at $\lambda^*$.
+
+**This is Tierz's freeness conjecture**, confirmed at $q=3$. He notes the traceless diagonal modes make the
+cohomology a $\Lambda^\bullet(\mathbb C^{N-1})$-module and that freeness would explain his numerical $(1+x)^N$;
+restoring the $u(1)$ he strips gives our $\Lambda^\bullet\mathcal Z$. Our $p=1$ spectra confirm it; $p=2$
+extends it to two flavours.
+
+**The framework (new).** Split $V=V_{\rm off}\oplus\mathcal Z$ and decompose $\omega=\sum_{a+b=q}\omega_{(a,b)}$
+by off-diagonal leg count. **Lemma: $\omega_{(1,q-1)}=0$** (a walk leaving by one off-diagonal edge cannot
+return). At $q=3$: $\omega=\omega_{(0,3)}+\omega_{(2,1)}+\omega_{(3,0)}$, raising off-diagonal degree by $0,2,3$.
+Filtering by that degree gives $d_0=\omega_{(0,3)}$ (pure Cartan, Künneth over sites), so
+$$E_1=\mathcal C_\lambda\otimes H_{\rm slot}^{\otimes N},\qquad Z_{E_1}=P_\lambda(t)\,z_{\rm slot}(t)^N,$$
+then $d_1=0$, $d_2=\omega_{(2,1)}$, $d_3=\omega_{(3,0)}$, degenerate. At $\lambda^*$ there is one configuration,
+$P=t^{k_0}$, and the sequence collapses at $E_1$: **this rederives the maximal-weight result and shows exactly
+what is special about the top** (the filtration has one step there).
+
+**What fails at $p\ge q$.** Self-loops reappear and the factorisation breaks: at $(3,4)$, $C_2=107$ the profile
+is $114,1572,2916,1572,114$, not proportional to $81,324,486,324,81$; same at $(5,0,-5)$, $N=3$. The **width**
+still holds in all 26 irreps computed. So $p<q$ gives width and profile exactly; $p\ge q$ gives width only, and
+empirically.
+
+**Unification.** With $\omega_{(0,q)}=0$ the piece $\omega_{(q,0)}$ is $\Lambda\mathcal Z$-linear, and
+\eqref{allirreps} says its cohomology is concentrated in the middle off-diagonal degree. That is the same
+maximal-rank property as index saturation (§4r) and as injectivity of $\omega\wedge$ below the band (D10.5).
+**The three open problems are one problem in three places.**
+
+## 4t. Verification campaign for the closed form (2026-09-27)
+
+`scripts/run_irrep_factorisation.py` (general odd $q$) and `scripts/check_character_formula.py`.
+
+**$q=3$, all pass.** Tests: (i) $Z_\lambda=m_\lambda t^{k_0}(1+t)^{pN}$ irrep by irrep; (ii) $m_\lambda$ equals
+the multiplicity of $\chi_\lambda$ in $\prod_{i<j}(x_i/x_j+1+x_j/x_i)^p$; (iii) $\sum m_\lambda\dim V_\lambda=3^{k_0}$.
+
+| $(p,N)$ | couplings | irreps | $k_\lambda$ | $\sum m\dim$ | shape | character |
+|---|---|---|---|---|---|---|
+| $(1,2)$ | n/a | 1 | 1 const | $3^1$ | yes | yes |
+| $(1,3)$ | n/a | 1 | 3 const | $3^3$ | yes | yes |
+| $(1,4)$ | n/a | 1 | 6 const | $3^6$ | yes | yes |
+| $(2,2)$ | seeds 1,2,7 | 3 | 2 const | $3^2$ | yes | yes |
+| $(2,3)$ | seeds 1,2,7 | 13 | 6 const | $3^6$ | yes | yes |
+| $(2,4)$ | n/a | maximal weight only | 12 | n/a | yes | yes ($m=1$) |
+
+19 irreps over five complete spectra; **coupling-independence** checked with three seeds at each $p=2$ point,
+identical results (as required, since the formula contains no $C$).
+
+**$q=5$ REFUTES the general-$p<q$ version.** At $(1,3)$, $q=5$: irreps $(2,0,-2)$ and $(1,0,-1)$ do factorise
+($m=1$, $k=3$), but $(1,1,-2)$ and $(2,-1,-1)$ give
+$$Z_\lambda=t^2(1+t)^2(1+t^3)=t^2(1+t)^3(1-t+t^2),$$
+and the negative coefficient means $H_\lambda$ is **not free** over $\Lambda^\bullet\mathcal Z$. So it is not
+merely that $k_\lambda$ starts to vary (my first guess, checked and wrong): freeness itself is a $q=3$
+phenomenon. Scope is therefore **$q=3$, $p\in\{1,2\}$**, two infinite families in $N$.
+
+**Proportion.** $p=1$ is essentially Chen's $H=V_{r_*}\otimes\Lambda^\bullet\mathcal Z$; what is new there is the
+derivation via $\prod_{\alpha>0}(e^\alpha+1+e^{-\alpha})=\chi_{2\rho}$ (provable). $p=2$ and the character form
+are the new content. Chen's $p=3$ is on the wrong side of $p<q$. Largest untested direction is $N$: all
+complete spectra are $N\le4$.
+
+## 4u. The general statement, valid for $p\ge q$ (2026-09-27)
+
+**General form (D10.5, sharp).** For every weight $\lambda$ and every $p$,
+$$\operatorname{supp}Z_\lambda\subseteq k_0+\operatorname{supp}\big(z_{\rm slot}(t)^N\big),\qquad k_0=p\binom N2,$$
+i.e. $W_\lambda\le N(w_s-1)+1$ in the band $[k_0+Nd_{\rm slot},\,k_0+Nd_{\rm slot}+N(w_s-1)]$.
+
+**What the filtration actually gives** is only $\operatorname{supp}Z_\lambda\subseteq\operatorname{supp}(P_\lambda)+\operatorname{supp}(z_{\rm slot}^N)$ (rigorous, all
+$p,q,N$, but weak since $P_\lambda$ spreads). The sharp version needs exactly one input: **the $d_2,d_3$
+cohomology of the off-diagonal factor $\mathcal C_\lambda$ is concentrated in the middle degree
+$k_0=\frac12\dim V_{\rm off}$.** That upgrades weak to sharp for all $p,q,N$ at once, and is the same
+middle-degree maximal-rank property as §4r and §4s.
+
+**Structural explanation of the $p<q$ / $p\ge q$ dichotomy.** $H^0_{\rm slot}=\ker(\omega_{\rm sl}\wedge:\Lambda^0\to\Lambda^q)$
+vanishes iff $\omega_{\rm sl}\ne0$ iff $p\ge q$. So $A=H_{\rm slot}^{\otimes N}$ is **unital iff $p<q$**. All
+differentials are $\Lambda\mathcal Z$-linear hence $A$-linear, so $E_1=\mathcal C_\lambda\otimes A$ is a free
+$A$-module; freeness is only meaningful when $A$ is unital. Hence the exact closed form at $p<q$ and the
+support-only statement at $p\ge q$. **This explains §4s rather than merely recording it.**
+
+**Evidence at $q=3$, 54 irreps** (`scripts/run_general_window.py`):
+
+| $(p,N)$ | irreps | upper bound | equality |
+|---|---|---|---|
+| $(1,2),(1,3),(1,4)$ | 3 | yes | yes |
+| $(2,2),(2,3)$ | 16 | yes | yes |
+| $(3,2)$ | 4 | yes | yes |
+| $(3,3),(3,4)$ | 26 | yes | yes |
+| $(4,2)$ | 5 | yes | **4 of 5** |
+
+New complete spectrum $(4,2)$, the first at $p>q$ beyond $p=3$: predicted band $6..10$, and four irreps attain it
+($z_{\rm slot}=3t+6t^2+3t^3$, $k_0=4$). The exception is $\lambda=(1,-1)$: window $7..9$, width 3 not 5, profile
+$162,324,162$, **identical across four couplings** (seeds 11,2,5,23), so it is structure, not an accident.
+Note $7,8,9\equiv1,2,0$ mod 3: **that irrep is concentrated** though the model is not. Individual irreps can be
+strictly narrower than the band. The profile also does not factorise for most irreps at $p=4$ (e.g. $(3,-3)$ has
+$5,86,162,86,5$, not proportional to $9,36,54,36,9$), as the non-unitality predicts.
+
+**Boundary: $q\ge5$ breaks even the upper bound.** $(1,3)$ at $q=5$ has irreps with support $2..7$ against the
+predicted band $3..6$; and at $q=5$, $(2,3)$ the widths differ between irreps (7 vs 9), so width-uniformity is
+also $q=3$-only. Everything in §4s and §4u is $q=3$.
+
+## 4v. Correction to the supercharge notation, and what is actually proved (2026-09-27)
+
+**Error found and fixed.** The report had written the flavour sum as $\sum_{1\le a_1<\cdots<a_q\le p}$ (my edit
+of 2026-09-27). **This is wrong for $N>1$** and wrong precisely in the $p<q$ regime: with distinct flavours
+required, $Q\equiv0$ whenever $p<q$. $\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]$ is only **cyclically** symmetric (moving
+an odd matrix around the trace costs $(-1)^{q-1}=+1$), so repeated flavours contribute. Verified: $C$ supported
+on $(1,1,2)$ alone gives 51 non-zero actions of $Q$ at $p=2$, $N=2$; and the totally antisymmetric part of a
+$2\times2\times2$ tensor is identically zero. The code (`apply_Q`, `apply_Q_degree`) always summed over all
+tuples and was never affected. Corrected to $\sum_{a_1\dots a_q=1}^p$, with a remark that only the
+cyclic-invariant part of $C$ survives and that $a_1<\cdots<a_q$ is right only at $N=1$.
+
+**Proof of the closed form at $(p,N)=(1,2)$.** $\omega=3\,\sigma\wedge u\wedge v$ with $\sigma=\Psi_{11}-\Psi_{22}$
+(the coroot), $u=\Psi_{12}$, $v=\Psi_{21}$; the trace mode $\tau=\Psi_{11}+\Psi_{22}$ does not appear (Tierz's
+$U(1)$ decoupling, explicit). So $\omega$ is **decomposable**: the top form of $S=\langle\sigma,u,v\rangle$.
+With $\Lambda V=\Lambda S\otimes\Lambda\langle\tau\rangle$, multiplication by the top form is the iso
+$\Lambda^0S\to\Lambda^3S$ and zero elsewhere, so
+$$H=(\Lambda^1S\oplus\Lambda^2S)\otimes\Lambda\langle\tau\rangle,\qquad
+Z=(1+x+x^{-1})(t+t^2)(1+t)=t(1+t)^2\big(\tfrac{x_1}{x_2}+1+\tfrac{x_2}{x_1}\big),$$
+which is the closed form at $p=1$, $N=2$. **Proved.**
+
+**Why it does not generalise.** For $N\ge3$ the three-cycle terms $\Psi_{ij}\Psi_{jk}\Psi_{ki}$ couple three
+distinct pair blocks. Even discarding them, the pair terms are $\alpha^\vee_{ij}\wedge u_{ij}\wedge v_{ij}$ and
+the $\binom N2$ coroots span only the $(N-1)$-dimensional traceless Cartan, so the decomposables share variables
+and Künneth fails. At $p=2$, $\omega$ has 16 terms in $\mathcal Z\wedge\Lambda^2U$ and is not decomposable even
+at $N=2$. **The factorisation of the answer is not mirrored by a factorisation of the complex.**
+
+**Status of the closed form: verified, not proved**, except at $(p,N)=(1,2)$. Earlier phrasing in §4s/§4t
+overstated this and has been corrected in the report.
