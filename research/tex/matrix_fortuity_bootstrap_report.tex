@@ -39,9 +39,12 @@ $q+1$ and is controlled by the symmetry type of one bilinear form. A combinatori
 sets gives a lower bound on $W$ at every weight, and exact integer linear algebra over a weight decomposition,
 followed by Kostant inversion, gives BPS multiplicities irrep by irrep for $N$ up to $5$. Since
 $\mathcal N=2$ SYK is the $N=1$ member of the same family, R-charge concentration becomes a statement about
-rank: it holds for $r\le q-1$ and fails otherwise. None of this reaches the density of states, which is what
-distinguishes a chaotic model with a super-Schwarzian tail from a solvable one, so for that we use a
-sector-resolved bootstrap. A semidefinite programme over linear functionals, formulated exactly at finite $N$ in
+rank: it holds for $r\le q-1$ and fails otherwise. The same empty-triangle criterion settles fortuity: an
+embedded BPS state is never closed at the next rank, so no class is monotone, and fortuity and concentration
+respond to enlarging the gauge group with opposite signs. None of this reaches the density of states, which is
+what distinguishes a chaotic model with a super-Schwarzian tail from a solvable one, and for that we turn to a
+sector-resolved bootstrap, which supplies rigorous energies where exact diagonalisation cannot, though it does
+not yet reach the near-BPS regime either. A semidefinite programme over linear functionals, formulated exactly at finite $N$ in
 terms of trace words, gives rigorous lower bounds on the sector ground energies, reproduces them exactly in
 every gapped sector at $N=2$, and yields the closed form $E_0(k;N)=16N^3-(15+38k)N$ for the non-interacting
 sectors $k\le N-1$. Adding the BPS conditions turns the same programme into a certificate of absence, and
@@ -81,12 +84,17 @@ Every $\Psi$ is a creation operator, so $Q$ contains no annihilators and acts on
 left multiplication,
 \begin{equation}
 Q=\omega\wedge-\,,\qquad \omega=\sum C_{a_1\cdots a_q}\Tr[\Psi^{a_1}\cdots\Psi^{a_q}]\in\Lambda^qV,
-\qquad H^\bullet=\operatorname{Ann}(\omega)/(\omega).
+\qquad H^\bullet=\ker Q/\operatorname{im}Q .
 \label{eq:wedge}
 \end{equation}
 Nilpotency is then automatic for odd $q$, since $\omega\wedge\omega=-\omega\wedge\omega$, and survives any
-change of couplings or of index structure. The whole BPS problem is the cohomology of multiplication by one
-specific element of $\Lambda^qV$.
+change of couplings or of index structure. Concretely, $\ker Q$ is the set of states that $\omega$ annihilates
+and $\operatorname{im}Q$ the set it produces, and $\operatorname{im}Q\subseteq\ker Q$ is precisely $Q^2=0$. The
+whole BPS problem is therefore the cohomology of multiplication by one specific element of $\Lambda^qV$. It is
+worth seeing this once on the object that recurs below: on $\Lambda^\bullet\mathbb C^3$ with
+$\omega=e_1\wedge e_2\wedge e_3$ the top form, $\ker Q=\Lambda^{\ge1}$ of dimension $7$ and
+$\operatorname{im}Q=\Lambda^3$ of dimension $1$, so the cohomology is $\Lambda^1\oplus\Lambda^2$ with Poincar\'e
+polynomial $3t+3t^2$, which is the single-site factor that gives $27,81,81,27$ at $N=3$.
 
 \subsection{SYK is the member at $N=1$}
 
@@ -277,7 +285,7 @@ cubic supercharge is the only degree that tolerates a gauge group. And since $w_
 with $r\to\infty$ is impossible, so concentration is a property of a family whose parameter, for a matrix model,
 must be the rank.
 
-\subsection{A lower bound at every weight}
+\subsection{A lower bound at every weight}\label{sec:critical}
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.93\textwidth]{report_figs/g_critical.pdf}
@@ -379,6 +387,58 @@ and $19\%$ at $N=4$, so saturation, which is the sharp form of concentration, fa
 non-zero. Third, the profile $3^N\binom Nj$ of Table~\ref{tab:profiles} is not a law. It holds for eleven of the
 thirteen irreps at $N=4$ and breaks at $C_2=107$, where the profile is $114,1572,2916,1572,114$, with the centre
 unchanged and the window edges suppressed. The width is what is robust.
+
+\section{Fortuity}\label{sec:fortuity}
+
+The window is one half of what makes a matrix model a candidate for black-hole microstates; the other is that
+its BPS states should be fortuitous rather than monotone, existing at one rank and not lifting from smaller
+ones. This section settles that question, and the answer turns out to be governed by the same object as the
+window.
+
+For the single-matrix model the BPS states fill $r_*$, whose Young diagram is the staircase with $2N-2i$ boxes
+in row $i$ and exactly $N-1$ rows. Going down in rank that diagram has too many rows to exist as a $U(M)$
+irrep; going up it is no longer the maximal-Casimir representation. The states therefore exist at one rank
+only. By \eqref{eq:lamstar} the diagram of $\lambda^*$ has rows $p(2N-2i)$, with the same $N-1$ rows for every
+$p$ (Fig.~\ref{fig:staircase}), so Chen's argument generalises verbatim to all flavour numbers. The difficulty
+is that our BPS states are not confined to one irrep: at $N=3$, $p=3$ all thirteen irreps of
+Table~\ref{tab:cohom} carry them, each with the same window. A statement about $\lambda^*$ alone therefore
+cannot settle fortuity here, and we give a local argument instead, one that works state by state and does not
+care which irrep the state sits in.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.85\textwidth]{report_figs/g_fortuity.pdf}
+\caption{Embedding $\gl(N)\hookrightarrow\gl(N+1)$ as the upper-left block leaves every mode carrying the new
+index unoccupied. The self-loop at the new site is then an entirely empty triangle, so $Q_{N+1}$ creates it and
+the state is not closed at the larger rank.}
+\label{fig:fortuity}
+\end{figure}
+
+Let $\iota$ embed $\gl(N)\hookrightarrow\gl(N+1)$ as the upper-left block. It is worth being careful about what
+$\iota$ does and does not give, since it is \emph{not} a chain map: $\omega_{N+1}$ contains terms carrying the
+new index that $\iota(\omega_N)$ does not, so $\omega_{N+1}\wedge\iota(m_S)\ne\iota(\omega_N\wedge m_S)$ and no
+map on cohomology is induced. This is the observation of Tierz \cite{Tierz}, whose remedy is to compare ranks by
+the projection $\pi_{M\to N}$ deleting every monomial that uses an index above $N$, which \emph{is} a chain map,
+and to call a class fortuitous when it lies outside the image of the projections from all larger ranks.
+
+What the triangle language of \S\ref{sec:critical} supplies is the sharp local reason the inclusion fails, and
+it fails maximally. Under the embedding every mode carrying the index $N+1$ is unoccupied, so the self-loop at
+the new site, $T=\{\Psi^{a_1}_{N+1,N+1},\dots,\Psi^{a_q}_{N+1,N+1}\}$ with $q$ distinct flavours, satisfies
+$T\cap S=\varnothing$ for any embedded state $S$. A triangle disjoint from $S$ is precisely one that $Q$ can
+create, the Pauli blocking that made critical states closed being absent here, so $Q_{N+1}\,\iota(m_S)\ne0$:
+the embedded representative is not merely unlifted, it is never closed. For $p<q$ the same holds for the sets
+$A_{\mathbf s}$ via the mixed loop $i\to N+1\to j\to i$ with $i<j$, since the two edges through $N+1$ are new
+and hence empty while the return edge $(j,i)$ is lower-triangular and hence empty. We verified this at
+$p=q=3$, where all $9$ BPS states of rank $2$ and all $27$ of rank $3$ fail to be closed at the next rank, with
+the disjoint triangle exhibited in each case. The obstruction is therefore uniform: it removes every BPS state
+at once, which is why no stabilisation map exists rather than one that happens to vanish.
+
+There is a tension here worth stating plainly, because it constrains the whole search. Fortuity and
+concentration rest on the same object, an empty triangle, and respond to the same structural knob with opposite
+signs. Enlarging the gauge group manufactures a fresh site whose self-loop is necessarily empty, which is what
+blocks monotony and so produces fortuity; the very same enlargement raises the rank, which by
+\eqref{eq:ranklaw} widens the window and destroys concentration. The two properties one wants a fortuitous
+matrix model to have therefore pull against each other, which may be why the combination has proved hard to
+realise in this family.
 
 \section{Density of states and the bootstrap}\label{sec:bootstrap}
 
@@ -677,6 +737,104 @@ $b(P-1)^2<2^{53}$, so that a float64 matrix multiply of inner dimension $b$ is e
 be reduced afterwards; this makes the trailing update of the elimination a single BLAS call. Flavour blocking
 over a field containing a $p$-th root of unity splits each weight space into $p$ blocks. The largest weight
 space handled is $30\,294$ after blocking, in about thirty minutes at $6.1$ GB.
+
+\section{Irreps and cohomology, irrep by irrep}\label{app:irreps}
+
+The tables below list the $U(N)$ content of the $p=3$ Fock space: every occurring highest weight $\lambda$, its
+quadratic Casimir, the dimension $\dim V_\lambda$ of the irrep, its multiplicity in the full Fock space, and,
+where we have computed it, the exact BPS cohomology. Occurrence is governed by dominance, $\lambda\le\lambda^*$,
+which is stricter than the box bound $|\lambda_i|\le p(N-1)$ and was checked against the Weyl alternating sum.
+Multiplicities are cross-checked the same way. The number of BPS \emph{states} carried by an irrep is
+$\dim V_\lambda$ times the multiplicity $h^k$ summed over $k$, so the small irreps at low Casimir dominate the
+totals quoted in Table~\ref{tab:cohom} even though their multiplicities per degree are modest.
+
+Two points are visible in the tables and not in the summary. The window is literally the same set of degrees in
+every irrep reached, not merely the same width, and this persists a long way down the Casimir ladder. And the
+profile is not universal: at $N=4$ it is $81\binom4j$ in eleven of the thirteen computed irreps and differs in
+the twelfth and thirteenth, so the width is the robust statement and the shape is not.
+
+\begin{table}[p]\centering\small
+\begin{tabular}{rlrrrll}
+\toprule
+\# & $\lambda$ & $C_2$ & $\dim V_\lambda$ & Fock mult. & window & BPS multiplets $h^k$\\
+\midrule
+1 & $(3,-3)$ & 12 & 7 & 64 & $5\ldots7$ & 9, 18, 9\\
+2 & $(2,-2)$ & 6 & 5 & 320 & $5\ldots7$ & 18, 36, 18\\
+3 & $(1,-1)$ & 2 & 3 & 576 & $5\ldots7$ & 27, 54, 27\\
+4 & $(0,0)$ & 0 & 1 & 320 & $5\ldots7$ & 9, 18, 9\\
+\bottomrule\end{tabular}
+\caption{$N=2$, $p=q=3$: all four irreps of the Fock space, each with exact BPS cohomology. The window is $5\ldots7$ throughout, and $\sum_\lambda(\dim V_\lambda)(\sum_kh^k)=972$ reproduces the full exact diagonalisation.}\label{tab:app2}
+\end{table}
+
+\begin{table}[p]\centering\small
+\begin{tabular}{rlrrrll}
+\toprule
+\# & $\lambda$ & $C_2$ & $\dim V_\lambda$ & Fock mult. & window & BPS multiplets $h^k$\\
+\midrule
+1 & $(6,0,-6)$ & 48 & 343 & 512 & $12\ldots15$ & 27, 81, 81, 27\\
+2 & $(5,1,-6)$ & 42 & 260 & 2\,560 & $12\ldots15$ & 54, 162, 162, 54\\
+3 & $(6,-1,-5)$ & 42 & 260 & 2\,560 & $12\ldots15$ & 54, 162, 162, 54\\
+4 & $(4,2,-6)$ & 38 & 162 & 4\,608 & $12\ldots15$ & 81, 243, 243, 81\\
+5 & $(6,-2,-4)$ & 38 & 162 & 4\,608 & $12\ldots15$ & 81, 243, 243, 81\\
+6 & $(3,3,-6)$ & 36 & 55 & 2\,560 & $12\ldots15$ & 27, 81, 81, 27\\
+7 & $(6,-3,-3)$ & 36 & 55 & 2\,560 & $12\ldots15$ & 27, 81, 81, 27\\
+8 & $(5,0,-5)$ & 35 & 216 & 15\,360 & $12\ldots15$ & 38, 486, 486, 38\\
+9 & $(4,1,-5)$ & 30 & 154 & 35\,840 & $12\ldots15$ & 36, 810, 810, 36\\
+10 & $(5,-1,-4)$ & 30 & 154 & 35\,840 & $12\ldots15$ & 36, 810, 810, 36\\
+11 & $(3,2,-5)$ & 27 & 80 & 35\,840 & $12\ldots15$ & 18, 648, 648, 18\\
+12 & $(5,-2,-3)$ & 27 & 80 & 35\,840 & $12\ldots15$ & 18, 648, 648, 18\\
+13 & $(4,0,-4)$ & 24 & 125 & 110\,080 & $12\ldots15$ & 64, 1\,620, 1\,620, 64\\
+14 & $(3,1,-4)$ & 20 & 81 & 161\,280 & -- & \emph{not computed}\\
+15 & $(4,-1,-3)$ & 20 & 81 & 161\,280 & -- & \emph{not computed}\\
+16 & $(2,2,-4)$ & 18 & 28 & 82\,432 & -- & \emph{not computed}\\
+17 & $(4,-2,-2)$ & 18 & 28 & 82\,432 & -- & \emph{not computed}\\
+18 & $(3,0,-3)$ & 15 & 64 & 337\,920 & -- & \emph{not computed}\\
+19 & $(2,1,-3)$ & 12 & 35 & 322\,560 & -- & \emph{not computed}\\
+20 & $(3,-1,-2)$ & 12 & 35 & 322\,560 & -- & \emph{not computed}\\
+21 & $(2,0,-2)$ & 8 & 27 & 511\,488 & -- & \emph{not computed}\\
+22 & $(1,1,-2)$ & 6 & 10 & 268\,800 & -- & \emph{not computed}\\
+23 & $(2,-1,-1)$ & 6 & 10 & 268\,800 & -- & \emph{not computed}\\
+24 & $(1,0,-1)$ & 3 & 8 & 359\,424 & -- & \emph{not computed}\\
+25 & $(0,0,0)$ & 0 & 1 & 74\,240 & -- & \emph{not computed}\\
+\bottomrule\end{tabular}
+\caption{$N=3$, $p=q=3$: all 25 occurring irreps. Cohomology is exact in the thirteen with $C_2\ge24$, and the window is $12\ldots15$ in every one of them, including $(4,0,-4)$ whose Fock multiplicity is some $215$ times that of the maximal irrep. The twelve below $C_2=24$ have weight spaces up to $1.1\times10^6$ and need a sparse rank routine.}\label{tab:app3}
+\end{table}
+
+\begin{table}[p]\centering\small
+\begin{tabular}{rlrrrll}
+\toprule
+\# & $\lambda$ & $C_2$ & $\dim V_\lambda$ & Fock mult. & window & BPS multiplets $h^k$\\
+\midrule
+1 & $(9,3,-3,-9)$ & 120 & 117\,649 & 4\,096 & $22\ldots26$ & 81, 324, 486, 324, 81\\
+2 & $(8,4,-3,-9)$ & 114 & 91\,000 & 20\,480 & $22\ldots26$ & 162, 648, 972, 648, 162\\
+3 & $(9,2,-2,-9)$ & 114 & 94\,640 & 20\,480 & $22\ldots26$ & 162, 648, 972, 648, 162\\
+4 & $(9,3,-4,-8)$ & 114 & 91\,000 & 20\,480 & $22\ldots26$ & 162, 648, 972, 648, 162\\
+5 & $(7,5,-3,-9)$ & 110 & 57\,456 & 36\,864 & $22\ldots26$ & 243, 972, 1\,458, 972, 243\\
+6 & $(9,1,-1,-9)$ & 110 & 61\,236 & 36\,864 & $22\ldots26$ & 243, 972, 1\,458, 972, 243\\
+7 & $(9,3,-5,-7)$ & 110 & 57\,456 & 36\,864 & $22\ldots26$ & 243, 972, 1\,458, 972, 243\\
+8 & $(6,6,-3,-9)$ & 108 & 19\,635 & 20\,480 & $22\ldots26$ & 81, 324, 486, 324, 81\\
+9 & $(8,4,-4,-8)$ & 108 & 69\,825 & 102\,400 & $22\ldots26$ & 324, 1\,296, 1\,944, 1\,296, 324\\
+10 & $(9,0,0,-9)$ & 108 & 21\,175 & 20\,480 & $22\ldots26$ & 81, 324, 486, 324, 81\\
+11 & $(9,3,-6,-6)$ & 108 & 19\,635 & 20\,480 & $22\ldots26$ & 81, 324, 486, 324, 81\\
+12 & $(8,3,-2,-9)$ & 107 & 80\,640 & 122\,880 & $22\ldots26$ & 114, 1\,572, 2\,916, 1\,572, 114\\
+13 & $(9,2,-3,-8)$ & 107 & 80\,640 & 122\,880 & $22\ldots26$ & 114, 1\,572, 2\,916, 1\,572, 114\\
+\midrule
+\multicolumn{7}{l}{\emph{remaining 200 irreps, $C_2$ from 104 down to 0, total Fock multiplicity 141\,637\,816\,320: not computed}}\\
+\bottomrule\end{tabular}
+\caption{$N=4$, $p=q=3$: the thirteen irreps with $C_2\ge107$ for which cohomology is exact, out of 213 occurring. The window is $22\ldots26$ in all of them. The profile $81\binom4j$ holds in eleven and breaks at $C_2=107$, where the edges are suppressed and the centre is unchanged.}\label{tab:app4}
+\end{table}
+
+\begin{table}[p]\centering\small
+\begin{tabular}{rlrrrll}
+\toprule
+\# & $\lambda$ & $C_2$ & $\dim V_\lambda$ & Fock mult. & window & BPS multiplets $h^k$\\
+\midrule
+1 & $(12,6,0,-6,-12)$ & 240 & 282\,475\,249 & n/a & $35\ldots40$ & 243, 1\,215, 2\,430, 2\,430, 1\,215, 243\\
+\midrule
+\multicolumn{7}{l}{\emph{remaining 2130 irreps, $C_2$ from 234 down to 0: not computed}}\\
+\bottomrule\end{tabular}
+\caption{$N=5$, $p=q=3$: the maximal irrep, the only one reached, out of 2131 occurring. Fock multiplicities are not tabulated at this size, the Fock space having $2^{75}$ states.}\label{tab:app5}
+\end{table}
 
 \begin{thebibliography}{9}\small
 \bibitem{Chen} Y.~Chen, \emph{Revisiting fortuity in matrix models}, 2025.
