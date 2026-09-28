@@ -1,0 +1,5 @@
+(n,p)=(2,2): 24 modes; materialised 171994 states in 58 blocks, largest 16436
+largest Q-matrix: 1.18 GB as float64
+irrep A|B|C                index I_0,I_1,I_2 window     BPS multiplicity by degree
+0,0|0,0|0,0                [90, 0, 0]       12..12     [90]  concentrated
+guarded: pid 309 exit code 0, peak RSS 5.53 GB

@@ -1075,3 +1075,33 @@ this form.
 class empty. The $SO(3)$-invariant form occupies the zero-index class at $j=7,9$ (our "$q+1$" branch) and, at $j=9$,
 fails to saturate a nonzero-index class ($R=-\frac16$ and $+\frac56$), which generic forms never do. Rank-one symmetry
 makes $\omega$ non-generic by $O(1)$ multiplets only; the adjoint at rank $\ge3$ widens every window.
+
+## 4x. The three-node quiver $Q=\Tr(ABC)$: vacuous at $p=1$, concentrated singlet at $p=2$ (2026-09-28)
+
+Model: $A\in(n,\bar n,1)$, $B\in(1,n,\bar n)$, $C\in(\bar n,1,n)$ of $U(n)^3$, $p$ flavours per edge,
+$Q=\sum C_{abc}\Tr(A^aB^bC^c)$. Bifundamentals have **no zero weights** ($V_0=0$), so none of our obstructions
+applies. Scripts: `run_quiver_cohomology.py` (full, small $n$), `quiver_index.py` (per-irrep index from the Fock
+character), `run_quiver_irrep_cohomology.py` (exact cohomology per target irrep).
+
+**$p=1$: concentration is vacuous.** $n=2$ exact: 90 irreps carry BPS states, **each exactly one multiplet at one
+degree**; total BPS space spans $k=4..8$ (mixes $\mathbb Z_3$ classes); singlet empty. Index at $n=2,3$: every
+nonzero per-irrep index is $\pm1$; max Fock multiplicity of any irrep $6$ and $136$; singlet index $0$. Reason:
+$3n^2$ modes against a $3n^2$-dimensional symmetry, the same ratio as Chen's single matrix, so no room for
+degeneracy inside an irrep. CCSY's statement conditions on macroscopic index, so $p=1$ is not a concentrating model
+in any meaningful sense, even though no complex fails.
+
+**$p\ge2$: macroscopic index appears.** At $n=2$: max $|I_c(\lambda)|=1,90,12960$ for $p=1,2,3$; singlet index
+$0,90,1680$. **Exact singlet cohomology at $(n,p)=(2,2)$: $90$ BPS singlets, all at $k=12$ (half filling),
+saturating the index exactly.** Concentrated, in the gauge-invariant sector, at gauge rank $3n=6$, where the adjoint
+family's rank law would force $W\ge7$. First nontrivial evidence that $V_0=0$ removes the obstruction, rather than
+merely emptying the complexes. Peak 5.5 GB (the first two attempts were killed by the watchdog at 10.2 GB: I had
+not sized the rank matrices, and plain `rank_mod_p` makes full-size temporaries; fixed by in-place blocked ranks).
+
+**Not established:** only one $n$; only the singlet at $p=2$ (other irreps not checked); $(n,p)=(3,2)$ has 54 modes,
+beyond exact cohomology, and the naive character expansion for its index exceeded 6.6 GB and was stopped; no chaos
+or near-BPS data; the large-$n$ limit is planar, not melonic.
+
+**Literature pointer to check (recollection, not verified this session):** the three-node quiver with cyclic
+superpotential $\Tr(ABC)$ is the quiver quantum mechanics of scaling multi-centre black holes (Denef; Bena,
+Berkooz, de Boer, El-Showk, Van den Bleeken on "pure-Higgs" states), with bosonic chiral multiplets rather than our
+purely fermionic fields.
