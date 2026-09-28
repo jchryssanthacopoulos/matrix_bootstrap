@@ -1048,3 +1048,30 @@ at $N=2$. **The factorisation of the answer is not mirrored by a factorisation o
 
 **Status of the closed form: verified, not proved**, except at $(p,N)=(1,2)$. Earlier phrasing in §4s/§4t
 overstated this and has been corrected in the report.
+
+## 4w. Biggs–Lin–Maldacena reproduced, and the generalised maximal-weight lemma (2026-09-28)
+
+**Reproduction.** `scripts/run_su2_3j_model.py` (exact ranks, two primes, after the rescaling
+$\psi_m\to\psi_m/\sqrt{(j+m)!(j-m)!}$ that makes the 3j symbols rational) reproduces every entry of BLM's sporadic
+BPS table (their eq. 79) and their counts: $3^j$ at $R=\pm\frac16$ for $j=3,5,7$; one $\ell=7$ multiplet at
+$R=\pm\frac12$ at $j=7$; at $j=9$ two $\ell=9$ at $R=\pm\frac12$, two $\ell=0$ at $R=\pm\frac56$, and
+$3^9+2=19685$ at $R=\pm\frac16$. Peak 0.83 GB at $j=9$. Third published benchmark reproduced (after Chen, Tierz).
+Data: `results/data/su2_3j_bps_j3to7.txt`, `su2_3j_bps_j9.txt`.
+
+**Generalised maximal-weight lemma (derived; short).** For *any* matter representation $V$ and any invariant
+$\omega\in\Lambda^qV$, take a generic $\theta$ in the Cartan and the state with every $\theta$-positive mode filled.
+Every term of $\omega$ has total weight zero, so a term containing any nonzero-weight mode contains a
+$\theta$-positive one, which is occupied, and is Pauli-blocked. Hence on the top weight space only
+$\omega|_{V_0}\in\Lambda^qV_0$ acts, $V_0$ the zero-weight subspace, and
+$$Z_{\rm top}(t)=t^{\dim V_+}\,Z\big(\Lambda^\bullet V_0,\ \omega|_{V_0}\wedge\big).$$
+For adjoint matter $V_0=\mathfrak h\otimes\mathbb C^p$ and this is our slot factorisation (the index-loop lemma is
+the special case). For BLM, $V_0=\langle\psi_0\rangle$ is one-dimensional for every $j$, giving $Z_{\rm top}=t^j(1+t)$,
+$W=2$: their two maximal-spin BPS irreps. For $O(n)^k$ tensor or $U(n)^3$ quiver matter at even $n$, $V_0=0$ and
+$W_{\rm top}=1$. **So the governing variable is $\dim V_0$ together with the Weyl-invariance of $\omega|_{V_0}$, not the
+rank as such; the two coincide ($\dim V_0=pr$) only for adjoint matter.** The report's "rank law" should be stated in
+this form.
+
+**BLM's sporadic states in our language.** $N=2j+1\equiv3$ mod 4, where a generic 3-form has $w_s=2$ with the zero-index
+class empty. The $SO(3)$-invariant form occupies the zero-index class at $j=7,9$ (our "$q+1$" branch) and, at $j=9$,
+fails to saturate a nonzero-index class ($R=-\frac16$ and $+\frac56$), which generic forms never do. Rank-one symmetry
+makes $\omega$ non-generic by $O(1)$ multiplets only; the adjoint at rank $\ge3$ widens every window.

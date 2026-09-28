@@ -1,0 +1,9 @@
+j=9  (N=19 fermions, maximal block 2934)
+   k=7   R=-5/6   BPS states=2       multiplets=2      l=0:2
+   k=8   R=-1/2   BPS states=38      multiplets=2      l=9:2
+   k=9   R=-1/6   BPS states=19685   multiplets=549    43 spins, l=1..45
+   k=10  R=1/6    BPS states=19685   multiplets=549    43 spins, l=1..45
+   k=11  R=1/2    BPS states=38      multiplets=2      l=9:2
+   k=12  R=5/6    BPS states=2       multiplets=2      l=0:2
+   3^j = 19683
+guarded: pid 79990 exit code 0, peak RSS .83 GB
