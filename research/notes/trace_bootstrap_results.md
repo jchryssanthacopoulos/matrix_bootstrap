@@ -155,3 +155,11 @@ targets come from `research/notes/sector_ed_results.md`: zero-weight exact diago
   $N=3$. Level 2 reached $k=3$ and level 3 reaches $k=6$, about three sectors per level. If that continued
   (two points, so speculation), the window would need level 5 or more, while level 4 is already beyond current
   solvers (§9).
+
+**Follow-up (same day): finite-$N$ relations do not help near the window.** Adding the $N=3$ trace identities
+(antisymmetriser over 4 indices, total length $\le6$: 2082 rows; `--finiteN_len 6 --N_rel 3`) leaves every
+near-window bound at the floor: $k=7,8,9,10,11$ all give $0$ within tolerance (55–91 s, at most 3.7 GB;
+`results/data/trace_bounds_N3_level3_finiteN6.jsonl`). This refutes the guess that the spurious $\phi(H)=0$
+functionals in these sectors are "wrong-$N$" artefacts removable by length-6 identities. The candidates that
+remain are supermultiplet eigen-rows (lower-member rows plus a fixed-$E>0$ scan, with the exact cohomology input
+that no BPS state exists below the window) and highest-weight (non-singlet) functionals.

@@ -137,3 +137,53 @@ Combining FGMS (5.7) and Turiaci–Witten (3.10): a concentrating $\hat q=3$ sup
 2. **Refined index per irrep** (FGMS (5.5) generalised with an $SU(N)$ character insertion) as the rigorous companion to bootstrap bounds; check saturation at $N=2$.
 3. **Redesign of the covariant bootstrap** with adjoint-valued operators and $U(N)$/$SU(N)$ tensor-structure decomposition (Cho et al. (3.5); Lin–Zheng App. F), plus, later, the KMS inequality if thermal data (entropy, $E(\beta)$ near the BPS window) are wanted.
 4. **Targets for lifted sectors**: gaps growing as (distance from window)$^2$ in Schwarzian units (Turiaci–Witten (3.11)); the overall scale with $N$ is unknown for the matrix model and is itself a question.
+
+---
+
+## 9. Addendum (2026-10-06): two-point and thermal bootstraps, and the near-BPS gap
+
+Two papers read in full: Cho–Gabai–Lin–Yeh–Zheng 2025 (`notes/cho_gabai_lin_yeh_zheng_2025.md`) and Adams 2025
+(`notes/adams_2025.md`). Both extend Strand B from one-point functions to dynamics. (The four papers added since
+§8, Tierz 2026, Kim 2018, Peng–Spradlin–Volovich 2016 and Biggs–Lin–Maldacena 2026, have their own notes but are
+not yet folded into this synthesis.)
+
+### 9.1 What they add to Strand B
+
+- **Two-point correlators with rigorous bounds** (CGLYZ). The variables are
+  $\mathcal M(\tau)=\langle\bar{\mathcal O}_i(\tau)\mathcal O_j(0)\rangle$. The constraints are reflection
+  positivity, Heisenberg equations ($\partial_\tau\mathcal M=-\mathcal MD$), and either ground-state positivity or
+  KMS. The dual turns the equations of motion into "inequalities of motion", and finite spline or polynomial
+  ansätze for the multipliers give rigorous bounds at continuous $\tau$.
+- **Non-singlet gaps from the global ground state** (CGLYZ §4.4). Adjoint operators acting on the singlet ground
+  state of the *ungauged* model give
+  $\Delta_{\rm adj}\le\max\{\Delta:\tilde{\mathcal N}\succeq\Delta\tilde{\mathcal M}\}$, with $\mathcal M,\mathcal N$
+  the zero-time two-point data. This is a rigorous upper bound, converging to $10^{-14}$ by level 16 in the
+  one-matrix model. Excited levels and matrix elements come from extremal functionals and fits, which are
+  estimates.
+- **Log-convexity** of connected correlators gives $\Delta\le-G'(0)/G(0)$, and a new derivation of the
+  energy–entropy balance inequality.
+- **Exact KMS** (Adams). The relative-entropy cone is solved directly by QICS, which reaches $L=12$ where MOSEK
+  with the log relaxation becomes unstable. The adjoint gap $\Delta_1$ is extracted to about $10^{-5}$ relative by
+  fitting thermal bounds to the long-string low-$T$ expansion.
+
+### 9.2 Consequences for this project
+
+1. **Our near-BPS gap is the supersymmetric analogue of the adjoint gap.**
+   - The global ground states are the BPS states $B$: $E=0$, $QB=\bar QB=0$.
+   - For charged operators carrying $B$ into a sector $k$ next to the window,
+     $E_0(k,\lambda)\le\max\{\Delta:\mathcal N-\Delta\mathcal M\succeq0\}$, with
+     $\mathcal M=\langle B|O^\dagger O|B\rangle$ and
+     $\mathcal N=\langle B|O^\dagger HO|B\rangle=\langle B|[Q,O\}^\dagger[Q,O\}|B\rangle+\langle B|[\bar Q,O\}^\dagger[\bar Q,O\}|B\rangle$.
+   - The near-BPS gap is therefore the smallest relative size of the supersymmetry variation of an operator acting
+     on a BPS state.
+   - This supplies the **upper bounds** the project has lacked. The sector bootstrap supplies lower bounds, which
+     currently vanish within five sectors of the window.
+2. **Ground-state positivity with charged and non-singlet operators** is valid when the reference is a BPS state.
+   It is not valid for sector ground states, which is why it added nothing to the sector bootstrap.
+3. **The density route.** $\langle B|O^\dagger e^{-\tau H}O|B\rangle$ decomposes over near-BPS states, so the
+   two-point bootstrap is the natural tool for the near-BPS density seen by simple probes, which is the
+   super-Schwarzian prediction proper. The thermal route (Adams) is the alternative. With $N_\Psi$-sectors it needs
+   the grand-canonical ensemble for KMS to hold for charged operators.
+4. **Tooling.** SDPB / polynomial matrix programs, MOSEK, QICS, and arbitrary precision at high level.
+
+The plan built on these points is `docs/nearbps_bootstrap_plan.md`.
