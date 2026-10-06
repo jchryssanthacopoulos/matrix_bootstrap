@@ -48,6 +48,21 @@ So at level 2 — the level at which the same sector gives only the SUSY floor $
 
 ## 5. The few-particle sectors: $E_0(k;N)=16N^3-(15+38k)N$ for $k\le N-1$ (2026-09-18)
 
+> **Superseded in part (2026-10-06, `docs/derivations.md` D16).** The formula is now *proved*, and its range is
+> $k\le\lfloor N^2/4\rfloor$, not $k\le N-1$. The two ranges agree only at $N=2,3$, which is all this section could
+> see. The first interacting sector is $k_*=\lfloor N^2/4\rfloor+1$, which equals $N$ only at $N=2,3$.
+> - *Mechanism.* The free states are products of flavour-symmetric band modes $\phi^\dagger(a_m)$ whose matrices
+>   $a_m$ commute pairwise. The largest commuting family of traceless matrices is the $\lfloor N^2/4\rfloor$-element
+>   off-diagonal block, not the $(N-1)$-dimensional Cartan subalgebra the "natural reading" below had in mind.
+> - *Strictness above the threshold.* Kostant 1965 and Schur 1905 for general $N$; exact computation for $N\le5$.
+> - *New data.* $E_0(4;4)=356$, free (Lanczos, zero-weight block). $E_0(5;4)=265.14872$, the first interacting
+>   sector at $N=4$.
+> - *Level 2.* The level-2 values in the table equal the D16 sum-of-squares bound in every case, including the
+>   non-tight 45 at $(3,3)$.
+>
+> The text below is kept as the historical record. Its claim "the first interacting sector is $k=N$" and the
+> consequence drawn for Q5 are wrong for $N\ge4$.
+
 Few-body ED (`src/fewbody.py`) and the level-2 trace bootstrap agree on the following, and the bootstrap side is rigorous:
 
 | $N$ | $k=2$ | $k=3$ | $k=4$ | formula $16N^3-(15+38k)N$ |
@@ -85,7 +100,7 @@ Level 3 with the generic algebra alone already gives 93 % (35 170 monomials, 7 2
 
 ## 8. Mechanism of the free sectors (numerical, $N=3$, 2026-09-18)
 
-Few-body ED at $N=3$: the one-particle levels are $273$ (×8), $372$ (×16), $384$ (×3) — the $38N$-mode is an $SU(3)$ adjoint (D2.8). The 20-fold degenerate two-particle ground state at $159$ lies **entirely** (overlap $1.00000000$) in the 28-dimensional span of antisymmetrised pairs of the 8 lowest one-particle states; on that span $H$ has eigenvalues $159$ (×20) and $259$ (×8), i.e. $\wedge^2\mathbf 8=\mathbf{10}\oplus\overline{\mathbf{10}}\oplus\mathbf 8$ with the two-body interaction vanishing on $\mathbf{10}\oplus\overline{\mathbf{10}}$ (the larger-Casimir components) and costing $+100$ in the adjoint channel. This is the fixed-$k$ shadow of Chen's maximal-Casimir mechanism: the $k$-particle states built from the lowest adjoint mode that carry the largest available $SU(N)$ Casimir are annihilated by the quartic interaction, and such states exist for $k\le N-1$. **D5 (to write):** prove that the quartic term $9\sum_a\mathrm{Tr}[X_a\bar X_a]$ vanishes on the highest-Casimir component of $\wedge^k(\mathbf{adj})$ built from the $38N$ mode for $k\le N-1$, and identify the obstruction at $k=N$.
+Few-body ED at $N=3$: the one-particle levels are $273$ (×8), $372$ (×16), $384$ (×3) — the $38N$-mode is an $SU(3)$ adjoint (D2.8). The 20-fold degenerate two-particle ground state at $159$ lies **entirely** (overlap $1.00000000$) in the 28-dimensional span of antisymmetrised pairs of the 8 lowest one-particle states; on that span $H$ has eigenvalues $159$ (×20) and $259$ (×8), i.e. $\wedge^2\mathbf 8=\mathbf{10}\oplus\overline{\mathbf{10}}\oplus\mathbf 8$ with the two-body interaction vanishing on $\mathbf{10}\oplus\overline{\mathbf{10}}$ (the larger-Casimir components) and costing $+100$ in the adjoint channel. This is the fixed-$k$ shadow of Chen's maximal-Casimir mechanism: the $k$-particle states built from the lowest adjoint mode that carry the largest available $SU(N)$ Casimir are annihilated by the quartic interaction, and such states exist for $k\le N-1$. **D5 (to write):** prove that the quartic term $9\sum_a\mathrm{Tr}[X_a\bar X_a]$ vanishes on the highest-Casimir component of $\wedge^k(\mathbf{adj})$ built from the $38N$ mode for $k\le N-1$, and identify the obstruction at $k=N$. **Done as D16 (2026-10-06), with a corrected range.** On the band $P_kH_4P_k=\tfrac{100}3(Nk-\hat C_2)$, which reproduces the $+100$ above exactly. The quartic term vanishes precisely on the $c=Nk$ component. That component is non-zero iff $k\le\lfloor N^2/4\rfloor$, so the obstruction is at $\lfloor N^2/4\rfloor+1$, not at $k=N$.
 
 ## 9. Level 4 in the trace engine: assembly solved, solver stage is the obstacle (2026-09-18/19)
 

@@ -1081,6 +1081,14 @@ is rank-specific.
 
 ### D15.2 The stabilisation map is identically zero
 
+> **Correction (recorded 2026-09-26 in `research/notes/cohomology_results.md` §4q; propagated here 2026-10-06).**
+> The framing below is wrong. The block embedding is **not** a chain map: $\omega_{N+1}\ne\iota(\omega_N)$, because
+> $\mathrm{Tr}_{N+1}$ has terms in the new index. So there is no induced map $H_N\to H_{N+1}$, and "the
+> stabilisation map vanishes" is ill-formed. What survives is the computation itself: an embedded representative
+> is never *closed* at rank $N+1$, because the new site's self-loop is an empty triangle (verified 9/9 and 27/27).
+> The correct functorial comparison is Tierz's projection $\pi_{M\to N}$ (`literature/notes/tierz_2026.md`). Both
+> reports use the corrected statement. The text below is kept as the historical record.
+
 Embed $\mathfrak{gl}(N)\hookrightarrow\mathfrak{gl}(N+1)$ as the upper-left block; since
 $\mathrm{Tr}$ of a product of block matrices restricts correctly, this is a chain map and induces
 $H_N\to H_{N+1}$.
@@ -1114,3 +1122,108 @@ invariance in opposite ways, which is perhaps why the combination is hard to rea
 **Scope.** Proved for $\mathfrak{gl}(N)$ with $p\ge q$; the $p<q$ case is proved for Borel-type critical sets and
 verified numerically. The argument uses only that new-index modes are empty, so it applies to every state, BPS or
 not, and hence to all irreps rather than just the maximal one.
+
+---
+
+## D16. The free sectors of the three-matrix model: $E_0(k;N)=16N^3-(15+38k)N$ for $k\le\lfloor N^2/4\rfloor$ (2026-10-06)
+
+**Status.**
+- *Proved here:* for every $N\ge2$ and $0\le k\le\lfloor N^2/4\rfloor$, $E_0(k;N)=16N^3-(15+38k)N$, attained by an exact eigenstate; the lower bound $E_0(k;N)\ge16N^3-(15+38k)N$ for every $k\le N^2-1$; the two-sided bound (D16.4) for every $k\le N^2-1$; the ground space at the bound is the gauge-Casimir-$Nk$ part of the flavour-symmetric adjoint band.
+- *Cited, not reproved:* strictness of the bound for $\lfloor N^2/4\rfloor<k\le N^2-1$ at general $N$ (Kostant 1965 plus Schur 1905, D16.6). *Verified independently* by exact computation for $N\le5$.
+- *Supersedes* the statement of `research/notes/trace_bootstrap_results.md` §5 ("$k\le N-1$; the first interacting sector is $k=N$"), which was numerical and conjectured in general. It is correct at $N=2,3$ and wrong for every $N\ge4$: at $N=4$ the sector $k=4$ is free ($E_0=356$ exactly) and the first interacting sector is $k=5$. The earlier range came from using the Cartan subalgebra ($\dim N-1$) as the commuting family, and from inferring the threshold from $N=2,3$ alone, where $N-1=\lfloor N^2/4\rfloor$ (the D1 lesson again).
+
+### D16.1 Assumptions and notation
+
+- Chen's three-matrix model (D2.1): $p=3$, $C$ the cyclic symmetrisation of the indicator of $a\le b\le c$, gauge group $U(N)$, no singlet projection, sector $k=N_\Psi$. $H=\{Q,\bar Q\}$ is used in the canonical form (D2.13), proved in D2.6 and verified to machine precision (D2.7).
+- $E_c\equiv H_0=16N^3-15N$ (D2.10, D2.12).
+- Flavour Fourier basis: $\Phi\equiv\Psi^s=(\Psi^1+\Psi^2+\Psi^3)/\sqrt3$, with $\Psi^\omega,\Psi^{\bar\omega}$ completing a unitary basis; $\bar\Phi_{ij}\equiv(\Phi_{ji})^\dagger$. Because the flavour vector is a unit vector, $\{\Phi_{ij},\bar\Phi_{kl}\}=\delta_{il}\delta_{jk}$, the single-matrix algebra of D1.
+- For $a\in\mathfrak{gl}(N)$, $\phi^\dagger(a)\equiv\sum_{ij}a_{ij}\Phi_{ij}$. From (D2.1), $\{\bar\Phi_{kj},\phi^\dagger(a)\}=a_{jk}$; in particular $\{\mathrm{Tr}\bar\Phi,\phi^\dagger(a)\}=\mathrm{Tr}\,a$, so $\phi^\dagger(a)|0\rangle$ is orthogonal to the trace mode iff $\mathrm{Tr}\,a=0$.
+- The band $B\equiv\{\phi^\dagger(a):\mathrm{Tr}\,a=0\}\cong\mathfrak{sl}(N)$, of dimension $N^2-1$. $B_k\equiv\Lambda^kB\,|0\rangle$ are the $k$-particle states built from band modes only, $P_k$ the projector onto $B_k$. As a gauge representation, $B_k\cong\Lambda^k\mathfrak{sl}(N)$.
+- $\sigma_a\equiv\sum_{b,c}C_{abc}=\tfrac{10}3$ for each $a$: $\sum_{abc}C_{abc}$ counts the triples $a\le b\le c$ in $\{1,2,3\}$, which is 10, and the $\mathbb Z_3$ invariance of $C$ makes $\sigma_a$ independent of $a$.
+- $\hat C_2$ is the gauge Casimir normalised as in D7.1, so the adjoint has $c=N$ and $c_\lambda=\tfrac12\sum_i\lambda_i(\lambda_i+N+1-2i)$. $c_{\max}(k)$ is the largest $c_\lambda$ among the irreps occurring in $\Lambda^k\mathfrak{sl}(N)$.
+
+### D16.2 $H$ splits into a positive quartic and a one-body operator
+
+By (D2.13) and $(\bar X_a)_{ki}=((X_a)_{ik})^\dagger$ (D2.7), $H=H_4+H_1+E_c$ with
+$$H_4=9\sum_{a=1}^3\sum_{i,k=1}^N(X_a)_{ik}\big((X_a)_{ik}\big)^\dagger,\qquad H_1=-9N\sum_{cd}M_{cd}\,\mathrm{Tr}[\Psi^c\bar\Psi^d]+9\sum_{cd}L_{cd}\,\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d .$$
+Every term of $H_4$ has the form $AA^\dagger$, so $H_4\succeq0$, and $H_4\psi=0$ iff $((X_a)_{ik})^\dagger\psi=0$ for all $a,i,k$.
+
+$H_1$ is normal-ordered and bilinear, i.e. the second quantisation of the single-particle operator $h=-9N\,M\otimes\mathbb 1+9N\,L\otimes P_0$ on $\mathbb C^3\otimes\mathfrak{gl}(N)$, where $P_0$ projects onto $\mathbb C\mathbb 1$ (using $\mathrm{Tr}\Psi^c\,\mathrm{Tr}\bar\Psi^d=N\psi^{0c}\bar\psi^{0d}$, D2.6). With $M=\tfrac59\mathbb 1+\tfrac{11}9\mathbb J$ and $L=\tfrac49\mathbb 1+\tfrac{11}9\mathbb J$ (D2.12), $h$ is diagonal in (Fourier flavour) $\otimes$ (traceless $\oplus$ trace):
+
+| flavour | traceless modes ($\times(N^2-1)$ each) | trace mode ($\times1$ each) |
+|---|---|---|
+| $s$ | $-9N\cdot\tfrac{38}9=-38N$ | $-9N(\tfrac{38}9-\tfrac{37}9)=-N$ |
+| $\omega,\bar\omega$ | $-9N\cdot\tfrac59=-5N$ | $-9N(\tfrac59-\tfrac49)=-N$ |
+
+These are the one-particle levels of D2.8 measured from $E_c$. The lowest level, $-38N$, has eigenspace exactly $B$.
+
+### D16.3 Lower bound
+
+The eigenvalues of $H_1$ on $k$-particle states are sums of $k$ distinct single-particle levels. For $k\le N^2-1$ the smallest is $-38Nk$, attained exactly on $B_k$. With $H_4\succeq0$,
+$$E_0(k;N)\ \ge\ E_c-38Nk=16N^3-(15+38k)N,\qquad 0\le k\le N^2-1,$$
+and a state attains the bound iff it lies in $B_k$ and is annihilated by $H_4$.
+
+### D16.4 On the band the quartic interaction is a commutator, and a Casimir
+
+*Reduction to one matrix.* Write each annihilator in the Fourier basis, $\bar\Psi^c_{kj}=\tfrac1{\sqrt3}\bar\Phi_{kj}+(\omega,\bar\omega\text{ components})$. The $\omega,\bar\omega$ components annihilate every state of $B_\bullet$, so on $B_\bullet$
+$$\big((X_a)_{ik}\big)^\dagger=\sum_{bc}\bar C_{abc}\sum_j\bar\Psi^c_{kj}\bar\Psi^b_{ji}\ \longrightarrow\ \frac{\sigma_a}3\,(\bar\Phi\bar\Phi)_{ki}.$$
+Since $\sigma_a\ne0$, a state $\psi\in B_k$ satisfies $H_4\psi=0$ iff $(\bar\Phi\bar\Phi)_{ki}\psi=0$ for all $i,k$.
+
+*The commutator.* $\bar\Phi$ acts on products of $\phi^\dagger$'s as a graded derivation. $\bar\Phi_{ji}$ removes the $m$-th factor with amplitude $(-1)^{m-1}(a_m)_{ij}$, then $\bar\Phi_{kj}$ removes another. Summed over $j$, the two orders of removing an unordered pair $l<m$ give $(-1)^{l+m}\big((a_ma_l)_{ik}-(a_la_m)_{ik}\big)$, so
+$$(\bar\Phi\bar\Phi)_{ki}\,\phi^\dagger(a_1)\cdots\phi^\dagger(a_k)|0\rangle=-\sum_{l<m}(-1)^{l+m}\,[a_l,a_m]_{ik}\prod_{n\ne l,m}\phi^\dagger(a_n)|0\rangle .$$
+At $k=2$ this is $(\bar\Phi\bar\Phi)_{ki}\,\phi^\dagger(a)\phi^\dagger(b)|0\rangle=[a,b]_{ik}|0\rangle$. Equivalently, the ground states at the bound are the kernel of
+$$\delta:\Lambda^k\mathfrak{sl}(N)\to\mathfrak{gl}(N)\otimes\Lambda^{k-2}\mathfrak{sl}(N),\qquad a_1\wedge\cdots\wedge a_k\mapsto\sum_{l<m}(-1)^{l+m}[a_l,a_m]\otimes(a_1\wedge\cdots\widehat{a_l}\cdots\widehat{a_m}\cdots\wedge a_k).$$
+
+*The Casimir.* For $\psi\in B_k$, $\langle\psi|H_4|\psi\rangle=9\sum_a|\sigma_a/3|^2\sum_{ik}\|(\bar\Phi\bar\Phi)_{ki}\psi\|^2=\tfrac{100}3\langle\psi|\mathrm{Tr}[\Phi\Phi\bar\Phi\bar\Phi]|\psi\rangle$, using $((\bar\Phi\bar\Phi)_{ki})^\dagger=(\Phi\Phi)_{ik}$. The single-matrix identity (D1.3), which uses only the canonical anticommutators and so holds for $\Phi$, gives $\mathrm{Tr}[\Phi\Phi\bar\Phi\bar\Phi]=N\,N_\Phi-\mathrm{Tr}\Phi\,\mathrm{Tr}\bar\Phi-\hat C_2^{(\Phi)}$. On $B_k$: $N_\Phi=k$; $\mathrm{Tr}\bar\Phi$ annihilates (all band matrices are traceless); and $\hat C_2^{(\Phi)}$ equals the full gauge Casimir, because the gauge generators $J^x=\sum_a\mathrm{Tr}[\Psi^a[T^x,\bar\Psi^a]]$ are flavour-$U(3)$ invariant, so only their $s$ part acts on $B_\bullet$, and it preserves $B_k$. Two Hermitian operators on $B_k$ with the same quadratic form coincide, hence
+$$P_kHP_k=E_c-38Nk+\tfrac{100}3\,\big(Nk-\hat C_2\big)\qquad\text{on }B_k .$$
+Three consequences follow.
+- (i) Since $H_4\succeq0$, $\hat C_2\le Nk$ on $\Lambda^k\mathfrak{sl}(N)$, and $\ker\delta$ is exactly the $\hat C_2=Nk$ eigenspace.
+- (ii) So $E_0(k;N)=E_c-38Nk$ iff $c_{\max}(k)=Nk$, and then the ground-state degeneracy is the dimension of the $c=Nk$ isotypic component of $\Lambda^k\mathfrak{sl}(N)$.
+- (iii) Rayleigh–Ritz inside $B_k$ gives, for every $k\le N^2-1$, the two-sided bound
+$$16N^3-(15+38k)N\ \le\ E_0(k;N)\ \le\ 16N^3-(15+38k)N+\tfrac{100}3\big(Nk-c_{\max}(k)\big).$$
+
+### D16.5 Upper bound from commuting matrices, and the result
+
+Suppose $a_1,\dots,a_k\in\mathfrak{sl}(N)$ are linearly independent and commute pairwise. Then $\psi=\prod_m\phi^\dagger(a_m)|0\rangle$ is non-zero, lies in $B_k$, and is annihilated by every $(\bar\Phi\bar\Phi)_{ki}$ (D16.4). Hence $H_4\psi=0$ and $H_1\psi=-38Nk\,\psi$, so
+$$H\psi=\big(16N^3-(15+38k)N\big)\psi$$
+exactly. Such families exist for every $k\le\lfloor N^2/4\rfloor$. With $r=\lfloor N/2\rfloor$, the $r(N-r)=\lfloor N^2/4\rfloor$ matrix units $E_{ij}$ with $i\le r<j$ are traceless and satisfy $E_{ij}E_{i'j'}=0$ (as $j>r\ge i'$), so they commute pairwise; any $k$ of them will do. The Cartan subalgebra supplies only $N-1$ commuting matrices. Combining with D16.3:
+
+**Result (proved).** For every $N\ge2$ and $0\le k\le\lfloor N^2/4\rfloor$,
+$$E_0(k;N)=16N^3-(15+38k)N .$$
+Since $\lfloor N^2/4\rfloor-(N-1)=\lfloor(N-2)^2/4\rfloor\ge0$, with equality only at $N=2,3$, this contains the previously stated range $k\le N-1$ and is strictly larger for $N\ge4$.
+
+### D16.6 Where the formula stops
+
+By D16.4(ii) the formula holds at $k$ iff $c_{\max}(k)=Nk$. Two classical results settle this for all $N$.
+- **Kostant 1965.** B. Kostant, *Eigenvalues of a Laplacian and commutative Lie subalgebras*, Topology 3, suppl. 2 (1965) 147–159. For complex semisimple $\mathfrak g$, with the Casimir normalised to 1 on $\mathfrak g$, the maximal eigenvalue $m_k$ on $\Lambda^k\mathfrak g$ satisfies $m_k\le k$, and $m_k=k$ iff $\mathfrak g$ has a $k$-dimensional abelian subalgebra. In that case the eigenspace is spanned by the $\Lambda^k\mathfrak a$. On $\mathfrak{sl}(N)$ our $\hat C_2$ is $N$ times this normalisation, so $m_k\le k$ is D16.4(i), which is proved above independently.
+- **Schur 1905.** I. Schur, *Zur Theorie der vertauschbaren Matrizen*, J. reine angew. Math. 130 (1905) 66–76; simpler proofs by N. Jacobson, Bull. AMS 50 (1944) 431–436, and M. Mirzakhani, Amer. Math. Monthly 105 (1998) 260–262. At most $\lfloor N^2/4\rfloor+1$ linearly independent $N\times N$ complex matrices commute pairwise. An abelian $\mathfrak a\subset\mathfrak{sl}(N)$ together with $\mathbb 1$ is such a family, so $\dim\mathfrak a\le\lfloor N^2/4\rfloor$, attained by D16.5.
+
+Together they give
+$$E_0(k;N)>16N^3-(15+38k)N\qquad\text{for }\lfloor N^2/4\rfloor<k\le N^2-1,$$
+so the first interacting sector is $k_*=\lfloor N^2/4\rfloor+1$, which equals $N$ only at $N=2,3$.
+
+**How the citations were checked (2026-10-06).** The bibliographic data and the statement of Kostant's theorem come from the publisher's abstract (ScienceDirect, seen through a search index; the page itself returned 403). The multiplicity-free refinement (one irrep per $k$-dimensional abelian ideal of a Borel subalgebra) comes from the introduction of arXiv:1103.3545, which attributes it to the same paper. Schur's bound and the Jacobson and Mirzakhani references come from the literature on Schur's theorem. Neither original text was read. Our exact computations agree with both statements at $N\le5$ (D16.7).
+
+### D16.7 Checks
+
+- **Limiting cases.** $k=0,1$ give $16N^3-15N$ and $16N^3-53N$ (D2.8).
+- **$N=2$** ($\lfloor N^2/4\rfloor=1$). $E_0(1)=22$ (ED). At $k=2$ the bound is $-54$, while the true value is $5.16536$: strict, as it must be.
+- **$N=3$** ($\lfloor N^2/4\rfloor=2$).
+  - $E_0(2)=159$ with degeneracy $20=\dim(\mathbf{10}\oplus\overline{\mathbf{10}})$, the two irreps with $c=6=Nk$ (ED, `trace_bootstrap_results.md` §8). The adjoint in $\Lambda^2\mathbf 8$ has $Nk-c=3$, and costs $\tfrac{100}3\cdot3=100$ inside the band, which is the measured $259-159$.
+  - At $k=3$: $45<75.79167\le78.33$, where $c_{\max}(3)=8$ (the $\mathbf{27}$).
+- **$N=4$ (new; the case that separates $\lfloor N^2/4\rfloor$ from $N-1$).**
+  - $k=4$: the bound is attained by $\phi^\dagger(E_{13})\phi^\dagger(E_{14})\phi^\dagger(E_{23})\phi^\dagger(E_{24})|0\rangle$, which lies in the irrep $(2,2,-2,-2)$ of dimension 105. Lanczos on the zero-weight block (dimension 8406, which contains every irrep and hence the sector minimum) gives $E_0(4;4)=356.00000000$, threefold. Three is the zero-weight multiplicity of that irrep (Kostant multiplicity formula). The next level is $386.89$.
+  - $k=5$: Lanczos on the 55,764-dimensional zero-weight block gives $204<E_0(5;4)=265.14872\le270.67$. This is the first interacting sector at $N=4$.
+- **Bootstrap.** The level-2 values of `trace_bootstrap_results.md` §5 coincide with the D16.3 bound in every case computed. These are $N=3$: 159 ($k=2$) and 45 ($k=3$); $N=4$: 660, 508; $N=5$: 1545, 1355; $N=10$: 15090, 14710; $N=100$: $15\,990\,900$. This is explained by $H-(E_c-38Nk)=H_4+(H_1+38Nk)$ on sector $k$: a sum of squares of length-2 words plus a positive one-body term, i.e. a level-2 certificate. In the interacting sector $(3,3)$, level 2 returns exactly this certificate's value and nothing more.
+- **Numerical verification** (`scripts/verify_free_sectors.py`, library `src/free_sectors.py`, outputs in `results/data/free_sectors_D16_checks.txt`).
+  - *Exact $\dim\ker\delta$* on $\Lambda^k\mathfrak{sl}(N)$, every $k$, $N=2,3,4$, over $\mathbb F_P$ by weight blocks. It equals the dimension of the $c=Nk$ component in every case and is non-zero iff $k\le\lfloor N^2/4\rfloor$. The dimensions are $(1,3)$, $(1,8,20)$ and $(1,15,90,245,105)$.
+  - *Character decomposition* of $\Lambda^k\mathfrak{sl}(N)$, every $k$, $N=2,\dots,5$: $c_{\max}(k)=Nk$ iff $k\le\lfloor N^2/4\rfloor$. With D16.4(ii), this proves strictness for $N\le5$ without the citations. The irreps attaining $c=Nk$ are one per abelian ideal (e.g. five at $N=5$, $k=4$), consistent with the Kostant refinement.
+  - *Explicit states.* The energy was computed as $\langle H\rangle=(\|Q\psi\|^2+\|\bar Q\psi\|^2)/\|\psi\|^2$ directly from the supercharge, independent of D2.13. Results: 159 for the Cartan and block states at $(N,k)=(3,2)$, 508 for the Cartan state at $(4,3)$, 356 for the block state at $(4,4)$. Each is an exact eigenstate (D2.13 residual $\le10^{-13}$ on its weight block). The non-commuting control $\phi^\dagger(E_{12})\phi^\dagger(E_{21})|0\rangle$ gives exactly $E_{\rm free}+\tfrac{100}3\|[E_{12},E_{21}]\|_F^2=E_{\rm free}+66.67$ at $N=3$ and $N=4$, and is not an eigenstate.
+  - *Builder check.* The D2.13 sparse builder agrees with $\{Q,\bar Q\}$ on random vectors to $\le5\times10^{-11}$ at $N=3,4$.
+
+### D16.8 Reading
+
+- **Mechanism.** In a free sector all $k$ particles occupy the same flavour-symmetric adjoint band. The quartic interaction acts on a pair as the commutator of their matrix wavefunctions, so particles with commuting wavefunctions do not interact at all. The threshold is the largest commuting family of traceless matrices, a property of $\mathfrak{sl}(N)$.
+- **Which couplings matter.** The argument uses only three facts about the couplings: the lowest one-particle level is a non-degenerate flavour direction $v$ on traceless modes, lying below the trace modes; and $\kappa_a=\sum_{bc}\bar C_{abc}v_bv_c$ sets the interaction scale, $9\sum_a|\kappa_a|^2=\tfrac{100}3$ here. For any cubic model with that structure, the same two-sided bound holds with $38N$ and $\tfrac{100}3$ replaced accordingly.
+- **The free regime is large.** It extends to $k\sim N^2/4$, one sixth of the way to half filling $k=3N^2/2$, where the BPS window sits. So the fixed-$k$, large-$N$ regime that the trace bootstrap reaches is free for every fixed $k$ once $N\ge2\sqrt k$. Interaction first matters at $k=O(N^2)$, and the near-BPS regime is further still.
+- **Just above the threshold the in-band interaction is $O(1)$.** $Nk-c_{\max}(k)=1,2,2$ at $(N,k)=(3,3),(4,5),(5,7)$, so the two-sided bound has width $33$ to $67$ against one-body scales $38N$. The exact values sit near the top: $75.79$ of $[45,78.33]$ and $265.15$ of $[204,270.67]$.

@@ -46,8 +46,9 @@ what distinguishes a chaotic model with a super-Schwarzian tail from a solvable 
 sector-resolved bootstrap, which supplies rigorous energies where exact diagonalisation cannot, though it does
 not yet reach the near-BPS regime either. A semidefinite programme over linear functionals, formulated exactly at finite $N$ in
 terms of trace words, gives rigorous lower bounds on the sector ground energies, reproduces them exactly in
-every gapped sector at $N=2$, and yields the closed form $E_0(k;N)=16N^3-(15+38k)N$ for the non-interacting
-sectors $k\le N-1$. Adding the BPS conditions turns the same programme into a certificate of absence, and
+every gapped sector at $N=2$ but the almost-BPS one, and points to the closed form $E_0(k;N)=16N^3-(15+38k)N$,
+which we prove for all $k\le\lfloor N^2/4\rfloor$: in these sectors the particles fill the lowest adjoint band
+with mutually commuting matrix wavefunctions and do not interact. Adding the BPS conditions turns the same programme into a certificate of absence, and
 resolving it by gauge Casimir makes the two methods meet: at $N=3$ the exclusion margin in the
 maximal-Casimir irrep decays monotonically through $k=8,9,10,11$ and vanishes precisely at $k=12$, which is
 where the exact cohomology places the edge of the window. We close with the single-trace forms of $H$, $Q$ and
@@ -492,20 +493,38 @@ resulting programme is built once and evaluated at any $N$, with size set by the
 \subsection{The free sectors in closed form}
 
 A single constraint set evaluated at $N=2,3,4,5,10,30,100$ reproduces the analytic anchors
-$E_0(0)=16N^3-15N$ and $E_0(1)=16N^3-53N$ to eight digits. Beyond those, the level-2 bound is tight for $k=2$ at
-every $N\ge3$ and for $k=3$ at every $N\ge4$, and in all such cases equals the same expression; since a simple
-variational state gives the same energy from above, this establishes
+$E_0(0)=16N^3-15N$ and $E_0(1)=16N^3-53N$ to eight digits. Beyond those, the level-2 bound equals
+$16N^3-(15+38k)N$ in every sector computed, and it is tight for $k=2$ at every $N\ge3$ and for $k=3$ at every
+$N\ge4$. The reason is analytic, and it fixes the free sectors exactly:
 \begin{equation}
-E_0(k;N)=16N^3-(15+38k)N\qquad\text{for }k\le N-1 .
+E_0(k;N)=16N^3-(15+38k)N\qquad\text{for }0\le k\le\lfloor N^2/4\rfloor .
 \label{eq:free}
 \end{equation}
-In words, the $k$-particle sector is free as long as $k\le N-1$. The lowest one-particle multiplet is an $SU(N)$
-adjoint, and $k$ antisymmetrised copies of it, in the component of $\wedge^k\mathbf{adj}$ of largest Casimir,
-are annihilated by the quartic interaction. We checked this explicitly at $N=3$, where
-$\wedge^2\mathbf 8=\mathbf{10}\oplus\overline{\mathbf{10}}\oplus\mathbf 8$ and the $20$-dimensional part is free
-while the adjoint is lifted by $+100$. The first interacting sector is therefore $k=N$, and there the bootstrap
-gives the first rigorous bound beyond $N=2$: $E_0(3;3)\ge70.35$ at level 3, against the exact $75.79$ from
-few-body exact diagonalisation in the $2925$-dimensional sector, level 2 returning only the free value $45$.
+The Hamiltonian \eqref{eq:H3} splits as $H=H_4+H_1+16N^3-15N$. Here
+$H_4=9\sum_{a,i,k}(X_a)_{ik}\big((X_a)_{ik}\big)^\dagger$ is a sum of squares, and $H_1$ is a one-body operator
+whose lowest level, $-38N$, is the flavour-symmetric traceless band
+$\{\sum_{ij}a_{ij}\Psi^s_{ij}:\Tr a=0\}\cong\mathfrak{sl}(N)$, with $\Psi^s=(\Psi^1+\Psi^2+\Psi^3)/\sqrt3$. Filling $k$
+band modes costs at least $-38Nk$, which gives the lower bound, and this certificate lies inside the level-2
+programme. On the band each $X_a^\dagger$ collapses to $\frac{10}9\bPsi^s\bPsi^s$. Acting on two band particles
+with matrix wavefunctions $a$ and $b$, it returns their commutator $[a,b]$. A product of band modes whose matrices
+commute pairwise is therefore an exact eigenstate at the bound. The largest such family of traceless
+$N\times N$ matrices has $\lfloor N^2/4\rfloor$ members, the off-diagonal block $\{E_{ij}:i\le N/2<j\}$.
+Equivalently, on the band $H_4=\frac{100}3(Nk-\hat C_2)$, so the free states are those of $\wedge^k\mathbf{adj}$
+with the largest Casimir allowed, $Nk$. Kostant's theorem identifies these with $k$-dimensional abelian
+subalgebras \cite{Kostant}, and Schur's bound on commuting matrices \cite{Schur} makes the inequality strict for
+$k>\lfloor N^2/4\rfloor$; both facts were also checked by exact computation for $N\le5$. At $N=3$ this is
+$\wedge^2\mathbf 8=\mathbf{10}\oplus\overline{\mathbf{10}}\oplus\mathbf 8$: the 20-dimensional part is free, and the
+adjoint costs $\frac{100}3(6-3)=100$, as measured.
+
+The first interacting sector is therefore $k_*=\lfloor N^2/4\rfloor+1$. It coincides with $k=N$ only at $N=2,3$,
+which is where the data first suggested $k=N$. At $N=4$ the sector $k=4$ is free, $E_0=356$ exactly (Lanczos on
+the zero-weight block), and $k=5$ is interacting, $E_0=265.149$ against the free value $204$. The same band
+calculation gives a rigorous upper bound in every sector,
+$E_0(k;N)\le16N^3-(15+38k)N+\frac{100}3\big(Nk-c_{\max}(k)\big)$, with $c_{\max}(k)$ the largest Casimir in
+$\wedge^k\mathbf{adj}$. At $N=3$, $k=3$ this brackets $E_0(3;3)$ between the free value $45$ and $78.33$. There the
+bootstrap gives the first rigorous bound in an interacting sector beyond $N=2$, $E_0(3;3)\ge70.35$ at level 3,
+against the exact $75.79$ from few-body exact diagonalisation in the $2925$-dimensional sector; level 2 returns
+only the free value $45$.
 
 \subsection{Results}
 
@@ -533,7 +552,7 @@ $E_0(3;N)$, few-body ED & 75.7917 & 508 & n/a & n/a & n/a\\\bottomrule
 \end{tabular}
 \caption{Low sectors at larger $N$: rigorous lower bounds from one constraint set evaluated at each $N$, next to
 few-body exact diagonalisation where $\binom{3N^2}{k}$ permits it (n/a: out of reach). All tight entries equal \eqref{eq:free}. The
-one non-tight entry is the first interacting sector $k=N=3$.}
+one non-tight entry, $k=3$ at $N=3$, is the first interacting sector there, $k_*=\lfloor N^2/4\rfloor+1$.}
 \label{tab:largeN}
 \end{table}
 
@@ -699,12 +718,15 @@ concentration conjecture is about, remain out of reach without a sparse exact ra
 verified rather than proved: that the window is the same in every irrep, and that a generic $q$-form saturates
 its index class by class.
 
-The bootstrap side is rigorous wherever it returns a number, but its reach is set by the level. It is exact in
-every gapped sector at $N=2$, gives \eqref{eq:free} for the free sectors at any $N$, and provides one rigorous
-bound in an interacting sector beyond $N=2$. The natural next steps are the level-4 problem, which is assembled
-but not yet solved to tolerance, and near-BPS energies as a function of $N$ in the first interacting sector
-$k=N$, which is the direct test of super-Schwarzian scaling and the one question neither method has yet
-answered.
+The bootstrap side is rigorous wherever it returns a number, but its reach is set by the level. At $N=2$ it is
+exact in every gapped sector except the almost-BPS sector $k=4$, where $E_0=0.08796$ and the bound has not left
+zero by level 4; it gives \eqref{eq:free} for the free sectors at any $N$, and one rigorous bound in an
+interacting sector beyond $N=2$. The immediate next step is the level-4 problem, which is assembled but not yet
+solved to tolerance. The question the project is ultimately after lies elsewhere. A super-Schwarzian tail is a
+statement about the lightest non-BPS states in and next to the BPS window, which sits near half filling,
+$k\approx pN^2/2$, not in the low sectors the bootstrap now controls. The sector $k=4$ at $N=2$ is the only
+near-BPS energy in hand, the bootstrap has not yet bounded it away from zero, and neither method has produced
+such energies as a function of $N$.
 
 \appendix
 \section{Numerical implementation of the bootstrap}
@@ -846,6 +868,11 @@ Phys.\ Rev.\ D \textbf{95} (2017) 026009.
 \bibitem{Tierz} M.~Tierz, \emph{BPS spectra of $\mathrm{Tr}[\Psi^p]$ matrix models for odd $p$},
 arXiv:2604.27164, 2026.
 \bibitem{TW} G.~Turiaci, E.~Witten, \emph{$\mathcal N=2$ JT supergravity and matrix models}, 2023.
+\bibitem{Kostant} B.~Kostant, \emph{Eigenvalues of a Laplacian and commutative Lie subalgebras}, Topology
+\textbf{3}, suppl.~2 (1965) 147--159.
+\bibitem{Schur} I.~Schur, \emph{Zur Theorie der vertauschbaren Matrizen}, J.\ reine angew.\ Math.\ \textbf{130}
+(1905) 66--76; N.~Jacobson, \emph{Schur's theorems on commutative matrices}, Bull.\ AMS \textbf{50} (1944)
+431--436.
 \end{thebibliography}
 
 \end{document}

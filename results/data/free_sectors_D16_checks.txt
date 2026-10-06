@@ -1,0 +1,202 @@
+# Numerical checks of derivation D16 (free sectors of Chen's three-matrix model), 2026-10-06
+# Code: src/free_sectors.py, scripts/verify_free_sectors.py (new, uncommitted at time of run); repo HEAD 08a799b
+# Model: p=q=3, Chen's cyclic C, U(N), H = {Q,Qbar}; exact ranks over F_P, P = 2^31-1; Lanczos via scipy eigsh (tol 1e-10).
+# Random cross-check vectors: seed 1 (--seed), 60-state support. All runs under scripts/run_guarded.sh; peak RSS <= 0.21 GB.
+# Prediction tested: E_0(k;N) = 16N^3-(15+38k)N iff k <= floor(N^2/4); otherwise strictly above, and <= E_free + (100/3)(Nk - c_max(k)).
+
+## python3 scripts/verify_free_sectors.py kernel --N 2
+N=2: dim ker(delta) on Lambda^k sl(N), exact over F_P, against the c = N k component  (0.0s)
+  k= 0: dim Lambda^k =      1, dim ker delta =     1, dim(c=Nk) =     1  ok
+  k= 1: dim Lambda^k =      3, dim ker delta =     3, dim(c=Nk) =     3  ok
+  k= 2: dim Lambda^k =      3, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 3: dim Lambda^k =      1, dim ker delta =     0, dim(c=Nk) =     0  ok
+all agree
+
+## python3 scripts/verify_free_sectors.py kernel --N 3
+N=3: dim ker(delta) on Lambda^k sl(N), exact over F_P, against the c = N k component  (0.0s)
+  k= 0: dim Lambda^k =      1, dim ker delta =     1, dim(c=Nk) =     1  ok
+  k= 1: dim Lambda^k =      8, dim ker delta =     8, dim(c=Nk) =     8  ok
+  k= 2: dim Lambda^k =     28, dim ker delta =    20, dim(c=Nk) =    20  ok
+  k= 3: dim Lambda^k =     56, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 4: dim Lambda^k =     70, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 5: dim Lambda^k =     56, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 6: dim Lambda^k =     28, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 7: dim Lambda^k =      8, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 8: dim Lambda^k =      1, dim ker delta =     0, dim(c=Nk) =     0  ok
+all agree
+
+## python3 scripts/verify_free_sectors.py kernel --N 4
+N=4: dim ker(delta) on Lambda^k sl(N), exact over F_P, against the c = N k component  (1.4s)
+  k= 0: dim Lambda^k =      1, dim ker delta =     1, dim(c=Nk) =     1  ok
+  k= 1: dim Lambda^k =     15, dim ker delta =    15, dim(c=Nk) =    15  ok
+  k= 2: dim Lambda^k =    105, dim ker delta =    90, dim(c=Nk) =    90  ok
+  k= 3: dim Lambda^k =    455, dim ker delta =   245, dim(c=Nk) =   245  ok
+  k= 4: dim Lambda^k =   1365, dim ker delta =   105, dim(c=Nk) =   105  ok
+  k= 5: dim Lambda^k =   3003, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 6: dim Lambda^k =   5005, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 7: dim Lambda^k =   6435, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 8: dim Lambda^k =   6435, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k= 9: dim Lambda^k =   5005, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=10: dim Lambda^k =   3003, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=11: dim Lambda^k =   1365, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=12: dim Lambda^k =    455, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=13: dim Lambda^k =    105, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=14: dim Lambda^k =     15, dim ker delta =     0, dim(c=Nk) =     0  ok
+  k=15: dim Lambda^k =      1, dim ker delta =     0, dim(c=Nk) =     0  ok
+all agree
+
+## python3 scripts/verify_free_sectors.py characters --N 2
+N=2: Lambda^k sl(N), k=0..3; floor(N^2/4)=1; E_c=98
+  k    c_max   N k  equal  deg(c=Nk)     E_free        E_var  top irreps (lambda: mult x dim)
+  0      0.0     0   True          1         98      98.0000  (0, 0): 1x1
+  1      2.0     2   True          3         22      22.0000  (1, -1): 1x3
+  2      2.0     4  False          0        -54      12.6667  (1, -1): 1x3
+  3      0.0     6  False          0       -130      70.0000  (0, 0): 1x1
+threshold check: c_max(k) = N k exactly for k <= floor(N^2/4), and < N k above  [passed]
+
+## python3 scripts/verify_free_sectors.py characters --N 3
+N=3: Lambda^k sl(N), k=0..8; floor(N^2/4)=2; E_c=387
+  k    c_max   N k  equal  deg(c=Nk)     E_free        E_var  top irreps (lambda: mult x dim)
+  0      0.0     0   True          1        387     387.0000  (0, 0, 0): 1x1
+  1      3.0     3   True          8        273     273.0000  (1, 0, -1): 1x8
+  2      6.0     6   True         20        159     159.0000  (1, 1, -2): 1x10, (2, -1, -1): 1x10
+  3      8.0     9  False          0         45      78.3333  (2, 0, -2): 1x27
+  4      8.0    12  False          0        -69      64.3333  (2, 0, -2): 2x27
+  5      8.0    15  False          0       -183      50.3333  (2, 0, -2): 1x27
+  6      6.0    18  False          0       -297     103.0000  (1, 1, -2): 1x10, (2, -1, -1): 1x10
+  7      3.0    21  False          0       -411     189.0000  (1, 0, -1): 1x8
+  8      0.0    24  False          0       -525     275.0000  (0, 0, 0): 1x1
+threshold check: c_max(k) = N k exactly for k <= floor(N^2/4), and < N k above  [passed]
+
+## python3 scripts/verify_free_sectors.py characters --N 4
+N=4: Lambda^k sl(N), k=0..15; floor(N^2/4)=4; E_c=964
+  k    c_max   N k  equal  deg(c=Nk)     E_free        E_var  top irreps (lambda: mult x dim)
+  0      0.0     0   True          1        964     964.0000  (0, 0, 0, 0): 1x1
+  1      4.0     4   True         15        812     812.0000  (1, 0, 0, -1): 1x15
+  2      8.0     8   True         90        660     660.0000  (1, 1, 0, -2): 1x45, (2, 0, -1, -1): 1x45
+  3     12.0    12   True        245        508     508.0000  (1, 1, 1, -3): 1x35, (2, 1, -1, -2): 1x175, (3, -1, -1, -1): 1x35
+  4     16.0    16   True        105        356     356.0000  (2, 2, -2, -2): 1x105
+  5     18.0    20  False          0        204     270.6667  (2, 2, -1, -3): 1x280, (3, 0, 0, -3): 1x300, (3, 1, -2, -2): 1x280
+  6     20.0    24  False          0         52     185.3333  (3, 1, -1, -3): 1x729
+  7     20.0    28  False          0       -100     166.6667  (3, 1, -1, -3): 3x729
+  8     20.0    32  False          0       -252     148.0000  (3, 1, -1, -3): 3x729
+  9     20.0    36  False          0       -404     129.3333  (3, 1, -1, -3): 1x729
+ 10     18.0    40  False          0       -556     177.3333  (2, 2, -1, -3): 1x280, (3, 0, 0, -3): 1x300, (3, 1, -2, -2): 1x280
+ 11     16.0    44  False          0       -708     225.3333  (2, 2, -2, -2): 1x105
+ 12     12.0    48  False          0       -860     340.0000  (1, 1, 1, -3): 1x35, (2, 1, -1, -2): 1x175, (3, -1, -1, -1): 1x35
+ 13      8.0    52  False          0      -1012     454.6667  (1, 1, 0, -2): 1x45, (2, 0, -1, -1): 1x45
+ 14      4.0    56  False          0      -1164     569.3333  (1, 0, 0, -1): 1x15
+ 15      0.0    60  False          0      -1316     684.0000  (0, 0, 0, 0): 1x1
+threshold check: c_max(k) = N k exactly for k <= floor(N^2/4), and < N k above  [passed]
+
+## python3 scripts/verify_free_sectors.py characters --N 5
+N=5: Lambda^k sl(N), k=0..24; floor(N^2/4)=6; E_c=1925
+  k    c_max   N k  equal  deg(c=Nk)     E_free        E_var  top irreps (lambda: mult x dim)
+  0      0.0     0   True          1       1925    1925.0000  (0, 0, 0, 0, 0): 1x1
+  1      5.0     5   True         24       1735    1735.0000  (1, 0, 0, 0, -1): 1x24
+  2     10.0    10   True        252       1545    1545.0000  (1, 1, 0, 0, -2): 1x126, (2, 0, 0, -1, -1): 1x126
+  3     15.0    15   True       1472       1355    1355.0000  (1, 1, 1, 0, -3): 1x224, (2, 1, 0, -1, -2): 1x1024, (3, 0, -1, -1, -1): 1x224
+  4     20.0    20   True       4830       1165    1165.0000  (1, 1, 1, 1, -4): 1x126, (2, 1, 1, -1, -3): 1x1701, (2, 2, 0, -2, -2): 1x1176, (3, 1, -1, -1, -2): 1x1701, (4, -1, -1, -1, -1): 1x126
+  5     25.0    25   True       6048        975     975.0000  (2, 2, 1, -2, -3): 1x3024, (3, 2, -1, -2, -2): 1x3024
+  6     30.0    30   True       2352        785     785.0000  (2, 2, 2, -3, -3): 1x1176, (3, 3, -2, -2, -2): 1x1176
+  7     33.0    35  False          0        595     661.6667  (3, 2, 1, -3, -3): 1x8400, (3, 3, -1, -2, -3): 1x8400
+  8     36.0    40  False          0        405     538.3333  (3, 3, -1, -1, -4): 1x9625, (3, 3, 0, -3, -3): 1x9000, (4, 1, 1, -3, -3): 1x9625
+  9     38.0    45  False          0        215     448.3333  (3, 3, 0, -2, -4): 1x23100, (4, 1, 1, -2, -4): 1x25200, (4, 2, -1, -1, -4): 1x25200, (4, 2, 0, -3, -3): 1x23100
+ 10     40.0    50  False          0         25     358.3333  (4, 2, 0, -2, -4): 1x59049
+ 11     40.0    55  False          0       -165     335.0000  (4, 2, 0, -2, -4): 4x59049
+ 12     40.0    60  False          0       -355     311.6667  (4, 2, 0, -2, -4): 6x59049
+ 13     40.0    65  False          0       -545     288.3333  (4, 2, 0, -2, -4): 4x59049
+ 14     40.0    70  False          0       -735     265.0000  (4, 2, 0, -2, -4): 1x59049
+ 15     38.0    75  False          0       -925     308.3333  (3, 3, 0, -2, -4): 1x23100, (4, 1, 1, -2, -4): 1x25200, (4, 2, -1, -1, -4): 1x25200, (4, 2, 0, -3, -3): 1x23100
+ 16     36.0    80  False          0      -1115     351.6667  (3, 3, -1, -1, -4): 1x9625, (3, 3, 0, -3, -3): 1x9000, (4, 1, 1, -3, -3): 1x9625
+ 17     33.0    85  False          0      -1305     428.3333  (3, 2, 1, -3, -3): 1x8400, (3, 3, -1, -2, -3): 1x8400
+ 18     30.0    90  False          0      -1495     505.0000  (2, 2, 2, -3, -3): 1x1176, (3, 3, -2, -2, -2): 1x1176
+ 19     25.0    95  False          0      -1685     648.3333  (2, 2, 1, -2, -3): 1x3024, (3, 2, -1, -2, -2): 1x3024
+ 20     20.0   100  False          0      -1875     791.6667  (1, 1, 1, 1, -4): 1x126, (2, 1, 1, -1, -3): 1x1701, (2, 2, 0, -2, -2): 1x1176, (3, 1, -1, -1, -2): 1x1701, (4, -1, -1, -1, -1): 1x126
+ 21     15.0   105  False          0      -2065     935.0000  (1, 1, 1, 0, -3): 1x224, (2, 1, 0, -1, -2): 1x1024, (3, 0, -1, -1, -1): 1x224
+ 22     10.0   110  False          0      -2255    1078.3333  (1, 1, 0, 0, -2): 1x126, (2, 0, 0, -1, -1): 1x126
+ 23      5.0   115  False          0      -2445    1221.6667  (1, 0, 0, 0, -1): 1x24
+ 24      0.0   120  False          0      -2635    1365.0000  (0, 0, 0, 0, 0): 1x1
+threshold check: c_max(k) = N k exactly for k <= floor(N^2/4), and < N k above  [passed]
+
+## python3 scripts/verify_free_sectors.py state --N 3 --k 2 --kind cartan
+N=3, k=2, kind=cartan: 27 Fock components, max |[a_l,a_m]| = 0
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 159.0000000000   (0.0s)
+  D16 prediction                     : 159.0000000000   (free value 16N^3-(15+38k)N = 159)
+  D2.13 on weight block (0, 0, 0) (dim 63): <H> = 159.0000000000, |H psi - <H> psi| = 3.33e-14, |Ydag psi| = 0.00e+00  (0.0s)
+
+## python3 scripts/verify_free_sectors.py state --N 3 --k 2 --kind control
+N=3, k=2, kind=control: 9 Fock components, max |[a_l,a_m]| = 1
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 225.6666666667   (0.0s)
+  D16 prediction                     : 225.6666666667   (free value 16N^3-(15+38k)N = 159)
+  D2.13 on weight block (0, 0, 0) (dim 63): <H> = 225.6666666667, |H psi - <H> psi| = 5.62e+01, |Ydag psi| = 2.72e+00  (0.0s)
+
+## python3 scripts/verify_free_sectors.py state --N 3 --k 2 --kind block
+N=3, k=2, kind=block: 9 Fock components, max |[a_l,a_m]| = 0
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 159.0000000000   (0.0s)
+  D16 prediction                     : 159.0000000000   (free value 16N^3-(15+38k)N = 159)
+  D2.13 on weight block (2, -1, -1) (dim 9): <H> = 159.0000000000, |H psi - <H> psi| = 4.08e-14, |Ydag psi| = 0.00e+00  (0.0s)
+
+## python3 scripts/verify_free_sectors.py state --N 4 --k 3 --kind cartan
+N=4, k=3, kind=cartan: 108 Fock components, max |[a_l,a_m]| = 0
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 507.9999999997   (0.2s)
+  D16 prediction                     : 508.0000000000   (free value 16N^3-(15+38k)N = 508)
+  D2.13 on weight block (0, 0, 0, 0) (dim 1084): <H> = 508.0000000000, |H psi - <H> psi| = 6.63e-14, |Ydag psi| = 0.00e+00  (0.1s)
+
+## python3 scripts/verify_free_sectors.py state --N 4 --k 2 --kind control
+N=4, k=2, kind=control: 9 Fock components, max |[a_l,a_m]| = 1
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 726.6666666666   (0.0s)
+  D16 prediction                     : 726.6666666667   (free value 16N^3-(15+38k)N = 660)
+  D2.13 on weight block (0, 0, 0, 0) (dim 120): <H> = 726.6666666667, |H psi - <H> psi| = 7.54e+01, |Ydag psi| = 2.72e+00  (0.0s)
+
+## python3 scripts/verify_free_sectors.py state --N 4 --k 4 --kind block
+N=4, k=4, kind=block: 81 Fock components, max |[a_l,a_m]| = 0
+  <H> from |Q psi|^2 + |Q^dag psi|^2 : 356.0000000000   (0.2s)
+  D16 prediction                     : 356.0000000000   (free value 16N^3-(15+38k)N = 356)
+  D2.13 on weight block (2, 2, -2, -2) (dim 99): <H> = 356.0000000000, |H psi - <H> psi| = 1.01e-13, |Ydag psi| = 0.00e+00  (0.0s)
+
+## python3 scripts/verify_free_sectors.py lanczos --N 3 --k 2 --n-eig 6 --zero-mult 2,-1,-1 1,1,-2 1,0,-1
+N=3, k=2: zero-weight block dim 63 (sector dim 351)  [0.0s]
+  operators: H1 nnz 675, Ydag 9x63 nnz 171  [0.0s]
+  builder check on a random 60-state vector: D2.13 315.2018501411 vs {Q,Q^dag} 315.2018501411, diff 1.4e-12  [0.0s]
+  lowest 6 eigenvalues  [0.0s]:
+    159.00000000  x2
+    247.69360527  x2
+    258.00000000  x2
+  D16 free value 16N^3-(15+38k)N = 159  (k <= floor(N^2/4) = 2)
+  zero-weight multiplicity of V(2, -1, -1): 1
+  zero-weight multiplicity of V(1, 1, -2): 1
+  zero-weight multiplicity of V(1, 0, -1): 2
+
+## python3 scripts/verify_free_sectors.py lanczos --N 3 --k 3 --n-eig 6
+N=3, k=3: zero-weight block dim 381 (sector dim 2925)  [0.0s]
+  operators: H1 nnz 5133, Ydag 135x381 nnz 2781  [0.0s]
+  builder check on a random 60-state vector: D2.13 281.0449848826 vs {Q,Q^dag} 281.0449848826, diff 5.2e-12  [0.0s]
+  lowest 6 eigenvalues  [0.0s]:
+    75.79167517  x3
+    133.78294737  x2
+    144.00000000  x1
+  D16 free value 16N^3-(15+38k)N = 45  (k > floor(N^2/4) = 2)
+
+## python3 scripts/verify_free_sectors.py lanczos --N 4 --k 4 --n-eig 16 --zero-mult 2,2,-2,-2
+N=4, k=4: zero-weight block dim 8406 (sector dim 194580)  [0.1s]
+  operators: H1 nnz 167670, Ydag 3384x8406 nnz 97164  [0.2s]
+  builder check on a random 60-state vector: D2.13 748.4056690650 vs {Q,Q^dag} 748.4056690650, diff 4.2e-11  [0.1s]
+  lowest 16 eigenvalues  [0.2s]:
+    356.00000000  x3
+    386.89027805  x8
+    474.36666554  x2
+    474.36777740  x3
+  D16 free value 16N^3-(15+38k)N = 356  (k <= floor(N^2/4) = 4)
+  zero-weight multiplicity of V(2, 2, -2, -2): 3
+
+## python3 scripts/verify_free_sectors.py lanczos --N 4 --k 5 --n-eig 12
+N=4, k=5: zero-weight block dim 55764 (sector dim 1712304)  [0.4s]
+  operators: H1 nnz 1293840, Ydag 35040x55764 nnz 979632  [1.9s]
+  builder check on a random 60-state vector: D2.13 702.1355569429 vs {Q,Q^dag} 702.1355569430, diff 5.4e-11  [0.1s]
+  lowest 12 eigenvalues  [1.0s]:
+    265.14871938  x5
+    266.33039289  x5
+    322.43750462  x2
+  D16 free value 16N^3-(15+38k)N = 204  (k > floor(N^2/4) = 4)
+
