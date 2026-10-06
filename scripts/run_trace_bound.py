@@ -31,6 +31,8 @@ def main():
     ap.add_argument('--fixed_N', action='store_true', help='parallel build at the single N in --N_list with coefficients evaluated (level 4)')
     ap.add_argument('--L_eom_gram', type=int, default=None, help='EOM/sector rows only for Gram entries of total length <= this (fixed_N path)')
     ap.add_argument('--workers', type=int, default=8)
+    ap.add_argument('--casimir', type=float, default=None,
+                    help='restrict to the gauge-Casimir eigenspace C2 = this value: rows phi((C2-c)X) = 0 (D7)')
     ap.add_argument('--out', default=None)
     a = ap.parse_args()
     C = chen_C(a.p) if a.p > 1 else np.ones((1, 1, 1))
@@ -39,17 +41,18 @@ def main():
     if a.fixed_N:
         assert len(Ns) == 1 and not a.finiteN_len, "--fixed_N takes a single N and no finite-N relations"
         S = TraceSDP.fixed_N(C, a.p, a.k, Ns[0], a.L_adj, a.L_sing, a.L_eom, L_eom_gram=a.L_eom_gram,
-                             adjoint_projected=not a.plain_adjoint, fourier=not a.no_fourier, workers=a.workers, verbose=True)
+                             adjoint_projected=not a.plain_adjoint, fourier=not a.no_fourier, workers=a.workers, verbose=True,
+                             casimir=a.casimir)
     else:
         S = TraceSDP(C, a.p, a.k, a.L_adj, a.L_sing, a.L_eom, finiteN_len=a.finiteN_len, N_for_relations=a.N_rel,
-                     adjoint_projected=not a.plain_adjoint, fourier=not a.no_fourier, verbose=True)
+                     adjoint_projected=not a.plain_adjoint, fourier=not a.no_fourier, verbose=True, casimir=a.casimir)
     for N in Ns:
         try:
             res = S.solve(N, solver=a.solver, eps=a.eps, max_iters=a.max_iters, budget_gb=a.budget_gb)
         except MemoryBudgetExceeded as e:
             print("refused:", e); continue
         rec = dict(p=a.p, N=N, k=a.k, L_adj=a.L_adj, L_sing=a.L_sing, L_eom=a.L_eom, finiteN_len=a.finiteN_len, N_rel=a.N_rel,
-                   fixed_N=a.fixed_N, L_eom_gram=a.L_eom_gram,
+                   fixed_N=a.fixed_N, L_eom_gram=a.L_eom_gram, casimir=a.casimir,
                    adjoint_projected=not a.plain_adjoint, fourier=S.fourier, solver=a.solver, eps=a.eps,
                    n_monomials=len(S.monos), n_vars=res['n'], n_eq=res['n_eq'], n_rows=res['n_rows'], nnz=res['nnz'],
                    cones=[len(c['labels']) for c in S.cones], bound=res['value'], status=res['status'],
@@ -65,7 +68,8 @@ def main():
             rec.update(exact=chk['E0'], exactGS_max_row_residual=chk['max_row_residual'],
                        exactGS_min_cone_eig=min(chk['cone_min_eig']))
         ex = rec.get('exact')
-        print(f"RESULT p={a.p} N={N} k={a.k} level ({a.L_adj},{a.L_sing},{a.L_eom}) finiteN_len={a.finiteN_len}: bound {rec['bound']:.6f}"
+        print(f"RESULT p={a.p} N={N} k={a.k} level ({a.L_adj},{a.L_sing},{a.L_eom}) finiteN_len={a.finiteN_len}"
+              + (f" C2={a.casimir:g}" if a.casimir is not None else '') + f": bound {rec['bound']:.6f}"
               + (f"  exact {ex:.6f}" if ex is not None else '') + f"  [{rec['status']}, {a.solver}, {rec['solve_s']}s] peak {rec['peak_rss_gb']} GB", flush=True)
         if a.out:
             with open(a.out, 'a') as f:

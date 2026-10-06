@@ -111,3 +111,47 @@ Few-body ED at $N=3$: the one-particle levels are $273$ (×8), $372$ (×16), $38
 **Assessment.** The level-4 *SDP* has the shape "few×$10^4$ free parameters, a handful of 336-dimensional blocks" — the natural habitat of SDPA/SDPB-type solvers (dense Schur complement of size (free variables)$^2$, blocks handled by dense Cholesky), not of sparse-KKT interior-point or first-order codes. The honest next step is therefore to (a) eliminate the equality constraints exactly (sparse elimination in a monomial order) to reach the dual form $F_0+\sum_i y_iF_i\succeq0$ with $\lesssim2.5\times10^4$ free $y_i$, and (b) export to SDPA format / SDPB. Memory of the Schur complement at $2.5\times10^4$ free variables: 5 GB — feasible; at the full $5\times10^4$ it would be 20 GB, so the elimination is not optional. This is recorded in the todo as the M4 blocker; the Python assembly side is done.
 
 **Level-4 solve attempts, outcome (2026-09-19).** With the Accelerate LDL backend SCS runs at 0.7 s/iteration once set up (2 min), but (a) with adaptive rescaling on, every rescaling re-factorises the KKT system and the run exceeded 4.5 h without finishing 10 000 iterations (killed); (b) with the scale fixed, 6 000 iterations (74 min, 7.1 GB) ended at objective 70.05 with primal/dual residuals $1.3\times10^{-2}/2\times10^{-3}$ — **not converged, not a certified bound**, and below the certified level-3 value 70.35 (which an exact level-4 optimum cannot be). Status: the level-4 SDP for $N=3$, $k=3$ is assembled and solvable in memory, but no solver available here reaches tolerance on it in reasonable time. The certified statement remains $E_0(3;3)\ge70.35$ (level 3). If level 4 is revisited: warm-start SCS from the fixed-scale solution with adaptive scaling on (x, y, s must be saved), or the dual-form/SDPB route with exact elimination (§9 above); both were judged lower priority than the exclusion programme.
+
+## 10. Calibration against exact energies up to the window, $N=3$ (2026-10-06)
+
+**Question.** How far toward the BPS window does the level-3 trace bootstrap give useful lower bounds? Exact
+targets come from `research/notes/sector_ed_results.md`: zero-weight exact diagonalisation for every $k\le11$.
+
+**Setup.**
+- Level $(3,3,4)$ at $N=3$, Clarabel, no finite-$N$ relations, `scripts/run_trace_bound.py`. The new `--casimir c`
+  flag adds the rows $\phi((\hat C_2-c)X)=\phi(X(\hat C_2-c))=0$.
+- Two runs per sector: whole sector, and restricted to the ground-state irrep that exact diagonalisation
+  identified.
+- Reproduction check first: $k=3$ gives 70.353328, against 70.3533 recorded in §6.
+- Data: `results/data/trace_bounds_N3_level3.jsonl`.
+- Grading: `scripts/compare_bootstrap_ed.py --N 3 --bounds results/data/trace_bounds_N3_level3.jsonl --fig results/figures/bootstrap_vs_ed_N3`.
+- Cost: 55–280 s per run, peak 2.6–5.1 GB. All runs ended Solved or AlmostSolved; values printed as
+  $10^{-6}$ are zero within tolerance.
+
+| $k$ | $k/N^2$ | $|q|$ | exact $E_0$ | bound, whole sector | captured | bound, ground-state irrep ($C_2$) |
+|---|---|---|---|---|---|---|
+| 3 | 0.33 | 9 | 75.792 | 70.353 | 93% | 70.370 (8) |
+| 4 | 0.44 | 8 | 46.271 | 36.395 | 79% | 36.503 (8) |
+| 5 | 0.56 | 7 | 22.400 | 11.901 | 53% | 12.046 (8) |
+| 6 | 0.67 | 6 | 12.560 | 1.630 | 13% | 1.639 (6) |
+| 7 | 0.78 | 5 | 6.635 | 0 | 0 | 0 (3) |
+| 8 | 0.89 | 4 | 2.738 | 0 | 0 | 0 (0) |
+| 9 | 1.00 | 3 | 1.146 | 0 | 0 | 0 (0) |
+| 10 | 1.11 | 2 | 0.345 | 0 | 0 | 0 (3) |
+| 11 | 1.22 | 1 | 0.0614 | 0 | 0 | 0 (6) |
+
+**Findings.**
+- *Reach.* Level 3 is informative for $k\le6$ ($k/N^2\le0.67$). The fraction it captures falls steadily, and from
+  $k=7$ onward the bound is the trivial floor $0$. These are the five sectors next to the window ($|q|\le5$),
+  which hold all the near-window physics of Fig. 8 in the report. Level 2 was informative only up to $k=3$ (45,
+  59%).
+- *Irrep resolution* in the ground-state irrep adds at most 1.2% where the bound is non-zero and nothing where it
+  is zero. The bottleneck is the level, not symmetry mixing.
+- *Contrast with BPS exclusion.* The level-3 exclusion test certifies the absence of BPS states up to $k=11$ in
+  the $C_2=48$ irrep (§4 of `bps_exclusion_results.md`; report Table 6). That certificate is qualitative: the
+  quantitative energy bound in the near-window sectors (computed here in the low-Casimir irreps that hold the
+  ground states) stays at zero within tolerance.
+- *Verdict on near-BPS energies.* At accessible levels the energy bootstrap cannot reach the near-window regime at
+  $N=3$. Level 2 reached $k=3$ and level 3 reaches $k=6$, about three sectors per level. If that continued
+  (two points, so speculation), the window would need level 5 or more, while level 4 is already beyond current
+  solvers (§9).
