@@ -1227,3 +1227,50 @@ so the first interacting sector is $k_*=\lfloor N^2/4\rfloor+1$, which equals $N
 - **Which couplings matter.** The argument uses only three facts about the couplings: the lowest one-particle level is a non-degenerate flavour direction $v$ on traceless modes, lying below the trace modes; and $\kappa_a=\sum_{bc}\bar C_{abc}v_bv_c$ sets the interaction scale, $9\sum_a|\kappa_a|^2=\tfrac{100}3$ here. For any cubic model with that structure, the same two-sided bound holds with $38N$ and $\tfrac{100}3$ replaced accordingly.
 - **The free regime is large.** It extends to $k\sim N^2/4$, one sixth of the way to half filling $k=3N^2/2$, where the BPS window sits. So the fixed-$k$, large-$N$ regime that the trace bootstrap reaches is free for every fixed $k$ once $N\ge2\sqrt k$. Interaction first matters at $k=O(N^2)$, and the near-BPS regime is further still.
 - **Just above the threshold the in-band interaction is $O(1)$.** $Nk-c_{\max}(k)=1,2,2$ at $(N,k)=(3,3),(4,5),(5,7)$, so the two-sided bound has width $33$ to $67$ against one-body scales $38N$. The exact values sit near the top: $75.79$ of $[45,78.33]$ and $265.15$ of $[204,270.67]$.
+
+---
+
+## D17. The full spectrum of $H$ in the maximal irrep: $N$ decoupled sites (2026-10-06)
+
+**Status.** Proved, and verified exactly at $N=2,3$ for every $k$. This extends the D9 / §4w maximal-weight
+factorisation from the BPS states (cohomology) to the whole spectrum of $H$.
+
+**Assumptions.** $U(N)$, $p$ flavours, cubic $Q=\omega\wedge-$ (D10), canonical fermions. $\lambda^*$ is the maximal
+weight of the Fock space and $W^*$ its weight space. Because $\lambda^*$ is the highest weight occurring, $W^*$
+consists only of highest-weight vectors of copies of $V_{\lambda^*}$. $H$ commutes with the gauge group, so the
+spectrum of $H$ on $W^*$ is the spectrum of $H$ in the maximal irrep, each level carrying a factor
+$\dim V_{\lambda^*}$.
+
+**Derivation.**
+- *What $Q$ and $Q^\dagger$ see.* On $W^*$ every $\theta$-positive mode ($\Psi^a_{ij}$, $i<j$) is filled and every
+  $\theta$-negative mode is empty (the $V_0$ lemma, `cohomology_results.md` §4w). Each term of $Q$ or $Q^\dagger$
+  moves three modes of total weight zero. A term touching a positive mode must also touch a negative one. In $Q$
+  that would mean creating an already-filled positive mode; in $Q^\dagger$, annihilating an empty negative mode.
+  Either way the term vanishes. So on $W^*$ both act only through the diagonal modes
+  $\psi^a_i\equiv\Psi^a_{ii}$:
+  $$Q\big|_{W^*}=\sum_{i=1}^Nq_i,\qquad q_i=\sum_{abc}C_{abc}\,\psi^a_i\psi^b_i\psi^c_i,$$
+  and $Q^\dagger|_{W^*}=\sum_iq_i^\dagger$.
+- *Decoupling.* $Q$ and $Q^\dagger$ map $W^*$ into itself, because they preserve the weight. So
+  $H|_{W^*}=\sum_{i,j}\{q_i,q_j^\dagger\}$. For $i\ne j$, $q_i$ and $q_j^\dagger$ are odd operators on disjoint
+  modes, hence anticommute and drop out. Therefore
+  $$H\big|_{W^*}=\sum_{i=1}^N h_i,\qquad h_i=\{q_i,q_i^\dagger\}\ \text{acting on site }i\ (\Lambda^\bullet\mathbb C^p).$$
+  This is a Künneth decomposition for $H$ itself, not only for its cohomology.
+- *Three flavours.* At $p=3$, $q_i=c\,\psi^1_i\psi^2_i\psi^3_i$ with $c=\sum_{\sigma\in S_3}\mathrm{sgn}(\sigma)\,C_{\sigma(1)\sigma(2)\sigma(3)}$.
+  For Chen's $C$ this is $c=3\cdot\tfrac13-0=1$. Then $h_i=|c|^2\big(|\varnothing\rangle\langle\varnothing|+|123\rangle\langle123|\big)$:
+  it gives energy $|c|^2$ to an empty or full site, and $0$ to the six sites holding one or two fermions. So
+  $$H\big|_{W^*}=\#\{\text{sites that are empty or full}\},\qquad Z_{W^*}(t,x)=t^{k_0}\big(x+3t+3t^2+xt^3\big)^N,$$
+  where $k_0=p\binom N2$ counts the filled positive modes and $x$ marks one unit of energy. The spectrum is
+  $\{0,1,\dots,N\}$. With $n=k-k_0$ particles on the diagonal, the ground energy is $\max(0,\,N-n,\,n-2N)$. The BPS
+  states ($x=0$) give $t^{k_0}(3t(1+t))^N$, the known maximal-irrep result.
+
+**Checks.** Dense diagonalisation of $H$ (the D2.13 builder) on $W^*$ reproduces $Z_{W^*}$ exactly at $N=2$ (all
+$k=3..9$) and $N=3$ (all $k=9..18$), levels and multiplicities alike. For example, at $N=3$, $k=11$ ($n=2$) the
+formula gives $27$ states at $E=1$ and $9$ at $E=2$, and the computation finds $1\times27$, $2\times9$.
+
+**Reading.**
+- The maximal irrep is spectrally trivial. It is $N$ decoupled sites with an $N$-independent gap ($|c|^2=1$) next
+  to the window, and has no room for a Schwarzian.
+- The small near-window energies found by exact diagonalisation ($0.088$ at $N=2$, $0.061$ at $N=3$;
+  `research/notes/sector_ed_results.md`) therefore all come from low-Casimir irreps.
+- For general $p$, $h_i=\{\omega_{\rm slot}\wedge,(\omega_{\rm slot}\wedge)^\dagger\}$ on $\Lambda^\bullet\mathbb C^p$, and
+  the maximal-irrep spectrum is sums of single-site spectra.

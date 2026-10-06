@@ -51,7 +51,10 @@ which we prove for all $k\le\lfloor N^2/4\rfloor$: in these sectors the particle
 with mutually commuting matrix wavefunctions and do not interact. Adding the BPS conditions turns the same programme into a certificate of absence, and
 resolving it by gauge Casimir makes the two methods meet: at $N=3$ the exclusion margin in the
 maximal-Casimir irrep decays monotonically through $k=8,9,10,11$ and vanishes precisely at $k=12$, which is
-where the exact cohomology places the edge of the window. We close with the single-trace forms of $H$, $Q$ and
+where the exact cohomology places the edge of the window. Exact diagonalisation of the zero-weight blocks,
+which contain every irrep, gives the sector energies up to the window at $N=3$: the states there lie in irreps
+of small Casimir, the maximal irrep being a set of decoupled sites with a gap of one, and the energies rise faster
+than the super-Schwarzian $q^2$ law at these sizes. We close with the single-trace forms of $H$, $Q$ and
 $\hat C_2$, and with the demonstration that the three-flavour Hamiltonian is not a function of Casimirs, which
 is what forces the bootstrap to be sector-resolved in the first place.
 \end{minipage}\end{center}
@@ -132,7 +135,9 @@ distinguishes a chaotic model with a near-BPS super-Schwarzian tail \cite{TW} fr
 fixed by a Casimir. Section \ref{sec:bootstrap} therefore turns to a sector-resolved bootstrap, which produces
 rigorous lower bounds on $E_0$ in each R-charge sector and, when the gauge Casimir is added as a linear
 constraint, in each irrep. The two methods then meet: the bootstrap's BPS-exclusion margin, computed with no
-knowledge of the cohomology, vanishes exactly where the cohomology places the edge of the window.
+knowledge of the cohomology, vanishes exactly where the cohomology places the edge of the window. Exact
+diagonalisation in symmetry-resolved blocks then supplies the energies next to the window at $N=3$, which the
+bootstrap does not yet reach.
 
 \section{BPS spectra and the R-charge window}\label{sec:bps}
 
@@ -633,6 +638,95 @@ $0{:}1{:}1$ for odd $N$. The per-irrep multiplicities grow like $e^{0.75N^2}$, b
 $3.5\times10^5$ at $N=2,3,4$, and include gauge singlets. The single-matrix model put through the same
 computation has a single irrep per strand, multiplicity at most $9$, and no singlets at all.
 
+\subsection{Exact energies up to the window}\label{sec:nearwindow}
+
+The sectors next to the window are the ones the super-Schwarzian question is about, and they are where the
+bootstrap is weakest, so we have computed them exactly. The sector $k$ at $N=3$ has dimension $\binom{27}k$, up
+to $1.3\times10^7$ at $k=11$, but $H$ commutes with the gauge group and is therefore block diagonal in the weight.
+The weight is the vector of Cartan charges $\mu_i$: the number of occupied modes with row index $i$, minus the
+number with column index $i$. Every weight in the Fock space is a sum of roots $e_i-e_j$, and an irrep whose
+weights lie in the root lattice always contains the zero weight. The lowest eigenvalue of the zero-weight block
+is therefore the ground energy of the whole sector. A level of irrep $\lambda$ appears in that block as many
+times as $\lambda$ has zero-weight states: once for $\mathbf 1$, $\mathbf{10}$ and $\overline{\mathbf{10}}$,
+twice for $\mathbf 8$, three times for $\mathbf{27}$. At $k=11$ the block has $750\,699$ states. We
+diagonalised $H$ in these blocks, by Lanczos where they are large and directly where they are small, and named the irrep of each eigenvector from its expectation value
+of $\hat C_2$, equation \eqref{eq:casimir}. The implementation and its checks are described in
+Appendix~\ref{app:numerics}.
+
+Non-BPS states come in pairs. If $Q\psi\ne0$, then $\psi$ in sector $k$ and $Q\psi$ in sector $k+3$ have the
+same energy, since $Q$ commutes with $H$. Following Turiaci and Witten \cite{TW} we label a pair by its
+average R-charge, measured from half filling, which is where the particle-hole symmetry $k\to pN^2-k$ puts the
+centre:
+\begin{equation}
+J=k-\frac{pN^2}2,\qquad q=\tfrac12\big(J_k+J_{k+3}\big)=k+\frac32-\frac{pN^2}2 .
+\label{eq:multipletq}
+\end{equation}
+The ground state $\psi$ of a sector below the window is always the lower member of its pair. If $\bQ\psi$ were
+non-zero it would be an eigenstate of energy $E_0(k)$ in sector $k-3$, whereas every computed ground energy
+satisfies $E_0(k-3)>E_0(k)$. Hence $\bQ\psi=0$, so $\psi=\bQ Q\psi/E_0(k)$ and $Q\psi\ne0$. The partner sits in
+sector $k+3$, and $|q|=pN^2/2-k-3/2$ measures how far the pair lies from half filling: an integer at $N=3$, a
+half-integer at $N=2$. At $N=3$, for example, the ground state of $k=11$ pairs with a state of $k=14$, so
+$J=-\tfrac52,\tfrac12$ and $q=-1$.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{@{}cccrll@{}}\toprule
+$N$ & $k$ & $|q|$ & block & $E_0(k;N)$, irrep & next levels (irrep)\\\midrule
+2 & 2 & 2.5 & 24 & 5.16536, $\mathbf 3$ & 12.00 ($\mathbf 5$), 13.49 ($\mathbf 1$)\\
+2 & 3 & 1.5 & 74 & 1.22706, $\mathbf 1$ & 1.552 ($\mathbf 5$), 1.965 ($\mathbf 3$)\\
+2 & 4 & 0.5 & 159 & 0.087961, $\mathbf 1$ & 0.226 ($\mathbf 5$), 0.357 ($\mathbf 3$)\\\midrule
+3 & 6 & 6 & 23\,388 & 12.5602, $\mathbf{10}\oplus\overline{\mathbf{10}}$ & 16.14 ($\mathbf{64}$), 16.16 ($\mathbf{27}$)\\
+3 & 7 & 5 & 63\,486 & 6.63510, $\mathbf 8$ & 8.19 ($\mathbf{35}\oplus\overline{\mathbf{35}}$), 8.32 ($\mathbf{10}\oplus\overline{\mathbf{10}}$)\\
+3 & 8 & 4 & 146\,943 & 2.73751, $\mathbf 1$ & 3.634 ($\mathbf 8$), 3.739 ($\mathbf{27}$)\\
+3 & 9 & 3 & 292\,179 & 1.14573, $\mathbf 1$ & 1.497 ($\mathbf 8$), 1.713 ($\mathbf{27}$)\\
+3 & 10 & 2 & 502\,245 & 0.345019, $\mathbf 8$ & 0.464 ($\mathbf{10}\oplus\overline{\mathbf{10}}$), 0.471 ($\mathbf{64}$)\\
+3 & 11 & 1 & 750\,699 & 0.061408, $\mathbf{10}\oplus\overline{\mathbf{10}}$ & 0.0651 ($\mathbf 8$), 0.0696 ($\mathbf{10}\oplus\overline{\mathbf{10}}$), 0.0710 ($\mathbf{27}$)\\
+\bottomrule
+\end{tabular}
+\caption{Exact ground energies of the sectors below the window, from diagonalisation of the zero-weight block,
+whose dimension is given (Lanczos for the blocks above $3000$), with $|q|$ from \eqref{eq:multipletq}. Irreps are named by dimension and
+identified from $\langle\hat C_2\rangle$. The $\mathbf{10}$ and $\overline{\mathbf{10}}$ share a Casimir and are
+exactly degenerate, as are $\mathbf{35}$ and $\overline{\mathbf{35}}$. The sectors $k\le1$ at $N=2$ and $k\le2$
+at $N=3$ are free, \eqref{eq:free}, and the windows are $k=5\ldots7$ and $k=12\ldots15$.}
+\label{tab:nearwindow}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.74\textwidth]{report_figs/near_window_gaps.pdf}
+\caption{Sector ground energies below the window against the multiplet charge $|q|$ of \eqref{eq:multipletq}, at
+$N=2$ and $3$, from exact diagonalisation of the zero-weight block of each sector. Open circles are free sectors,
+given exactly by \eqref{eq:free}. The dashed lines are the super-Schwarzian law $E_0\propto q^2$, drawn through
+the point nearest the window. The labels give the irrep of each ground state near the window.}
+\label{fig:nearwindow}
+\end{figure}
+
+Table~\ref{tab:nearwindow} and Fig.~\ref{fig:nearwindow} show the result. At $N=3$ the ground energy falls by a
+factor of more than $4000$ between $k=1$ and $k=11$, to $E_0(11;3)=0.0614$. The ground states near the window
+lie in irreps of small Casimir, and which one wins changes from sector to sector: a singlet at $k=8$ and $9$, the
+adjoint at $k=10$, and $\mathbf{10}\oplus\overline{\mathbf{10}}$ at $k=11$, where the four lowest levels lie
+within $16\%$ of one another. The pairing of each irrep with its conjugate is exact. Transposing every matrix
+while exchanging flavours $1$ and $3$ sends $Q$ to $-Q$: reversing three fermions inside a trace costs a sign,
+and the exchange maps the reversed couplings back to themselves. This operation therefore commutes with $H$,
+and since transposition negates every weight, it maps each irrep to its conjugate.
+
+The maximal irrep plays no part in this. On its weight space every mode $\Psi^a_{ij}$ with $i<j$ is filled and
+every mode with $i>j$ is empty. A term of $Q$ or $\bQ$ moves three modes of total weight zero, so if it touches
+an off-diagonal mode it touches one of each kind, and it vanishes on this space: creating a filled mode or
+annihilating an empty one gives zero. Only the diagonal modes $\psi^a_i=\Psi^a_{ii}$ act, through
+$Q=\sum_iq_i$ with $q_i=\psi^1_i\psi^2_i\psi^3_i$ for the three-flavour couplings. Odd operators on different
+sites anticommute, so on this space $H=\sum_i\{q_i,\bar q_i\}$. These are $N$ independent sites, each costing
+one unit of energy when it is empty or full. The spectrum of $H$ in the maximal irrep is exactly
+$\{0,1,\dots,N\}$, with a gap of one next to the window at every $N$; diagonalising every sector at $N=2,3$
+confirms this level by level. The energies of Fig.~\ref{fig:nearwindow}, which fall far below one, all come
+from irreps of small Casimir.
+
+The super-Schwarzian predicts $E_0(q)=q^2/(4\hat q^2)$ in its own units \cite{TW}, so $E_0/q^2$ should be
+constant. The data rise faster. Between neighbouring points the slope $d\ln E_0/d\ln|q|$ is $2.4$ at $N=2$ and
+$2.5$ at $N=3$ next to the window, and it grows outward. At comparable $|q|$ the energies at $N=3$ are an order
+of magnitude below those at $N=2$, while the vacuum energy grows fourfold. This is not yet a test of the law,
+which is a large-$N$ statement about a model whose BPS states occupy $\hat q=3$ charges, whereas at $N=3$ they
+occupy four, and two values of $N$ do not determine a scaling. What the computation supplies is exact targets
+for the bootstrap in the sectors where it is weakest.
+
 \section{Single-trace formulas for $H$, $Q$ and $\hat C_2$}\label{sec:singletrace}
 
 \subsection{The Hamiltonian}
@@ -724,12 +818,15 @@ zero by level 4; it gives \eqref{eq:free} for the free sectors at any $N$, and o
 interacting sector beyond $N=2$. The immediate next step is the level-4 problem, which is assembled but not yet
 solved to tolerance. The question the project is ultimately after lies elsewhere. A super-Schwarzian tail is a
 statement about the lightest non-BPS states in and next to the BPS window, which sits near half filling,
-$k\approx pN^2/2$, not in the low sectors the bootstrap now controls. The sector $k=4$ at $N=2$ is the only
-near-BPS energy in hand, the bootstrap has not yet bounded it away from zero, and neither method has produced
-such energies as a function of $N$.
+$k\approx pN^2/2$, not in the low sectors the bootstrap now controls. Exact diagonalisation now gives every
+sector energy up to the window at $N=3$ (Section \ref{sec:nearwindow}). There the energy next to the window
+drops by an order of magnitude from $N=2$, the near-window states lie in irreps of small Casimir, and the energies
+rise faster than the $q^2$ law away from the window, though two values of $N$ do not determine a scaling. In
+these sectors the bootstrap has so far produced no energy bound above zero, only the certificates of absence of
+Table~\ref{tab:exclusion}, so matching them is the next test of the method.
 
 \appendix
-\section{Numerical implementation of the bootstrap}
+\section{Numerical implementation}\label{app:numerics}
 
 \paragraph{Finite-$N$ engine.} Open words are built as blocks between sectors, so the $2^{pN^2}$-dimensional
 space is never formed. An isotypic reducer maps every operator to its $D=\sum_Rm_R^2$ invariant components as
@@ -759,6 +856,21 @@ $b(P-1)^2<2^{53}$, so that a float64 matrix multiply of inner dimension $b$ is e
 be reduced afterwards; this makes the trailing update of the elimination a single BLAS call. Flavour blocking
 over a field containing a $p$-th root of unity splits each weight space into $p$ blocks. The largest weight
 space handled is $30\,294$ after blocking, in about thirty minutes at $6.1$ GB.
+
+\paragraph{Exact diagonalisation.} For Section \ref{sec:nearwindow} the zero-weight basis of each sector is
+enumerated by the same pruned search over occupation matrices used for the cohomology, and stored as 64-bit
+occupation masks. The Hamiltonian is assembled as $H=16N^3-15N+H_1+9\,Y^\dagger Y$. Here $H_1$ is the quadratic
+part of \eqref{eq:Hgeneral}, and $Y$ stacks the pair-annihilation operators $\big((X_a)_{ik}\big)^\dagger$, with
+one row for each $(a,i,k)$ and each $(k-2)$-particle state reached, so that $9\,Y^\dagger Y$ is the quartic term.
+Every operator is built by vectorised bit operations, with the Jordan--Wigner signs from population counts.
+Storing $Y$ rather than its square keeps the cost at about $k(k-1)$ entries per state. At $N=3$, $k=11$ this is
+$7.5\times10^7$ entries; the build takes ten seconds, the Lanczos run (ARPACK, twelve eigenvalues, residuals below
+$10^{-11}$) forty minutes, and the peak memory is $3$ GB. Three checks guard the result. Each run compares
+$\langle v|H|v\rangle$ with $\|Qv\|^2+\|\bQ v\|^2$, computed from the supercharge directly, on a random vector, and
+the two agree to $10^{-12}$. An independent pure-Python construction gives identical spectra at $k=8,9$. The
+method reproduces the full diagonalisation at $N=2$ and the free values \eqref{eq:free}. The Casimir labels use the
+one-body gauge generators on the computed eigenvectors. Lanczos can miss copies of an exactly degenerate level,
+so degeneracies are read from the irrep labels rather than counted.
 
 \section{Irreps and cohomology, irrep by irrep}\label{app:irreps}
 
