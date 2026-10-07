@@ -96,3 +96,9 @@ Sub-questions:
     - So there are at least 1680 singlet BPS states at $n=3$, against exactly 90 (concentrated) at $n=2$.
     - All singlets lie in one $\mathbb Z_3$ class ($k=3m$), so concentration in the singlet sector means index saturation in a single degree.
     - Not yet tested; it needs singlet cohomology at $n=3$.
+  - **2026-10-07c — concentration of the quiver singlet sector at $(n,p)=(2,3)$** (`research/notes/quiver_project.md` §5).
+    - Method: singlet BPS zero-mode search on the Weyl-reduced zero-weight sectors, validated exactly at $(2,2)$.
+    - Result: no singlet BPS states at $k=0,3,6,9,12,15$; the lowest eigenvalues at $k=6..15$ are 238.9, 96.5, 0.335 and 0.054, converged and seed-independent. By particle–hole symmetry and the index, all 1680 singlet BPS states sit at $k=18$.
+    - **This is concentration at a second point** (numerical; one coupling seed).
+    - $(3,2)$ remains untested directly: its zero-weight sectors are about $5\times10^{10}$, so it needs a singlet-adapted (dual-Cauchy/Pieri) algorithm. The sign of $I_0(3,2)=-1680$ is consistent with concentration at half filling.
+    - The singlet-sector eigenvalues near the window are small (0.054 at $k=15$), a first glimpse of near-BPS gaps in the quiver.

@@ -170,3 +170,59 @@ Code: `scripts/run_quiver_fortuity.py`. Results: §3.
   index is saturated.
 - `--p 4 --n 2` hit the 4 GB guard: the degree-pair products are stored, 289 × 13 MB. Fix by computing them on
   the fly.
+
+## 5. Concentration test at $(n,p)=(2,3)$: all 1680 singlet BPS states at half filling (2026-10-07)
+
+**Why $(2,3)$ and not $(3,2)$.**
+- The zero-weight sectors at $(3,2)$ hold $4.8\times10^{10}$ states at $k=24$ and $6.3\times10^{10}$ at $k=27$. These
+  are exact counts by a torus trace, computed in the scratchpad (`zw_dims.py`). Any Fock-vector method (ED, Lanczos,
+  exact ranks) is out of reach.
+- The singlet subspaces are only about $5\times10^5$, but there is no cheap explicit basis for them.
+- $(2,3)$ has the same singlet index (1680), 36 modes, and zero-weight sectors up to $2.2\times10^7$.
+- At $n=2$ the singlets span 13 possible degrees ($k=0,3,\dots,36$), so concentration is not kinematically forced.
+
+**Method** (`scripts/quiver_singlet_zero_modes.py`).
+- Restrict to the zero-weight sector invariant under the $(S_2)^3$ Weyl group. It is a genuine gauge action, it
+  commutes with $Q$, and singlets are invariant. This is about 8× smaller.
+- Diagonalise $K=H_{\rm sym}+\mu\sum_v\|E^{(v)}_{12}\psi\|^2$ ($\mu=1$). $K\ge0$, and $\ker K$ is the singlet BPS
+  space in degree $k$.
+- Lanczos (`eigsh`, `which='SA'`), or dense diagonalisation for small sectors.
+
+**Validation at $(2,2)$.** Exactly 90 zero modes at $k=12$, with the next eigenvalue 6.0. None at $k=3,6,9,15$
+(lowest 546, 98.3, 31.2, 31.2). The $k=9$ and $k=15$ spectra coincide, as particle–hole symmetry requires.
+
+**Results at $(2,3)$, seed-3 couplings.**
+
+| $k$ | zero-weight → W-symmetric dim | lowest eigenvalues of $K$ | residuals | peak |
+|---|---|---|---|---|
+| 0 | 1 → 1 | 2008 (dense) | — | 0.7 GB |
+| 3 | 216 → 27 | 1506.0, 1506.0, 1507.25 (dense) | — | 0.7 GB |
+| 6 | 17 712 → 2 187 | 238.86, 240.47, … (dense) | — | 1.0 GB |
+| 9 | 445 184 → 55 648 | 96.53, 97.05, 97.08, 99.86 | $\le2\times10^{-9}$ | 1.6 GB |
+| 12 | 4 057 749 → 511 569 | 0.33484, 0.90961, 2.170, 2.474 | $\le1.2\times10^{-11}$ | 4.2 GB |
+| 15 | 14 703 336 → 1 837 917 | 0.05386, 0.13493, 0.20233, 0.24990 | $\le1.2\times10^{-11}$ | 8.5 GB |
+
+- **Robustness.**
+  - $k=12$, rerun with a different start vector and 8 eigenvalues: identical to 9 digits.
+  - $k=15$, rerun with a different start vector and 6 eigenvalues: identical to 9 digits (0.053859138, 0.134927966,
+    …), residuals $\le9\times10^{-12}$.
+- **Conclusion (numerical).**
+  - There are no singlet BPS states at $k=0,3,6,9,12,15$. By particle–hole symmetry ($h^k=h^{36-k}$, from the
+    top-form pairing) there are none at $k=21,\dots,36$ either.
+  - Hence all singlet BPS states sit at $k=18$, and by the index $h^{18}_{\rm sing}=|I_0|=1680$.
+  - **The singlet sector of the $(2,3)$ quiver is R-charge concentrated**, at half filling, with 1680 states. This
+    is the second concentrated data point after $(2,2)$, at a different flavour number.
+- **Near-BPS singlets.** The lowest singlet-ish eigenvalues fall sharply towards the window (0.33 at $k=12$, 0.054
+  at $k=15$). They are eigenvalues of $K$, not pure singlet energies, so they are only upper bounds on the singlet
+  gaps when the penalty term is small. They suggest small near-BPS gaps next to the window: a target for the
+  near-BPS programme.
+- **Caveats.**
+  - Lanczos is a numerical method; the robustness reruns guard against a missed eigenvalue.
+  - One coupling seed.
+  - $n=2$ only. The $(3,2)$ concentration remains untested directly.
+
+**Indirect hint at $(3,2)$.** The sign of the index is consistent with concentration at half filling there:
+$I_0=-1680$, and half filling $k=27$ has $m=9$ odd, so $(-1)^9h^{27}=-h^{27}$. Concentration at $k=24$ or $30$ (even
+$m$) would give a positive index. This is consistency only, not evidence of concentration. A direct test needs a
+singlet-adapted algorithm, e.g. the dual-Cauchy decomposition used for the index with $Q$ written as Pieri maps
+between $(P_A,P_B,P_C)$ components, at a dimension of about $5\times10^5$.

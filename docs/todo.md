@@ -70,7 +70,9 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [ ] $n=1$, $(a,b,c)$-flavour fermionic quiver vs Bena et al. pure-Higgs counts (cheap).
   - [ ] Generalised-monotone (baryonic) refinement of the fortuity test (Choi–Choi–Kim).
   - [x] Singlet index at $(3,2)$: $|I_0|=1680$ (`scripts/quiver_singlet_index.py`, 10 s).
-  - [ ] Singlet cohomology at $(3,2)$: is the index saturated in one degree? (Lanczos on singlet blocks, or block Wiedemann.)
+  - [x] Concentration at $(2,3)$: all 1680 singlet BPS states at $k=18$ (Weyl-reduced Lanczos, `scripts/quiver_singlet_zero_modes.py`).
+  - [ ] Concentration at $(3,2)$ directly: zero-weight sectors ~$5\times10^{10}$; needs a singlet-adapted algorithm (dual-Cauchy components with $Q$ as Pieri maps, dim ~$5\times10^5$).
+  - [ ] Pure singlet near-BPS gaps at $(2,3)$ (current eigenvalues of $H+\mu P$ are upper bounds only); vary $\mu$ or project.
   - [ ] Explain the coincidences $|I_0|(2,3)=|I_0|(3,2)$, $|I_0|(1,4)=|I_0|(2,2)$; fix memory for $p\ge4$.
   - [ ] Other irreps at $(2,2)$.
   - [ ] Singlet ED at $(2,2)$: near-window gaps and $Q$ singular-value statistics.

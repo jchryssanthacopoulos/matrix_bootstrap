@@ -221,6 +221,7 @@ def main():
     ap.add_argument('--k', type=int, required=True); ap.add_argument('--seed', type=int, default=3)
     ap.add_argument('--mu', type=float, default=1.0); ap.add_argument('--nev', type=int, default=4)
     ap.add_argument('--dense-max', type=int, default=4000)
+    ap.add_argument('--v0-seed', type=int, default=1, help='Lanczos start vector seed (robustness checks)')
     ap.add_argument('--out', default=None)
     a = ap.parse_args()
     t0 = time.time()
@@ -257,7 +258,7 @@ def main():
     else:
         op = sla.LinearOperator((dim, dim), matvec=Kmv, dtype=float)
         vals, vecs = sla.eigsh(op, k=a.nev, which='SA', tol=1e-10, ncv=max(4 * a.nev, 40),
-                               v0=np.random.default_rng(1).standard_normal(dim))
+                               v0=np.random.default_rng(a.v0_seed).standard_normal(dim))
         order = np.argsort(vals); vals, vecs = vals[order], vecs[:, order]
         res = [float(np.linalg.norm(Kmv(vecs[:, i]) - vals[i] * vecs[:, i])) for i in range(len(vals))]
         print(f"  Lanczos: lowest eigenvalues {np.round(vals, 9).tolist()}, residuals {[f'{r:.1e}' for r in res]}")
