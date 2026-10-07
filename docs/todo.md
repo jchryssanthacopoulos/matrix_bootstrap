@@ -60,6 +60,21 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
 - [x] **Finite-$N$ relations near the window** (2026-10-06): no effect at $k=7..11$ ($N=3$, level 3); `trace_bootstrap_results.md` §10.
 - [x] **Read and annotate** Cho–Gabai–Lin–Yeh–Zheng 2025 and Adams 2025 (notes, bibliography, synthesis §9).
 - [ ] **Near-BPS plan** (`docs/nearbps_bootstrap_plan.md`). Phase 1: Rayleigh–Ritz upper bounds at $N=3$ from exact BPS states dressed by low-level charged words, against the exact $E_0(k)$ for $k=9..11$. Phase 2a: supermultiplet eigen-bootstrap go/no-go at $N=2$, $k=4$. Then Phase 3 (bootstrapped BPS functional, upper bounds at $N\ge4$), Phase 2b/2c (lower bounds at $N=3,4$; at $N\ge4$ conditional on the band statement), Phase 4 (BPS-anchored two-point correlators).
+  - [x] Phase 2a level 2 (negative; 2026-10-07). [ ] Phase 2a level 3: rerun with a per-solve time cap and margin-based feasibility (first attempt ran >10 h, killed).
+  - [ ] Phase 1 at $N=3$: `scripts/run_bps_ritz_n3.py bps` then `ritz --k 9,10,11` (singlet BPS reference at $k=13$; est. ~6 GB; guard).
+- [ ] **Quiver project** (`research/notes/quiver_project.md`).
+  - [x] Literature check (2026-10-07).
+  - [x] Leading-order fortuity test at $(2,2)$: 90/90 fortuitous.
+  - [ ] Confirm the combined rank exactly (mod $P$) or print its smallest singular value.
+  - [x] Read Witten, Bena et al., Chang–Colin-Ellerin–Rangamani, Choi–Choi–Kim; notes + synthesis §10 (2026-10-07).
+  - [ ] $n=1$, $(a,b,c)$-flavour fermionic quiver vs Bena et al. pure-Higgs counts (cheap).
+  - [ ] Generalised-monotone (baryonic) refinement of the fortuity test (Choi–Choi–Kim).
+  - [x] Singlet index at $(3,2)$: $|I_0|=1680$ (`scripts/quiver_singlet_index.py`, 10 s).
+  - [ ] Singlet cohomology at $(3,2)$: is the index saturated in one degree? (Lanczos on singlet blocks, or block Wiedemann.)
+  - [ ] Explain the coincidences $|I_0|(2,3)=|I_0|(3,2)$, $|I_0|(1,4)=|I_0|(2,2)$; fix memory for $p\ge4$.
+  - [ ] Other irreps at $(2,2)$.
+  - [ ] Singlet ED at $(2,2)$: near-window gaps and $Q$ singular-value statistics.
+  - [ ] Planar singlet bootstrap of the quiver.
 - [ ] **Decide** (superseded by the near-BPS plan above): (a) scale level 3 to $N=4..20$ for rigorous bounds in the intermediate regime $k/N^2\in(0.25,0.67)$, a large-$N$ result far from the window; (b) the cheap archipelago go/no-go at $N=2$, $k=4$; (c) put the near-BPS effort into exact diagonalisation at $N=3$ instead: singlet towers, and level statistics of $Q$'s singular values.
 - [ ] **M5** large $N$ ($10^2,10^3$; 't Hooft normalisation): fixed-$k$ scaling; $k=0,1$ must match D2 exactly; fit $k\ge2$.
 - [ ] **M6** write-up: D5 (fermionic trace algebra, harness-fixed signs) in `docs/derivations.md`; results note; research questions.

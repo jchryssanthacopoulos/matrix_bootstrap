@@ -187,3 +187,58 @@ not yet folded into this synthesis.)
 4. **Tooling.** SDPB / polynomial matrix programs, MOSEK, QICS, and arbitrary precision at high level.
 
 The plan built on these points is `docs/nearbps_bootstrap_plan.md`.
+
+---
+
+## 10. Addendum (2026-10-07): coloured models, quivers, and a refined fortuity
+
+Four papers read: Witten 2016, Bena–Berkooz–de Boer–El-Showk–Van den Bleeken 2012, Chang–Colin-Ellerin–Rangamani
+2018, and Choi–Choi–Kim 2026 (notes in `literature/notes/`). They were prompted by the move to the $U(n)^3$
+fermionic quiver (`research/notes/quiver_project.md`).
+
+### 10.1 Where the quiver sits
+
+- **It is the $D=2$ coloured model.** Witten's disorder-free SYK uses $q=D+1$ fields of rank $D$, each pair sharing
+  one index.
+  - At $q=3$, $D=2$ the fields are bifundamentals of a three-node quiver and the vertex is $\mathrm{Tr}(ABC)$.
+  - The melonic proof needs $D\ge3$ (Witten eq. 3.10), so at $D=2$ the limit is planar.
+  - The quiver is the supersymmetric, complex, flavoured version of that matrix-level member.
+- **The purely fermionic cubic $\mathcal N=2$ case was an acknowledged gap.**
+  - Witten (p. 9): the cubic supersymmetric SYK is not obviously disorder-free.
+  - Chang–Colin-Ellerin–Rangamani (eq. 6.4): Fermi-superfield $\mathcal N=2$ SYK has odd $q$, and "it is
+    therefore unclear how to promote this to a melonic tensor model". Their bosonic supertensor models break
+    supersymmetry at large $N$.
+  - Biggs–Lin–Maldacena 2026 fill the gap melonically. The quiver fills it at the planar level, with no
+    supersymmetry breaking from dynamical bosons, since there are none.
+- **Gauging matters at $D=2$.**
+  - Witten's "gauging is harmless because $\dim G\ll N$" holds for $D\ge3$. For the quiver, $\dim G=3n^2$ against
+    $3pn^2$ fermion modes, so the singlet sector is a genuine restriction.
+  - This is consistent with §4x of the cohomology notes: concentration is vacuous at $p=1$ and appears at $p\ge2$.
+
+### 10.2 Black-hole interpretation and fortuity
+
+- **The bosonic precedent.** Bena et al. compute the Higgs-branch BPS spectrum of the bosonic, abelian three-node
+  quiver with cyclic cubic superpotential.
+  - There are exponentially many zero-angular-momentum "pure-Higgs" states, with closed-form generating function
+    (3.27) and growth (3.43).
+  - They exist iff the Coulomb branch has a scaling (AdS$_2$) point, and are read as candidate single-centre
+    black-hole microstates.
+  - Their own suggestion of a fermionic combinatorial origin (p. 8) motivates a cheap $n=1$ comparison with our
+    model. That test is proposed; a naive "singlet Euler characteristic = $\Omega$" match already fails.
+- **A refined fortuity.** Choi–Choi–Kim extend the Chang–Lin covering to bifundamental theories with baryons, using
+  formal inverse letters. $N$-dependent baryon-dressed classes become *generalised monotones*, and the rest are
+  *strongly fortuitous*.
+  - For our $U(n)^3$ singlets the ordinary multi-trace covering is complete, since every $\epsilon$ pairs within a
+    node.
+  - But determinant-type singlets have $n$-dependent expansions. Our 90/90 fortuity verdict at $(n,p)=(2,2)$ is
+    therefore in the ordinary sense, and the refined criterion could reclassify some classes (not analysed).
+
+### 10.3 Consequences
+
+1. Framing for a quiver paper: "the supersymmetric $D=2$ coloured model", a purely fermionic, cubic, $\mathcal N=2$
+   planar model whose singlet sector concentrates. Cite Witten, Chang–Colin-Ellerin–Rangamani and
+   Biggs–Lin–Maldacena for the gap it fills, and Bena et al. and Choi–Choi–Kim for the black-hole and fortuity
+   context.
+2. Two open checks follow:
+   - the $n=1$, $(a,b,c)$ comparison with the pure-Higgs counts;
+   - the baryonic (generalised-monotone) refinement of the fortuity test.
