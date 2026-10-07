@@ -1,5 +1,20 @@
 # The $U(n)^3$ fermionic quiver as a project: literature check and fortuity test (2026-10-07)
 
+## Status summary (2026-10-07; details in §§1–5)
+
+| property | status | evidence |
+|---|---|---|
+| Escapes the adjoint-model obstruction | **derived** | bifundamentals have no zero weights ($V_0=0$), so the window-widening mechanism of Chen-type models is absent; this does not by itself prove concentration |
+| Concentration (singlet sector) | **verified** at $(2,2)$ (exact ranks); **numerical** at $(2,3)$ | 90 at $k=12$; 1680 at $k=18$ (§5) |
+| Concentration at $n=3$ | **open** | $\vert I_0\vert(3,2)=1680$ exactly, with a sign consistent with half filling; zero-weight sectors of about $5\times10^{10}$ block direct tests |
+| $p=1$ | trivial | every per-irrep index is $\pm1$; singlet index 0 |
+| Macroscopic BPS entropy | **open** | singlet index 90 → 1680 ($n=2\to3$, $p=2$); two points |
+| Fortuity | **verified** at leading order at $(2,2)$, ordinary sense | 90/90 obstructed (§3); expected for this class; refined (Choi–Choi–Kim) criterion not checked |
+| Chaos (non-BPS or BPS) | **untested** | — |
+| Near-BPS gaps / super-Schwarzian | **untested**; one hint | the lowest penalised singlet eigenvalues fall to 0.054 next to the window at $(2,3)$ |
+| Large-$n$ control | planar (not melonic); singlet sector suits the standard bootstrap | Witten eq. 3.10; synthesis §10 |
+| Novelty | no prior study found | §1 |
+
 Model (cohomology notes §4x): $A\in(n,\bar n,1)$, $B\in(1,n,\bar n)$, $C\in(\bar n,1,n)$ of $U(n)^3$, $p$ flavours per
 edge, all fermionic creation operators, $Q=\sum_{abc}C_{abc}\mathrm{Tr}(A^aB^bC^c)$, $H=\{Q,Q^\dagger\}$. Known before
 this note: at $(n,p)=(2,2)$ (random integer couplings, seed 3) there are exactly 90 BPS singlets, all at $k=12$
