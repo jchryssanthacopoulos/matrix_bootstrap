@@ -1,0 +1,177 @@
+{
+ "params": {
+  "N": 2,
+  "k": 4,
+  "level": 2,
+  "lower_member": true,
+  "eigenstate": true,
+  "E": null,
+  "solver": "SCS",
+  "budget_gb": 8.0,
+  "dry_run": false,
+  "out": "results/data/supermultiplet_scan_N2_k4_L2_lm_eig.json"
+ },
+ "level": [
+  2,
+  2,
+  3
+ ],
+ "d": 495,
+ "r": 193,
+ "n_eq": 69,
+ "convex_bound": -2.336610717318316e-11,
+ "convex_status": "optimal",
+ "exact_levels": [
+  0.08796065,
+  0.22597936,
+  0.35721508,
+  0.37336,
+  0.44926056,
+  0.56239688
+ ],
+ "scan": [
+  {
+   "E": 0.0001,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.001,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.005,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.01,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.02,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.03,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.04,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.05,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.06,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.07,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.08,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.085,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.0875,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.08796065,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.0885,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.09,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.1,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.12,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.15,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.2,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.22597936,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.25,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.3,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.35721508,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.37336,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.4,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.44926056,
+   "feasible": true,
+   "status": "optimal"
+  },
+  {
+   "E": 0.45,
+   "feasible": true,
+   "status": "optimal"
+  }
+ ],
+ "build_s": 90.2,
+ "total_s": 97.5,
+ "peak_rss_gb": 2.2
+}

@@ -143,13 +143,16 @@ def plan_sector(model, k, L_adj=2, L_sing=2, L_eom=3, add_Q=True, gs=True, symme
 
 
 def sector_operators(model, k, L_adj=2, L_sing=2, L_eom=3, add_Q=True, gs=True, verbose=False, adjoint_projected=False,
-                     ward=False, eigenstate=False, transform=None, sinks=None):
+                     ward=False, eigenstate=False, transform=None, sinks=None, lower_member=False):
     """Build all block-restricted operators entering the SDP for sector k (never touching the full space).
     transform: optional map applied to every operator as soon as it is formed (e.g. IsotypicReducer.reduce);
     the d x d matrix is then discarded, so memory scales with the reduced dimension D, not d^2.
     sinks=(touched, eom): optional _SpanAccumulator pair; then every (transformed) operator is streamed into
     `touched`, EOM/Ward rows into `eom`, EOM rows are NOT returned and only upper triangles of the Gram cones
-    are kept (the lower triangle is the adjoint, phi(X^dag) = phi(X)^*)."""
+    are kept (the lower triangle is the adjoint, phi(X^dag) = phi(X)^*).
+    lower_member=True: add the equality rows phi(Q X) = 0 for every component X of every charge -3 word (and its
+    trace), i.e. Qbar psi = 0: the functional is a lower member of a Q-multiplet (k, k+3) or BPS.  Valid for the
+    multiplet-averaged eigenprojector of lower members; phi(X Qbar) = 0 follows by Hermiticity."""
     sw = sector_words(model, k, L_adj, L_sing, L_eom, add_Q)
     d, ix, words = sw['d'], sw['ix'], sw['words']
     N = model['N']
@@ -230,10 +233,30 @@ def sector_operators(model, k, L_adj=2, L_sing=2, L_eom=3, add_Q=True, gs=True, 
             gs_blocks.append(dict(kind='gs-' + name, q=0, labels=[], X=Y))
     for wd in sw['eom_words']:
         register(wd['S'].tocsr())
+    n_lower = 0
+    if lower_member and k >= 3:
+        SQ = _restrict(model['Q'], ix, model['sectors'][k - 3])        # Q : sector k-3 -> sector k
+        for wd in words:
+            if wd['q'] != -3:
+                continue
+            comps = [wd['B'][i][j] for i in range(N) for j in range(N)] + [wd['S']]
+            for X in comps:
+                R = (SQ @ X).tocsr()
+                if not (R.nnz and abs(R).max() > 1e-12):
+                    continue
+                v = T(R)
+                if transform is not None:
+                    # a row carrying gauge weight or Z_p charge has an identically vanishing invariant projection;
+                    # its reduced vector is pure round-off, and normalising that inside the span accumulator would
+                    # inject a spurious unit constraint (found 2026-10-06: such rows violated the exact state at 1e-2)
+                    rn = np.sqrt(abs(R.multiply(R.conj()).sum()))
+                    if np.linalg.norm(v) <= 1e-8 * rn:
+                        continue
+                keep_eom(v); n_lower += 1
     if verbose:
         print(f"  sector k={k}: d={d}, open words={len(words)}, adjoint blocks="
               f"{[len(b['labels']) for b in adj_blocks]}, singlet blocks={[len(b['labels']) for b in sing_blocks]}, "
-              f"EOM rows={len(eom)}", flush=True)
+              f"EOM rows={len(eom)}, lower-member rows={n_lower}", flush=True)
     I = sp.identity(d, dtype=complex, format='csr')
     return dict(k=k, d=d, ix=ix, Hk=Hk, I_t=keep_op(T(I)), Hk_t=keep_op(T(Hk)), adj_blocks=adj_blocks,
                 sing_blocks=sing_blocks, gs_blocks=gs_blocks, eom=eom, eig_pairs=eig_pairs)
@@ -412,7 +435,7 @@ class SectorSDP:
 
     def __init__(self, model, k, L_adj=2, L_sing=2, L_eom=3, add_Q=True, gs=True, ward=False,
                  use_adj=True, use_sing=True, observables=None, eigenstate=False, verbose=False, budget_gb=6.0,
-                 symmetry=False, adjoint_projected=False):
+                 symmetry=False, adjoint_projected=False, lower_member=False):
         """symmetry=True: restrict to G-invariant functionals (SU(2) gauge for N=2, Z_p flavor if the model
         is in the Fourier basis) via the isotypic reduction of symmetry_reduction.IsotypicReducer.
         adjoint_projected=True: use the sharper adjoint tensor structure Tr[w^dag w'] - Tr w^dag Tr w'/N
@@ -440,7 +463,8 @@ class SectorSDP:
         if symmetry:
             sinks = (_SpanAccumulator(self.reducer), _SpanAccumulator(self.reducer))
         ops = sector_operators(model, k, L_adj, L_sing, L_eom, add_Q, gs, verbose, adjoint_projected=adjoint_projected,
-                               ward=ward, eigenstate=eigenstate, transform=transform, sinks=sinks)
+                               ward=ward, eigenstate=eigenstate, transform=transform, sinks=sinks,
+                               lower_member=lower_member)
         d, Hk, ix = ops['d'], ops['Hk'], ops['ix']
         self.d, self.Hk, self.ix = d, Hk, ix
         I_t, Hk_t = ops['I_t'], ops['Hk_t']

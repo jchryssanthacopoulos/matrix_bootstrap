@@ -57,8 +57,11 @@ table. Its multiplet charge is therefore $q=k+\tfrac32-\tfrac{pN^2}2$, Turiaciâ€
 | 11 | 1 | 750,699 | 0.061408 | $\mathbf{10}\oplus\overline{\mathbf{10}}$ | 0.0651 ($\mathbf 8$), 0.0696 ($\mathbf{10}$), 0.0710 ($\mathbf{27}$), 0.0839 ($C_2=12$) |
 
 **$N=2$** (window $k=5..7$): $E_0=98,\ 22,\ 5.16536,\ 1.22706,\ 0.087961$ at $k=0..4$. The ground states are
-$\mathbf 1$, $\mathbf 3$, $\mathbf 3$, $\mathbf 1$, $\mathbf 1$, at $|q|=4.5,3.5,2.5,1.5,0.5$. At $k=5,6$ the block has
-8 zero modes each (BPS).
+$\mathbf 1$, $\mathbf 3$, $\mathbf 3$, $\mathbf 1$, $\mathbf 1$, at $|q|=4.5,3.5,2.5,1.5,0.5$. At $k=5,6$ all eight
+requested eigenvalues are zero (BPS). *Correction (2026-10-06): an earlier version said "8 zero modes each"; 8 was
+only the number of eigenvalues requested (`n_eig`). Dense diagonalisation (`src/bps_ritz.py`) gives 63 and 126
+zero-weight zero modes at $k=5,6$, matching `cohomology_N2_full.json` ($h=9,27,18,9$ and $18,54,36,18$ in
+$C_2=0,2,6,12$, each with zero-weight multiplicity 1).*
 
 ## Comparison with the super-Schwarzian gap law
 
