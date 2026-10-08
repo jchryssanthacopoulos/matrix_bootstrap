@@ -241,3 +241,166 @@ $I_0=-1680$, and half filling $k=27$ has $m=9$ odd, so $(-1)^9h^{27}=-h^{27}$. C
 $m$) would give a positive index. This is consistency only, not evidence of concentration. A direct test needs a
 singlet-adapted algorithm, e.g. the dual-Cauchy decomposition used for the index with $Q$ written as Pieri maps
 between $(P_A,P_B,P_C)$ components, at a dimension of about $5\times10^5$.
+
+## 6. Step 1: near-BPS singlet spectrum and chaos at $n=2$ (2026-10-07)
+
+Code:
+- `src/quiver_n2.py` (W-symmetric zero-weight sectors, general operator builder, flavour map $F$);
+- `scripts/quiver_singlet_spectrum.py` (`pairs`, `edge`, `lmrs`);
+- `scripts/quiver_p2_n4.py`;
+- `scripts/quiver_singlet_pair_large.py`;
+- `scripts/quiver_commutant.py`;
+- `scripts/plot_quiver_step1.py`.
+
+### 6.1 A fact used throughout: the Casimir penalty is exact
+
+On W-invariant zero-weight vectors, $\sum_v\|E^{(v)}_{12}\psi\|^2=\langle\psi|\sum_vJ_v^2|\psi\rangle$, because
+$J_-J_+=J^2$ at $J_z=0$. So the penalty $P$ of §5 is the sum of the three nodes' $SU(2)$ Casimirs. It commutes with
+$H$, vanishes on singlets, and is $\ge2$ on every non-singlet.
+
+**Consequence.** Eigenvalues of $K=H+\mu P$ below $2\mu$ are *exact* singlet energies. §5 called them upper bounds;
+that was too cautious. Each level is further classified as lower ($Q^\dagger\psi=0$) or upper ($Q\psi=0$) member,
+which assigns it to a $Q$-pair.
+
+### 6.2 Exact singlet bases and $Q$-pair spectra
+
+- **Singlet bases.** $U_k=\ker P$ in the W-symmetric sector, dense, wherever the dimension is at most 4000: all
+  degrees at $(2,2)$; $k\le6$ and $k\ge30$ at $(2,3)$. In every case the singlet count equals the dual-Cauchy $n(k)$.
+- **Checks.** $QU_k$ stays in the singlets to $10^{-15}$. The $(2,2)$ BPS count is 90 at $k=12$.
+- **Multiplet energies.** For each pair $(k,k+3)$ they are the nonzero eigenvalues of $(QU_k)^T(QU_k)$.
+
+### 6.3 Hidden $\mathcal N=4$ supersymmetry of the $p=2$ quiver on gauge singlets (verified numerically; not derived)
+
+**Discovery path.** The $(2,2)$ pair spectra were full of exact coincidences:
+- every level of pair $(6,9)$ also appears in pair $(9,12)$ (43 of 49);
+- pair $(9,12)$ has 95 exact doublets.
+
+Searching the 8-dimensional family $\tilde Q=Q(\tilde C)$ for $[H,\tilde Q]=0$ on singlets gives a clean
+2-dimensional null space: $C$ and $\tilde C=(\varepsilon\otimes\varepsilon\otimes\varepsilon)\bar C$, with
+$\varepsilon=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$. For the seed-3 couplings,
+$\tilde C_{abc}=(-1)^{a+b+c}C_{\bar a\bar b\bar c}$.
+
+**Relations on every singlet sector** (to $10^{-15}$–$10^{-14}$; seed-3 integer, two Gaussian real and two Gaussian
+complex coupling sets):
+$$\tilde Q^2=0,\quad\{Q,\tilde Q\}=0,\quad\{\tilde Q,\tilde Q^\dagger\}=H,\quad\{Q^\dagger,\tilde Q\}=0 .$$
+- This is an $\mathcal N=4$ supersymmetry algebra.
+- The flavour map $F$ ($\varepsilon$ on every edge) is a unitary symmetry of $H$ on singlets for real couplings,
+  with $FQF^{-1}=\tilde Q$ and $F^2=(-1)^k$.
+- For complex couplings only the antiunitary $\Theta=KF$ survives, with $\Theta^2=(-1)^k$. This is seen as exact
+  Kramers doubling at odd $k$.
+
+**Only on singlets.** On the full (non-singlet) zero-weight sectors, $\{\tilde Q,\tilde Q^\dagger\}-H$ and
+$\{Q^\dagger,\tilde Q\}$ are about 30% of $|H|$. The extended algebra closes only up to gauge transformations, as in
+gauged supersymmetric QM. It is a property of the **gauged** model.
+
+**Multiplet structure.** The singlet spectrum is entirely organised into long $\mathcal N=4$ multiplets, each
+occupying degrees $k,k+3,k+3,k+6$. The bottom spaces $B_k=\ker Q^\dagger\cap\ker\tilde Q^\dagger$ (non-BPS) have
+dimensions $1,6,43,196,43,6,1$ at $k=0,3,\dots,18$, and
+$$n(k)=b(k)+2b(k-3)+b(k-6)+h(k)$$
+holds in every degree, for all coupling sets.
+
+**$p=3$ is different.** Searching the 27-dimensional cubic family at $(2,3)$ on singlets $0\to3\to6$ gives only $C$:
+no hidden second supercharge. So $p=3$ is a genuine $\mathcal N=2$ model, and $p=2$ is special. This is plausibly
+tied to the pseudoreality of the $SU(2)$ flavour doublet; that link is not established.
+
+**Not done.**
+- An analytic proof of the singlet-sector identities, and the $n$-dependence ($n=2$ only).
+- Whether the $(1,4)$/$(2,2)$ and $(2,3)$/$(3,2)$ index coincidences of §4 are related.
+- Whether an $SU(2)_R$ (needed for a small $\mathcal N=4$ super-Schwarzian) exists. No continuous flavour generator
+  commutes with $H$: only the trivial $N_A,N_B,N_C$ do.
+
+### 6.4 Level statistics
+
+The statistic is the mean ratio of consecutive spacings $\langle r\rangle$, over the central 80% of each ensemble,
+against size-matched references sampled here (Gaussian matrices of the same size; Poisson).
+
+| ensemble | levels | $\langle r\rangle$ | random-matrix reference | Poisson |
+|---|---|---|---|---|
+| $(2,3)$ pair $(6,9)$, $\vert q\vert=10.5$ | 676 | $0.507\pm0.011$ | GOE-type $0.533\pm0.013$ | $0.386\pm0.013$ |
+| **$(2,3)$ pair $(9,12)$, $\vert q\vert=7.5$** | **10 024** | **$0.5268\pm0.0028$** | GOE-type $0.5343\pm0.0026$ | $0.3869\pm0.0042$ |
+| $(2,2)$ bottom $k=9$, $F=+i$, seed-3 integer | 98 | $0.402\pm0.035$ | GUE $0.598\pm0.032$ | $0.389\pm0.036$ |
+| $(2,2)$ bottom $k=9$, $F=+i$, Gaussian real (two seeds) | 98 | $0.331$, $0.445$ ($\pm0.033$) | GUE $0.598$ | $0.389$ |
+| $(2,2)$ bottom $k=9$, Kramers-reduced, Gaussian complex (two seeds) | 98 | $0.479$, $0.497$ ($\pm0.034$) | GSE $0.675\pm0.025$ | $0.389$ |
+| $(2,2)$ bottom $k=6$, $F=\pm1$ blocks | 25 / 18 | $0.31$–$0.50$ | GOE $0.53\pm0.07$ | $0.39$ |
+
+- **$(2,3)$: chaotic.**
+  - Pair $(9,12)$ (10,024 multiplets, $|q|=7.5$): $\langle r\rangle$ within 2σ of the GOE class and about 30σ from
+    Poisson, with no degeneracies. The locally unfolded spacing distribution follows the Wigner surmise (figure (c)).
+  - The far pair $(6,9)$ agrees: 676 levels, about 10σ from Poisson.
+  - Both pairs sit about 2σ below GOE. That could be a weak residual structure or a statistical fluctuation.
+  - **Method for $(9,12)$** (`scripts/quiver_singlet_pair_large.py`):
+    - project random vectors onto singlets with the exact Casimir polynomial
+      $\prod_v\prod_{j=1}^6(1-J_v^2/j(j+1))$, which leaves a non-singlet residual of $1.4\times10^{-15}$;
+    - compress $Q^TQ$ onto their span.
+  - **Checks:** rank 10,700 equals $n(9)$; the kernel of 676 equals the rank of $Q_6$; 10,024 multiplets equals
+    the predicted rank of $Q_9$; $E_0=151.34$ equals the exact Lanczos value. Validated against the dense pair
+    $(6,9)$ (every level within $2.5\times10^{-6}$ relative).
+  - **Precision.** Float32 storage of the projected vectors was rejected at this size: the Gram noise was 0.06, and
+    $E_0$ was off by 0.04, about 10% of the local spacing. The reported numbers use float64 (peak 8.6 GB).
+- **$(2,2)$: not random-matrix** in any symmetry class, after resolving $F$ (real couplings) or Kramers (complex).
+  - Two exact degeneracies per $k=9$ block survive in every coupling class.
+  - **Conserved-charge search:** within the 109-dimensional span of all gauge-invariant $k$-preserving operators
+    with at most four fermion operators (bilinears, 288 single-trace quartic loops, double traces), the commutant
+    of $H$ on singlets at $k=9$ is exactly $\{1,H\}$. $H$ lies in the span to $7\times10^{-15}$.
+  - So no simple conserved charge explains the statistics. The options are a genuinely non-chaotic small sector
+    (98 levels), higher-degree charges, or further discrete symmetries outside the span; the degeneracies point to
+    the last. **Open.**
+
+### 6.5 BPS chaos at $(2,2)$ (projected-operator statistic)
+
+$P_{\rm BPS}OP_{\rm BPS}$ on the 90 singlet BPS states, which split 48/42 under $F$:
+- generic simple operators: $\langle r\rangle=0.505\pm0.037$ ($N_{A0}$) and $0.462\pm0.030$
+  ($\mathrm{Tr}A^0B^0\bar B^0\bar A^0$+h.c.), against GOE $0.530\pm0.038$;
+- $F$-anticommuting operators (positive half, 42 levels): $0.32\pm0.05$ and $0.54\pm0.05$, against GOE $0.53\pm0.06$;
+- an $F$-commuting operator, per $F$ block: $0.47\pm0.04$ and $0.45\pm0.05$.
+
+Mostly within 1–2σ of GOE, with one outlier at 3.6σ low. **Inconclusive**: 42–90 levels, and the non-BPS spectrum of
+the same model is not random-matrix-like. Not attempted at $(2,3)$, where the 1680 BPS vectors at $k=18$ are out of
+reach.
+
+### 6.6 Near-BPS singlet edges and the Turiaci–Witten law
+
+Lowest singlet multiplet energy $E_0$ of each $Q$-pair. Sources:
+- $(2,2)$: dense, exact;
+- $(2,3)$, $|q|\ge10.5$: dense;
+- $(2,3)$, $|q|=1.5,4.5,7.5$: Lanczos on $K$ with every level classified (§6.1). The $k=9,12,15$ runs found only
+  singlets among the 6, 8 and 12 lowest eigenvalues of $K$, so these level lists are complete below the quoted
+  energies.
+
+| $\vert q\vert$ | pair at $(2,3)$ | $E_0$ at $(2,3)$ | next levels at $(2,3)$ | $E_0$ at $(2,2)$ |
+|---|---|---|---|---|
+| 1.5 | (15,18) | **0.05386** | 0.1349, 0.2023, 0.2499, 0.2988, 0.3163, 0.3605, 0.3894, 0.4548, 0.4813, 0.5403 | 95.56 |
+| 4.5 | (12,15) | **0.3348** | 0.9096, 2.170, 2.474, 3.109, 3.557, 5.229, 5.381 | 199.95 |
+| 7.5 | (9,12) | 151.34 | 151.63, 154.57, 156.80, 157.50, 159.50 | 546 |
+| 10.5 | (6,9) | 575.23 | (676 levels, §6.4) | 728 |
+| 13.5 | (3,6) | 1506 | | |
+| 16.5 | (0,3) | 2008 | | |
+
+**Cross-check.** The $|q|=4.5$ edge 0.3348 appears as a lower member at $k=12$ and as an upper member at $k=15$.
+
+**Findings.**
+- **Small near-BPS gaps exist at $(2,3)$, and only next to the BPS degree.**
+  - The two innermost multiplet sectors have $E_0=0.054$ and $0.335$. Their partners sit at $E\approx150$ and above,
+    on the microscopic scale set by the couplings.
+  - At $(2,2)$ there is no small gap at all: the first multiplet is at 95.6, against total scales of order $10^3$.
+  - So the near-BPS scale drops by more than three orders of magnitude from $(2,2)$ to $(2,3)$, as the singlet
+    sector grows from 568 to 300,584 states at half filling. Two data points with different supersymmetry, so no
+    scaling law is inferred.
+- **Turiaci–Witten tested quantitatively at $(2,3)$:**
+  - Fix $E_s=0.862$ from $E_0(1.5)$, using $E_0(q)=q^2E_s/(4\hat q^2)$ with $\hat q=3$. The predicted
+    $E_0(4.5)=0.485$; the measured value is 0.335. The ratio is 6.2 against 9, a local exponent of 1.66 against 2.
+  - Fix the normalisation of $\rho_q\propto\sinh(2\pi\sqrt{(E-E_0)/E_s})/E$ from the eleven $|q|=1.5$ levels. The
+    predicted numbers of $|q|=4.5$ multiplets below $E=1.0$, 2.17, 3.11 and 5.38 are 5.4, 258, 2000 and
+    $8.7\times10^4$; the measured numbers are 2, 3, 5 and 7.
+  - **A single Schwarzian scale does not describe the two sectors.**
+- **Why this is unsurprising.** Turiaci–Witten is a large-$e^{S_0}$ statement in which neighbouring charge sectors
+  have the same entropy. At $(2,3)$ the singlet sectors at $k=12$, 15 and 18 have 71,685, 211,113 and 300,584 states,
+  changing by factors of 3–4 per step $\Delta k=\hat q$. The test needs larger $n$; the bootstrap is the candidate
+  route.
+
+**Figure.** `results/figures/quiver_step1.{pdf,png}`:
+- (a) the edges, with the $q^2$ lines drawn through $|q|=1.5$;
+- (b) all $\langle r\rangle$ values with size-matched references;
+- (c) the spacing distribution with local unfolding over ±8 levels. A global polynomial unfolding gave a spurious
+  Poisson-like shape, so the global method is not used;
+- (d) the counting-function test above.

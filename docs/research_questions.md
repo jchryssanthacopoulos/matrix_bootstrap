@@ -102,3 +102,21 @@ Sub-questions:
     - **This is concentration at a second point** (numerical; one coupling seed).
     - $(3,2)$ remains untested directly: its zero-weight sectors are about $5\times10^{10}$, so it needs a singlet-adapted (dual-Cauchy/Pieri) algorithm. The sign of $I_0(3,2)=-1680$ is consistent with concentration at half filling.
     - The singlet-sector eigenvalues near the window are small (0.054 at $k=15$), a first glimpse of near-BPS gaps in the quiver.
+- 2026-10-08 (**step 1 of the quiver programme: near-BPS spectrum and chaos at $n=2$**; `research/notes/quiver_project.md` §6, `results/figures/quiver_step1.pdf`).
+  - **Hidden $\mathcal N=4$ for $p=2$** (verified to machine precision on every singlet sector of $(2,2)$, for integer, Gaussian real and complex couplings; not derived).
+    - $\tilde Q=Q((\varepsilon\otimes\varepsilon\otimes\varepsilon)\bar C)$ satisfies $\{\tilde Q,\tilde Q^\dagger\}=H$ and $\{Q^\dagger,\tilde Q\}=0$ on gauge singlets. These fail by about 30% off the singlet sector, so the algebra closes only up to gauge transformations.
+    - The singlet spectrum is entirely organised into long $\mathcal N=4$ multiplets; the counting identity $n(k)=b(k)+2b(k-3)+b(k-6)+h(k)$ holds in every degree.
+    - The flavour map $F$ ($\varepsilon$ per edge) commutes with $H$ on singlets, and $F^2=(-1)^k$.
+    - $p=3$ has no second cubic supercharge: it is a genuine $\mathcal N=2$ model.
+  - **Chaos (TW-style, per multiplet sector).**
+    - $(2,3)$ is random-matrix-like: pair $(9,12)$ (10,024 multiplets) gives $\langle r\rangle=0.5268\pm0.0028$ against GOE-class $0.5343$ and Poisson $0.387$; pair $(6,9)$ agrees.
+    - $(2,2)$, after resolving $F$ or Kramers, is not random-matrix-like ($\langle r\rangle\approx0.33$–$0.50$ for 98 levels, against GUE $0.60$ or GSE $0.675$).
+    - The commutant of $H$ within the 109-dimensional span of simple gauge-invariant operators is only $\{1,H\}$. Open: a small non-chaotic sector, or further discrete symmetries (two coupling-independent exact degeneracies remain).
+  - **Near-BPS gaps (Q5 analogue).**
+    - At $(2,3)$ the two innermost multiplet sectors have exact singlet gaps $E_0(|q|=1.5)=0.0539$ and $E_0(4.5)=0.335$. The next sectors sit at 151 and 575, on the microscopic scale.
+    - $(2,2)$ has no small gap ($E_0(1.5)=95.6$).
+  - **Turiaci–Witten law.** It fails quantitatively at $(2,3)$:
+    - the edge ratio is 6.2 against 9;
+    - with the scale fixed at $|q|=1.5$, the predicted $|q|=4.5$ counts exceed the measured ones by orders of magnitude.
+    - This is expected, since singlet sector sizes change by factors of 3–4 per $\Delta k=3$ at $n=2$. A genuine test needs larger $n$.
+  - **BPS chaos (projected operators) at $(2,2)$:** inconclusive (90 states).
