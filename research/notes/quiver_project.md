@@ -1,5 +1,7 @@
 # The $U(n)^3$ fermionic quiver as a project: literature check and fortuity test (2026-10-07)
 
+**Progress report (2026-10-08):** `research/tex/quiver_progress_report.tex` → `research/pdfs/quiver_progress_report.pdf` (12 pp.; model, literature, all exact and numerical results of §§1–8, prospects and next steps). New figure for it: `results/figures/quiver_concentration.{pdf,png}` (`scripts/plot_quiver_concentration.py`): singlet dimensions and BPS states per degree, and the lowest non-BPS singlet energy per degree, at $(2,2)$ and $(2,3)$.
+
 ## Status summary (updated 2026-10-08; details in §§1–8)
 
 | property | status | evidence |
