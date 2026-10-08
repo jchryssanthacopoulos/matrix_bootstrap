@@ -548,9 +548,184 @@ The continuum values approach both.
   at $p=3$ (true 1.2373).
 
 **Next.**
-- *Refined-index saddle.* Add an R-charge fugacity $y$, giving a complex saddle. Concentration at half filling
+- **[Withdrawn 2026-10-08, §9: no R-charge refinement is protected in the singlet sector, so this does not test
+  concentration.]** *Refined-index saddle.* Add an R-charge fugacity $y$, giving a complex saddle. Concentration at half filling
   predicts $\ln|I(y)|=\ln|I_0|+\frac{pn^2}2\ln|y|$ exactly, i.e. zero curvature in $\ln|y|$. A nonzero curvature at
   order $n^2$ would show that the index-weighted R-charge distribution has width of order $n$. This is the large-$n$
   concentration test.
 - *Monte Carlo.* Thermodynamic integration in $p$ from the exact $p=2$ point (positive integrand for even $p$; sign
   average for odd $p$). It would test the predictions at $n=6$–$12$.
+
+## 9. Next steps: what can test the remaining properties (2026-10-08)
+
+**Correction to §8.** There is no protected R-charge refinement of the singlet index.
+- Non-BPS pairs $(\psi,Q\psi)$ in degrees $3m$ and $3m+3$ contribute $(-1)^my^m(1-y)$ to $\mathrm{Tr}_{\rm sing}(-1)^ky^{k/3}$,
+  so the trace is protected only at $y=1$. The refined indices $\mathrm{Tr}(-1)^Fe^{2\pi ijk/3}$ of $\mathcal N=2$ SYK all
+  reduce to $I_0$ on singlets, since $k\equiv0$ mod 3 there.
+- With generic couplings there is no flavour symmetry either, so $I_0$ is the only protected quantity of the gauged
+  model.
+- What the index can say about where concentration sits is its sign, $(-1)^{m_*}$, and that always agrees with half
+  filling (Table in §7, D18). This is the singlet-sector version of Chang–Chen–Sia–Yang's argument that the index
+  phase fixes the concentrated charge.
+- The "refined-index saddle" of §8, the report draft, `docs/todo.md` and `docs/research_questions.md` (2026-10-08c) is
+  therefore withdrawn as a concentration test. A protected refinement exists only for non-generic couplings with a
+  flavour $U(1)$ (as in the two-flavour SYK model of Chang–Chen–Sia–Yang), which changes the model.
+
+**Clarification of §3.** The $(2,2)$ fortuity result is complete in the ordinary sense, not just "leading order".
+Non-vanishing of the first-order obstruction already shows $[z_0]\notin\mathrm{Im}\,\pi_{3\to2*}$. The remaining caveats
+are floating-point ranks, one coupling, and the Choi–Choi–Kim refinement.
+
+**Fortuity follows from concentration (derived here).**
+- $\pi_{M\to N}$ preserves the degree, and $k_*=3pn^2/2$ moves by $3p(2n+1)/2\ (>3)$ per unit of rank.
+- So if the rank-$(n+1)$ singlet cohomology vanishes in degree $k_*(n)$, no rank-$n$ class has a preimage and all are
+  fortuitous. Concentration at rank $n+1$, or any window narrower than the shift, suffices.
+- A sufficient computable condition is that $Q$ is injective on rank-$(n+1)$ singlets of degree $k_*(n)$.
+
+**Reach of exact methods: singlet dimensions $n(k)$.** Computed with the new
+`src/quiver_index.singlet_series_recursive`, via `scripts/quiver_singlet_series.py`, saved to
+`results/data/quiver_singlet_series.json`. All checks pass: totals, indices, palindromy, and agreement with the
+dual-Cauchy series at $n=2$.
+
+| target | singlet dimension | feasible? |
+|---|---|---|
+| $(3,2)$, $k=12$: injectivity test for fortuity of the $(2,2)$ classes | 3 494 → 20 168 | trivially, with a singlet basis |
+| $(3,2)$, half filling $k=27$ (neighbours $k=24,30$): concentration at the next rank | 558 304 (443 657) | yes, with a singlet basis and sparse $Q$ |
+| $(2,3)$, $k=18$: the 1680 BPS vectors (BPS chaos, direct fortuity test) | 300 584 | yes, with a singlet basis (about 4 GB for the kernel) |
+| $(3,3)$, $k=18$: injectivity test for fortuity of the $(2,3)$ classes | $1.2\times10^8$ → $1.2\times10^9$ | no (exactly) |
+| $(3,3)$, $k=39,42$ (half filling 40.5) | $1.06\times10^{12}$ | no |
+| $(2,4)$, half filling | $3.0\times10^8$ | no |
+| $(4,2)$, $k=27$: fortuity of $(3,2)$ classes | $4.5\times10^7$ | hard |
+
+So $(3,2)$ is the only next-rank point within exact reach, and only in the $p=2$ corner. At $p=3$, $n=2$ is the last
+exact rank.
+
+**Revised plan, in priority order.**
+1. **Singlet-adapted toolkit.** An explicit singlet basis from dual-Cauchy components, with $Q$ as Pieri/LR maps, or
+   multi-trace words with a Gram rank. It unlocks:
+   - $(3,2)$: concentration at the next rank, the near-BPS gap at $n=3$ against $n=2$, multiplet statistics, hidden
+     $\mathcal N=4$ at $n=3$, and an all-orders fortuity check;
+   - $(2,3)$: the 1680 BPS vectors, giving BPS chaos (projected-operator statistics) and a direct fortuity test at
+     $p=3$.
+2. **Quiver singlet bootstrap.** Closed walks on the quiver as trace words, sector-resolved, with BPS constraints.
+   Targets, easiest first:
+   - a certificate of absence of BPS singlets at $(3,3)$, $k=18$, which would make all 1680 $(2,3)$ classes
+     fortuitous by the argument above;
+   - certificates for $k\le36$ at $(3,3)$, which would confine the BPS states to $k=39,42$ (concentration);
+   - near-window gaps and their $n$-scaling, the super-Schwarzian test.
+3. **Large-$p$ analytics: the quiver as gauged $\mathcal N=2$ SYK.**
+   - Expectation: at large $p$ the holonomy saddle is the $\mathbb Z_3$ twist that makes the SYK index large, which
+     explains $F^*/3p\to\frac12\ln3$.
+   - With random $C_{abc}$ at fixed $n$, the flavour-melonic limit should give FGMS Schwinger–Dyson equations for
+     three species, with a gauge correction of relative order $1/p$ ($\dim G/\dim V=1/p$).
+   - Deliverables: the super-Schwarzian coupling, the near-BPS density and the chaos exponent at large $p$.
+   - Check: reproduce the $1/p$ terms of $F^*(p)$ (D18).
+   - Supporting fact: $F^*(p)$ is smooth for $p>2$, so there is no sign of a transition between $p=3$ and $\infty$.
+   - Risk: melonic dominance with only $p^3$ independent couplings shared across colour indices needs checking.
+4. **Cheap checks.** More coupling seeds at $(2,3)$ (concentration, chaos; about 8.5 GB peak at $k=15$); Monte Carlo
+   tests of the finite-$n$ index predictions; the Choi–Choi–Kim generalised-monotone analysis.
+5. **$p=2$ hidden $\mathcal N=4$** at $n=3$ (comes with item 1) and its derivation.
+
+## 10. Step 3: the $n=1$ member as a large-$p$ test (2026-10-08)
+
+**Model.**
+- $n=1$ is three-species $\mathcal N=2$ SYK: $3p$ fermions, $Q=\sum C_{fgh}a^\dagger_fb^\dagger_gc^\dagger_h$, restricted to the
+  charge-balanced blocks $N_a=N_b=N_c=m$ of dimension $\binom pm^3$.
+- By D19 it is the large-$p$ limit of the whole family at fixed $n$, so it tests the large-$p$ expectation directly.
+- Couplings: Gaussian, $\langle C^2\rangle=1/p^2$ (seed 1), so the effective SYK coupling is $O(1)$.
+- Code: `src/quiver_n1.py` (single-species creation matrices; explicit sparse or matrix-free $Q$, agreeing to
+  $10^{-15}$) and `scripts/quiver_n1_spectrum.py`.
+- Data: `results/data/quiver_n1_spectrum_gauss_seed1*.json`.
+
+**Results.**
+
+| $p$ | $I_0$ | BPS states by block $m$ | edges $E_0$ by $\vert q\vert$ | largest pair: levels, $\langle r\rangle$ |
+|---|---|---|---|---|
+| 2 | $-6$ | 6 at $m=1$ only | 1.5: 1.062 | — |
+| 3 | 0 | 2 at $m=1$, 2 at $m=2$ | 0 (central): 0.0097; 3: 2.267 | — |
+| 4 | 90 | 90 at $m=2$ only | 1.5: 0.2464; 4.5: 2.946 | 63, $0.549\pm0.032$ |
+| 5 | 0 | none | 0 (central): $5\times10^{-8}$; 3: 0.581; 6: 4.14 | 876 (central), $0.428\pm0.011$ |
+| 6 | $-1680$ | 1680 at $m=3$ only | 1.5: 0.1118; 4.5: 1.683; 7.5: 5.27 | 3160, $0.5244\pm0.0051$ |
+| 7 | 0 | none in $m\le2$ (central blocks not computed) | 3: 0.369; 6: 2.103; 9: 5.96 | 8919, $0.5291\pm0.0030$ |
+| 8 | 34650 | none in $m\le3$ | 1.5: 0.0494; 4.5: 0.847; 7.5: 3.05; 10.5: 6.77 | 511, $0.515\pm0.012$ |
+| 10 | $-756756$ | none in $m\le3$ ($m=4$ running) | 4.5: 0.731; 7.5: 2.388 | — |
+
+**Findings.**
+1. **Even $p$ concentrates exactly.** The BPS states sit only in the central block, and their number equals $|I_0|$
+   at $p=2,4,6$. At $p=8$ there are none outside the centre.
+2. **Odd $p$ has structure the index cannot see.**
+   - $p=3$ has $2+2$ BPS states in the two central blocks (index $0$); $p=5$ has none.
+   - *Structural reason (derived here).* For odd $pn^2$ the two central degrees are dual under the top-form pairing.
+     $B(a,a')=\langle Qa,a'\rangle$ on the lower one satisfies $B(a,a')=(-1)^{k_1}B(a',a)$ with $k_1=3(pn^2-1)/2$, so it
+     is antisymmetric for $pn^2\equiv3$ mod 4 and symmetric for $pn^2\equiv1$ mod 4. The top form is gauge invariant
+     (the determinants cancel around the triangle), so this holds on singlets.
+   - *Antisymmetric case:* the middle rank is even, giving the mod-2 relation
+     $\sum_{k\le k_1}h^k\equiv\sum_{k\le k_1}n(k)$. At $(1,3)$, $Q_1$ is an antisymmetric $27\times27$ matrix of rank 24.
+     The parity sums are even for $(1,3)$, $(1,7)$ and $(3,3)$, so no BPS state is forced in those cases.
+   - *Symmetric case ($p=5$):* the central-pair energies are squares of the eigenvalues of a symmetric matrix, i.e.
+     two superposed orthogonal sequences. That explains $\langle r\rangle=0.428$ (two superposed GOE sequences give
+     about $0.42$).
+   - The central $q=0$ pair is nearly gapless, consistent with the Turiaci–Witten $q=0$ sector ($\rho\propto1/\sqrt E$).
+   - **Correction:** the expectation stated earlier in this session, that a zero index means no BPS states, is false
+     ($p=3$).
+3. **Chaos.** Every non-central multiplet sector with enough levels is in the orthogonal class:
+   $0.5244\pm0.0051$ ($p=6$, 3160 levels) and $0.5291\pm0.0030$ ($p=7$, 8919), against 0.5307. Couplings are real.
+4. **Edges do not yet follow Turiaci–Witten.**
+   - $E_0(1.5)=1.062,\ 0.246,\ 0.112,\ 0.049$ at $p=2,4,6,8$ falls faster than the asymptotic Schwarzian $1/p$
+     (local exponents 2.1, 1.9, 2.8).
+   - The ratio $E_0(4.5)/E_0(1.5)=12.0,\ 15.1,\ 17.1$ drifts away from 9.
+   - The $|q|=4.5$ edge, $2.95,\ 1.68,\ 0.85,\ 0.73$ at $p=4,6,8,10$, slows to a local exponent of about $0.7$ between
+     $p=8$ and $10$, possibly approaching the asymptotic $1/p$. $E_0(1.5)$ at $p=10$ (block $m=4$, $9.3\times10^6$ states)
+     is running.
+   - With $3p\le24$ fermions this is pre-asymptotic. The $q^2$ law is not yet testable, as at $(2,3)$.
+
+**Reading.** At $n=1$ the large-$p$ direction behaves qualitatively like SYK: exact concentration for even $p$,
+BPS count equal to the index, and orthogonal-class chaos in every multiplet sector. The Schwarzian charge dependence
+needs larger $N_{\rm eff}$ than exact diagonalisation reaches (the $p=10$ run is the last practical point).
+
+## 11. Step 1: Schur–Weyl singlet basis and the $(3,2)$ next-rank laboratory (2026-10-08)
+
+**Engine** (D20; `src/quiver_singlet_basis.py`; `scripts/quiver_singlet_spectrum_sw.py`).
+- A singlet is a triple of $S_m$ group-algebra elements, one per node, in Young's orthogonal form. The finite-$n$
+  relations are the condition $\ell(\lambda)\le n$, and fermion statistics are sign projections per edge.
+- $Q$ is a Kronecker product of Gelfand–Tsetlin edge maps, and the Fock norm is diagonal.
+- **Validation:**
+  - singlet dimensions equal $n(k)$ in every degree at $(2,2)$, $(2,3)$ and $(3,2)$;
+  - $Q^2=0$ to $10^{-13}$;
+  - all 11 stored $(2,2)$ and $(2,3)$ pair spectra are reproduced level by level to $3\times10^{-15}$;
+  - the 90 BPS states at $(2,2)$ are recovered.
+- **Cost at $(3,2)$:** 191 sectors at half filling; one application of $Q$ takes 0.5 s at under 2 GB. Zero-weight
+  Fock methods would need $5\times10^{10}$ states.
+
+**$(3,2)$ results** (seed-3 integer couplings, as at $n=2$; `results/data/quiver_singlet_sw_n3_p2_seed3.json`).
+
+| $k$ | singlets | method | BPS | lowest singlet level |
+|---|---|---|---|---|
+| 0 | 1 | dense | 0 | 2457 |
+| 3 | 8 | dense | 0 | 2184 |
+| 6 | 56 | dense | 0 | 1671.6 |
+| 9 | 456 | dense | 0 | 1384.4 (doublet) |
+| 12 | 3 494 | dense | 0 | 873.1 |
+| 15 | 20 168 | Lanczos | 0 | 667.4 (doublet) |
+| 18 | 81 280 | Lanczos | 0 | 328.0 |
+| 21 | 229 544 | Lanczos | 0 | 207.4 (doublet) |
+| 24 | 443 657 | Lanczos | 0 | 99.53 (lower member of the pair $(24,27)$, $\vert q\vert=1.5$) |
+
+**Findings so far.**
+1. **Fortuity of the $(2,2)$ classes to all orders.** The rank-3 singlet cohomology vanishes at $k=12$ (lowest level
+   873). By the moving-window argument (§9), all 90 BPS classes at $(2,2)$ are fortuitous in the ordinary sense, to all
+   orders. This upgrades §3, which was already complete at first order, with an independent route.
+2. **Concentration at the next rank (numerical, established).** There are no BPS singlets at $k\le24$, and so none at
+   $k\ge30$ by particle–hole symmetry.
+   - Hence every singlet BPS state at $(3,2)$ sits at half filling, $k=27$, and there are exactly $|I_0|=1680$ of them.
+   - This is the first concentration result at rank 3, and it holds where the adjoint models' window grew with the rank.
+   - The near-BPS gap at $|q|=1.5$, relative to the vacuum energy $E_{\rm vac}=n^3\sum|C|^2$, falls from $0.131$ at
+     $n=2$ ($95.56/728$) to $0.041$ at $n=3$ ($99.53/2457$). The $|q|=4.5$ edge falls from $0.275$ to $0.084$.
+3. **The $p=2$ structure persists at $n=3$.**
+   - Levels come in exact doublets at odd $k$ and not at even $k$, as expected from the flavour map $F$ with
+     $F^2=(-1)^k$.
+   - The 3087-level pair $(12,15)$ has $\langle r\rangle=0.386\pm0.006$, the Poisson value: further from random-matrix
+     behaviour than at $n=2$.
+   - **Hidden $\mathcal N=4$ at $n=3$: confirmed.** $\tilde Q=Q((\varepsilon\otimes\varepsilon\otimes\varepsilon)\bar C)$ satisfies
+     $\{\tilde Q,\tilde Q^\dagger\}=H$, $\{Q^\dagger,\tilde Q\}=0$ and $\{Q,\tilde Q\}=0$ on singlets at every degree $k=3$–$24$ (all degrees through half filling), to
+     $10^{-16}$–$4\times10^{-15}$. A structure seen at one rank now holds exactly at two, so a derivation for all $n$
+     should exist (todo).

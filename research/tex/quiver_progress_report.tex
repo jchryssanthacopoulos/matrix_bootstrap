@@ -38,7 +38,7 @@ a triangle quiver, each in $p$ flavours, with the cubic supercharge $Q=\sum C_{a
 because bifundamental matter has no zero weights, which removes the mechanism that makes the BPS window of adjoint
 matrix models grow with the rank. In the gauge-singlet sector, exact cohomology at $(n,p)=(2,2)$ and Lanczos
 diagonalisation at $(2,3)$ show that all singlet BPS states, 90 and 1680 of them, sit at half filling, and all 90
-classes at $(2,2)$ are fortuitous at leading order. At $p=3$ the singlet multiplet spectrum has
+classes at $(2,2)$ are fortuitous. At $p=3$ the singlet multiplet spectrum has
 Gaussian-orthogonal level statistics over $10\,024$ levels and small gaps only next to the BPS degree, while $p=2$
 turns out to be special, with a hidden $\mathcal N=4$ supersymmetry on singlets and a spectrum that is not
 random-matrix like. We then show that the singlet index is exactly the partition function of a three-species log
@@ -328,13 +328,18 @@ condition arises with two such modes, and for couplings of full rank in the summ
 vanishing of the BPS three-point function $\langle\beta|X|z_0\rangle$ for every single letter $X$ and every BPS
 state $\beta$ in degree $k+1$. A non-vanishing value obstructs the lift. By gauge covariance it suffices to test one
 component of each letter. At $(2,2)$, each of the six letters obstructs a 54-dimensional subspace of the 90 classes,
-different letters obstruct different subspaces, and together they obstruct all 90: every singlet BPS class at
-$(2,2)$ is fortuitous at leading order.
+different letters obstruct different subspaces, and together they obstruct all 90. Since the obstruction appears
+already at the first order of the lift, none of the 90 classes lies in the image of $\pi_{3\to2}$: every singlet BPS
+class at $(2,2)$ is fortuitous.
 
-This result is expected rather than discriminating. The BPS degree sits at half filling and moves with the rank,
-from $k=12$ at $n=2$ to $k=27$ at $n=3$, so a class at fixed $k=12$ would be surprising to survive, much as in
-Chang--Chen--Sia--Yang's argument for generic SYK \cite{CCSY}. The test is also leading order only, uses one
-coupling and floating-point ranks, and is in the ordinary sense. Under the refined criterion of \cite{CCK},
+This result is expected rather than discriminating, and the reason can be made precise. The projections preserve
+the degree, while the half-filling degree $k_*=3pn^2/2$ moves by $3p(2n+1)/2$ when the rank grows by one, more than
+the width of any concentrated window. A rank-$n$ class of degree $k_*(n)$ can only be monotone if there is a class of
+the same degree at rank $n+1$, so concentration at rank $n+1$ implies that every singlet BPS class at rank $n$ is
+fortuitous; in this sense fortuity follows from concentration, much as in Chang--Chen--Sia--Yang's argument for
+generic SYK \cite{CCSY}. At $(2,2)\to(3,2)$ the relevant rank-3 singlet space, at $k=12$, has only $3\,494$ states,
+so the statement can be checked directly. The $(2,2)$ test itself uses one coupling and floating-point ranks, and it
+is in the ordinary sense. Under the refined criterion of \cite{CCK},
 classes of the form (determinant ground state)$\times$($n$-independent excitation) would count as generalised
 monotones; with fermionic letters many determinants vanish, and whether any of the 90 classes is of that form has
 not been analysed.
@@ -595,7 +600,7 @@ $\ln|I_0|=F^*(p)n^2+O(\ln n)$, $F^*(3)=1.2373$, $41\%$ of the singlet log-count 
 for odd $p$)\\
 Concentration & $(2,2)$: all 90 singlet BPS states at $k=12$, exact & $(2,3)$: all 1680 at $k=18$, numerical;
 $n\ge3$ open; index signs consistent\\
-Fortuity & $(2,2)$: 90/90 obstructed at leading order & untested\\
+Fortuity & $(2,2)$: all 90 classes obstructed at first order & untested; follows from concentration at the next rank\\
 Non-BPS statistics & not random-matrix; hidden $\mathcal N=4$ on singlets & Gaussian orthogonal, $10\,024$ levels at
 $(2,3)$\\
 Near-BPS gap & none ($\ge95.6$) & $0.054$ next to the BPS degree; Turiaci--Witten not yet testable\\
@@ -612,29 +617,48 @@ established at $n=2$ only, and concentration is the property most at risk as $n$
 the growth of the window with the rank that failed, and although its mechanism is absent here, nothing yet proves that
 another one does not take its place. The near-BPS gaps at $(2,3)$ are suggestive, but at this size the neighbouring
 charge sectors differ too much in entropy for the Turiaci--Witten density to apply, so the super-Schwarzian
-question remains open. Fortuity at $p\ge3$ is untested, although there is no reason to expect a different answer
-from $(2,2)$. And the model is planar rather than melonic, so there is no analogue of the SYK Schwinger--Dyson solution;
-large-$n$ dynamics has to come from the bootstrap or from other matrix-model methods.
+question remains open. Fortuity at $p\ge3$ is untested, although it would follow from concentration at the next rank and there is no reason to expect a different answer
+from $(2,2)$. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK Schwinger--Dyson
+solution; large-$n$ dynamics has to come from the bootstrap, from other matrix-model methods, or from the large-$p$
+limit discussed below.
 
-Several next steps follow. The most direct test of concentration at large $n$ is the saddle point of the refined
-index, with a fugacity $y$ for the R-charge. Concentration at half filling predicts that
-$\ln|I(y)|-\frac{pn^2}2\ln|y|$ is exactly independent of $|y|$, so a non-zero curvature at order $n^2$ would show that
-the index-weighted distribution of R-charges has a width of order $n$; the computation is a complex saddle of the
-same three-species gas, and it also covers odd $pn^2$, where the plain index vanishes. A direct test at $n=3$ requires
-a singlet-adapted algorithm, for instance writing $Q$ as Pieri maps between the dual-Cauchy components used for the
-index, at a dimension of about $5\times10^5$. Fortuity should be tested at $(2,3)$ and refined with the generalised
-monotones of \cite{CCK}. For the near-BPS spectrum at larger $n$ the singlet sector is the natural home of the
-matrix bootstrap \cite{HHK,LZ,LM}, which we developed in sector-resolved form for the adjoint models \cite{R2}; the
-planar large-$n$ limit is where it is most powerful. Monte Carlo integration of \eqref{eq:loggas}, by thermodynamic
-integration in $p$ from the exact point $p=2$, would test the finite-$n$ predictions at $n=6$--12. Finally, the
-hidden $\mathcal N=4$ of the $p=2$ quiver deserves a derivation and a test at $n\ge3$, both for its own sake and
-because a small $\mathcal N=4$ super-Schwarzian would require an $SU(2)$ R-symmetry that we have not found.
+Several next steps follow, and the first observation is that concentration beyond $n=2$ has to be settled without
+help from the index. Since $Q$ raises the fermion number by three and every singlet has $k\equiv0$ mod 3, no
+R-charge fugacity is compatible with the pairing of non-BPS states in the singlet sector: $\Tr(-1)^ky^{k/3}$ is
+protected only at $y=1$. The singlet index is therefore the only protected quantity of the gauged model, and its
+sign, which always agrees with half filling, is all it can say about where the BPS states sit.
+
+The exact methods reach exactly one more point. With a singlet-adapted basis, built from the dual-Cauchy components
+with $Q$ acting as Pieri maps, the singlet spaces at $(3,2)$ have $3\,494$ states at $k=12$ and $558\,304$ at half
+filling, so concentration, the near-BPS gap and the multiplet statistics can be followed from $n=2$ to $n=3$, albeit
+in the $p=2$ corner. The same basis at $(2,3)$, $300\,584$ singlets at half filling, yields the 1680 BPS vectors for a
+direct test of BPS chaos and of fortuity at $p=3$. Beyond that the singlet sectors explode: at $(3,3)$ they hold
+$1.2\times10^8$ states at $k=18$ and $1.1\times10^{12}$ at half filling, and $3\times10^8$ at half filling at $(2,4)$.
+
+At $p=3$ and $n\ge3$ the matrix bootstrap \cite{HHK,LZ,LM}, which we developed in sector-resolved form for the
+adjoint models \cite{R2}, must take over, and its natural first targets are certificates of absence. A positive
+lower bound on the singlet energy at $(3,3)$ and $k=18$, far from the window where such certificates are easiest,
+would prove that all 1680 classes at $(2,3)$ are fortuitous; certificates for $k\le36$ would confine the BPS states at
+$(3,3)$ to the two singlet degrees adjacent to half filling, which is concentration at the first rank beyond exact
+methods. The near-BPS gaps and their scaling with $n$, the actual super-Schwarzian test, are the harder final target.
+
+On the analytic side, the large-$p$ limit is where the model should become SYK-like. The holonomy saddle realises
+precisely the $\mathbb Z_3$ twist that makes the index of $\mathcal N=2$ SYK large, and at fixed $n$ the $3pn^2$
+fermions with random flavour couplings should be governed by the Schwinger--Dyson equations of \cite{FGMS}, with a
+gauge correction of relative order $1/p$ since $\dim G/\dim V=1/p$. Deriving the super-Schwarzian and the chaos
+exponent in this limit, and reproducing the exact large-$p$ expansion of $F^*(p)$ in Table~\ref{tab:saddle} as a
+check, would establish the desired dynamics in a controlled corner of the same model; that $F^*(p)$ is smooth for all
+$p>2$ suggests that $p=3$ lies in the same phase. Monte Carlo integration of \eqref{eq:loggas}, by thermodynamic
+integration in $p$ from the exact point $p=2$, would test the finite-$n$ predictions at $n=6$--12, and the generalised
+monotones of \cite{CCK} should be checked. Finally, the hidden $\mathcal N=4$ of the $p=2$ quiver deserves a
+derivation and a test at $n=3$, both for its own sake and because a small $\mathcal N=4$ super-Schwarzian would require
+an $SU(2)$ R-symmetry that we have not found.
 
 In summary, the fermionic $U(n)^3$ quiver with $p\ge3$ flavours is, to our knowledge, a new candidate for a matrix
 SYK model. It has macroscopic and, at the sizes we can reach, concentrated BPS entropy, chaotic multiplet spectra and
 near-BPS gaps; it reduces to an exactly solvable log gas at the level of the index; and its large-$p$ limit makes contact
-with $\mathcal N=2$ SYK. Whether concentration survives at large $n$ is now the central question, and the refined
-index saddle is the next computation.
+with $\mathcal N=2$ SYK. Whether concentration survives at large $n$ is now the central question; the singlet-adapted
+computation at $(3,2)$, bootstrap certificates at $(3,3)$ and the large-$p$ limit are the next steps.
 
 \appendix
 \section{Methods and reproducibility}\label{app:methods}

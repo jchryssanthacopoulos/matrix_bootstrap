@@ -246,3 +246,36 @@ def singlet_total_recursive(n, p, verbose=False):
             Rn += Lf[:, j, :].T @ (R @ Lf[:, tr[j], :])
         R = Rn
     return float(np.trace(R @ R @ R))
+
+
+def singlet_series_recursive(n, p, verbose=False):
+    """
+    Degree-resolved singlet counts n(k), k = 0..3pn^2, from the flavour transfer matrix with a fugacity t per fermion:
+    R^{(q)}(t) = sum_lam t^{|lam|} L_lam^T R^{(q-1)}(t) L_{lam^T},  n(t) = Tr[R^{(p)}(t)^3].
+    Evaluated at the K = 3pn^2 + 1 roots of unity and inverted by FFT (complex128), then rounded; returns
+    (counts as Python ints, max rounding residual).  Cross-checks: sum = singlet_total_recursive, alternating sum over
+    k = 3m with (-1)^m = singlet_index_recursive, palindromic.
+    """
+    lams = box_partitions(n)
+    li = {l: i for i, l in enumerate(lams)}
+    tr = np.array([li[transpose(l, n)] for l in lams])
+    size = np.array([sum(l) for l in lams])
+    K = 3 * p * n * n + 1
+    ts = np.exp(2j * np.pi * np.arange(K) / K)
+    Ls = [lr_tensor(n, (q - 1) * n, verbose=verbose) for q in range(2, p + 1)]
+    vals = np.empty(K, dtype=complex)
+    for it, t in enumerate(ts):
+        w = t ** size
+        R = np.zeros((len(lams), len(lams)), dtype=complex)
+        R[np.arange(len(lams)), tr] = w
+        for (L, mus, _, nus, err) in Ls:
+            Lf = L.astype(float)
+            Rn = np.zeros((len(nus), len(nus)), dtype=complex)
+            for j in range(len(lams)):
+                Rn += w[j] * (Lf[:, j, :].T @ (R @ Lf[:, tr[j], :]))
+            R = Rn
+        vals[it] = np.trace(R @ R @ R)
+    coef = np.fft.fft(vals) / K                      # n(t) = sum_k c_k t^k  ->  c_k = (1/K) sum_j n(w^j) w^{-jk}
+    counts = np.rint(coef.real)
+    resid = float(max(np.abs(coef.real - counts).max(), np.abs(coef.imag).max()))
+    return [int(c) for c in counts], resid

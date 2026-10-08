@@ -79,7 +79,18 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [x] Index growth (2026-10-08): $p=2$ closed form $(-1)^n(3n)!/(n!)^3$ ($n\le4$), not macroscopic; $p\ge3$ super-linear; the coincidences explained ($p=2$ law; $(2,3)$ accidental).
   - [x] Prove $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ (2026-10-08, D18: at $p=2$ the integrand is $|\Delta_{3n}|^2$).
   - [x] Solve the deconfined large-$n$ saddle of the index integral for $p\ge3$ and compare with the measured $\ln I_0$ (2026-10-08, D18, note §8): $F^*(3)=1.2373$, $F^*(4)=2.5550$; count $G^*(3)=3.0427$; corrected Laplace matches all 27 nonzero exact values to $\le0.6$ in the log (`scripts/quiver_index_saddle.py`, `scripts/plot_quiver_index_saddle.py`).
-  - [ ] Refined-index (R-charge fugacity) saddle at large $n$: a complex saddle; concentration $\Leftrightarrow$ $\ln|I(y)|-\frac{pn^2}{2}\ln|y|$ flat. The large-$n$ concentration test.
+  - [~] ~~Refined-index (R-charge fugacity) saddle at large $n$~~: **withdrawn** (2026-10-08, note §9): no R-charge fugacity is protected on singlets, so it does not test concentration.
+  - [x] Progress report (2026-10-08): `research/pdfs/quiver_progress_report.pdf`.
+  - [x] Degree-resolved singlet counts $n(k)$ up to $(3,3)$, $(2,5)$, $(4,2)$ (`scripts/quiver_singlet_series.py`): sizes the next exact computations (note §9).
+  - [x] **Singlet-adapted basis** built (2026-10-08, D20, note §11): Schur–Weyl ($S_m$ Fourier) basis, `src/quiver_singlet_basis.py`; exact dims at $(2,2),(2,3),(3,2)$; reproduces all stored $n=2$ pair spectra to $3\times10^{-15}$.
+  - [x] $(3,2)$: no BPS singlets at $k\le21$ $\Rightarrow$ all 90 $(2,2)$ classes fortuitous to all orders; $p=2$ Poisson-like at $n=3$. (k=24 and the $n=3$ $\mathcal N=4$ test: see note §11.)
+  - [ ] $(2,3)$ BPS vectors (1680 at $k=18$, 300,584 singlets): needs a block eigensolver (~1700 vectors; ~1 day at 1 s per $H$ application); then BPS chaos at $p=3$.
+  - [ ] Flavour map $F$ in the Schur–Weyl basis, to resolve the $p=2$ statistics at $n=3$.
+  - [ ] (old item, kept for reference) **Singlet-adapted basis** (dual-Cauchy components + $Q$ as Pieri/LR maps, or multi-trace words + Gram rank). Then: $(3,2)$ concentration at $k=27$ (558,304 singlets), near-BPS gap and statistics at $n=3$, $\mathcal N=4$ at $n=3$, fortuity of $(2,2)$ classes via injectivity of $Q_{12}$ on 3,494 rank-3 singlets; and at $(2,3)$ the 1680 BPS vectors (BPS chaos, direct fortuity test).
+  - [ ] **Quiver singlet bootstrap** (closed quiver walks as trace words; BPS constraints): certificate of absence at $(3,3)$, $k=18$ (gives fortuity of all 1680 $(2,3)$ classes); certificates for $k\le36$ (concentration at $(3,3)$); near-window gaps vs $n$.
+  - [x] Large-$p$ reduction written (D19); $n=1$ numerics $p=2$–$8$ (note §10): even $p$ concentrated exactly, orthogonal-class chaos, Turiaci–Witten edges not yet reached; odd $p$ governed by the symmetric/antisymmetric middle form. $p=10$ running.
+  - [ ] **Large-$p$ analytics, continued**: the quiver as gauged $\mathcal N=2$ SYK (random $C_{abc}$, flavour-melonic SD equations + holonomy); super-Schwarzian and chaos exponent at large $p$; check against the $1/p$ terms of $F^*(p)$. Check melonic dominance with $p^3$ shared couplings.
+  - [ ] More coupling seeds at $(2,3)$ for concentration and chaos (about 8.5 GB peak at $k=15$).
   - [ ] Monte Carlo thermodynamic integration in $p$ from the exact $p=2$ point, testing the finite-$n$ predictions at $n=6$–$12$ (even $p$ first; odd $p$ needs the sign average $\langle\sigma^p\rangle$).
   - [ ] Odd-$p$ sign: bound or measure the cancellation from sign-changing configurations (the $p=3$ arc gap is 0.039 rad).
   - [ ] Other irreps at $(2,2)$.

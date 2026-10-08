@@ -139,6 +139,23 @@ Sub-questions:
     - $(4,3)$: predicted $22.69$, exact $22.97$; $F^*n^2$ alone gives 19.80.
     - Predictions for $p=3$: $\ln|I_0|\approx47.7$, $82.6$, $127.3$ at $n=6,8,10$.
   - **Open.**
-    - Concentration at large $n$, via the refined (R-charge) index saddle: concentration means zero curvature in $\ln|y|$.
+    - ~~Concentration at large $n$, via the refined (R-charge) index saddle~~ **(withdrawn 2026-10-08d: no R-charge refinement is protected on singlets).**
     - A Monte Carlo test of the finite-$n$ predictions.
     - The odd-$p$ sign: the $p=3$ arc gap is only 0.039.
+- 2026-10-08d (**what can test the remaining properties**; `research/notes/quiver_project.md` §9, report `research/pdfs/quiver_progress_report.pdf`).
+  - **No protected R-charge refinement on singlets.** $\mathrm{Tr}_{\rm sing}(-1)^ky^{k/3}$ is protected only at $y=1$. $I_0$ is the gauged model's only index, and its sign, which always matches half filling, is all it says about where the BPS states sit.
+  - **Fortuity follows from concentration.** The half-filling degree moves by $3p(2n+1)/2$ per unit of rank, so vanishing of the rank-$(n+1)$ singlet cohomology at $k_*(n)$ makes every rank-$n$ class fortuitous. The $(2,2)$ obstruction is already complete in the ordinary sense.
+  - **Exact reach** (degree-resolved singlet counts, `scripts/quiver_singlet_series.py`): $(3,2)$ is the only next-rank point (558,304 singlets at half filling; 3,494 at $k=12$). At $(3,3)$ there are $1.2\times10^8$ singlets at $k=18$ and $10^{12}$ at half filling, so for $p=3$, $n=2$ is the last exact rank.
+  - **Open, in priority order:**
+    - a singlet-adapted basis (the $(3,2)$ laboratory; the $(2,3)$ BPS vectors for BPS chaos and fortuity);
+    - bootstrap certificates at $(3,3)$ ($k=18$ for fortuity, $k\le36$ for concentration);
+    - large-$p$ gauged-SYK analytics for the super-Schwarzian.
+- 2026-10-08e (**steps 1 and 3 started**; notes §§10–11, D19–D20).
+  - **Step 1, singlet basis.** A Schur–Weyl ($S_m$ Fourier) basis makes the singlet sector native: finite-$n$ relations become $\ell(\lambda)\le n$, statistics become edge sign projections, and $Q$ becomes Gelfand–Tsetlin inclusions.
+    - Exact against every $n=2$ datum.
+    - At $(3,2)$ there are no BPS singlets for $k\le21$. So all 90 $(2,2)$ classes are fortuitous to all orders, and concentration at the next rank awaits only $k=24$.
+    - The $p=2$ spectrum is even less random-matrix-like at $n=3$ ($\langle r\rangle=0.386$).
+  - **Step 3, large $p$.**
+    - At large $p$ the quiver is three-species $\mathcal N=2$ SYK with $N_{\rm eff}=3pn^2$, and the index holonomy is the $\mathbb Z_3$ twist (D19).
+    - At $n=1$ (the large-$p$ test bed): even $p$ concentrates exactly and the multiplet sectors are orthogonal-class chaotic. But the Turiaci–Witten edges are not reached by $3p\le24$ fermions.
+    - Odd $p$ is governed by a symmetric or antisymmetric middle form (mod-2 structure), and a zero index does not mean no BPS states.

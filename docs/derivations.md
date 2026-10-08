@@ -1442,3 +1442,132 @@ formula gives $27$ states at $E=1$ and $9$ at $E=2$, and the computation finds $
   even $p$.
 - *Test at $(4,3)$.* $F^*n^2=19.80$ alone; the corrected Laplace estimate is $22.69$; the exact value is $22.97$. So the
   finite-$n$ evaluation of the same saddle family is within 25% of $|I_0(4,3)|=9.43\times10^9$.
+
+## D20. A singlet-adapted basis for the quiver from Schur–Weyl duality (2026-10-08)
+
+**Status.** Derived here and validated numerically. Code: `src/quiver_singlet_basis.py`; validation: quiver note
+§11.
+
+**Setup.** A singlet of degree $k=3m$ has $m$ letters on each edge (edge $v\to v+1$ carries $A,B,C$ for $v=0,1,2$).
+At node $v$ the node-$v$ indices of the $m$ out-letters (on edge $v\to v+1$) are contracted with those of the $m$
+in-letters (on edge $v-1\to v$) by a permutation $\sigma_v\in S_m$. A singlet is therefore a function $x$ on $S_m^3$.
+Letters on an edge are ordered canonically: flavour 1 first, then flavour 2, and so on. The remaining freedom is the
+relabelling group $H_e=S_{r_{e,1}}\times\dots\times S_{r_{e,p}}$, and fermionic states obey
+$|Y\rangle=\mathrm{sgn}(h)\,|hY\rangle$.
+
+**Derivation.**
+1. *Relabellings.*
+   - Relabelling the out-letters of node $v$ by $h$ sends $\sigma_v\to\sigma_vh^{-1}$; relabelling its in-letters by
+     $g$ sends $\sigma_v\to g\sigma_v$.
+   - In Fourier space, $\hat X_{v,\lambda}=\sum_\sigma x_v(\sigma)\rho_\lambda(\sigma)$ with Young's orthogonal form
+     (real orthogonal). In-letters then act on the row index of $\hat X_v$ and out-letters on the column index, both
+     by $\rho_\lambda(h)$.
+   - So edge $e=v\to v+1$ lives on (column of node $v$)$\otimes$(row of node $v+1$), and $H_e$ acts diagonally there.
+2. *Fock inner product.*
+   - Wick contraction gives
+     $\langle\sigma|\tau\rangle=\sum_{\alpha\in\prod_eH_e}\mathrm{sgn}(\alpha)\prod_vn^{c(\sigma_v^{-1}\alpha_{\rm in}\tau_v\alpha_{\rm out}^{-1})}$,
+     where $c$ counts the cycles of the colour-index loops. Repeated modes cancel in pairs under the sign sum.
+   - Use Schur–Weyl, $n^{c(\pi)}=\sum_\lambda D_\lambda(n)\chi_\lambda(\pi)$ with
+     $D_\lambda(n)=\prod_\square(n+c(\square))/h(\square)$, which vanishes for more than $n$ rows. Then
+     $$\langle X|Y\rangle_{\rm Fock}=\prod_e|H_e|\sum_{\lambda_0,\lambda_1,\lambda_2}\prod_vD_{\lambda_v}(n)\;\big\langle\hat X,P\hat Y\big\rangle_{\rm HS},$$
+     where $P=\otimes_eP_e$ projects each edge onto the sign-isotypic subspace of $H_e$.
+   - Hence the singlet space of degree $3m$ is
+     $$\bigoplus_{\lambda_v\vdash m,\ \ell(\lambda_v)\le n}\ \bigoplus_{r_e}\ \bigotimes_eE(\lambda_v,\lambda_{v+1};r_e),\qquad
+     E(\lambda,\mu;r)=\big(V_\lambda\otimes V_\mu\big)^{H_r,\,\mathrm{sgn}},$$
+     with $\dim E=\sum_{\nu,\beta,\dots}c^\lambda_{\nu\beta\dots}c^\mu_{\nu'\beta'\dots}$. These dimensions reproduce the
+     transfer-matrix counts.
+   - The basis is orthogonal in the Fock inner product, with norm factor $\prod_e|H_e|\prod_vD_{\lambda_v}(n)$. The
+     finite-$n$ trace relations are exactly the condition $\ell(\lambda_v)\le n$.
+3. *The supercharge.*
+   - $Q_{abc}=\mathrm{Tr}(A^aB^bC^c)$ appends one letter per edge and closes a new trace. At each node this is
+     $\sigma\to\sigma\oplus(\text{fixed point})$, i.e. $\hat X\to J\hat XJ^T$, where $J:V_\lambda\to V_{\lambda+\square}$
+     is the Gelfand–Tsetlin inclusion that appends the new entry to each tableau.
+   - The new letter is then relabelled from position $m$ to the end of its flavour block $f$. In Fourier space this
+     is the product of the corresponding adjacent transpositions, with sign $(-1)^{\#\text{positions passed}}$.
+   - With the canonical operator order (A-block, B-block, C-block) the reordering sign is $+1$.
+   - Between Fock-orthonormal bases the block of $Q_{abc}$ is
+     $\sqrt{g(S')/g(S)}\ \otimes_e\big(B'^T_eM_eB_e\big)$, with $g$ the norm factor above. It is a Kronecker product
+     of three edge maps, so $Q$ is applied without ever forming it.
+4. *Edge spaces.*
+   - The first flavour block is solved analytically. The Gelfand–Tsetlin basis restricts to
+     $S_{r_1}$ as $V_\nu\otimes\mathrm{Skew}(\lambda/\nu)$, and the sign-isotypic vector of $V_\nu\otimes V_{\nu'}$ is
+     $\sum_U\mathrm{sgn}(\mathrm{rowword}\,U)\,U\otimes U^t/\sqrt{f_\nu}$. This holds because transposition negates the
+     contents, so the sign must flip under each non-adjacent swap.
+   - The remaining blocks are handled on the skew modules with the antisymmetriser
+     $A_r=X_2\cdots X_r/r!$, $X_k=1-\sum_{j<k}(j\,k)$, applied to random blocks of adaptive width.
+
+**Checks.**
+- The dimensions per degree equal $n(k)$ exactly at $(2,2)$ (all degrees), $(2,3)$ (all degrees, $300\,584$ at half
+  filling) and $(3,2)$ (all degrees up to half filling, $558\,304$).
+- $Q^2=0$ to $10^{-13}$.
+- The $(2,2)$ and $(2,3)$ pair spectra (11 pairs) agree with the stored Fock-space spectra level by level, to
+  $3\times10^{-15}$ relative.
+- The 90 BPS states at $(2,2)$, $k=12$, are recovered.
+- Cost at $(3,2)$: 191 sectors at half filling; one application of $Q$ takes 0.5 s and 0.5 GB.
+
+## D19. The large-$p$ limit: the quiver as gauged three-species $\mathcal N=2$ SYK (2026-10-08)
+
+**Status.**
+- *Derived at leading order in $1/p$* with the standard disorder-averaged bilocal ($G$–$\Sigma$) argument. That
+  argument is not rigorous here, because the couplings are structured (see the caveats).
+- *Exact for the index:* the large-$p$ expansion of the index saddle (D18).
+- *Numerical tests:* $n=1$, $p\le8$ (quiver note §10).
+
+**Setup.** Take $C_{abc}$ independent Gaussian with $\langle|C_{abc}|^2\rangle=J/(p^2n)$. Then
+$\langle H\rangle\sim p^3n^3\cdot J/(p^2n)=Jpn^2$, extensive in the number $3pn^2$ of fermions. At $n=1$ this is the
+normalisation $\langle C^2\rangle=1/p^2$ used in the numerics.
+
+**Derivation.**
+1. *Bilocal action.*
+   - Averaging over $C$ produces
+     $$\frac J{p^2n}\sum_{abc}\iint\Big[\sum_{ijl}A^a_{ij}B^b_{jl}C^c_{li}\Big](\tau)\,\Big[\cdots\Big]^\dagger(\tau').$$
+   - With flavour-averaged, colour-matrix-valued bilocals $G_A(\tau,\tau')_{ij,i'j'}=\frac1p\sum_a\bar A^a_{ij}(\tau)A^a_{i'j'}(\tau')$
+     (and likewise $G_B$, $G_C$), the interaction becomes $p\cdot\frac Jn\sum G_AG_BG_C$, colour-contracted. The
+     kinetic terms are also $O(p)$.
+   - The action is therefore $p\,S[G,\Sigma]$, and at large $p$ with $n$ fixed the theory sits at a saddle point:
+     melonic in the flavour indices, with the colour structure carried along by the vertex.
+2. *Saddle equations.*
+   - By $U(n)^3$ symmetry, $G_{A,ij,i'j'}=\delta_{ii'}\delta_{jj'}G_A$, and the colour sum in each melon gives $n$.
+   - The result is $\Sigma_A=JG_BG_C$ and cyclic permutations. These are the Fu–Gaiotto–Maldacena–Sachdev equations
+     for $\hat q=3$ with three species, equal at the symmetric point.
+   - The IR is the $\mathcal N=2$ super-Schwarzian with $N_{\rm eff}=3pn^2$ fermions: ground-state entropy
+     $N_{\rm eff}\ln(2\cos\frac\pi6)$, Schwarzian coupling and gap scale $\propto N_{\rm eff}/J$ and $J/N_{\rm eff}$,
+     and maximal chaos.
+3. *Holonomies.*
+   - The singlet projection integrates over $U_v$, which twist the bifundamentals' boundary conditions by
+     $e^{i(\theta_{v,i}-\theta_{v+1,j})}$.
+   - At large $p$ the twisted free energy is $O(pn^2)$ while the Haar measure is $O(n^2)$, so the holonomies sit at an
+     extremum of the twisted SYK free energy.
+   - For the index this is the $\mathbb Z_3$ twist $e^{\mp2\pi i/3}$: every fermion carries
+     $|1-e^{-2\pi i/3}|=\sqrt3$, giving $\ln|I_0|\to\frac{3p}2\ln3\,n^2$, i.e. $\ln(2\cos\frac\pi6)$ per fermion.
+   - Gaussian fluctuations of the arcs reproduce exactly the subleading terms $-\frac32\ln\frac{2p}3-\frac94$ of
+     $F^*(p)$ (D18: semicircles of radius $\sqrt{6/p}$).
+   - For the thermal partition function at fixed $\beta$ the leading holonomy is instead $U_v\approx1$, the count saddle,
+     with $3p\ln2\,n^2$ at $\beta=0$. How the holonomy distribution interpolates between the two in the near-BPS regime
+     is open.
+4. *What this predicts.* At large $p$ the singlet sector should show the $\mathcal N=2$ SYK phenomenology:
+   - the BPS entropy fraction $F^*/G^*\to\ln\sqrt3/\ln2$ (exact, D18);
+   - a near-BPS gap $\propto J/(pn^2)$;
+   - $E_0(q)\propto q^2$ with $\hat q=3$ (Turiaci–Witten), and random-matrix statistics in each multiplet sector;
+   - for odd $pn^2$, a gapless $q=0$ multiplet sector, with density $\rho\propto1/\sqrt E$ in the Turiaci–Witten
+     classification.
+
+**Caveats.**
+- Each coupling $C_{abc}$ is shared by $n^3$ colour triples. The disorder average connects vertices with equal
+  flavours regardless of colour. At fixed $n$ the flavour indices behave as in multi-flavour SYK, so non-melonic
+  flavour contractions should be $1/p$-suppressed, but this has not been checked diagram by diagram.
+- The limit is large $p$ at fixed $n$. The matrix (planar) limit is large $n$ at fixed $p$, which is a different
+  regime. The smoothness of $F^*(p)$ for $p>2$ (D18) only suggests that the two are connected.
+
+**Numerical status** ($n=1$, Gaussian couplings; quiver note §10).
+- Even $p=2,4,6$: the BPS states sit only in the central block, with counts $6,90,1680=|I_0|$. Concentration holds.
+- Odd $p$: $p=3$ has $2+2$ BPS states in the two central blocks and $p=5$ has none. In both, the central $q=0$ pair is
+  nearly gapless (lowest level $0.0097$ and $5\times10^{-8}$), as the $q=0$ prediction above anticipates.
+- Statistics: pairs with $\gtrsim3000$ levels give $\langle r\rangle=0.524\pm0.005$ at $p=6$, close to the orthogonal
+  value $0.531$.
+- Edges: $E_0(1.5)=1.062,\ 0.246,\ 0.112,\ 0.049$ at $p=2,4,6,8$, falling faster than $1/p$. The edge ratio
+  $E_0(4.5)/E_0(1.5)=12.0,\ 15.1,\ 17.1$ ($p=4,6,8$) moves away from the Turiaci–Witten value 9: pre-asymptotic at
+  $3p\le24$ fermions.
+- $p=7$ has no BPS states outside the central blocks. Its 8919-level pair has $\langle r\rangle=0.5291\pm0.0030$
+  (orthogonal class 0.5307).
+- $p=8$ has none outside the central block (the index requires 34650 there).
