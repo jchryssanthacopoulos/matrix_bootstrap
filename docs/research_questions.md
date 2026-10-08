@@ -120,3 +120,10 @@ Sub-questions:
     - with the scale fixed at $|q|=1.5$, the predicted $|q|=4.5$ counts exceed the measured ones by orders of magnitude.
     - This is expected, since singlet sector sizes change by factors of 3–4 per $\Delta k=3$ at $n=2$. A genuine test needs larger $n$.
   - **BPS chaos (projected operators) at $(2,2)$:** inconclusive (90 states).
+- 2026-10-08b (**is the quiver's singlet BPS entropy macroscopic?** `research/notes/quiver_project.md` §7).
+  - Method: exact singlet indices from an edge transfer-matrix recursion over $U(n)$ irreps (Littlewood–Richardson by exact quadrature), validated against all earlier values.
+  - **$p=2$ (hidden $\mathcal N=4$):** $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ for $n=1..4$, growth $\sim27^n$, so not macroscopic.
+  - **$p\ge3$ grows faster:** $|I_0(4,3)|=9.43\times10^9$, about 550× the $p=2$-type value; at $p=4$ the per-mode index entropy flattens towards about 0.18–0.24.
+  - **Large-$n$ heuristic:** the uniform eigenvalue saddle of the index matrix integral has a Hermitian kernel with eigenvalues $1+p$, $1-p/2$, $1-p/2$, so it is stable for $p<2$, marginal at $p=2$ and unstable for $p>2$ (Hagedorn-type, Aharony et al. hep-th/0310285). This is consistent with sub-macroscopic $p=2$ and macroscopic $p\ge3$.
+  - Not established: the $n^2$ coefficient (needs the deconfined saddle), $n\ge5$ at $p=2$, and $n\ge6$ at $p=3$.
+  - **Consequence:** $p=3$ is the black-hole candidate; $p=2$ is a structured corner.

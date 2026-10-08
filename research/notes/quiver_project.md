@@ -8,7 +8,7 @@
 | Concentration (singlet sector) | **verified** at $(2,2)$ (exact ranks); **numerical** at $(2,3)$ | 90 at $k=12$; 1680 at $k=18$ (§5) |
 | Concentration at $n=3$ | **open** | $\vert I_0\vert(3,2)=1680$ exactly, with a sign consistent with half filling; zero-weight sectors of about $5\times10^{10}$ block direct tests |
 | $p=1$ | trivial | every per-irrep index is $\pm1$; singlet index 0 |
-| Macroscopic BPS entropy | **open** | singlet index 90 → 1680 ($n=2\to3$, $p=2$); two points |
+| Macroscopic BPS entropy | **$p=2$: no** (exact index $(3n)!/(n!)^3$, $n\le4$); **$p\ge3$: plausibly yes** (super-linear growth; large-$n$ heuristic: uniform saddle unstable for $p>2$) | §7 |
 | Fortuity | **verified** at leading order at $(2,2)$, ordinary sense | 90/90 obstructed (§3); expected for this class; refined (Choi–Choi–Kim) criterion not checked |
 | Chaos (non-BPS or BPS) | **untested** | — |
 | Near-BPS gaps / super-Schwarzian | **untested**; one hint | the lowest penalised singlet eigenvalues fall to 0.054 next to the window at $(2,3)$ |
@@ -404,3 +404,75 @@ Lowest singlet multiplet energy $E_0$ of each $Q$-pair. Sources:
 - (c) the spacing distribution with local unfolding over ±8 levels. A global polynomial unfolding gave a spurious
   Poisson-like shape, so the global method is not used;
 - (d) the counting-function test above.
+
+## 7. Is the singlet BPS entropy macroscopic? Index growth with $n$ (2026-10-08)
+
+**Motivation.** The first singlet indices all matched the $n=1$ quiver with $np$ flavours, i.e. Dixon's identity
+$\sum_m(-1)^m\binom{np}m^3=(-1)^{np/2}(3np/2)!/((np/2)!)^3$:
+$$|I_0(2,2)|=90,\qquad|I_0(2,3)|=|I_0(3,2)|=1680 .$$
+If that held generally, the singlet BPS entropy would grow only like $1.65\,np$, which is not macroscopic in $n^2$.
+
+**Method** (`src/quiver_index.py`, `scripts/quiver_index_dixon.py`).
+- Only the index is needed, and $I_0=n(t=-1)$. Regrouping the dual-Cauchy sum by the irreps at each node gives
+  $$I_0=\mathrm{Tr}\big[R^{(p)}(-1)^3\big],\qquad R^{(q)}=\sum_\lambda(-1)^{|\lambda|}L_\lambda^TR^{(q-1)}L_{\lambda^T},$$
+  where $L_{\mu\lambda\nu}=c^\nu_{\mu\lambda}$ are Littlewood–Richardson coefficients (exact torus quadrature,
+  rounding $\le2\times10^{-13}$). $R$ is the edge transfer matrix over $U(n)$ irreps, adding one flavour at a time.
+- Exact integer arithmetic throughout.
+- **Validation.** Reproduces every earlier value (dual-Cauchy route) and the direct weight counts at $n=2$. The total
+  singlet counts from the same recursion at $t=+1$ reproduce 1,274, 889,040 and 2,115,632.
+
+**Results** (`results/data/quiver_singlet_index_dixon.json`).
+
+| $(n,p)$ | $I_0$ | Dixon$(np)$ | total singlets | $\ln\vert I_0\vert$ per mode | ln(singlets) per mode |
+|---|---|---|---|---|---|
+| (2,2) | 90 | 90 | 1 274 | 0.187 | 0.298 |
+| (3,2) | −1 680 | −1 680 | 2 115 632 | 0.138 | 0.270 |
+| **(4,2)** | **34 650** | **34 650** | $5.59\times10^{10}$ | 0.109 | 0.258 |
+| (2,3) | 1 680 | −1 680 | 889 040 | 0.206 | 0.380 |
+| (3,3) | 0 | 0 | $4.90\times10^{12}$ | — | 0.361 |
+| **(4,3)** | **9 434 197 872** | 17 153 136 | $1.08\times10^{22}$ | 0.159 | 0.352 |
+| (1,4) | 90 | 90 | 346 | 0.375 | 0.487 |
+| (2,4) | 519 750 | 34 650 | $9.70\times10^{8}$ | 0.274 | 0.431 |
+| (3,4) | 199 090 719 360 | 17 153 136 | $2.99\times10^{19}$ | 0.241 | 0.415 |
+| (2,5) | 95 866 056 | −756 756 | $1.37\times10^{12}$ | 0.306 | 0.466 |
+| (2,6) | 28 686 212 100 | 17 153 136 | $2.29\times10^{15}$ | 0.334 | 0.491 |
+| (2,1), (3,1), (4,1) | 0 | −6, 0, 90 | | | |
+
+**Findings.**
+1. **$p=2$ (the hidden-$\mathcal N=4$ case) has a closed form, verified for $n=1,\dots,4$.**
+   $$I_0(n,2)=(-1)^n\frac{(3n)!}{(n!)^3}=I_0(1,2n).$$
+   - Growth $\sim27^n$: $\ln|I_0|$ per mode falls like $1/n$ (0.187 → 0.138 → 0.109). **Not macroscopic.**
+   - Since $(2,2)$ is concentrated, the count there equals the index. If concentration persisted, the $p=2$ singlet
+     BPS entropy would be $\approx3.3n$, against $6n^2$ fermion modes.
+   - Unproved, and $n\ge5$ is not computed (the quadrature for $U(5)$ is too heavy).
+2. **The general "depends only on $np$" pattern is false.** It holds only at $p=2$ and $n=1$; the $(2,3)$ match was a
+   coincidence. Odd $np$ gives $I_0=0$ trivially: particle–hole symmetry maps $m\to pn^2-m$ with sign $(-1)^{pn^2}$.
+3. **$p\ge3$ grows faster, consistent with macroscopic entropy; not established.**
+   - $p=4$: $\ln|I_0|=4.50,\ 13.16,\ 26.02$ ($n=1,2,3$). The per-mode index entropy flattens, 0.375 → 0.274 → 0.241;
+     the quadratic fit $\ln|I_0|\approx2.1n^2+2.4n$ gives an asymptote of 0.175 per mode.
+   - $p=3$: only even $n$ are informative. $n=2,4$ give 0.206 and 0.159 per mode. Two points cannot distinguish $n^2$
+     growth with a large linear correction from slower growth; $(6,3)$ is out of reach.
+   - At fixed $n=2$ the per-mode index entropy rises with $p$ (0.19 → 0.33), approaching the singlet-sector entropy
+     (ratio 0.63 → 0.68): **large $p$ is macroscopic** (the SYK-like direction).
+4. **Large-$n$ heuristic (derived here, not rigorous).**
+   - **Setup.** At $t=-1$ the singlet index is the integral over $U(n)^3$ of $\prod_e\det(1-U_v\otimes U_{v+1}^\dagger)^p$.
+     In the moments $u_{v,m}=\mathrm{Tr}\,U_v^m$, the Haar measure contributes $e^{-\sum_m|u_{v,m}|^2/m}$
+     (Diaconis–Shahshahani), and each edge contributes $e^{-p\sum_m u_{v,m}\bar u_{v+1,m}/m}$. The quadratic kernel is
+     $K_m=\tfrac1m(I+pP)$, with $P$ the 3-cycle permutation.
+   - **Criterion.** Its Hermitian part has eigenvalues $1+p$, $1-p/2$, $1-p/2$. So the uniform (confined) eigenvalue
+     saddle is **stable for $p<2$, marginal at $p=2$, unstable for $p>2$**. There is no fugacity suppression at
+     $t=-1$, so the instability affects every $m$ equally.
+   - **Analogy.** This is the Hagedorn/deconfinement criterion of Aharony–Marsano–Minwalla–Papadodimas–Van Raamsdonk
+     (hep-th/0310285; Chen 2025 ref. [29]). An unstable uniform saddle signals $\ln I_0\propto n^2$.
+   - **Consistency with the data.** It matches $p=1$ (index 0), $p=2$ (marginal, $e^{O(n)}$ with an exact closed
+     form) and $p\ge3$ (super-linear).
+   - **Not done.** Solving the deconfined saddle for the coefficient of $n^2$, to compare with $\approx2.1$ at $p=4$ and
+     $\approx1.0$–$1.3$ at $p=3$.
+
+**Consequences for the project.**
+- The $p=2$ quiver, which has hidden $\mathcal N=4$, concentration at $n=2$, and an exact index, has sub-macroscopic
+  BPS entropy at large $n$. It is a structured, solvable-looking corner, not a black-hole model.
+- **$p=3$ remains the candidate.** It has $\mathcal N=2$, chaotic multiplet statistics, concentration at $n=2$, small
+  near-BPS gaps, and index growth consistent with $e^{cn^2}$.
+- Concentration at $n\ge3$ for $p=3$ is beyond exact methods; the bootstrap (or a saddle-point analysis of
+  refined indices) is the remaining route.

@@ -76,7 +76,9 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [ ] Derive the hidden $\mathcal N=4$ of the $p=2$ quiver analytically; test $n$-dependence; check for an $SU(2)_R$.
   - [ ] Find the residual symmetry or structure behind the non-random-matrix $(2,2)$ statistics (coupling-independent degeneracies); higher-degree conserved-charge search.
   - [ ] BPS chaos at $(2,3)$ (needs the 1680 BPS vectors at $k=18$; out of reach with the current method).
-  - [ ] Explain the coincidences $|I_0|(2,3)=|I_0|(3,2)$, $|I_0|(1,4)=|I_0|(2,2)$; fix memory for $p\ge4$.
+  - [x] Index growth (2026-10-08): $p=2$ closed form $(-1)^n(3n)!/(n!)^3$ ($n\le4$), not macroscopic; $p\ge3$ super-linear; the coincidences explained ($p=2$ law; $(2,3)$ accidental).
+  - [ ] Prove $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ (reduction of the three-node unitary integral to the abelian case at the marginal point?).
+  - [ ] Solve the deconfined large-$n$ saddle of the index integral for $p\ge3$ and compare with the measured $\ln I_0$.
   - [ ] Other irreps at $(2,2)$.
   - [ ] Singlet ED at $(2,2)$: near-window gaps and $Q$ singular-value statistics.
   - [ ] Planar singlet bootstrap of the quiver.
