@@ -38,7 +38,10 @@ a triangle quiver, each in $p$ flavours, with the cubic supercharge $Q=\sum C_{a
 because bifundamental matter has no zero weights, which removes the mechanism that makes the BPS window of adjoint
 matrix models grow with the rank. In the gauge-singlet sector, exact cohomology at $(n,p)=(2,2)$ and Lanczos
 diagonalisation at $(2,3)$ show that all singlet BPS states, 90 and 1680 of them, sit at half filling, and all 90
-classes at $(2,2)$ are fortuitous. At $p=3$ the singlet multiplet spectrum has
+classes at $(2,2)$ are fortuitous. A Schur--Weyl singlet basis extends concentration to $(3,2)$, and a semidefinite
+bootstrap of the singlet sector, validated against all exact data, certifies that the $(3,3)$ model has no singlet
+BPS states in degrees $k\le21$, which makes all 1680 classes at $(2,3)$ fortuitous as well. At $p=3$ the singlet
+multiplet spectrum has
 Gaussian-orthogonal level statistics over $10\,024$ levels and small gaps only next to the BPS degree, while $p=2$
 turns out to be special, with a hidden $\mathcal N=4$ supersymmetry on singlets and a spectrum that is not
 random-matrix like. We then show that the singlet index is exactly the partition function of a three-species log
@@ -47,8 +50,8 @@ large-$n$ saddle gives $\ln|I_0|=F^*(p)\,n^2+O(\ln n)$ with $F^*>0$ exactly when
 $F^*=1.2373$, which is $41\%$ of the singlet log-count, and as $p\to\infty$ the BPS entropy per fermion approaches
 the $\mathcal N=2$ SYK value $\frac12\ln3$. A parameter-free finite-$n$ evaluation of the same saddle reproduces all
 27 non-zero exact indices and singlet counts to within $0.6$ in the logarithm. The $p\ge3$ quiver therefore has
-macroscopic BPS entropy, concentration and chaos at the sizes we can reach; concentration at $n\ge3$, fortuity at
-$p\ge3$ and genuine near-BPS scaling are the open questions, and we describe how to attack them.
+macroscopic BPS entropy, concentration, fortuity and chaos at the sizes we can reach; concentration near half filling
+at $(3,3)$ and beyond, and genuine near-BPS scaling, are the open questions, and we describe how to attack them.
 \end{minipage}\end{center}
 \vspace{8pt}
 
@@ -81,8 +84,9 @@ place it in the literature in Section~\ref{sec:lit}. Section~\ref{sec:bps} prese
 on BPS states at small rank: singlet indices, concentration at $(n,p)=(2,2)$ and $(2,3)$, and a fortuity test.
 Section~\ref{sec:spectrum} turns to the non-BPS singlet spectrum, where $p=3$ is chaotic and $p=2$ has a hidden
 extended supersymmetry. Section~\ref{sec:largen} contains the main analytic result: the singlet index is the
-partition function of a three-species log gas, which we solve at large $n$. Section~\ref{sec:prospects} assesses
-the prospects of the $p\ge3$ model and lists the next steps.
+partition function of a three-species log gas, which we solve at large $n$. Section~\ref{sec:boot} goes beyond
+$n=2$, with a Schur--Weyl singlet basis at $(3,2)$ and a semidefinite bootstrap of the singlet sector at $(3,3)$.
+Section~\ref{sec:prospects} assesses the prospects of the $p\ge3$ model and lists the next steps.
 
 \section{The model}\label{sec:model}
 
@@ -312,10 +316,10 @@ $k=12,24$, while at $p=2$ it never falls below $95.6$.}
 \label{fig:concentration}
 \end{figure}
 
-A direct test at $n=3$ is out of reach for now. At $(3,2)$ the zero-weight sectors near half filling hold
-$5\times10^{10}$ states, although the singlet subspaces are only about $5\times10^5$; what is missing is a cheap
-explicit basis of singlets. The index there, $I_0(3,2)=-1680$, has the sign that concentration at half filling
-($k=27$, $m=9$) would give, which is consistent with concentration but not evidence for it.
+Zero-weight methods stop at $n=2$. At $(3,2)$ the zero-weight sectors near half filling hold $5\times10^{10}$
+states, although the singlet subspaces are only about $5\times10^5$, so what is needed is an explicit basis of
+singlets. Section~\ref{sec:boot} describes one, and the bootstrap that takes over where even the singlet spaces are
+too large.
 
 \subsection{\texorpdfstring{Fortuity at $(2,2)$}{Fortuity at (2,2)}}\label{sec:fortuity}
 
@@ -338,7 +342,7 @@ the width of any concentrated window. A rank-$n$ class of degree $k_*(n)$ can on
 the same degree at rank $n+1$, so concentration at rank $n+1$ implies that every singlet BPS class at rank $n$ is
 fortuitous; in this sense fortuity follows from concentration, much as in Chang--Chen--Sia--Yang's argument for
 generic SYK \cite{CCSY}. At $(2,2)\to(3,2)$ the relevant rank-3 singlet space, at $k=12$, has only $3\,494$ states,
-so the statement can be checked directly. The $(2,2)$ test itself uses one coupling and floating-point ranks, and it
+and Section~\ref{sec:boot} checks the statement directly. The $(2,2)$ test itself uses one coupling and floating-point ranks, and it
 is in the ordinary sense. Under the refined criterion of \cite{CCK},
 classes of the form (determinant ground state)$\times$($n$-independent excitation) would count as generalised
 monotones; with fermionic letters many determinants vanish, and whether any of the 90 classes is of that form has
@@ -391,7 +395,8 @@ corresponding antiunitary symmetry for complex couplings) is resolved, the level
 random-matrix like in any symmetry class, with coupling-independent exact degeneracies, and within the span of all
 gauge-invariant operators with at most four fermions the commutant of $H$ on the $k=9$ singlets is just $\{1,H\}$. At $p=3$ the
 same search finds only $Q$. The hidden supersymmetry is plausibly tied to the pseudoreality of the $SU(2)$ flavour
-doublet, but we have not derived it, and we have checked it only at $n=2$.
+doublet, but we have not derived it; it holds at $n=2$ and, on every singlet degree below half filling, at $n=3$
+(Section~\ref{sec:boot}).
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.98\textwidth]{report_figs/quiver_step1.pdf}
@@ -578,6 +583,186 @@ those at even $p$. Finally, $|I_0|$ is a lower bound on the number of singlet BP
 absence of cancellations between degrees, for example under concentration; and for odd $pn^2$ the index vanishes and
 says nothing about that number.
 
+\section{\texorpdfstring{Beyond $n=2$: a Schur--Weyl basis and a singlet bootstrap}{Beyond n=2: a Schur-Weyl basis and a singlet bootstrap}}\label{sec:boot}
+
+\subsection{Exact methods at rank three}
+
+Two tools take us past $n=2$. The first is a singlet-adapted basis. By Schur--Weyl duality a singlet of degree $3m$
+is a triple of elements of the group algebra of $S_m$, one for each node, recording how the $m$ letters leaving the
+node are contracted with the $m$ letters arriving at it. In Young's orthogonal form the fermionic relabellings become
+sign projections on each edge, the finite-$n$ trace relations become the condition that every Young diagram has at
+most $n$ rows, and $Q$ becomes a Kronecker product of Gelfand--Tsetlin inclusions, which is applied without ever
+building Fock vectors. The basis reproduces every singlet count and every stored $n=2$ spectrum. At $(3,2)$ Lanczos
+diagonalisation in this basis finds no singlet BPS states in any degree $k\le24$, so all $|I_0|=1680$ of them sit at
+half filling, $k=27$: in the $p=2$ corner concentration survives the step to the next rank. Since the rank-3
+cohomology vanishes at $k=12$, the argument of Section~\ref{sec:fortuity} makes all 90 classes at $(2,2)$ fortuitous
+to all orders, and the hidden $\mathcal N=4$ of Section~\ref{sec:spectrum} holds at $n=3$ on every singlet degree
+below half filling. At $p=3$, however, the basis reaches $(3,3)$ only for $k\le12$, where it again finds no BPS
+singlets (Table~\ref{tab:boot33}), because the singlet dimension grows to $1.2\times10^8$ at $k=18$ and $10^{12}$ at
+half filling. Nor is there an algebraic shortcut. Upper semicontinuity bounds the generic cohomology by that of any
+special coupling, but the natural special coupling $C_{abc}=\delta_{ab}\delta_{bc}$, for which the singlet complex is
+the gauge-invariant part of a tensor power of the $p=1$ complex, is not concentrated even at $(2,3)$, where its
+singlet BPS states spread over the degrees $12\le k\le24$.
+
+\subsection{The semidefinite program}
+
+The second tool is a semidefinite bootstrap of the singlet sector, built on the trace-word algebra of \cite{R2}.
+Write $\Psi_{e,f}$ for the matrix of creation operators of edge $e$ (the fields $A$, $B$, $C$ for $e=0,1,2$) and
+flavour $f$, whose row index lives at node $e$ and column index at node $e+1$, and $\bar\Psi_{e,f}$ for the matrix of
+adjoints, $(\bar\Psi_{e,f})_{yx}=(\Psi_{e,f})^\dagger_{xy}$. The only non-vanishing anticommutator contracts two
+indices of the same node, so products of these matrices are brought to a canonical form exactly as for the adjoint
+models, with a factor $n$ for every closed index loop. Gauge-invariant operators are products of traces of closed walks
+on the triangle, and for a density matrix $\rho$ supported on singlets of degree $k=3m$ the expectation values
+$\phi(X)=\Tr\rho X$ of these products are the unknowns. With real couplings every such operator is a real matrix in the
+occupation basis and every eigenspace of $H$ has a real basis, so $\phi$ may be taken real, which halves the problem
+relative to the complex engine of \cite{R2}.
+
+Positivity enters through Gram matrices. For open words $W_a$, products of letters that form a walk from node $u$ to
+node $v$, and for traced closed walks $T_a$ together with the identity,
+\begin{equation}
+M_{ab}=\phi\big(\Tr W_a^\dagger W_b\big)-\frac{\delta_{uv}}{n}\,\phi\big(\Tr W_a^\dagger\,\Tr W_b\big)\succeq0,\qquad
+S_{ab}=\phi\big(T_a^\dagger T_b\big)\succeq0 .
+\label{eq:cones}
+\end{equation}
+$M$ is the Gram matrix of the vectors $(W_a)_{ij}\psi$ summed over the open indices, with the trace part removed when
+the word returns to its starting node. Words with different endpoints cannot be combined, and words with different
+edge charges have orthogonal images because $\rho$ has definite $N_A$, $N_B$ and $N_C$, so both matrices are block
+diagonal in these labels. The linear constraints are the normalisation $\phi(1)=1$; reality; the sector conditions
+$\phi((N_e-m)X)=0$ for the three edge numbers; the gauge conditions $\phi(\hat C_vX)=0$, where
+$\hat C_v=n\Tr X_v^2-(\Tr X_v)^2$ is $n$ times the $SU(n)$ Casimir of node $v$, built from its generator matrix
+$X_v=\sum_f(\Psi_{v,f}\bar\Psi_{v,f}+\bar\Psi_{v-1,f}\Psi_{v-1,f})$; and the equations of motion $\phi([H,X])=0$,
+which hold for any mixture of eigenstates. Minimising $\phi(H)$ subject to all of these gives a lower bound on the
+lowest singlet energy $E_0(k)$. For exclusion we add the BPS conditions
+\begin{equation}
+\phi(XQ)=\phi(QX)=\phi(X\bQ)=\phi(\bQ X)=\phi(XH)=\phi(HX)=0 ,
+\label{eq:bpsrows}
+\end{equation}
+which every BPS state satisfies. A singlet BPS state in degree $k$ would then supply a feasible $\phi$, so
+infeasibility proves $h^k_{\rm sing}=0$. We test it in two ways: through the margin $t^*$, the largest $t$ for which
+every Gram matrix can be made $\succeq t\,\mathbf 1$, with $t^*<0$ meaning infeasible; and through the pure feasibility
+problem, whose infeasibility comes with a Farkas certificate. Writing the problem as $Ax+s=b$ with $s$ in the product
+$K$ of a zero cone and the semidefinite cones, the certificate is a vector $y$ with $A^Ty=0$, $y\in K^*$ and
+$b\cdot y<0$. Exclusion at one coupling suffices: $h^k=\dim V_k-\mathrm{rk}\,Q_k-\mathrm{rk}\,Q_{k-3}$ is upper
+semicontinuous in $C$, so its vanishing at our integer couplings implies its vanishing for generic couplings.
+
+All results below are at what we call level 2: open words of length at most two, closed walks of length at most
+three, and constraints generated by operators of length at most four. At $p=3$ the largest Gram blocks then have 37,
+27 and 18 rows, and the exclusion problem has $1.6\times10^5$ unknowns and $1.2\times10^5$ equality constraints after
+the reality reduction. The interior-point solver Clarabel solves it in one to nine minutes at a peak of about 3~GB.
+Every family of constraints has been evaluated on exact functionals, computed from Fock-space states at
+$(n,p)=(1,2)$, $(1,3)$ and $(2,1)$, and holds to $10^{-15}$.
+
+\subsection{\texorpdfstring{Validation at $n=2$}{Validation at n=2}}
+
+Table~\ref{tab:bootn2} compares the bootstrap with the exact singlet spectra at $n=2$. There are no contradictions:
+no degree that carries BPS states is excluded, and every energy bound lies below the exact gap, by 17\% and 25\% at
+$k=3$ and by more towards the frontier. Level 2 excludes $k\le6$ at $(2,2)$ and $k\le9$ at $(2,3)$, in both cases
+half of the way to half filling. At $(2,3)$ it stops precisely where the exact gap collapses from $151$ to $0.33$, but
+at $(2,2)$ it also stops at $k=9$, where the gap is still $95.6$; we return to this below.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$(n,p)$ & $k$ & exact $E_0$ & bound on $E_0$ & margin $t^*$ & verdict\\
+\midrule
+$(2,2)$ & 3 & 546 & 455.1 & $-1.334$ & excluded\\
+ & 6 & 199.95 & 182.6 & $-0.508$ & excluded\\
+ & 9 & 95.56 & 0 & 0 & not excluded\\
+ & 12 & 0 (90 BPS states) & 0 & 0 & BPS degree, kept\\
+\midrule
+$(2,3)$ & 3 & 1506 & 1129.3 & $-1.342$ & excluded\\
+ & 6 & 575.23 & 253.7 & $-0.732$ & excluded\\
+ & 9 & 151.34 & 14.4 & $-0.163$ & excluded\\
+ & 12 & 0.3348 & 0 & 0 & not excluded\\
+ & 15 & 0.0539 & 0 & 0 & not excluded\\
+ & 18 & 0 (1680 BPS states) & 0 & 0 & BPS degree, kept\\
+\bottomrule
+\end{tabular}
+\caption{Validation of the level-2 singlet bootstrap against the exact singlet spectra at $n=2$, for the seed-3
+integer couplings used throughout. The bound is the minimum of $\phi(H)$ without the BPS conditions; the margin is
+computed with them, and $t^*=0$ stands for $|t^*|<10^{-6}$. Degrees above half filling follow by particle--hole
+symmetry.}
+\label{tab:bootn2}
+\end{table}
+
+\subsection{\texorpdfstring{Results at $(3,3)$}{Results at (3,3)}}
+
+At $(3,3)$ the problem is the same as at $(2,3)$ apart from the value of $n$ in its coefficients, and
+Table~\ref{tab:boot33} and Figure~\ref{fig:boot} give the results. Where exact values exist, $k\le12$, the energy
+bounds again lie below them. The margin falls almost linearly in $k$, in steps that shrink from $0.98$ to $0.85$, and
+crosses zero between $k=21$ and $24$. The solves at $k\ge24$, including the degrees next to half filling where BPS
+states may exist, are all feasible, as they must be if the method is sound. In the two decisive degrees, $k=18$ and
+$21$, the pure feasibility problem returns Farkas certificates whose dual semidefinite blocks are positive
+semidefinite, and the energy bounds there are positive as well.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{crcccccc}
+\toprule
+$k$ & $n(k)$ & exact $E_0$ & bound on $E_0$ & $t^*$ & $\|A^Ty\|/\|y\|$ & $b\cdot y/\|y\|$ & verdict\\
+\midrule
+3 & 27 & 6024 & 5457.3 & $-5.894$ & & & excluded\\
+6 & 702 & 4634.9 & 4139.9 & $-4.912$ & & & excluded\\
+9 & $18\,981$ & 3546.0 & 2824.4 & $-3.956$ & & & excluded\\
+12 & $460\,539$ & 2472.0 & 1511.2 & $-3.012$ & & & excluded\\
+15 & $8.7\times10^6$ & -- & 598.2 & $-2.102$ & & & excluded\\
+18 & $1.2\times10^8$ & -- & 218.6 & $-1.219$ & $2.3\times10^{-11}$ & $-4.0\times10^{-3}$ & excluded\\
+21 & $1.2\times10^9$ & -- & 21.8 & $-0.374$ & $6.1\times10^{-12}$ & $-1.2\times10^{-3}$ & excluded\\
+24 & $8.4\times10^9$ & -- & 0 & 0 & \multicolumn{2}{c}{no certificate} & not excluded\\
+27--39 & up to $1.1\times10^{12}$ & -- & 0 & 0 & & & not excluded\\
+\bottomrule
+\end{tabular}
+\caption{The level-2 singlet bootstrap at $(3,3)$, seed-3 couplings, $E_{\rm vac}=6777$. Exact energies for $k\le12$
+come from the Schur--Weyl basis. The two certificate columns characterise the Farkas vectors of the pure feasibility
+problem. The energy bound at $k=21$ was obtained at reduced solver accuracy. By particle--hole symmetry the exclusions
+extend to $k\ge60$.}
+\label{tab:boot33}
+\end{table}
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.98\textwidth]{report_figs/quiver_bootstrap.pdf}
+\caption{The singlet bootstrap at level 2. (a) The BPS-exclusion margin $t^*$ against the filling fraction $k/3pn^2$
+at $(2,2)$, $(2,3)$ and $(3,3)$; filled markers are excluded degrees ($t^*<0$) and open markers are not. (b) The lowest
+singlet energy per degree in units of the vacuum energy $E_{\rm vac}=n^3\sum_{abc}C_{abc}^2$: bootstrap lower bounds
+(dashed, open markers, with vanishing bounds omitted) against the exact values (solid) where these are known; the
+triangles at half filling mark the BPS degrees at $n=2$.}
+\label{fig:boot}
+\end{figure}
+
+The certificates are robust in a precise sense. If a singlet BPS state existed, its functional $x^*$ would satisfy
+$Ax^*+s=b$ with $s\in K$, so that $0\le\langle y,s\rangle=b\cdot y-(A^Ty)\cdot x^*$. Every monomial of total length $L$
+obeys $|\phi(m)|\le\|m\|\le n^L$, with $L\le8$ here, so $\|x^*\|\le3^8\sqrt{1.6\times10^5}\approx2.6\times10^6$, and
+the right-hand side is at most $(-4.0\times10^{-3}+6\times10^{-5})\|y\|<0$ at $k=18$. This is a contradiction with a
+factor of about 70 to spare, and the same holds at $k=21$. The argument is computer assisted only through the
+floating-point evaluation of $A^Ty$, $b\cdot y$ and the eigenvalues of the dual blocks, which we have not yet repeated
+in interval arithmetic.
+
+Two conclusions follow. The first is fortuity at $p=3$. The singlet cohomology of the $(3,3)$ model vanishes in degree
+18, which is half filling at $(2,3)$, so by the argument of Section~\ref{sec:fortuity} none of the 1680 singlet BPS
+classes of the $(2,3)$ model has a rank-3 preimage. All of them are fortuitous in the ordinary sense, with the caveats
+of a numerical certificate and of the refined criterion of \cite{CCK}. The second is partial concentration at rank
+three. There are no singlet BPS states at $(3,3)$ for $k\le21$ and, by particle--hole symmetry, none for $k\ge60$.
+The degrees $24\le k\le36$ and their mirror images remain open, besides the middle pair $k=39$, $42$, which carries
+equal numbers of BPS states because $I_0(3,3)=0$, possibly none.
+
+\subsection{Where the bootstrap stops}
+
+Level 2 stops about half-way to half filling at all three points, much as it did for the adjoint models \cite{R2},
+and $(2,2)$ shows why. Diagonalising $H$ on the full Fock sector $N_A=N_B=N_C=m$, with every gauge representation
+included, we find no BPS states at all for $m=2$, whose lowest level is $70.9$, but at least twelve for $m=3$, all of
+them gauge non-singlets, since the singlet gap at $k=9$ is $95.6$. The frontier thus sits exactly at the onset of
+non-singlet BPS states in the sector. This is natural, because positivity alone cannot tell a singlet from the gauge
+average of a non-singlet: the matrix $M$ in \eqref{eq:cones} is positive for any state, and gauge invariance enters
+only through the Casimir conditions. Accordingly those conditions barely affect the exclusions. Switching them off
+changes the margins at $k=3$ and 6 from $-1.334$ and $-0.508$ to $-1.327$ and $-0.505$, although it lowers the energy
+bounds from 455 and 183 to 293 and 63, so the exclusions obtained so far rule out BPS states in every gauge
+representation at once. None of the extensions we have tried moves the $(2,2)$ frontier: level 3, with Gram blocks of
+26 words; Gauss-law conditions $\phi(Y\,\Tr[WG_v])=0$, with $G_v$ the $u(n)_v$ generator matrix and $W$ an open word
+from $v$ back to $v$; the finite-$n$ trace relations; and the statement that for a singlet $\psi$ each vector
+$W_{ij}\psi$ lies in a definite gauge representation, so that $\sum_{ij}\langle W_a\psi|\hat C_x|W_b\psi\rangle$ is a
+fixed multiple of $M_{ab}$. The last of these strengthens the margin at $k=6$ by half but leaves $k=9$ feasible, and at
+$(3,3)$ it likewise leaves $k=24$ feasible. Going further will need constraints that tie positivity to the gauge
+representation of the state much more tightly than Casimir conditions do, rather than more operators.
+
 \section{\texorpdfstring{Prospects for the $p\ge3$ quiver}{Prospects for the p>=3 quiver}}\label{sec:prospects}
 
 Table~\ref{tab:scorecard} sets the two cases side by side. The contrast is sharp. The $p=2$ quiver is an elegant and highly
@@ -598,13 +783,13 @@ property & $p=2$ & $p=3$ (and $p\ge3$)\\
 BPS entropy & $\ln|I_0|=3n\ln3+O(\ln n)$, proved; not macroscopic &
 $\ln|I_0|=F^*(p)n^2+O(\ln n)$, $F^*(3)=1.2373$, $41\%$ of the singlet log-count (large-deviation level; sign proviso
 for odd $p$)\\
-Concentration & $(2,2)$: all 90 singlet BPS states at $k=12$, exact & $(2,3)$: all 1680 at $k=18$, numerical;
-$n\ge3$ open; index signs consistent\\
-Fortuity & $(2,2)$: all 90 classes obstructed at first order & untested; follows from concentration at the next rank\\
+Concentration & $(2,2)$: all 90 singlet BPS states at $k=12$, exact; $(3,2)$: all 1680 at $k=27$, numerical &
+$(2,3)$: all 1680 at $k=18$, numerical; $(3,3)$: none at $k\le21$ (bootstrap), open for $24\le k\le36$\\
+Fortuity & $(2,2)$: all 90 classes, to all orders & $(2,3)$: all 1680 classes, via the $(3,3)$ certificate at $k=18$\\
 Non-BPS statistics & not random-matrix; hidden $\mathcal N=4$ on singlets & Gaussian orthogonal, $10\,024$ levels at
 $(2,3)$\\
 Near-BPS gap & none ($\ge95.6$) & $0.054$ next to the BPS degree; Turiaci--Witten not yet testable\\
-Supersymmetry & $\mathcal N=4$ on singlets (numerical, $n=2$) & $\mathcal N=2$\\
+Supersymmetry & $\mathcal N=4$ on singlets (numerical, $n=2,3$) & $\mathcal N=2$\\
 Large $n$ & planar; exact index & planar; index saddle solved\\
 \bottomrule
 \end{tabular}
@@ -612,15 +797,17 @@ Large $n$ & planar; exact index & planar; index saddle solved\\
 \label{tab:scorecard}
 \end{table}
 
-The caveats are equally clear, and they define the programme. Almost everything except the entropy has been
-established at $n=2$ only, and concentration is the property most at risk as $n$ grows: in the adjoint models it was
-the growth of the window with the rank that failed, and although its mechanism is absent here, nothing yet proves that
-another one does not take its place. The near-BPS gaps at $(2,3)$ are suggestive, but at this size the neighbouring
-charge sectors differ too much in entropy for the Turiaci--Witten density to apply, so the super-Schwarzian
-question remains open. Fortuity at $p\ge3$ is untested, although it would follow from concentration at the next rank and there is no reason to expect a different answer
-from $(2,2)$. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK Schwinger--Dyson
-solution; large-$n$ dynamics has to come from the bootstrap, from other matrix-model methods, or from the large-$p$
-limit discussed below.
+The caveats are equally clear, and they define the programme. Much of this rests on $n=2$, and concentration is the
+property most at risk as $n$ grows: in the adjoint models it was the growth of the window with the rank that failed,
+and although its mechanism is absent here, nothing yet proves that another one does not take its place. At $p=2$
+concentration survives the step to $n=3$. At $p=3$ the bootstrap confines the rank-3 singlet BPS states to
+$24\le k\le57$, which is far from a proof, because the open degrees are precisely those nearest half filling, where a
+widening window would first appear. The near-BPS gaps at $(2,3)$ are suggestive, but at this size the neighbouring
+charge sectors differ too much in entropy for the Turiaci--Witten density to apply, so the super-Schwarzian question
+remains open. Fortuity at $p=3$ is now established, at the level of a numerical certificate, through the $(3,3)$
+bootstrap. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK
+Schwinger--Dyson solution; large-$n$ dynamics has to come from the bootstrap, from other matrix-model methods, or from
+the large-$p$ limit discussed below.
 
 Several next steps follow, and the first observation is that concentration beyond $n=2$ has to be settled without
 help from the index. Since $Q$ raises the fermion number by three and every singlet has $k\equiv0$ mod 3, no
@@ -628,19 +815,21 @@ R-charge fugacity is compatible with the pairing of non-BPS states in the single
 protected only at $y=1$. The singlet index is therefore the only protected quantity of the gauged model, and its
 sign, which always agrees with half filling, is all it can say about where the BPS states sit.
 
-The exact methods reach exactly one more point. With a singlet-adapted basis, built from the dual-Cauchy components
-with $Q$ acting as Pieri maps, the singlet spaces at $(3,2)$ have $3\,494$ states at $k=12$ and $558\,304$ at half
-filling, so concentration, the near-BPS gap and the multiplet statistics can be followed from $n=2$ to $n=3$, albeit
-in the $p=2$ corner. The same basis at $(2,3)$, $300\,584$ singlets at half filling, yields the 1680 BPS vectors for a
-direct test of BPS chaos and of fortuity at $p=3$. Beyond that the singlet sectors explode: at $(3,3)$ they hold
-$1.2\times10^8$ states at $k=18$ and $1.1\times10^{12}$ at half filling, and $3\times10^8$ at half filling at $(2,4)$.
+The exact methods have now reached their limit. The Schur--Weyl basis of Section~\ref{sec:boot} has delivered the
+$(3,2)$ point, where the near-BPS gap and the multiplet statistics can also be followed from $n=2$ to $n=3$, albeit in
+the $p=2$ corner. At $(2,3)$, with $300\,584$ singlets at half filling, it can still supply the 1680 BPS vectors for a
+direct test of BPS chaos at $p=3$. Beyond that the singlet sectors explode: at $(3,3)$ they hold $1.2\times10^8$ states
+at $k=18$ and $1.1\times10^{12}$ at half filling, and $3\times10^8$ at half filling at $(2,4)$.
 
-At $p=3$ and $n\ge3$ the matrix bootstrap \cite{HHK,LZ,LM}, which we developed in sector-resolved form for the
-adjoint models \cite{R2}, must take over, and its natural first targets are certificates of absence. A positive
-lower bound on the singlet energy at $(3,3)$ and $k=18$, far from the window where such certificates are easiest,
-would prove that all 1680 classes at $(2,3)$ are fortuitous; certificates for $k\le36$ would confine the BPS states at
-$(3,3)$ to the two singlet degrees adjacent to half filling, which is concentration at the first rank beyond exact
-methods. The near-BPS gaps and their scaling with $n$, the actual super-Schwarzian test, are the harder final target.
+At $p=3$ and $n\ge3$ the matrix bootstrap \cite{HHK,LZ,LM} has taken over, in the singlet form of
+Section~\ref{sec:boot}, and it has delivered its first target, the certificate at $(3,3)$ and $k=18$ that makes the
+$(2,3)$ classes fortuitous. The second target, certificates for $24\le k\le36$, which would confine the rank-3 BPS
+states to the two singlet degrees adjacent to half filling, is out of reach at level 2, and the diagnosis of
+Section~\ref{sec:boot} indicates that more operators alone will not reach it. What is needed are constraints that tie
+positivity to the gauge representation of the state more tightly than Casimir conditions do; whether Gram matrices of
+products of open words, resolved into gauge irreps, or a formulation that works inside the singlet sector from the
+start can achieve this is the next methodological question. The near-BPS gaps and their scaling with $n$, the actual
+super-Schwarzian test, remain the harder final target.
 
 On the analytic side, the large-$p$ limit is where the model should become SYK-like. The holonomy saddle realises
 precisely the $\mathbb Z_3$ twist that makes the index of $\mathcal N=2$ SYK large, and at fixed $n$ the $3pn^2$
@@ -656,9 +845,11 @@ an $SU(2)$ R-symmetry that we have not found.
 
 In summary, the fermionic $U(n)^3$ quiver with $p\ge3$ flavours is, to our knowledge, a new candidate for a matrix
 SYK model. It has macroscopic and, at the sizes we can reach, concentrated BPS entropy, chaotic multiplet spectra and
-near-BPS gaps; it reduces to an exactly solvable log gas at the level of the index; and its large-$p$ limit makes contact
-with $\mathcal N=2$ SYK. Whether concentration survives at large $n$ is now the central question; the singlet-adapted
-computation at $(3,2)$, bootstrap certificates at $(3,3)$ and the large-$p$ limit are the next steps.
+near-BPS gaps; its rank-2 BPS classes are fortuitous at both $p=2$ and $p=3$; it reduces to an exactly solvable log gas
+at the level of the index; and its large-$p$ limit makes contact with $\mathcal N=2$ SYK. Whether concentration survives
+at large $n$ is now the central question. It holds at $(3,2)$, and at $(3,3)$ the bootstrap excludes singlet BPS states
+from every degree except the twelve nearest half filling; sharper bootstrap constraints for those degrees and the
+large-$p$ limit are the next steps.
 
 \appendix
 \section{Methods and reproducibility}\label{app:methods}
@@ -669,15 +860,25 @@ zero-weight sectors (\path{src/quiver_n2.py}) with the exact Casimir penalty, La
 dense singlet bases (\path{scripts/quiver_singlet_spectrum.py}), the Casimir-polynomial projection for the
 $10\,024$-level pair (\path{scripts/quiver_singlet_pair_large.py}, float64, peak 8.6~GB) and the
 $\mathcal N=4$ and symmetry analysis (\path{scripts/quiver_p2_n4.py}, \path{scripts/quiver_commutant.py}).
-The fortuity test is \path{scripts/run_quiver_fortuity.py}. Singlet indices use \path{src/quiver_index.py}
+The fortuity test is \path{scripts/run_quiver_fortuity.py}. The Schur--Weyl singlet basis is
+\path{src/quiver_singlet_basis.py} with \path{scripts/quiver_singlet_spectrum_sw.py}, tested by
+\path{tests/test_quiver_singlet_basis.py} (singlet dimensions, $Q^2=0$, and the stored $n=2$ spectra). The bootstrap
+uses the quiver trace algebra \path{src/quiver_trace.py}, checked against explicit Fock-space operators by
+\path{tests/test_quiver_trace.py}, and the semidefinite program \path{src/quiver_bootstrap.py} with
+\path{scripts/quiver_bootstrap_run.py}; \path{tests/test_quiver_bootstrap.py} evaluates every constraint on exact
+functionals. The full-sector zero modes are \path{scripts/quiver_sector_zero_modes.py}, and the bootstrap figure is
+\path{scripts/plot_quiver_bootstrap.py}. Singlet indices use \path{src/quiver_index.py}
 (dual Cauchy and the Littlewood--Richardson transfer matrix, exact integers). The log-gas analysis is
 \path{src/quiver_saddle.py} and \path{scripts/quiver_index_saddle.py}, tested by \path{tests/test_quiver_saddle.py}
 (reduced against full energies, Hessians against finite differences to $10^{-10}$, the $p=2$ formula, the continuum
 values, and the eigenvalue representation against direct quadrature at $n=1$). The derivations are written out in
-\path{docs/derivations.md} (D18) and the research log in \path{research/notes/quiver_project.md}. The main data
+\path{docs/derivations.md} (D18, D20 and D21) and the research log in \path{research/notes/quiver_project.md}
+(Sections 11 and 12 for the material of Section~\ref{sec:boot}). The main data
 files are \path{results/data/quiver_singlet_index_dixon.json}, \path{quiver_singlet_zero_modes_n2_p3_k*.json},
-\path{quiver_singlet_pair_n2_p3_k9_f64.json}, \path{quiver_p2_n4_*.json}, \path{quiver_fortuity_n2_p2_k12.json} and
-\path{quiver_index_saddle.json}.
+\path{quiver_singlet_pair_n2_p3_k9_f64.json}, \path{quiver_p2_n4_*.json}, \path{quiver_fortuity_n2_p2_k12.json},
+\path{quiver_index_saddle.json}, \path{quiver_singlet_sw_n3_p2_seed3.json}, \path{quiver_singlet_sw_n3_p3_seed3.json},
+\path{quiver_bootstrap_n*_p*_L*.jsonl} and \path{quiver_bootstrap_frontier_diagnostics.txt}. The bootstrap runs used
+the seed-3 integer couplings and the interior-point solver Clarabel~0.11.1, with peak memory 3--4.5~GB.
 
 \begin{thebibliography}{99}\small
 \bibitem{ChangLin} C.-M.~Chang and Y.-H.~Lin, \emph{Holographic covering and the fortuity of black holes},

@@ -3,3 +3,5 @@ scipy
 cvxpy
 matplotlib
 pypdf
+clarabel
+scs

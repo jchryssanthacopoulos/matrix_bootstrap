@@ -1,0 +1,25 @@
+Quiver singlet bootstrap: frontier diagnostics at (n,p) = (2,2), seed-3 couplings [[[5,1],[1,2]],[[1,5],[5,3]]]
+(research/notes/quiver_project.md section 12; docs/derivations.md D21).  Date 2026-10-08.  Code: src/quiver_bootstrap.py
+(uncommitted working tree on top of bb78329).  Margin t* = max t with every cone >= t 1 (BPS rows on); t* < 0 = excluded.
+
+1. Casimir (singlet) rows on/off, level 2 (scratchpad cas22.py):
+   k=3  casimir=True : t* = -1.3344, E0 >= 455.1401      casimir=False: t* = -1.3266, E0 >= 292.8752
+   k=6  casimir=True : t* = -0.5079, E0 >= 182.5629      casimir=False: t* = -0.5048, E0 >=  62.9257
+   k=9  casimir=True : t* = -2.7e-07, E0 >= 0            casimir=False: t* = -3.3e-09, E0 >= 0
+   (exact singlet E0: 546, 199.946, 95.564)
+2. Row-family variants at k=9, level 2 unless stated (variants22.py): all t* ~ 0 (not excluded)
+   + Gauss rows (L_Y, L_W) = (2,2): t* = -1.2e-07;  + finite-n relations to length 6 (all block orders): t* = -2.7e-07;
+   level 3 (L_adj = 3): t* = -3.9e-07, E0 >= 0;  L_sing = 4: build exceeded the 6 GB guard (killed) before the
+   sector-row cap was introduced.
+3. Sandwiched-Casimir (cone irrep) rows, D21.4b (ccas22.py, ccas22_L3.py):
+   level 2: k=6 t* = -0.7664 (from -0.5079), E0 >= 182.5642;  k=9 t* = -1.2e-07, E0 >= 0;  k=12 t* = -1.8e-07 (BPS degree)
+   level 3 + cone Casimir, L_ccas = 4: k=9 t* = -7.5e-07;  L_ccas = 6: k=9 t* = -3.0e-08  (not excluded)
+4. Full Fock sector N_e = (m,m,m) (all gauge irreps), bit-vectorised Q + Lanczos (nonsinglet_bps.py):
+   m=2 (k=6): dims 512 / 21952 / 175616, lowest eigenvalues of H 70.943 (x5), 75.320 (x4), ...   -> no BPS state at all
+   m=3 (k=9): dims 21952 / 175616 / 343000, at least 12 zero modes                               -> non-singlet BPS states
+   => the level-2 frontier (excluded k <= 6, not k = 9) coincides with the onset of non-singlet BPS states in the
+      fixed-N_e sector; the singlet sector has none at k = 9 (exact gap 95.56).
+5. Z3 quiver-rotation reduction (z3_check.py), cyclic couplings C = D + D^(1,2,0) + D^(2,0,1), D from rng(11):
+   exact singlet E0 (k=3,6,9) = 1638, 596.184, 287.741 (k=12: 90 BPS);  full vs Z3-reduced SDP:
+   k=3: E0 >= 1364.9945 / 1364.9738, t* = -1.1378 / -1.1377;  k=6: 545.9897 / 545.9891, t* = -0.34594 / -0.34594;
+   k=9, 12: t* ~ 0 in both.  (Identical optima, as they must be for a tau-invariant problem.)

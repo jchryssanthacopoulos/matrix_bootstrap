@@ -1571,3 +1571,101 @@ normalisation $\langle C^2\rangle=1/p^2$ used in the numerics.
 - $p=7$ has no BPS states outside the central blocks. Its 8919-level pair has $\langle r\rangle=0.5291\pm0.0030$
   (orthogonal class 0.5307).
 - $p=8$ has none outside the central block (the index requires 34650 there).
+
+## D21. A singlet-sector trace bootstrap for the quiver (2026-10-08)
+
+**Status.** Formulation derived here. Each constraint family is verified on exact states (test below). First runs at
+$(2,2)$, $(2,3)$ and $(3,3)$ are in quiver note §12. Code: `src/quiver_trace.py` (algebra), `src/quiver_bootstrap.py`
+(SDP), `tests/test_quiver_trace.py`, `tests/test_quiver_bootstrap.py`, `scripts/quiver_bootstrap_run.py`.
+
+**Setup.** Letters are $P_{e,f}$ (creation operator of edge $e$, flavour $f$, an $n\times n$ matrix with row index at
+node $e$ and column index at node $e+1$) and $B_{e,f}$ with $(B_{e,f})_{kl}=(P_{e,f})_{lk}^\dagger$. The only nonzero
+anticommutator, $\{(P_{e,f})_{ij},(B_{e,f})_{kl}\}=\delta_{il}\delta_{jk}$, contracts two indices of the same node, so
+the single-node canonicalisation engine (`trace_algebra.py`) applies unchanged, with each closed index loop giving $n$.
+Gauge-invariant operators are products of traces of closed walks on the triangle. The state is a density matrix $\rho$
+on $U(n)^3$ singlets of degree $k=3m$, and $\phi(X)=\mathrm{Tr}\,\rho X$.
+
+**Derivation.**
+1. *A real functional.* For real $C_{abc}$, $Q$ and $H$ are real matrices in the occupation basis, and so is every
+   trace monomial, since creation and annihilation operators have matrix elements $0,\pm1$. Each eigenspace of $H$,
+   and the BPS space $\ker Q\cap\ker Q^\dagger$, therefore has a real basis. Any constraint valid for a state is also
+   valid for a real state in the same eigenspace, which gives $\phi(X)\in\mathbb R$ and
+   $\phi(X^\dagger)=\overline{\phi(X)}=\phi(X)$. All Gram matrices become real symmetric. This halves every cone
+   relative to the complex engine of D2/D7.
+2. *Edge charges are separately conserved.* $Q$ raises each edge number $N_e=\sum_f\mathrm{Tr}(P_{e,f}B_{e,f})$ by one,
+   so $[H,N_e]=0$. Singlets have $N_e=m$ for all three edges, because the node $U(1)$ charges $N_{v}-N_{v-1}$ vanish.
+   The sector rows are $\phi((N_e-m)X)=0$ for $e=0,1,2$. Gauge-invariant $X$ commutes with $N_e$, so one operator
+   ordering suffices.
+3. *Cone blocks.* For open words $W_a$ from node $u$ to node $v$ the vectors $(W_a)_{ij}\psi$ give the PSD Gram
+   matrix $M_{ab}=\sum_{ij}\phi((W_a)_{ij}^\dagger(W_b)_{ij})=\phi(\mathrm{Tr}[W_a^\dagger W_b])$. Words with different
+   endpoints cannot be combined. Words with different edge-charge vectors have orthogonal images, since $\rho$ has
+   definite $N_e$. Blocks are therefore labelled by $(u,v,q)$, which on the triangle is $(u,v,\text{winding})$. For
+   $u=v$ the traceless part $\tilde W_{ij}=W_{ij}-\delta_{ij}\mathrm{Tr}W/n$ gives the projected cone
+   $\phi(\mathrm{Tr}[W_a^\dagger W_b])-\phi(\mathrm{Tr}W_a^\dagger\,\mathrm{Tr}W_b)/n\succeq0$, together with the
+   singlet cone over traces. Note that $\sum_{ij}\|\tilde W_{ij}\psi\|^2\ge0$ holds for every state, so the projected
+   cone does not by itself encode gauge invariance.
+4. *Gauge invariance.* Gauge invariance enters only through the node constraints. Let
+   $E^{(v)}_{ij}=\sum_f[(P_vB_v)_{ij}+(B_{v-1}P_{v-1})_{ij}]-np\,\delta_{ij}$ be the $u(n)_v$ generators
+   (`quiver_trace.generator_words`; out-edge fields are fundamentals, in-edge fields antifundamentals with the
+   normal-ordering shift). A $U(n)_v$ singlet satisfies $E^{(v)}_{ij}\psi=0$. This gives:
+   - the Gauss rows $\phi(Y\,\mathrm{Tr}[WE^{(v)}])=0=\phi(\mathrm{Tr}[E^{(v)}W]\,Y)$, for $W$ an open word
+     $v\to v$ (or $1$) and $Y$ gauge invariant;
+   - the Casimir rows $\phi(\hat C_vX)=0$, with $\hat C_v=n\mathrm{Tr}[X_v^2]-(\mathrm{Tr}X_v)^2$, which is $\ge0$ and
+     vanishes exactly on $SU(n)_v$ singlets.
+   The Gauss rows imply the Casimir rows. With $W=X_v$ and with $W=1$ against $Y\mathrm{Tr}X_v$,
+   $\phi(Y\hat C_v)=n\cdot np\,\phi(Y\mathrm{Tr}X_v)-n^2p\,\phi(Y\mathrm{Tr}X_v)=0$. Conversely, inside a cone the bare
+   row $\phi(\hat C_v)=0$ already forces the Gauss rows with $Y=1$ for every $W$ in the neutral $v\to v$ block. The
+   reason is that $\phi(\hat C_v)$ is a quadratic form of that block evaluated on the generator, and a PSD matrix with
+   a zero quadratic form annihilates the vector.
+4b. *Sandwiched-Casimir (cone irrep) rows.*
+   - For a singlet $\psi$ and an open word $W$ from $u$ to $v$, the vectors $W_{ij}\psi$ transform as
+     $\mathbf n_u\otimes\bar{\mathbf n}_v$ and are singlets of the third node. When $u=v$ they transform as
+     $\mathbf n\otimes\bar{\mathbf n}=\mathbf{adj}\oplus\mathbf 1$.
+   - With the normalisation $\hat C=n\sum_{ij}E_{ij}E_{ji}-(\mathrm{Tr}E)^2$, one has $\hat C=n^2-1$ on $\mathbf n$
+     and $\bar{\mathbf n}$, $2n^2$ on $\mathbf{adj}$, and $0$ on $\mathbf 1$.
+   - Hence $\sum_{ij}\langle W_a\psi|\hat C_x|W_b\psi\rangle$ (the `trace_algebra.sandwich` primitive) is fixed in
+     terms of the Gram entries:
+     - $u\ne v$: it equals $(n^2-1)\,\phi(\mathrm{Tr}[W_a^\dagger W_b])$ for $x\in\{u,v\}$ and $0$ otherwise;
+     - $u=v$: it equals
+       $2n^2\big[\phi(\mathrm{Tr}[W_a^\dagger W_b])-\phi(\mathrm{Tr}W_a^\dagger\mathrm{Tr}W_b)/n\big]$ for $x=u$ and
+       $0$ otherwise.
+   - For traces, $\phi(T_a^\dagger\hat C_xT_b)=0$.
+   - These rows are not implied by the left/right Gauss rows, because the generator sits between two operators.
+   - Verified on exact states, including the $u=v$ (adjoint) case at $(2,1)$.
+5. *Dynamics.*
+   - The EOM rows $\phi([H,X])=0$ hold for any mixture of eigenstates.
+   - BPS rows: for a BPS state, $\phi(XQ)=\phi(QX)=0$ for $X$ of charge $-(1,1,1)$, and $\phi(X\bar Q)=\phi(\bar QX)=0$
+     for charge $+(1,1,1)$. We also impose $\phi(XH)=\phi(HX)=0$.
+   - Infeasibility with the BPS rows certifies $h^k_{\rm sing}=0$.
+6. *Exclusion at special couplings.* $h^k(C)=\dim V_k-\mathrm{rk}\,Q_k(C)-\mathrm{rk}\,Q_{k-3}(C)$, and ranks are lower
+   semicontinuous, so $h^k$ is upper semicontinuous in $C$. An exclusion ($h^k(C_0)=0$) at any coupling $C_0$
+   therefore implies $h^k=0$ for generic couplings, and on a Zariski-open set containing $C_0$. Exclusions at the
+   integer seed-3 couplings used here thus hold generically.
+7. *Presolve.* Two steps are exact:
+   - A variable occurring in exactly one equality row, in no cone and not in the objective can always absorb that
+     row. Dropping both, iterated, changes neither the feasible set on the remaining variables nor the optimum.
+   - Single-term reality relations $\phi(m)=\pm\phi(m')$ are used to identify variables.
+
+**Row caps (computational choice).** Rows generated by an operator $X$ are kept only for total length
+$|X|\le2L_{\rm adj}$. This applies to the EOM rows, the Casimir rows and the $\phi(XH)$ rows. Otherwise the length-6
+singlet-cone entries (e.g. $\mathrm{Tr}[BBB]\,\mathrm{Tr}[PPP]$) times $H$ or $\hat C_v$ create length-10 monomials
+that appear nowhere else. Any subset of valid rows is valid. The cap reduced the $(1,3)$ test problem from $485\,379$
+to $212\,004$ monomials.
+
+**Checks** (`tests/test_quiver_bootstrap.py`).
+- Every row, every reality relation and every cone is evaluated on exact multiplet-averaged functionals computed in
+  the Fock space.
+- At $(n,p)=(1,2)$, $m=1$ (6 BPS states) and $(1,3)$, $m=1$ (2 BPS states), with BPS and Gauss rows, residuals are
+  $\le3\times10^{-15}$ and the minimal cone eigenvalue is $\ge-3\times10^{-16}$. The BPS margin is $0$ (not excluded),
+  as it must be.
+- At $(2,1)$, $m=1,3$ (the unique singlet), with Casimir, Gauss and finite-$n$ rows (length $\le6$), residuals are
+  $\le10^{-16}$. The energy bound equals the exact value $8$.
+
+**Results** (quiver note §12). These are level-2 cones (open words of length $\le2$, closed walks of length
+$\le3$) at seed-3 couplings.
+- $(2,2)$ and $(2,3)$: excluded through $k=6$ and $k=9$ respectively. There are no contradictions with the exact
+  singlet spectra.
+- $(3,3)$: excluded through $k=21$, with verified Farkas certificates at $k=18,21$. So $h^{18}_{\rm sing}(3,3)=0$,
+  and all 1680 $(2,3)$ classes are fortuitous.
+- Frontier: at $(2,2)$ it coincides with the onset of non-singlet BPS states at fixed $N_e$ ($k=9$). Level 3, Gauss
+  rows, finite-$n$ relations and the rows of 4b do not move it.

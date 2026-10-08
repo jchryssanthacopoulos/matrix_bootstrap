@@ -159,3 +159,11 @@ Sub-questions:
     - At large $p$ the quiver is three-species $\mathcal N=2$ SYK with $N_{\rm eff}=3pn^2$, and the index holonomy is the $\mathbb Z_3$ twist (D19).
     - At $n=1$ (the large-$p$ test bed): even $p$ concentrates exactly and the multiplet sectors are orthogonal-class chaotic. But the Turiaci–Witten edges are not reached by $3p\le24$ fermions.
     - Odd $p$ is governed by a symmetric or antisymmetric middle form (mod-2 structure), and a zero index does not mean no BPS states.
+- 2026-10-08f (**concentration at $p=3$: the quiver singlet bootstrap**; notes §12, D21).
+  - **Does it need the bootstrap?** Yes. The diagonal-coupling specialisation (Künneth plus semicontinuity) is not concentrated at $(2,3)$, so it cannot bound the generic cohomology. Exact Schur–Weyl ED stops at $k=12$ at $(3,3)$; there it finds no BPS singlets, with lowest levels from 6777 down to 2472.
+  - **Built and validated:** a real-functional singlet bootstrap on closed quiver walks, with edge-charge-blocked cones, Casimir, Gauss and sandwiched-Casimir singlet rows, BPS rows, an exact presolve and Farkas certificates. There are no contradictions with exact spectra at $(2,2)$ and $(2,3)$.
+  - **Results:**
+    - $(3,3)$ has no BPS singlets at $k\le21$ (certificates at $k=18,21$). Hence all 1680 $(2,3)$ classes are fortuitous (numerically certified; generic couplings by semicontinuity).
+    - Concentration at $(3,3)$ itself is still open for $24\le k\le36$.
+  - **Diagnosis:** level 2 reaches half-way to the middle at every rank tried. At $(2,2)$ the frontier is the onset of non-singlet BPS states at fixed $N_e$. More operators (level 3) or more singlet rows of the Casimir type do not move it.
+  - **Open:** constraints that resolve gauge representations sharply enough to beat the non-singlet BPS functionals, or a non-bootstrap route to $k=24..36$ at $(3,3)$.
