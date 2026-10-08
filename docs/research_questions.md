@@ -127,3 +127,18 @@ Sub-questions:
   - **Large-$n$ heuristic:** the uniform eigenvalue saddle of the index matrix integral has a Hermitian kernel with eigenvalues $1+p$, $1-p/2$, $1-p/2$, so it is stable for $p<2$, marginal at $p=2$ and unstable for $p>2$ (Hagedorn-type, Aharony et al. hep-th/0310285). This is consistent with sub-macroscopic $p=2$ and macroscopic $p\ge3$.
   - Not established: the $n^2$ coefficient (needs the deconfined saddle), $n\ge5$ at $p=2$, and $n\ge6$ at $p=3$.
   - **Consequence:** $p=3$ is the black-hole candidate; $p=2$ is a structured corner.
+- 2026-10-08c (**the large-$n$ saddle of the quiver singlet index**; `docs/derivations.md` D18, `research/notes/quiver_project.md` §8, `results/figures/quiver_index_saddle.pdf`).
+  - **Exact rewriting.** The phases of the index integrand telescope around the 3-cycle. $I_0$ is then a three-species log gas: same-node pairs repel with weight 2, different-node pairs with weight $p$, and odd $p$ carries a sign.
+    - $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ is now **proved for all $n$**: the integrand is $|\Delta_{3n}|^2$.
+    - Sign rules (proved): $(-1)^{pn/2}$ for even $p$; zero for odd $pn$; a Hölder bound for odd $p$. All exact data obey them.
+  - **Leading coefficient.** $\ln|I_0|=F^*(p)n^2+o(n^2)$, with $F^*(3)=1.2373$, $F^*(4)=2.5550$, $F^*(5)=3.9297$, $F^*(6)=5.3455$.
+    - The saddle: three eigenvalue arcs rotated by $2\pi/3$, which turn $(-1)^F$ into a phase.
+    - Singlet count: $G^*(3)=3.0427$, so the BPS (index) share of the singlet log-count is $0.41$ at $p=3$, rising to $\ln3/(2\ln2)=0.79$ as $p\to\infty$.
+    - Status: rigorous up to standard log-gas large deviations for even $p$; for odd $p$, plus a sign proviso (argued, consistent with data).
+  - **Finite-$n$ test.** Gaussian fluctuations about the discrete saddle, minus the universal $\beta=2$ crystal correction (no free parameters), reproduce all 27 nonzero exact indices and counts to $0.007$–$0.6$ in the logarithm.
+    - $(4,3)$: predicted $22.69$, exact $22.97$; $F^*n^2$ alone gives 19.80.
+    - Predictions for $p=3$: $\ln|I_0|\approx47.7$, $82.6$, $127.3$ at $n=6,8,10$.
+  - **Open.**
+    - Concentration at large $n$, via the refined (R-charge) index saddle: concentration means zero curvature in $\ln|y|$.
+    - A Monte Carlo test of the finite-$n$ predictions.
+    - The odd-$p$ sign: the $p=3$ arc gap is only 0.039.

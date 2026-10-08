@@ -1,6 +1,6 @@
 # The $U(n)^3$ fermionic quiver as a project: literature check and fortuity test (2026-10-07)
 
-## Status summary (2026-10-07; details in §§1–5)
+## Status summary (updated 2026-10-08; details in §§1–8)
 
 | property | status | evidence |
 |---|---|---|
@@ -8,7 +8,7 @@
 | Concentration (singlet sector) | **verified** at $(2,2)$ (exact ranks); **numerical** at $(2,3)$ | 90 at $k=12$; 1680 at $k=18$ (§5) |
 | Concentration at $n=3$ | **open** | $\vert I_0\vert(3,2)=1680$ exactly, with a sign consistent with half filling; zero-weight sectors of about $5\times10^{10}$ block direct tests |
 | $p=1$ | trivial | every per-irrep index is $\pm1$; singlet index 0 |
-| Macroscopic BPS entropy | **$p=2$: no** (exact index $(3n)!/(n!)^3$, $n\le4$); **$p\ge3$: plausibly yes** (super-linear growth; large-$n$ heuristic: uniform saddle unstable for $p>2$) | §7 |
+| Macroscopic BPS entropy | **$p=2$: no, proved** ($I_0=(-1)^n(3n)!/(n!)^3$ for all $n$, D18); **$p\ge3$: yes, at the level of the index** ($\ln|I_0|=F^*(p)n^2+O(\ln n)$, $F^*(3)=1.2373$, $F^*(4)=2.5550$; 41% of the singlet log-count at $p=3$; rigorous up to standard log-gas large deviations for even $p$, plus a sign proviso for odd $p$) | §§7–8, D18 |
 | Fortuity | **verified** at leading order at $(2,2)$, ordinary sense | 90/90 obstructed (§3); expected for this class; refined (Choi–Choi–Kim) criterion not checked |
 | Chaos (non-BPS or BPS) | **untested** | — |
 | Near-BPS gaps / super-Schwarzian | **untested**; one hint | the lowest penalised singlet eigenvalues fall to 0.054 next to the window at $(2,3)$ |
@@ -444,12 +444,12 @@ If that held generally, the singlet BPS entropy would grow only like $1.65\,np$,
    - Growth $\sim27^n$: $\ln|I_0|$ per mode falls like $1/n$ (0.187 → 0.138 → 0.109). **Not macroscopic.**
    - Since $(2,2)$ is concentrated, the count there equals the index. If concentration persisted, the $p=2$ singlet
      BPS entropy would be $\approx3.3n$, against $6n^2$ fermion modes.
-   - Unproved, and $n\ge5$ is not computed (the quadrature for $U(5)$ is too heavy).
+   - Unproved, and $n\ge5$ is not computed (the quadrature for $U(5)$ is too heavy). **[Proved for all $n$ on 2026-10-08: at $p=2$ the three Vandermondes and the edge factors combine into $|\Delta_{3n}|^2$; §8, D18.]**
 2. **The general "depends only on $np$" pattern is false.** It holds only at $p=2$ and $n=1$; the $(2,3)$ match was a
    coincidence. Odd $np$ gives $I_0=0$ trivially: particle–hole symmetry maps $m\to pn^2-m$ with sign $(-1)^{pn^2}$.
 3. **$p\ge3$ grows faster, consistent with macroscopic entropy; not established.**
    - $p=4$: $\ln|I_0|=4.50,\ 13.16,\ 26.02$ ($n=1,2,3$). The per-mode index entropy flattens, 0.375 → 0.274 → 0.241;
-     the quadratic fit $\ln|I_0|\approx2.1n^2+2.4n$ gives an asymptote of 0.175 per mode.
+     the quadratic fit $\ln|I_0|\approx2.1n^2+2.4n$ gives an asymptote of 0.175 per mode. **[Superseded (§8): the true leading coefficient is $F^*(4)/12=0.213$ per mode; a fit through $n=1,2,3$ cannot see the $\frac12\ln n$ and $O(1)$ terms.]**
    - $p=3$: only even $n$ are informative. $n=2,4$ give 0.206 and 0.159 per mode. Two points cannot distinguish $n^2$
      growth with a large linear correction from slower growth; $(6,3)$ is out of reach.
    - At fixed $n=2$ the per-mode index entropy rises with $p$ (0.19 → 0.33), approaching the singlet-sector entropy
@@ -467,7 +467,7 @@ If that held generally, the singlet BPS entropy would grow only like $1.65\,np$,
    - **Consistency with the data.** It matches $p=1$ (index 0), $p=2$ (marginal, $e^{O(n)}$ with an exact closed
      form) and $p\ge3$ (super-linear).
    - **Not done.** Solving the deconfined saddle for the coefficient of $n^2$, to compare with $\approx2.1$ at $p=4$ and
-     $\approx1.0$–$1.3$ at $p=3$.
+     $\approx1.0$–$1.3$ at $p=3$. **[Done in §8: $F^*(4)=2.5550$, $F^*(3)=1.2373$.]**
 
 **Consequences for the project.**
 - The $p=2$ quiver, which has hidden $\mathcal N=4$, concentration at $n=2$, and an exact index, has sub-macroscopic
@@ -476,3 +476,79 @@ If that held generally, the singlet BPS entropy would grow only like $1.65\,np$,
   near-BPS gaps, and index growth consistent with $e^{cn^2}$.
 - Concentration at $n\ge3$ for $p=3$ is beyond exact methods; the bootstrap (or a saddle-point analysis of
   refined indices) is the remaining route.
+
+## 8. The large-$n$ saddle of the singlet index: the coefficient of $n^2$ (2026-10-08)
+
+**Question.** What is the coefficient of $n^2$ in $\ln|I_0(n,p)|$? Does the saddle that produces it also account for
+the exact finite-$n$ values, in particular $(4,3)$? Full derivation: `docs/derivations.md` D18. Code:
+`src/quiver_saddle.py`, `scripts/quiver_index_saddle.py`, `scripts/plot_quiver_index_saddle.py`. Data:
+`results/data/quiver_index_saddle.json`. Figure: `results/figures/quiver_index_saddle.{pdf,png}`.
+
+**Exact results from the eigenvalue form (proved).**
+- *Representation.* Writing $1-e^{i\varphi}=2\sin(\varphi/2)e^{i(\varphi-\pi)/2}$, the phases telescope around the
+  3-cycle. $I_0(n,p)$ becomes $(-i)^{3pn^2}/(n!)^3$ times the integral of a three-species log gas on the circle: like
+  eigenvalues repel with weight 2, unlike ones with weight $p$. An extra sign $\sigma^p$ appears for odd $p$.
+- *$p=2$.* All weights are 2, so the integrand is $|\Delta_{3n}|^2$ and $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ for every $n$.
+  This was conjectured in §7 from $n\le4$.
+- *Signs and zeros.* For even $p$, $I_0\ne0$ with sign $(-1)^{pn/2}$. For odd $p$ and odd $n$, $I_0=0$.
+- *Hölder.* For odd $p$, $|I_0(n,p)|^2\le|I_0(n,p-1)||I_0(n,p+1)|$.
+- *CUE form.* $I_0(n,p)=(-1)^n\frac{(3n)!}{(n!)^3}\,\mathbb E_{\mathrm{CUE}(3n)}\prod(1-x_{vi}/x_{v+1,j})^{p-2}$.
+- *Against the data.* All 15 exact indices satisfy these rules, as do the $n=1$ closed forms (Dixon).
+
+**Large-$n$ saddle.**
+- *Structure.* For $p>2$ the maximum of the log-gas energy has the three nodes' eigenvalues on three disjoint arcs,
+  rotated by $2\pi/3$ (figure, panel d). The holonomies sit near $U_v\approx e^{2\pi iv/3}$, which turns the $(-1)^F$
+  weight of each bifundamental into a phase $e^{\mp2\pi i/3}$ instead of cancelling it. The singlet count's saddle
+  has all three nodes coincident on one arc.
+- *Solution.* The continuum problem is solved to 12 digits: Chebyshev Euler–Lagrange solver with a soft-edge root.
+- *Cross-check.* Independently, Newton maximisation of the discrete problem up to $n=2048$ extrapolates to the same
+  numbers ($10^{-9}$–$10^{-13}$). Its $O(n)$ term matches the predicted $\beta=2$ self-energy to six digits. Random
+  unconstrained starts never beat the symmetric maximum ($n\le12$).
+
+| $p$ | $F^*$: $\ln\vert I_0\vert\sim F^*n^2$ | $G^*$: $\ln(\text{singlets})\sim G^*n^2$ | $F^*/G^*$ | $F^*$ per mode ($/3p$) |
+|---|---|---|---|---|
+| 2 | 0 | 1.4244 | 0 | 0 |
+| **3** | **1.2373** | 3.0427 | 0.41 | 0.137 |
+| 4 | 2.5550 | 4.7688 | 0.54 | 0.213 |
+| 5 | 3.9297 | 6.5623 | 0.60 | 0.262 |
+| 6 | 5.3455 | 8.4015 | 0.64 | 0.297 |
+| $p\to\infty$ | $\frac{3p}2\ln3-\frac32\ln\frac{2p}3-\frac94$ | $3p\ln2-\frac32\ln\frac p2-\frac94$ | 0.79 | $\frac12\ln3$ |
+
+**Limiting checks.** Near $p=2$, $F^*\ge(p/2-1)\,39\zeta(3)/2\pi^2$ (uniform arcs of length $2\pi/3$), tight as
+$p\to2^+$. The large-$p$ forms come from semicircular arcs of radius $\sqrt{6/p}$ (index) and $\sqrt{8/p}$ (count).
+The continuum values approach both.
+
+**Finite $n$ and the $(4,3)$ test.**
+- *The estimate.* Gaussian fluctuations about the discrete saddle, minus the universal $\beta=2$ crystal excess
+  $3n\ln(e/\sqrt{2\pi})$. That correction is exact on the circle; with it the $p=2$ formula is reproduced to
+  $-1/(36n)$. The estimate has no free parameters.
+- *Against the data.* It reproduces all 27 nonzero exact values (indices and counts, $n\le4$, $p\le6$) to within
+  $-0.007$ to $-0.60$ in the logarithm. Every residual is negative.
+- *At $(4,3)$:* $F^*n^2=19.80$; corrected Laplace $22.69$; exact $22.97$. So $|I_0(4,3)|=9.43\times10^9$ is
+  reproduced to 25%. The leading term alone misses by a factor of 24.
+
+**Large-$n$ form and predictions** (index, $p=3$; corrected Laplace, so heuristic).
+- $\ln|I_0(n,3)|\approx1.2373\,n^2+\frac12\ln n+2.4$. The fit gives $0.54\ln n$ at $p=3$ and $0.50$ for $p\ge4$.
+- Predicted $\ln|I_0(n,3)|$ is $47.7$, $82.6$, $127.3$, $181.8$ at $n=6,8,10,12$. Going by the residuals at
+  $n\le4$, the exact values should be about $0.1$–$0.6$ higher.
+- These are targets for a Monte Carlo or improved exact method. The current recursion cannot reach $(6,3)$.
+
+**What this does and does not establish.**
+- It establishes that the singlet index, and therefore the number of singlet BPS states, grows like $e^{F^*n^2}$ with
+  $F^*>0$ for $p\ge3$.
+  - Even $p$: rigorous up to standard log-gas large deviations.
+  - Odd $p$: also needs the sign $\sigma^p$ not to cancel the leading saddle. The arc gap at $p=3$ is only 0.039 rad,
+    so sign-changing configurations are suppressed only by $e^{-O(n)}$ with a modest rate. The exact $(2,3)$ and
+    $(4,3)$ show no cancellation.
+- It does not address R-charge concentration. $|I_0|$ equals the BPS count only if there are no cancellations between
+  degrees, for example under concentration. That is verified at $(2,2)$ and $(2,3)$ but open for $n\ge3$.
+- Earlier estimates superseded: the §7 fit asymptote 0.175 per mode at $p=4$ (true 0.213); "$\alpha\approx1.0$–$1.3$"
+  at $p=3$ (true 1.2373).
+
+**Next.**
+- *Refined-index saddle.* Add an R-charge fugacity $y$, giving a complex saddle. Concentration at half filling
+  predicts $\ln|I(y)|=\ln|I_0|+\frac{pn^2}2\ln|y|$ exactly, i.e. zero curvature in $\ln|y|$. A nonzero curvature at
+  order $n^2$ would show that the index-weighted R-charge distribution has width of order $n$. This is the large-$n$
+  concentration test.
+- *Monte Carlo.* Thermodynamic integration in $p$ from the exact $p=2$ point (positive integrand for even $p$; sign
+  average for odd $p$). It would test the predictions at $n=6$–$12$.

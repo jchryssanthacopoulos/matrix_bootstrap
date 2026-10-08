@@ -77,8 +77,11 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [ ] Find the residual symmetry or structure behind the non-random-matrix $(2,2)$ statistics (coupling-independent degeneracies); higher-degree conserved-charge search.
   - [ ] BPS chaos at $(2,3)$ (needs the 1680 BPS vectors at $k=18$; out of reach with the current method).
   - [x] Index growth (2026-10-08): $p=2$ closed form $(-1)^n(3n)!/(n!)^3$ ($n\le4$), not macroscopic; $p\ge3$ super-linear; the coincidences explained ($p=2$ law; $(2,3)$ accidental).
-  - [ ] Prove $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ (reduction of the three-node unitary integral to the abelian case at the marginal point?).
-  - [ ] Solve the deconfined large-$n$ saddle of the index integral for $p\ge3$ and compare with the measured $\ln I_0$.
+  - [x] Prove $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ (2026-10-08, D18: at $p=2$ the integrand is $|\Delta_{3n}|^2$).
+  - [x] Solve the deconfined large-$n$ saddle of the index integral for $p\ge3$ and compare with the measured $\ln I_0$ (2026-10-08, D18, note §8): $F^*(3)=1.2373$, $F^*(4)=2.5550$; count $G^*(3)=3.0427$; corrected Laplace matches all 27 nonzero exact values to $\le0.6$ in the log (`scripts/quiver_index_saddle.py`, `scripts/plot_quiver_index_saddle.py`).
+  - [ ] Refined-index (R-charge fugacity) saddle at large $n$: a complex saddle; concentration $\Leftrightarrow$ $\ln|I(y)|-\frac{pn^2}{2}\ln|y|$ flat. The large-$n$ concentration test.
+  - [ ] Monte Carlo thermodynamic integration in $p$ from the exact $p=2$ point, testing the finite-$n$ predictions at $n=6$–$12$ (even $p$ first; odd $p$ needs the sign average $\langle\sigma^p\rangle$).
+  - [ ] Odd-$p$ sign: bound or measure the cancellation from sign-changing configurations (the $p=3$ arc gap is 0.039 rad).
   - [ ] Other irreps at $(2,2)$.
   - [ ] Singlet ED at $(2,2)$: near-window gaps and $Q$ singular-value statistics.
   - [ ] Planar singlet bootstrap of the quiver.

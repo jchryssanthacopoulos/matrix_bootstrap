@@ -1274,3 +1274,171 @@ formula gives $27$ states at $E=1$ and $9$ at $E=2$, and the computation finds $
   `research/notes/sector_ed_results.md`) therefore all come from low-Casimir irreps.
 - For general $p$, $h_i=\{\omega_{\rm slot}\wedge,(\omega_{\rm slot}\wedge)^\dagger\}$ on $\Lambda^\bullet\mathbb C^p$, and
   the maximal-irrep spectrum is sums of single-site spectra.
+
+## D18. The quiver singlet index as a three-species log gas: exact $p=2$ formula, sign rules, and the large-$n$ saddle (2026-10-08)
+
+**Status.**
+- *Proved (elementary):* the eigenvalue representation; $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ for every $n$; the CUE form
+  for general $p$; $I_0\neq0$ with sign $(-1)^{pn/2}$ for even $p$; $I_0=0$ for odd $p$ and odd $n$; the Hölder
+  bound $|I_0(n,p)|^2\le|I_0(n,p-1)|\,|I_0(n,p+1)|$ for odd $p$.
+- *Derived with standard log-gas large deviations (no new rigour):* $\ln|I_0(n,p)|=F^*(p)\,n^2+o(n^2)$ for even $p$,
+  with $F^*$ the maximum of the continuum functional below. For odd $p$ the same holds provided the sign
+  $\sigma^p$ does not cancel the leading saddle. That proviso is argued, and consistent with the exact data; it is not
+  proved.
+- *Numerical:* the maximiser lies in the symmetric ansatz (checked against unconstrained random starts for $n\le12$);
+  the values of $F^*(p)$ and $G^*(p)$ (12 digits); the finite-$n$ expansion of the discrete maximum.
+- *Heuristic:* the crystal-corrected Laplace estimate at finite $n$. It is exact at $p=2$.
+
+**Setup.**
+- $I_0(n,p)=\sum_m(-1)^m\,n(3m)$, where $n(k)$ counts gauge singlets with $k$ fermions. $(-1)^k$ anticommutes with
+  $Q$, which adds three fermions, so $|I_0|$ is a lower bound on the number of singlet BPS states.
+- By Molien–Weyl,
+  $$I_0(n,p)=\int\prod_{v=0}^{2}dU_v\;\prod_{v}\det\big(1-U_v\otimes U_{v+1}^\dagger\big)^p,$$
+  with edges $v\to v+1$ (mod 3). The total singlet count has $1+U_v\otimes U_{v+1}^\dagger$ instead.
+- Notation: $x_{vi}=e^{i\theta_{vi}}$ are the eigenvalues of $U_v$; $f(\alpha)=\ln|2\sin(\alpha/2)|$ and
+  $h(\alpha)=\ln|2\cos(\alpha/2)|$.
+
+**Derivation.**
+1. *Eigenvalue form.* Use Weyl's formula $\int dU\,\phi=\frac1{n!}\int\prod_i\frac{d\theta_i}{2\pi}|\Delta(x)|^2\phi$
+   and $\det(1-U_v\otimes U_{v+1}^\dagger)=\prod_{ij}\big(1-e^{i(\theta_{vi}-\theta_{v+1,j})}\big)$.
+   - For real $\varphi$, $1-e^{i\varphi}=2\sin(\varphi/2)\,e^{i(\varphi-\pi)/2}$.
+   - The total phase is $\frac p2\sum_v\sum_{ij}(\theta_{vi}-\theta_{v+1,j})-\frac{3\pi pn^2}2$. The first term
+     telescopes, because each node is the source of one edge and the target of one.
+   - With $|x_a-x_b|=|2\sin((\theta_a-\theta_b)/2)|$ this gives
+     $$I_0=\frac{(-i)^{3pn^2}}{(n!)^3}\int\prod_{v,i}\frac{d\theta_{vi}}{2\pi}\;e^{L(\theta)}\,\sigma(\theta)^p,\qquad
+     L=\sum_{\substack{a<b\\\text{same node}}}2f(\theta_a-\theta_b)+p\!\!\sum_{\text{different nodes}}\!\!f(\theta_a-\theta_b),$$
+     $$\sigma=\prod_v\prod_{ij}\mathrm{sgn}\,\sin\tfrac{\theta_{vi}-\theta_{v+1,j}}2 .$$
+   - $\sigma^p$ is well defined on the torus: shifting one angle by $2\pi$ flips $2pn$ factors.
+   - Each pair of distinct nodes is joined by exactly one edge, so $e^L$ is $S_3$-symmetric. Only $\sigma$ sees the
+     orientation of the quiver.
+   - For the count, $1+e^{i\varphi}=2\cos(\varphi/2)e^{i\varphi/2}$ gives no constant phase, and $f\to h$ on
+     different-node pairs.
+2. *$p=2$.* Every pair has weight 2 and $\sigma^2=1$, so $e^L=|\Delta_{3n}(x)|^2$, the Vandermonde of all $3n$
+   eigenvalues together. Since $\int\prod\frac{d\theta}{2\pi}|\Delta_{3n}|^2=(3n)!$ and $(-i)^{6n^2}=(-1)^n$,
+   $$I_0(n,2)=(-1)^n\frac{(3n)!}{(n!)^3}\qquad\text{for all }n.$$
+   This proves the formula found for $n\le4$ (quiver note §7). It equals Dixon's sum at $N=2n$.
+3. *General $p$ (CUE form).*
+   - On the unit circle $(1-x\bar y)^2=-x\bar y\,|x-y|^2$.
+   - $\prod_v\prod_{ij}(-x_{vi}\bar x_{v+1,j})=(-1)^{3n^2}\prod_v|\det U_v|^{2n}=(-1)^n$.
+   - Hence
+     $$I_0(n,p)=(-1)^n\frac{(3n)!}{(n!)^3}\;\mathbb E_{\mathrm{CUE}(3n)}\Big[\prod_v\prod_{i,j}\big(1-x_{vi}\bar x_{v+1,j}\big)^{p-2}\Big].$$
+     Here the $3n$ eigenvalues of a Haar-random $U(3n)$ are split into three labelled groups of $n$.
+   - Check at $n=1$, $p=3$: the bracket is $-(x_0\bar x_1+x_1\bar x_2+x_2\bar x_0)+(x_0\bar x_2+x_1\bar x_0+x_2\bar x_1)$.
+     Its CUE mean vanishes by permutation symmetry, so $I_0(1,3)=0$.
+4. *Signs.*
+   - Even $p=2q$: $\sigma^p=1$, so the integral is positive, and $(-i)^{3pn^2}=(-1)^{qn}$. Hence $I_0\neq0$ with sign
+     $(-1)^{pn/2}$.
+   - Odd $p$, odd $n$: $3pn^2$ is odd, so the prefactor is $\pm i$ while the integral is real. Since $I_0\in\mathbb Z$,
+     $I_0=0$. The particle–hole argument of quiver note §7 gives the same.
+   - Odd $p$, even $n$: the prefactor is 1, and this argument does not fix the sign.
+5. *Hölder.* $|I_0(n,p)|\le Z_p/(n!)^3$ with $Z_p=\int\prod\frac{d\theta}{2\pi}e^{L_p}$. By Cauchy–Schwarz,
+   $Z_p\le\sqrt{Z_{p-1}Z_{p+1}}$. For odd $p$, $Z_{p\pm1}=(n!)^3|I_0(n,p\pm1)|$ because $p\pm1$ is even. Therefore
+   $$|I_0(n,p)|^2\le|I_0(n,p-1)|\,|I_0(n,p+1)|\qquad(p\text{ odd}).$$
+6. *Large $n$.*
+   - With normalised eigenvalue densities $\rho_v$, $L=n^2F[\rho]+O(n\ln n)$, where
+     $$F[\rho]=\sum_v\langle\rho_v,f\rho_v\rangle+p\sum_{v<w}\langle\rho_v,f\rho_w\rangle .$$
+   - Since $(n!)^3=e^{O(n\ln n)}$, Laplace's method at scale $n^2$ (log-gas large deviations) gives
+     $\ln|I_0|=n^2\max F+o(n^2)$ for even $p$.
+   - In moments $u_{v,m}=\int\rho_ve^{im\theta}$, with $J$ the all-ones $3\times3$ matrix,
+     $$F=-\sum_m\frac1m\,u_m^\dagger\big[I+\tfrac p2(J-I)\big]u_m .$$
+     The bracket has eigenvalues $1+p$ (node-symmetric) and $1-p/2$ (twice).
+   - This reproduces the stability criterion of quiver note §7. For $p\le2$, $\max F=0$ at the uniform density. For
+     $p>2$ the maximum sits on the positivity boundary, which means compact supports.
+7. *Continuum solution (index).*
+   - Ansatz: $\rho_v(\theta)=g(\theta-2\pi v/3)$ with $g$ even and supported on $[-a,a]$, $a<\pi/3$. Then
+     $$F=3\langle g,fg\rangle+3p\langle g,xg\rangle,\qquad x(\alpha)=\tfrac12\big[f(\alpha-\tfrac{2\pi}3)+f(\alpha+\tfrac{2\pi}3)\big].$$
+   - Optimality: $\Phi(\theta)\equiv\int g(\theta')[f+px](\theta-\theta')\,d\theta'=\lambda$ on $[-a,a]$, and
+     $\Phi\le\lambda$ elsewhere. Integrating against $g$ gives $F^*=3\lambda$.
+   - Numerics (`src/quiver_saddle.py`, class `Continuum`):
+     - Write $g(at)=G(t)/a$ with $G=\sum_{k\,\rm even}d_kT_k(t)/(\pi\sqrt{1-t^2})$ and $d_0=1$.
+     - The Cauchy part of $\Phi'$ is exact:
+       $\mathrm{PV}\!\int\frac{T_k(t')\,dt'}{(t-t')\sqrt{1-t'^2}}=-\pi U_{k-1}(t)$. The smooth part uses
+       Gauss–Chebyshev quadrature.
+     - At fixed $a$ the projected equations are linear in $d$. The edge coefficient $e(a)=\sum_kd_k$ multiplies
+       $1/\sqrt{1-t^2}$. It is positive for $a<a^*$ (support too small) and negative for $a>a^*$ (negative density).
+     - The physical maximum is the first root of $e$, where the edge is soft.
+     - *Pitfall, recorded because it was tried first:* maximising $F$ over soft-edge densities at fixed $a$ without
+       imposing positivity is wrong. It runs to $a=\pi/3$ with negative densities for $p\ge4$.
+8. *Count.* All three species coincide, $\rho_v=g$ with $a<\pi/2$, and $x\to h$. The threshold is $p=1$: the
+   odd-$m$ node-symmetric moment has eigenvalue $1-p$.
+9. *Limits.*
+   - *$p\to2^+$.* At $p=2$ every labelling of the uniform total density gives $F=0$. To first order in $p-2$, the best
+     labelling is three uniform arcs of length $2\pi/3$, with $u_m=3\sin(m\pi/3)/(\pi m)$.
+     - Evaluating $F$ on these arcs gives, for all $p\ge2$,
+       $$F^*(p)\ge(p/2-1)\,\tfrac{39\zeta(3)}{2\pi^2},$$
+       and the bound is tight as $p\to2^+$.
+     - Count: a uniform half circle gives $G^*\ge(p-1)\frac{21\zeta(3)}{2\pi^2}$, tight as $p\to1^+$.
+   - *$p\to\infty$.* The arcs have width $O(p^{-1/2})$.
+     - Use $x(\alpha)=\frac12\ln3-\alpha^2/6+O(\alpha^4)$ and $f\approx\ln|\alpha|$. Each arc then solves a GUE problem:
+       a semicircle of radius $\sqrt{6/p}$, with
+       $$F^*=\tfrac{3p}2\ln3-\tfrac32\ln\tfrac{2p}3-\tfrac94+O(1/p).$$
+     - Count: $h=\ln2-\alpha^2/8+\dots$, semicircle radius $\sqrt{8/p}$,
+       $$G^*=3p\ln2-\tfrac32\ln\tfrac p2-\tfrac94+O(1/p).$$
+   - *Reading of the leading terms.* $\frac{3p}2\ln3\,n^2=\ln\big(\sqrt3^{\,3pn^2}\big)$ is what $3pn^2$ fermion modes
+     give when each carries $|1-e^{-2\pi i/3}|=\sqrt3$. That is the holonomy configuration $U_v\approx e^{2\pi iv/3}$,
+     which turns the $(-1)^F$ weight of every bifundamental into a phase. The count's leading term
+     $3p\ln2\,n^2=\ln2^{3pn^2}$ is all states.
+10. *Finite $n$.*
+    - *Discrete maximum (numerical, every $p$ studied, index and count):*
+      $$L_{\max}(n)=F^*n^2+3n\ln n+3n\!\int\!g\ln(2\pi g)+\tfrac14\ln n+O(1).$$
+      The $n\ln n$ and $O(n)$ terms are the $\beta=2$ self-energy of each species at local spacing $1/(n\rho)$. The
+      $\frac14$ is consistent with $\frac1{24}$ per soft edge (six edges). The $p=2$ crystal, which has no edges,
+      gives $L_{\max}=3n\ln3n$ exactly.
+    - *Laplace estimate about the maximum:*
+      $$\ln|I_0|\approx\ln c+\tfrac12\ln3n+\tfrac{1-3n}2\ln2\pi+L_{\max}-\tfrac12\ln{\det}'(-\partial^2L).$$
+      Here $c=2$ for the index: the two cyclic orientations of the arcs, which cancel when $p$ and $n$ are both odd.
+      $c=1$ for the count, and $c=(3n-1)!/(n!)^3$ at $p=2$.
+    - *Crystal correction.* For $N$ points on the circle (CUE), the Gaussian approximation about the equally spaced
+      crystal gives $\sqrt N\,N^N(2\pi)^{(1-N)/2}$, against the exact $N!$. The excess is
+      $N\ln(e/\sqrt{2\pi})-\frac1{12N}+\dots$, about $0.0811$ per point.
+    - *Corrected Laplace.* Subtract $3n\ln(e/\sqrt{2\pi})$. At $p=2$ this is exact up to $-\frac1{36n}$. For
+      $p\neq2$ it assumes each arc is locally a $\beta=2$ log gas, which is the heuristic step.
+    - With the correction the $O(n)$ terms cancel to fit precision:
+      $$\text{corrected Laplace}=F^*n^2+\tfrac12\ln n+d(p)+O(1/n),$$
+      with $d\approx2.2$–$2.4$ for the index and $1.15$–$1.24$ for the count ($p=3$–$6$). The fitted $\ln n$
+      coefficient is $0.50$, except $0.54$ for the index at $p=3$, whose small arc gap slows convergence.
+    - This matches the absence of an $O(n)$ term for $\beta=2$ ensembles. For GUE with measure $dx/2\pi$,
+      $\ln(Z_n/n!)=-\frac34n^2-\frac1{12}\ln n+\zeta'(-1)+o(1)$ (Barnes $G$ asymptotics).
+
+**Checks** (`scripts/quiver_index_saddle.py`, `results/data/quiver_index_saddle.json`).
+- *Exact data* (15 entries, plus $n=1$ by Dixon for the index and Franel for the count):
+  - every sign and zero rule holds, and the $p=2$ formula holds;
+  - Hölder holds with ratios 16.6 at $(2,3)$ and 1.62 at $(2,5)$;
+  - $p=1$ gives $I_0=0$ at $n=2,4$ as well. That is consistent with the uniform saddle for $p<2$ (no growth), though
+    it is not implied by the rules above.
+- *Continuum:*
+  - resolutions $(K,J)=(40,400)$ and $(60,700)$ agree to $10^{-14}$;
+  - $\Phi$ is flat on the support to $10^{-15}$;
+  - $\Phi<\lambda$ in the gaps, and $g>0$;
+  - both limiting forms are approached: just above the threshold bound near $p=2$, and within $O(1/p)$ at large $p$
+    ($-0.08$ at $p=16$, $-0.02$ at $p=64$).
+- *Discrete against continuum* (symmetry-reduced Newton, $n$ up to 2048):
+  - the extrapolated $n^2$ coefficient matches $F^*$ and $G^*$ to $10^{-9}$–$10^{-13}$;
+  - the $O(n)$ coefficient matches $3\int g\ln2\pi g$ to six digits;
+  - the free $n\ln n$ coefficient is $3.0000$;
+  - for $n\le12$ the symmetric maximiser beats six random unconstrained starts in every case.
+- *Corrected Laplace against all 27 nonzero exact values* ($n\le4$, $p\le6$, index and count): every residual is
+  negative. $p=2$: $-0.03\to-0.007$. Index, $p\ge3$: $-0.12$ to $-0.60$. Count: $-0.08$ to $-0.30$. The values range
+  from $e^{1.8}$ to $e^{50.7}$. Uncorrected Laplace is off by $-0.11$ to $+0.97$, with an error that grows like $n$.
+
+**Values.**
+
+| $p$ | $F^*$ (index) | arc half-width $a^*$ | $G^*$ (count) | $F^*/G^*$ | $F^*/3p$ per mode |
+|---|---|---|---|---|---|
+| 2 | 0 (exact) | $\pi/3$ (crystal) | 1.424371 | 0 | 0 |
+| 3 | 1.237284 | 1.02761 (gap 0.039) | 3.042662 | 0.407 | 0.137 |
+| 4 | 2.554963 | 0.97172 | 4.768829 | 0.536 | 0.213 |
+| 5 | 3.929671 | 0.91321 | 6.562254 | 0.599 | 0.262 |
+| 6 | 5.345465 | 0.86060 | 8.401472 | 0.636 | 0.297 |
+| $\infty$ | $\frac{3p}2\ln3$ | $\sqrt{6/p}$ | $3p\ln2$ | $\frac{\ln3}{2\ln2}=0.792$ | $\frac12\ln3$ |
+
+**Reading.**
+- The singlet BPS entropy of the quiver is macroscopic exactly when $p>2$. At $p=2$, $\ln|I_0|=3n\ln3+O(\ln n)$
+  exactly. At $p=3$, $\ln|I_0|=1.2373\,n^2+O(\ln n)$, which is $41\%$ of the singlet log-count at leading order; the
+  fraction rises to $0.79$ as $p\to\infty$.
+- The proviso for odd $p$: the arc gap at $p=3$ is small (0.039 rad). So sign-changing configurations, which need an
+  eigenvalue of one node to pass one of a neighbouring node, are suppressed only by $e^{-O(n)}$ with a modest
+  coefficient. The exact $(2,3)$ and $(4,3)$ values show no sign of cancellation: their residuals are like those of
+  even $p$.
+- *Test at $(4,3)$.* $F^*n^2=19.80$ alone; the corrected Laplace estimate is $22.69$; the exact value is $22.97$. So the
+  finite-$n$ evaluation of the same saddle family is within 25% of $|I_0(4,3)|=9.43\times10^9$.
