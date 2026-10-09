@@ -60,3 +60,15 @@ This paper defines what "super-Schwarzian / supercharge chaos" predicts *quantit
 2. **Gap prediction.** $E_0(q)=q^2/(4\hat q^2)$ in Schwarzian units: multiplets straddling the BPS window have gaps growing quadratically with distance from the centre — a target for $E_0(N_\Psi)$ bounds in lifted sectors (after fixing the overall scale $\propto1/N^\#$).
 3. **Chaos diagnostic.** The right object is the singular-value spectrum of $Q_k$ restricted to a $(k,k+3)$ pair of charge sectors (and, for us, a fixed $SU(N)$ irrep), tested with the $r$-ratio against $\beta=2$ (or $\beta=1$ for $CT$-self-conjugate multiplets when the total fermion number is odd). This avoids the huge $H$-degeneracies that made the project's $N=2$ level-statistics test inconclusive and is feasible with sparse SVD/Lanczos on $Q_k^\dagger Q_k$ in sectors of dimension $\sim10^4$–$10^5$.
 4. **Structural constraint.** Genericity forbids BPS states at charges $k$ and $k+\hat q$ simultaneously; the single-matrix model violates this for $N\ge3$ (BPS at $N_\Psi=3$ and $6$ in the same irrep $r_*$), which is another way to say its supercharge is non-generic (Casimir Hamiltonian). Whether the three-matrix model is "generic in this sense" at $N\ge3$ is the concentration question.
+
+**Use in the quiver project (2026-10-09; D22, quiver note §14).**
+- (3.9)–(3.11) were re-checked against the PDF. $E_0(q)\equiv q^2/(4\hat q^2)$ is "the energy gap for a non-BPS
+  supermultiplet of R-charges $q\pm\hat q/2$", in units where the density is $\sinh(2\pi\sqrt{E-E_0})$, i.e. units
+  of $1/(2C)$ with $C$ the Schwarzian coefficient.
+- With FGMS (5.38) ($C=N\alpha_s/J$) and the project's $\alpha_s^{\mathcal N=2}=0.0084439$ this gives
+  $E_0(q)=1.645\,Jq^2/N$.
+- Multiplet charges are $q\in\mathbb Z+\delta-\frac12$, so for odd $N$ ($\delta=\frac12$) the $q=0$ multiplet is
+  gapless.
+- The cosine law (3.10) is reproduced in every gauge-charge sector of the full $n=1$ quiver at $p\le6$:
+  $6597{:}13128{:}6597$ at $p=6$.
+

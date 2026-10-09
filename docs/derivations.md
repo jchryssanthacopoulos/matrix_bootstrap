@@ -1714,3 +1714,178 @@ $\le3$) at seed-3 couplings.
   rank-fortuitous.
 - Level-4 probe at $(2,2)$, $k=9$ (2026-10-09): feasible (Clarabel, blocks up to 104). Raising the level does not move
   the frontier set by non-singlet BPS states.
+
+## D22. The large-$p$ saddle solved: $\mathcal N=2$ SYK at $\hat q=3$, its thermodynamics and Schwarzian coupling, and exact tests at $n=1$ (2026-10-09)
+
+**Status.**
+- *Derived (leading order in $1/p$, on top of D19):* the reduced equations, the energy formula, the quiver dictionary,
+  and the predictions in item 3.
+- *Exact:* the infinite-temperature moments of item 4, for every $p$.
+- *Numerical:* the saddle solution of item 2 (validated against exact $S_0$ to $3\times10^{-6}$), and the full exact
+  diagonalisation of the $n=1$ model at $p\le6$ (item 5).
+- *Heuristic (large $p$ plus Turiaci–Witten genericity):* the singlet-sector window rule of item 6.
+- Code: `src/n2syk_sd.py`, `scripts/n2syk_thermo.py`, `scripts/quiver_n1_full_thermo.py`,
+  `scripts/plot_n2syk_large_p.py`, `tests/test_n2syk.py`. Quiver note §14. Figure `results/figures/n2syk_large_p.{pdf,png}`.
+
+**1. The reduced problem.**
+- *Assumptions.* $C_{abc}$ independent, zero-mean Gaussian, $\langle C^2\rangle$ fixed; $n$ fixed, $p\to\infty$;
+  the colour-symmetric saddle of D19.
+- *Dictionary.* $N=3pn^2$ complex fermions and $J=p^2n\langle C^2\rangle$, so that each self-energy is
+  $\Sigma_A=JG_BG_C$ (D19). The normalisation is fixed exactly at infinite temperature for every $p$ and $n$. With
+  $O_{abc}=\mathrm{Tr}(A^aB^bC^c)$ one has $\langle O_{abc}O^\dagger_{a'b'c'}\rangle_\infty=\delta\delta\delta\,n^3/8$,
+  hence $\langle H\rangle_\infty=\sum_{abc}C_{abc}^2\,n^3/4$ and $\langle H\rangle_\infty/N=J/12$.
+- *Equations.* At zero R-chemical potential the three species are equal, and the equations are the $\mathcal N=1$
+  equations of Fu–Gaiotto–Maldacena–Sachdev (FGMS (2.11)–(2.12)) at $\hat q=3$:
+  $$\Sigma_\psi(\tau)=(\hat q-1)J\,\tilde G_b(\tau)G_\psi(\tau)^{\hat q-2},\qquad \Sigma_b(\tau)=J\,G_\psi(\tau)^{\hat q-1},$$
+  $$G_\psi(i\omega)=\frac1{-i\omega-\Sigma_\psi(i\omega)},\qquad G_b(i\nu)=-\frac1{1+\Sigma_b(i\nu)},\qquad G_b=-\delta+\tilde G_b .$$
+  FGMS §5 describe the $\mathcal N=2$ equations as "a complexified version of the $\mathcal N=1$ equations". With a
+  particle-hole symmetric $G_{\psi\bar\psi}$ they reduce to these. The $\mathcal N=2$ action per complex fermion is
+  twice the $\mathcal N=1$ action per Majorana (a determinant instead of a Pfaffian), as FGMS note for $S_0$ below
+  (5.6). The $\delta$ part of $G_b$ drops out of $\Sigma_\psi$ because $G_\psi(0)=0$.
+- *Energy.* $H=Q^2$ with $Q$ linear in $C\propto\sqrt J$, so $J\partial_J\log Z=-\beta\langle H\rangle$. Per Majorana,
+  $$\frac EN=\frac J{\hat q\,2^{\hat q}}-\frac J2\int_0^\beta\tilde G_b(\tau)\,G_\psi(\tau)^{\hat q-1}\,d\tau .$$
+  The integral is $J\partial_J$ of the bilocal interaction evaluated on the smooth part of $G_b$. The $\delta$ part
+  multiplies the coincident-point product $G_\psi(0)^{\hat q-1}$, which is ordering-ambiguous. It is fixed by the
+  operator identity: the $c$-number part of $Q^2$ is $\sum_IC_I^2/2^{\hat q}=NJ/(\hat q2^{\hat q})$, i.e.
+  $\langle H\rangle_\infty/N$. FGMS (2.37) computes $J\partial_J\log Z$ from $\partial_\tau G_\psi(0^+)$ and omits
+  this constant (their large-$\hat q$ free energy (2.38) carries a ground-state energy that "should be subtracted
+  off"). Checks: $E(\beta\to0)=J/24$, $E\to0$ as $T\to0$, and the entropy integral below.
+- *Thermodynamics.* $\log Z/N=\tfrac12\ln2-\int_0^\beta E\,d\beta'$, $S=\log Z+\beta E$ and
+  $S_0=\tfrac12\ln2-\int_0^\infty E\,d\beta$. The $\mathcal N=2$ values per complex fermion are twice these.
+
+**2. Numerical solution** (`src/n2syk_sd.py`, `scripts/n2syk_thermo.py`).
+- *Method.*
+  - Midpoint grid $\tau_k=(k+\frac12)\beta/M$ with FFT transforms; the free tail $1/(-i\omega)$ is subtracted and
+    transformed analytically.
+  - Adaptive mixing, residual $<10^{-13}$.
+  - $M=2^{\lceil\log_2(\beta J/0.002)\rceil}\ge2^{10}$, with the energy Richardson-extrapolated from $M$ and $2M$.
+  - $\beta J$ grid: 10 points in $(0,2]$ and 40 geometric points in $[2,500]$.
+  - Integrals use a cubic spline of $E(1+\beta)$ in $u=\ln(1+\beta)$. A trapezoid rule on the same grid is
+    $10^{-3}$ off in $S_0$.
+- *Validation.*
+  - $S_0^{\mathcal N=1}=0.2746523$ against the exact $\frac12\ln(2\cos\frac\pi6)=0.2746531$ (FGMS (2.33)). FGMS's
+    own numerical value was $0.2745\pm0.0005$ (their Fig. 1).
+  - At $\hat q=5$: $0.3214821$ against $0.3214827$.
+  - High temperature: $E\to J/24$ and $dE/d\beta\to-J^2/32$, the exact large-$p$ moments of item 4 (per Majorana).
+  - Low temperature: $G/G_{\rm conf}=0.9974$ at $\beta J=100$, $\tau=\beta/2$ (FGMS (2.29)–(2.30)).
+- *Schwarzian coupling.*
+  - Fit $E=a_2T^2+\dots+a_5T^5$ on $\beta J\ge50$ (per Majorana, $J=1$): $a_2=0.0833381$, $a_3=-0.1296$.
+  - In the FGMS (5.38)–(5.39) convention $E/N\to2\pi^2\alpha_sT^2/J$, this gives
+    $$\alpha_s^{\mathcal N=1}=0.0042220(4)\ \text{per Majorana},\qquad \alpha_s^{\mathcal N=2}=0.0084439\ \text{per complex fermion}.$$
+    The error is the spread over fit windows $\beta J\ge20,30,50,80$ and orders 4, 5.
+  - At $\hat q=5$: $\alpha_s^{\mathcal N=1}=0.0036298(44)$.
+  - *Observation, not derived:* $12a_2=1.00006$ at $\hat q=3$, i.e. $\alpha_s^{\mathcal N=1}$ is within $6\times10^{-5}$
+    of $1/(24\pi^2)$. The $\hat q=5$ value ($14a_2=1.003$) shows no analogous simple form, so this is probably a
+    coincidence.
+
+**3. Predictions for the quiver at large $p$, fixed $n$** (leading order; zero-mean Gaussian couplings).
+- $\log Z/N$, $E/N$ and $S/N$ as functions of $\beta J$, twice the per-Majorana curves of item 2.
+- $S_0/N=\ln\sqrt3$. This is also the $\mathbb Z_3$-twisted index bound, FGMS (5.5)–(5.6), and D19 item 3 for singlets.
+- Low temperature: $E/N=2\pi^2\alpha_s^{\mathcal N=2}T^2/J=0.16668\,T^2/J$ and
+  $S/N=\ln\sqrt3+4\pi^2\alpha_s^{\mathcal N=2}T/J$. The Schwarzian coefficient is $C=N\alpha_s/J$
+  (FGMS (5.38): $\log Z\supset(N\alpha_s/J)\int\{f,u\}$).
+- *Near-BPS threshold.*
+  - Turiaci–Witten (3.11) give $E_0(q)=q^2/(4\hat q^2)$ in units where the density is
+    $\sinh(2\pi\sqrt{E-E_0})$, i.e. in units of $1/(2C)$. Here $q$ is the mean R-charge of the multiplet, in units
+    where $Q$ has charge $\hat q$ (fermion charge 1, so $J_R=N_\Psi-N/2$).
+  - Hence $E_0(q)=Jq^2/(8\hat q^2\alpha_sN)$. FGMS (5.40) gives the same threshold semiclassically:
+    $S-S_0=2\pi\sqrt{2C(E-Q_R^2/8C)}$ with $Q_R=q/\hat q$.
+  - Numerically,
+    $$E_0(q)=1.6448\,\frac{Jq^2}{N}=0.5483\,q^2\,\frac{p\langle C^2\rangle}{n}.$$
+  - The energy at which $E(T)$ reaches $E_0(q)$ corresponds to $T=Jq/(4\pi\hat q\alpha_sN)\approx3.14\,Jq/N$. The
+    first correction to the $T^2$ law is $a_3T/a_2=-1.56\,T/J$, i.e. about $-30\%$ at $q=1.5$, $N=24$ and $-12\%$ at
+    $N=60$. Quantitative tests of $E_0(q)$ therefore need $N\gtrsim60$–$100$.
+- *Ensemble caveat.*
+  - The reduction needs zero-mean couplings. In the integer ensemble $C\in\{1,\dots,5\}$ used for the exact and
+    bootstrap results (mean 3, variance 2), the mean part $3p^{3/2}\mathrm{Tr}(\bar A\bar B\bar C)$ acts on the $3n^2$
+    flavour-symmetric modes and carries $9/11$ of $\langle H\rangle_\infty$.
+  - Measured at $n=1$: $\mathrm{Var}(H)/(NJ^2)=0.106,\ 0.146,\ 0.190,\ 0.236$ at $p=2$–$5$ (5 seeds each). This grows
+    linearly in $p$ instead of approaching $1/16$, so the energy fluctuations are not extensive and integer-coupling
+    spectra are not in the Gaussian SYK class.
+  - Cohomological results are unaffected (genericity). The BPS counts are identical in both ensembles at $p\le5$.
+
+**4. Exact infinite-temperature moments at $n=1$** ($Q=\sum_IC_IT_I$, $T_I=a_f^\dagger b_g^\dagger c_h^\dagger$,
+$I=(f,g,h)$, $C_I$ i.i.d. with variance $\sigma^2$, $J=p^2\sigma^2$).
+- $Q^2=0$ because the $T_I$ anticommute pairwise. Cyclicity then gives
+  $\langle H^2\rangle=\langle QQ^\dagger QQ^\dagger\rangle+\langle Q^\dagger QQ^\dagger Q\rangle=2\langle QQ^\dagger QQ^\dagger\rangle$.
+- Gaussian average: the three Wick pairings of $\langle T_IT_J^\dagger T_KT_L^\dagger\rangle$.
+  - $(IJ)(KL)$: $T_IT_I^\dagger=n_{af}n_{bg}n_{ch}$. Two such projectors sharing $s$ modes have trace $2^{s-6}$, and
+    $\sum_{I,K}2^{s}=(\sum_{f,f'}2^{\delta_{ff'}})^3=(p^2+p)^3$. Contribution: $(p^2+p)^3/64$.
+  - $(IL)(JK)$: $T_I(1-n)T_I^\dagger$ equals $T_IT_I^\dagger$ on shared modes (since $a^\dagger(1-n)=a^\dagger$),
+    giving the same $(p^2+p)^3/64$.
+  - $(IK)(JL)$: per species, $a_f^\dagger a_{f'}a_f^\dagger a_{f'}=0$ unless $f=f'$, so only $I=J$ survives.
+    Contribution: $p^3/8$.
+- With $\mathbb E\langle H\rangle^2=\frac1{16}\mathbb E(\sum C_I^2)^2=\frac{\sigma^4}{16}(p^6+2p^3)$:
+  $$\mathbb E\,\mathrm{Var}(H)=\frac{3\sigma^4}{16}\,p^3(p^2+p+1),\qquad \frac{\mathbb E\,\mathrm{Var}(H)}N=\frac{J^2}{16}\Big(1+\frac1p+\frac1{p^2}\Big).$$
+- The limit $J^2/16$ is twice the saddle's $J^2/32$ per Majorana (item 2). So the second moment approaches the saddle
+  with corrections exactly $1/p+1/p^2$, and $\langle H\rangle_\infty/N=J/12$ holds sample by sample.
+- Checks.
+  - The three pairing sums from explicit Fock operators at $p=2,3$ (`tests/test_n2syk.py`).
+  - 20-seed means at $p=2$–$5$: $0.127(30)$, $0.096(11)$, $0.076(6)$, $0.077(5)$, against $0.109$, $0.090$,
+    $0.082$, $0.078$.
+
+**5. BPS structure of the full $n=1$ model, and the Turiaci–Witten window.**
+- *Flavour sectors.* $Q$ shifts $(x,y,z)=(N_a,N_b,N_c)$ by $(1,1,1)$, so $(s,t)=(x-y,y-z)$ is conserved. These are the
+  $U(1)^3$ gauge charges; the singlet sector is $(0,0)$.
+- *Grading and index.* Each sector is a chain of blocks with $J_R=x+y+z-\frac{3p}2\in J_0(s,t)+3\mathbb Z$. Its index
+  is $\chi(s,t)=\sum_z(-1)^{x+y+z}\dim(x,y,z)$, and $\#{\rm BPS}(s,t)\ge|\chi(s,t)|$.
+- *Window rule.* Genericity per sector plus the Turiaci–Witten window $|J_R|<\hat q/2$ (TW (3.10)) put each sector's
+  BPS states at its unique window charge, so $\#{\rm BPS}(s,t)=|\chi(s,t)|$ (per-sector concentration). For even $N$
+  every sector has exactly one window charge. For odd $N$ the sectors with $J_0\equiv\frac32$ mod 3 have none; they
+  are the $q=0$ multiplet sectors, gapless with $\rho\propto1/\sqrt E$.
+- *Exact diagonalisation* (`scripts/quiver_n1_full_thermo.py`; 20 seeds at $p\le5$, 3 at $p=6$).
+  - $\#{\rm BPS}=36,172,984,4536,26400$ at $p=2$–$6$, the same for every seed and in the integer ensemble.
+  - Every sector has $\#{\rm BPS}=|\chi|$, all in one block. The single exception is the singlet sector at $p=3$:
+    $\chi=0$ with $2+2$ states at $J_R=\pm\frac32$, the window edge (note §10). It is the analogue of FGMS's
+    $D(N,\pm\frac36)=1$ or 3 for $N\equiv1$ mod 4 (FGMS (5.7)).
+  - Charge distribution: $9{:}18{:}9$ ($p=2$), $246{:}486{:}246$ ($p=4$) and $6597{:}13128{:}6597$ ($p=6$) at
+    $J_R=-1,0,1$, plus $3+3$ ($p=4$) and $36+36$, $3+3$ ($p=6$) forced outside the window.
+  - Zero-mode threshold: $10^{-12}$. Numerical zeros are $\le7\times10^{-15}$; genuine levels in the $q=0$ sectors
+    of odd $N$ reach $10^{-10}$. A $10^{-9}$ threshold misclassified one multiplet in 2 of 20 seeds at $p=5$.
+- *Asymptotics* (exact $\sum|\chi|$ for $p\le24$).
+  - Even $N$: $\sum|\chi|/3^{N/2}\to\frac43$ (1.3337 at $p=24$), with window fractions $\to\frac14,\frac12,\frac14$.
+    This is the cosine law $\cos(\pi k/3)$ of TW (3.10) and the total of FGMS's exact SYK counts (5.7),
+    $D(N,0)=2\cdot3^{N/2-1}$, $D(N,\pm\frac13)=3^{N/2-1}$.
+  - Odd $N$: the in-window part tends to $\frac2{\sqrt3}3^{N/2}$ ($=2\cdot3^{(N-1)/2}$, exactly so at $p=3$), split
+    equally between $J_R=\pm\frac12$.
+  - The out-of-window fraction decays quickly for even $N$ ($6\times10^{-3}$ at $N=12$, $10^{-4}$ at $N=36$) and
+    slowly for odd $N$ ($3.6\%$ at $N=9$, $1.9\%$ at $N=69$).
+- *Reading.* At $n=1$ the BPS states of every gauge-charge sector are concentrated, and their R-charge distribution
+  converges to the $\mathcal N=2$ SYK one. The total BPS entropy is the index entropy:
+  $\ln\#{\rm BPS}/N-\ln\sqrt3=\ln(\sum|\chi|/3^{N/2})/N\to\ln\frac43/N$. At $p=6$ this is $0.0163$, which is exactly
+  the low-temperature offset of the exact entropy from the saddle in the figure.
+
+**6. Consequence for the singlet sector at general $n$** (heuristic).
+- *Argument.* Singlet BPS states are the invariant part of the ungauged cohomology. If the ungauged model obeys the
+  window per symmetry sector, as the $n=1$ model does, they lie at $|J_R|<\frac32$. Singlet degrees are $k=3m$, so
+  $J_R\in3\mathbb Z$ for even $pn^2$ and $J_R\in\frac32+3\mathbb Z$ for odd $pn^2$. Hence:
+  - even $pn^2$: singlet BPS states only at the central degree $k=\frac32pn^2$, and their number is $|I_0|$;
+  - odd $pn^2$: no singlet BPS states at leading order. This is consistent with the exact $I_0=0$ (D18).
+- *Data.* Consistent with every case computed:
+  - $(2,2)$, $(2,3)$ and $(3,2)$ are central only;
+  - $n=1$, even $p$ is central only;
+  - $n=1$: none at $p=5$, and none in $m\le2$ at $p=7$.
+  The exception is $n=1$, $p=3$ ($2+2$ at the window edge).
+- *Prediction for $(3,3)$* ($pn^2=27$): no singlet BPS states, or a few at the central degrees $k=39,42$ (window edge).
+  The bootstrap has excluded $k\le21$ and $k\ge60$ (D21).
+- *Caveat.* The window is a large-$e^{S_0}$ statement. Its per-sector validity at $n\ge2$ is supported only by the
+  singlet data.
+
+**7. Near-BPS edges against the threshold** (singlet sector, $n=1$, seed 1, realised $J$; note §10).
+- Measured/predicted at $q=1.5$: $3.24$, $1.09$, $0.62$, $0.38$ ($p=2,4,6,8$).
+- At $q=4.5$: $1.44$, $1.04$, $0.72$, $0.68$ ($p=4,6,8,10$).
+- At $q=7.5$: $1.17$, $0.93$, $0.79$ ($p=6,8,10$).
+- Odd $p$, $q=3$: $1.82$, $0.71$, $0.62$ ($p=3,5,7$).
+- *Reading.* The overall scale is predicted to within a factor 2.6 for $N\ge12$. But at fixed $q$ the ratio still
+  drifts downward with $p$, and the edges sit below the threshold, which random-matrix edge fluctuations cannot
+  produce (they raise the lowest level). So the data are pre-asymptotic, as item 3 anticipates.
+- The $(2,3)$ edges ($0.054$, $0.335$) are integer-ensemble data and cannot be compared (item 3). A Gaussian-coupling
+  $(2,3)$ run would be needed.
+
+**8. Thermodynamics against exact diagonalisation** (figure panels (a)–(b); seed-averaged).
+- The exact $n=1$ curves at $p=3$–$6$ approach the saddle at fixed $\beta J$. The high-temperature agreement improves
+  as $1/p$ (item 4). At low temperature the exact entropy saturates at $\ln\#{\rm BPS}/N$, which exceeds
+  $\ln\sqrt3$ by the $O(1/N)$ prefactor of item 5.
+- Below the near-BPS gap, the exact energy falls exponentially (even $N$) or stays above the saddle (odd $N$, gapless
+  $q=0$ sectors).
+- The deviation table is in quiver note §14.

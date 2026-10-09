@@ -50,9 +50,15 @@ gas on the circle. This proves $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ and fixes the sign 
 large-$n$ saddle gives $\ln|I_0|=F^*(p)\,n^2+O(\ln n)$ with $F^*>0$ exactly when $p>2$; at $p=3$,
 $F^*=1.2373$, which is $41\%$ of the singlet log-count, and as $p\to\infty$ the BPS entropy per fermion approaches
 the $\mathcal N=2$ SYK value $\frac12\ln3$. A parameter-free finite-$n$ evaluation of the same saddle reproduces all
-27 non-zero exact indices and singlet counts to within $0.6$ in the logarithm. The $p\ge3$ quiver therefore has
+27 non-zero exact indices and singlet counts to within $0.6$ in the logarithm. At large $p$ and fixed $n$ the model
+reduces to $\mathcal N=2$ SYK with $N=3pn^2$ fermions and coupling $J=p^2n\langle C^2\rangle$. We solve its
+Schwinger--Dyson saddle, which fixes the super-Schwarzian coefficient, $\alpha_s=0.00844$, and predicts near-BPS
+thresholds $E_0(q)=1.645\,Jq^2/N$, and we test it against the exactly diagonalised $n=1$ model: its moments approach
+the saddle with exact $1/p$ corrections, and every gauge-charge sector, not only the singlets, carries exactly as many
+BPS states as its index, distributed over the R-charge as in $\mathcal N=2$ SYK. The $p\ge3$ quiver therefore has
 macroscopic BPS entropy, concentration, fortuity and chaos at the sizes we can reach; concentration near half filling
-at $(3,3)$ and beyond, and genuine near-BPS scaling, are the open questions, and we describe how to attack them.
+at $(3,3)$ and beyond, and genuine near-BPS scaling, which the saddle shows to require $N\gtrsim60$ fermions, are the
+open questions, and we describe how to attack them.
 \end{minipage}\end{center}
 \vspace{8pt}
 
@@ -87,7 +93,8 @@ Section~\ref{sec:spectrum} turns to the non-BPS singlet spectrum, where $p=3$ is
 extended supersymmetry. Section~\ref{sec:largen} contains the main analytic result: the singlet index is the
 partition function of a three-species log gas, which we solve at large $n$. Section~\ref{sec:boot} goes beyond
 $n=2$, with a Schur--Weyl singlet basis at $(3,2)$ and a semidefinite bootstrap of the singlet sector at $(3,3)$,
-and compares fortuity in the rank and flavour directions.
+and compares fortuity in the rank and flavour directions. Section~\ref{sec:largep} solves the large-$p$
+Schwinger--Dyson saddle and tests it against the exactly diagonalised $n=1$ model.
 Section~\ref{sec:prospects} assesses the prospects of the $p\ge3$ model and lists the next steps.
 
 \section{The model}\label{sec:model}
@@ -379,7 +386,9 @@ from the eleven lowest $|q|=1.5$ levels predicts 5.4, 258, 2000 and $8.7\times10
 $E=1.0$, $2.17$, $3.11$ and $5.38$, against 2, 3, 5 and 7 measured (Figure~\ref{fig:step1}d). This is not
 surprising. The Turiaci--Witten density is a statement at large $e^{S_0}$ in which neighbouring charge sectors carry
 the same entropy, whereas at $(2,3)$ the singlet sectors at $k=12$, 15 and 18 hold $71\,685$, $211\,113$ and $300\,584$
-states, changing by factors of three to four per step. The test needs larger $n$.
+states, changing by factors of three to four per step. The test needs larger $n$. It also needs Gaussian couplings:
+the integer couplings used here have a non-zero mean, which takes the model out of the large-$p$ SYK class
+(Section~\ref{sec:largep}).
 
 The case $p=2$ behaves very differently, and the reason is an unexpected symmetry. The $(2,2)$ spectra are full of
 exact coincidences between different pairs, and a search over cubic supercharges $\tilde Q=Q(\tilde C)$ that
@@ -859,6 +868,201 @@ classes at $(2,2)$ are arrow-fortuitous as well, since $(2,3)$ has no singlet co
 genuinely different, and Table~\ref{tab:arrow} is its exact form.
 
 
+\section{\texorpdfstring{Large $p$: the Schwinger--Dyson saddle and the full $n=1$ model}{Large p: the Schwinger-Dyson saddle and the full n=1 model}}\label{sec:largep}
+
+At fixed $n$ the flavour indices of the quiver play the role of the site indices of SYK, and the limit of large $p$
+is controlled by a saddle point. Take the couplings independent and Gaussian with zero mean and
+$\langle C_{abc}^2\rangle=J/(p^2n)$. Averaging over them and introducing flavour-averaged bilocal fields that are
+matrices in colour, $G_A(\tau,\tau')_{ij,i'j'}=\frac1p\sum_a\bar A^a_{ij}(\tau)A^a_{i'j'}(\tau')$ and likewise for $B$
+and $C$, turns the action into $p$ times a functional of the bilocals. At the colour-symmetric saddle every colour
+loop contributes a factor $n$, and each species obeys $\Sigma_A=JG_BG_C$ and its cyclic images. These are the
+Schwinger--Dyson equations of $\mathcal N=2$ SYK with $\hat q=3$ \cite{FGMS}, for
+\begin{equation}
+N=3pn^2\ \text{complex fermions},\qquad J=p^2n\langle C^2\rangle .
+\label{eq:dictionary}
+\end{equation}
+The singlet projection adds an integral over the three holonomies, of dimension $3n^2$ against an action of order
+$pn^2$, so it changes the free energy only at relative order $1/p$ up to logarithms, as it does for the index in
+Section~\ref{sec:largen}. The normalisation is fixed exactly at infinite temperature. With
+$O_{abc}=\Tr(A^aB^bC^c)$ one has $\langle O_{abc}O^\dagger_{a'b'c'}\rangle_\infty=\delta_{aa'}\delta_{bb'}\delta_{cc'}\,n^3/8$,
+hence $\langle H\rangle_\infty/N=J/12$ for every coupling draw and every $p$ and $n$. The argument is the standard
+one for SYK. It is not rigorous here, because each coupling is shared by $n^3$ colour triples, and we have not checked
+the dominance of melonic diagrams diagram by diagram. In this section we solve the saddle, derive its predictions,
+and test them against the $n=1$ model, which we diagonalise exactly at $p\le6$ in all of its gauge-charge sectors.
+
+\subsection{The saddle and its predictions}
+
+At zero chemical potential for the R-charge the three species are equal, and the complex equations reduce to the
+$\mathcal N=1$ equations of \cite{FGMS},
+\begin{equation}
+\Sigma_\psi=(\hat q-1)J\,\tilde G_b\,G_\psi^{\hat q-2},\qquad \Sigma_b=J\,G_\psi^{\hat q-1},\qquad
+G_\psi(i\omega)=\frac1{-i\omega-\Sigma_\psi(i\omega)},\qquad G_b(i\nu)=-\frac1{1+\Sigma_b(i\nu)},
+\label{eq:sd}
+\end{equation}
+with $G_b=-\delta+\tilde G_b$, while the action per complex fermion is twice the $\mathcal N=1$ action per Majorana
+fermion. The energy needs one remark. Since $H=Q^2$ and $Q$ is linear in the couplings, $J\partial_J\log
+Z=-\beta\langle H\rangle$, and per Majorana fermion
+\begin{equation}
+\frac EN=\frac J{\hat q\,2^{\hat q}}-\frac J2\int_0^\beta\tilde G_b(\tau)\,G_\psi(\tau)^{\hat q-1}\,d\tau .
+\label{eq:energy}
+\end{equation}
+The integral comes from the smooth part of $G_b$. The delta-function part multiplies an ordering-ambiguous product
+of propagators at coincident points, and it is fixed by the operator statement that the $c$-number part of $Q^2$ is
+$\sum_IC_I^2/2^{\hat q}$, which is the first term. The slope formula (2.37) of \cite{FGMS} omits this constant;
+without it the energy of the supersymmetric ground state does not vanish.
+
+We solve \eqref{eq:sd} on a midpoint grid in imaginary time with fast Fourier transforms, subtracting the free tail
+analytically, on grids with $\beta J/M\le0.002$, with Richardson extrapolation in $M$ and a spline quadrature for the
+thermodynamic integrals. Three checks fix the accuracy. The zero-temperature entropy
+$\frac12\ln2-\int_0^\infty E\,d\beta$ comes out as $0.2746523$ per Majorana fermion against the exact
+$\frac12\ln(2\cos\frac\pi6)=0.2746531$ (Fu et al.\ found $0.2745\pm0.0005$ numerically), and as $0.3214821$ against
+$0.3214827$ at $\hat q=5$. At high temperature the solution reproduces $E\to J/24$ and $dE/d\beta\to-J^2/32$, the
+exact moments derived below. At $\beta J=100$ the propagator at $\tau=\beta/2$ is within $0.3\%$ of the conformal
+solution. The low-temperature energy then supplies the one number that the $\mathcal N=2$ super-Schwarzian leaves
+free \cite{FGMS}. A fit $E=\sum_{k=2}^5a_kT^k$ on $\beta J\ge50$ gives $a_2=0.0833381$ per Majorana fermion, and in
+the convention $E/N\to2\pi^2\alpha_sT^2/J$
+\begin{equation}
+\alpha_s=0.0084439\qquad\text{per complex fermion},
+\end{equation}
+stable to $10^{-4}$ across fit windows. Fu et al.\ write down the Schwarzian action but do not quote this
+coefficient.
+
+The predictions for the quiver at large $p$ follow. The entropy and the energy per fermion are universal functions of
+$\beta J$ (Figure~\ref{fig:largep}a,b), with $S_0/N=\ln\sqrt3$, the value already found for the index in
+Section~\ref{sec:largen}, and at low temperature $E/N=0.1667\,T^2/J$ and $S/N=\ln\sqrt3+4\pi^2\alpha_sT/J$. The
+Schwarzian coefficient is $C=N\alpha_s/J$. Turiaci and Witten give the threshold of a non-BPS multiplet with charges
+$q\pm\hat q/2$ as $E_0(q)=q^2/4\hat q^2$ in units of $1/2C$ \cite{TW}, so
+\begin{equation}
+E_0(q)=\frac{Jq^2}{8\hat q^2\alpha_sN}=1.645\,\frac{Jq^2}N=0.548\,q^2\,\frac{p\langle C^2\rangle}{n},
+\label{eq:E0}
+\end{equation}
+and the semiclassical entropy of \cite{FGMS} gives the same threshold independently. The saddle also says when
+\eqref{eq:E0} can be tested. The energy $E_0(q)$ corresponds to a temperature $T\approx3.1\,Jq/N$, and there the
+first correction to the $T^2$ law, $a_3T/a_2=-1.56\,T/J$, is about $30\%$ for $q=1.5$ at $N=24$ and still $12\%$ at
+$N=60$. A quantitative test therefore needs $N\gtrsim60$--$100$ fermions.
+
+\subsection{\texorpdfstring{Exact tests at $n=1$}{Exact tests at n=1}}
+
+The $n=1$ model is tripartite $\mathcal N=2$ SYK with $3p$ fermions and $Q=\sum C_{fgh}a_f^\dagger b_g^\dagger c_h^\dagger$.
+Without the gauge projection it can be diagonalised completely up to $p=6$ ($2^{18}$ states, block by block in the
+three fermion numbers), and its second moment can be computed exactly. Because $Q^2=0$, cyclicity gives
+$\langle H^2\rangle=2\langle QQ^\dagger QQ^\dagger\rangle$. Of the three Wick pairings of the Gaussian couplings, two
+give $(p^2+p)^3/64$, from products of the number operators $T_IT_I^\dagger=n_{af}n_{bg}n_{ch}$ with
+$T_I=a_f^\dagger b_g^\dagger c_h^\dagger$, and the third gives only $p^3/8$. With $\sigma^2=\langle C^2\rangle$ and
+$\mathbb E\langle H\rangle^2=\sigma^4(p^6+2p^3)/16$ this yields
+\begin{equation}
+\frac{\mathbb E\,\mathrm{Var}(H)}N=\frac{J^2}{16}\Big(1+\frac1p+\frac1{p^2}\Big),
+\label{eq:var}
+\end{equation}
+whose limit $J^2/16$ is exactly the slope of the saddle. The second moment therefore approaches the saddle with
+corrections $1/p+1/p^2$, and twenty coupling draws at each $p\le5$ agree with \eqref{eq:var} within their errors
+(Figure~\ref{fig:largep}c). The full thermodynamics behaves in the same way. For $\beta J\lesssim5$ the deviations
+from the saddle fall off as $1/p$: $p\,\Delta S/N=-0.0072$, $-0.0075$ and $-0.0072$ at $\beta J=1$, and
+$p\,(E/E_{\rm SD}-1)=-0.97$, $-1.03$ and $-0.99$ at $\beta J=2$, for $p=4$, 5 and 6. At low temperature the exact
+entropy saturates at $\ln(\#\mathrm{BPS})/N$, which lies above $\ln\sqrt3$ by a term that we identify below.
+
+\subsection{Concentration in every gauge-charge sector}
+
+The exact $n=1$ spectra contain much more than the singlets. Since $Q$ raises each of the three fermion numbers
+$(x,y,z)$ by one, $(s,t)=(x-y,y-z)$ is conserved. These are the $U(1)^3$ gauge charges, and the singlet sector is
+$(0,0)$. Each sector is a chain of blocks whose R-charge $J_R=x+y+z-\frac32p$ runs over a single residue class mod 3,
+and its index is $\chi(s,t)=\sum(-1)^{x+y+z}\dim(x,y,z)$. If each sector were a generic $\mathcal N=2$ theory obeying
+the Turiaci--Witten window $|J_R|<\hat q/2$, its BPS states would all sit at its unique charge inside the window, and
+their number would be $|\chi(s,t)|$. Table~\ref{tab:sectors} shows that this is exactly what happens. In every sector
+at $p=2$, 4, 5 and 6, and in every sector but one at $p=3$, the number of BPS states equals $|\chi|$ and the states
+occupy a single block. The exception is the singlet sector at $p=3$, whose $2+2$ states at $J_R=\pm\frac32$
+(Section~\ref{sec:towers}) sit on the edge of the window. The counts are the same for every coupling draw. Summing
+$|\chi|$ over sectors, which can be done exactly at any $p$, gives $\frac43\,3^{N/2}$ BPS states for even $N$, in the
+ratio $1{:}2{:}1$ at $J_R=-1,0,1$, and $\frac2{\sqrt3}\,3^{N/2}$ split equally between $J_R=\pm\frac12$ for odd $N$,
+up to a remainder outside the window that disappears quickly for even $N$ and slowly for odd $N$
+(Figure~\ref{fig:largep}d,e). These are precisely the exact ground-state counts of $\mathcal N=2$ SYK,
+$D(N,0)=2\cdot3^{N/2-1}$ and $D(N,\pm\frac13)=3^{N/2-1}$ for even $N$ \cite{FGMS}, and the cosine law of \cite{TW}.
+The low-temperature entropy offset of the previous subsection is the prefactor of these counts,
+$\ln(\sum|\chi|/3^{N/2})/N\to\ln\frac43/N$, which equals $0.0163$ at $p=6$. At $n=1$, then, R-charge concentration
+is not a property of the singlets alone. It holds in every gauge-charge sector, and the window is that of
+$\mathcal N=2$ SYK.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$p$ & sectors & BPS states & sectors with $\#\mathrm{BPS}=|\chi|$ & BPS states at $J_R=-1,0,1$ (or $\pm\frac12$) &
+outside $|J_R|<\frac32$\\
+\midrule
+2 & 19 & 36 & 19 & $9:18:9$ & 0\\
+3 & 37 & 172 & 36 & $81:81$ & 10\\
+4 & 61 & 984 & 61 & $246:486:246$ & 6\\
+5 & 91 & 4\,536 & 91 & $2\,190:2\,190$ & 156\\
+6 & 127 & 26\,400 & 127 & $6\,597:13\,128:6\,597$ & 78\\
+\bottomrule
+\end{tabular}
+\caption{BPS states of the full $n=1$ model by gauge-charge sector, from exact diagonalisation (twenty coupling
+draws at $p\le5$ and three at $p=6$, all identical). Wherever $\#\mathrm{BPS}=|\chi|$ the states occupy a single
+block. The exceptional sector at $p=3$ is the singlet sector, with $\chi=0$ and $2+2$ states at $J_R=\pm\frac32$.}
+\label{tab:sectors}
+\end{table}
+
+This suggests a rule for the singlet sector at any $n$. Singlet BPS states are the invariant part of the cohomology of
+the ungauged model, so if the ungauged model obeys the window sector by sector, as the $n=1$ model does, the singlet
+BPS states lie at $|J_R|<\frac32$. Singlet degrees are multiples of three, so $J_R\in3\mathbb Z$ when $pn^2$ is even
+and $J_R\in\frac32+3\mathbb Z$ when it is odd. For even $pn^2$ the rule therefore says that all singlet BPS states sit
+at half filling, $|I_0|$ of them, which is the concentration found at $(2,2)$, $(2,3)$ and $(3,2)$ and at even $p$ for
+$n=1$. For odd $pn^2$ it says that there are no singlet BPS states at leading order, consistent with the vanishing of
+$I_0$ (Section~\ref{sec:bps}), with $n=1$ at $p=5$, and with $p=7$ outside its central blocks; the only exception we
+know is the window-edge pair at $(1,3)$. For $(3,3)$, where $pn^2=27$, the rule predicts no singlet BPS states at all,
+or at most a few in the two central degrees $k=39$ and $42$. It is a heuristic: it rests on the large-$e^{S_0}$
+statement of \cite{TW}, and at $n\ge2$ only the singlet data support it.
+
+\subsection{Near-BPS edges}
+
+Equation \eqref{eq:E0} can be confronted with the lowest singlet multiplets at $n=1$, which we computed up to $p=10$
+for Gaussian couplings (Table~\ref{tab:edges}, Figure~\ref{fig:largep}f). The overall scale is right: for $N\ge12$
+every measured edge is within a factor 2.6 of the prediction. The edges have not converged, however. At fixed $q$ the
+ratio of measured to predicted still drifts downward with $p$, from $1.09$ to $0.38$ at $q=1.5$ between $p=4$ and 8,
+and the edges at small $q$ lie below the threshold, which the finite-$e^{S_0}$ fluctuations of a random-matrix edge
+cannot produce, since they raise the lowest level. With $N\le30$ the data are pre-asymptotic, as the estimate of the
+previous subsection anticipates.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$p$ ($N$) & $J$ & $q=1.5$ & $q=4.5$ & $q=7.5$ & $q=10.5$\\
+\midrule
+4 (12) & 0.736 & 0.246 (1.09) & 2.95 (1.44) & & \\
+6 (18) & 0.878 & 0.112 (0.62) & 1.68 (1.04) & 5.27 (1.17) & \\
+8 (24) & 0.847 & 0.049 (0.38) & 0.85 (0.72) & 3.05 (0.93) & 6.77 (1.06)\\
+10 (30) & 0.976 & & 0.73 (0.68) & 2.39 (0.79) & \\
+\bottomrule
+\end{tabular}
+\caption{Lowest singlet multiplet energies $E_0(q)$ at $n=1$ (Gaussian couplings, one draw, realised
+$J=p^2\langle C^2\rangle$), with the ratio to the large-$p$ prediction \eqref{eq:E0} in parentheses. For odd $p$ the
+ratios are $0.71$ and $1.27$ at $q=3$ and 6 for $p=5$, and $0.62$, $0.88$ and $1.10$ at $q=3$, 6 and 9 for $p=7$.}
+\label{tab:edges}
+\end{table}
+
+The integer couplings used for the exact and bootstrap computations at $n\ge2$ need a separate remark. They have mean
+3 and variance 2, and the mean part of the supercharge, $3p^{3/2}\Tr(\bar A\bar B\bar C)$ in terms of
+flavour-averaged fields, acts coherently on the $3n^2$ flavour-symmetric modes with a weight comparable to that of the
+random part. The energy fluctuations are then not extensive. At $n=1$, $\mathrm{Var}(H)/NJ^2=0.106$, $0.146$, $0.190$
+and $0.236$ for $p=2$ to 5, growing linearly in $p$ instead of approaching $1/16$. The integer ensemble is therefore
+outside the large-$p$ SYK class, \eqref{eq:E0} does not apply to it, and nothing guarantees that its spectra follow the
+Turiaci--Witten law at all. This is a further reason why the $(2,3)$ edges of Section~\ref{sec:spectrum} do not test
+the super-Schwarzian; a Gaussian-coupling computation at $(2,3)$ would be needed. Cohomological statements are
+unaffected, since they hold for generic couplings, and indeed the BPS counts of Table~\ref{tab:sectors} are the same
+in both ensembles.
+
+\begin{figure}[tp]\centering
+\includegraphics[width=0.98\textwidth]{report_figs/n2syk_large_p.pdf}
+\caption{The large-$p$ saddle against the exactly diagonalised $n=1$ model. (a) Entropy and (b) energy per complex
+fermion against $\beta J$, exact at $p=3$--6 (averaged over coupling draws) and from the saddle, with $\ln2$,
+$S_0/N=\ln\sqrt3$ and the Schwarzian asymptote. (c) Second moment of $H$ at infinite temperature against $1/p$:
+coupling draws (dots), their means with standard errors (squares), the exact average \eqref{eq:var} and the saddle
+value $1/16$ (star). (d) Number of BPS states over $3^{N/2}$: exact diagonalisation (filled) and the exact sum of
+sector indices (open), with the $\mathcal N=2$ SYK values $\frac43$ and $\frac2{\sqrt3}$. (e) Fraction of BPS states
+at $J_R=0$ for even $N$, and outside the window $|J_R|<\frac32$, from the sector indices (lines) and exact
+diagonalisation (markers). (f) Lowest singlet multiplet energies against $q^2$, with the threshold \eqref{eq:E0}.}
+\label{fig:largep}
+\end{figure}
+
 \section{\texorpdfstring{Prospects for the $p\ge3$ quiver}{Prospects for the p>=3 quiver}}\label{sec:prospects}
 
 Table~\ref{tab:scorecard} sets the two cases side by side. The contrast is sharp. The $p=2$ quiver is an elegant and highly
@@ -885,9 +1089,13 @@ Fortuity (rank) & $(2,2)$: all 90 classes, to all orders & $(2,3)$: all 1680 cla
 $(3,3)$ classes at $k=39$; $(2,4)$ classes at half filling\\
 Non-BPS statistics & not random-matrix; hidden $\mathcal N=4$ on singlets & Gaussian orthogonal, $10\,024$ levels at
 $(2,3)$\\
-Near-BPS gap & none ($\ge95.6$) & $0.054$ next to the BPS degree; Turiaci--Witten not yet testable\\
+Near-BPS gap & none ($\ge95.6$) & $0.054$ next to the BPS degree at $(2,3)$ (integer couplings); large-$p$
+threshold $E_0(q)=1.645\,Jq^2/N$, met within a factor 2.6 at $n=1$, $N\le30$, not converged; a test needs
+$N\gtrsim60$\\
 Supersymmetry & $\mathcal N=4$ on singlets (numerical, $n=2,3$) & $\mathcal N=2$\\
 Large $n$ & planar; exact index & planar; index saddle solved\\
+Large $p$ & n/a & $\mathcal N=2$ SYK with $\hat q=3$, saddle solved ($\alpha_s=0.00844$); at $n=1$, $p\le6$, every
+gauge-charge sector concentrated, with the SYK charge distribution\\
 \bottomrule
 \end{tabular}
 \caption{Desirable properties of the quiver for $p=2$ and $p\ge3$, with their status.}
@@ -900,11 +1108,12 @@ and although its mechanism is absent here, nothing yet proves that another one d
 concentration survives the step to $n=3$. At $p=3$ the bootstrap confines the rank-3 singlet BPS states to
 $24\le k\le57$, which is far from a proof, because the open degrees are precisely those nearest half filling, where a
 widening window would first appear. The near-BPS gaps at $(2,3)$ are suggestive, but at this size the neighbouring
-charge sectors differ too much in entropy for the Turiaci--Witten density to apply, so the super-Schwarzian question
-remains open. Fortuity at $p=3$ is now established through the $(3,3)$ bootstrap, with certificates verified
+charge sectors differ too much in entropy for the Turiaci--Witten density to apply, and the integer couplings lie
+outside the large-$p$ SYK class. The large-$p$ saddle now predicts the thresholds, but testing them needs
+$N\gtrsim60$ fermions, so the super-Schwarzian question remains open. Fortuity at $p=3$ is now established through the $(3,3)$ bootstrap, with certificates verified
 in exact arithmetic. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK
 Schwinger--Dyson solution; large-$n$ dynamics has to come from the bootstrap, from other matrix-model methods, or from
-the large-$p$ limit discussed below.
+the large-$p$ limit, whose saddle is solved in Section~\ref{sec:largep}.
 
 Several next steps follow, and the first observation is that concentration beyond $n=2$ has to be settled without
 help from the index. Since $Q$ raises the fermion number by three and every singlet has $k\equiv0$ mod 3, no
@@ -923,18 +1132,22 @@ Section~\ref{sec:boot}. It has delivered its first target, the certificate at $(
 $(2,3)$ classes fortuitous, now verified in exact arithmetic, and it has mapped its own frontier, which settles near
 filling $0.27$ as the rank grows. The second target, certificates for $24\le k\le36$, which would confine the rank-3 BPS
 states to the two singlet degrees adjacent to half filling, is out of reach at level 2, and the diagnosis of
-Section~\ref{sec:boot} indicates that more operators alone will not reach it. What is needed are constraints that tie
+Section~\ref{sec:boot} indicates that more operators alone will not reach it. These are also the only degrees in
+which the window rule of Section~\ref{sec:largep} allows any singlet BPS states at $(3,3)$, and it expects few or
+none. What is needed are constraints that tie
 positivity to the gauge representation of the state more tightly than Casimir conditions do; whether Gram matrices of
 products of open words, resolved into gauge irreps, or a formulation that works inside the singlet sector from the
 start can achieve this is the next methodological question. The near-BPS gaps and their scaling with $n$, the actual
 super-Schwarzian test, remain the harder final target.
 
-On the analytic side, the large-$p$ limit is where the model should become SYK-like. The holonomy saddle realises
-precisely the $\mathbb Z_3$ twist that makes the index of $\mathcal N=2$ SYK large, and at fixed $n$ the $3pn^2$
-fermions with random flavour couplings should be governed by the Schwinger--Dyson equations of \cite{FGMS}, with a
-gauge correction of relative order $1/p$ since $\dim G/\dim V=1/p$. Deriving the super-Schwarzian and the chaos
-exponent in this limit, and reproducing the exact large-$p$ expansion of $F^*(p)$ in Table~\ref{tab:saddle} as a
-check, would establish the desired dynamics in a controlled corner of the same model; that $F^*(p)$ is smooth for all
+On the analytic side, the large-$p$ limit is now under quantitative control (Section~\ref{sec:largep}). The
+saddle fixes the super-Schwarzian coefficient and the near-BPS thresholds, and at $n=1$ every exact check agrees
+with it. Three things remain. The chaos exponent should be computed from the ladder kernel of the same saddle. The
+dominance of melonic diagrams with couplings shared by $n^3$ colour triples should be checked, for instance through
+the $1/p$ coefficient of $\mathrm{Var}(H)$ at $n\ge2$ against its value $1/p+1/p^2$ at $n=1$. And the drift of the
+$n=1$ edges should be compared with standard $\mathcal N=2$ SYK at the same $N$, to decide whether it is generic
+finite-$N$ behaviour. A genuine test of \eqref{eq:E0} needs $N\gtrsim60$, beyond exact methods, which makes it a
+natural target for a bootstrap organised around large $p$ rather than large $n$. That $F^*(p)$ is smooth for all
 $p>2$ suggests that $p=3$ lies in the same phase. Monte Carlo integration of \eqref{eq:loggas}, by thermodynamic
 integration in $p$ from the exact point $p=2$, would test the finite-$n$ predictions at $n=6$--12, and the generalised
 monotones of \cite{CCK} should be checked. Finally, the hidden $\mathcal N=4$ of the $p=2$ quiver deserves a
@@ -944,10 +1157,12 @@ an $SU(2)$ R-symmetry that we have not found.
 In summary, the fermionic $U(n)^3$ quiver with $p\ge3$ flavours is, to our knowledge, a new candidate for a matrix
 SYK model. It has macroscopic and, at the sizes we can reach, concentrated BPS entropy, chaotic multiplet spectra and
 near-BPS gaps; its rank-2 BPS classes are fortuitous at both $p=2$ and $p=3$; it reduces to an exactly solvable log gas
-at the level of the index; and its large-$p$ limit makes contact with $\mathcal N=2$ SYK. Whether concentration survives
+at the level of the index; and its large-$p$ limit is $\mathcal N=2$ SYK, whose saddle we have solved and which the
+exactly diagonalised $n=1$ model matches, both in its thermodynamics and in the R-charge distribution of the BPS
+states of every gauge-charge sector. Whether concentration survives
 at large $n$ is now the central question. It holds at $(3,2)$, and at $(3,3)$ the bootstrap excludes singlet BPS states
-from every degree except the twelve nearest half filling; sharper bootstrap constraints for those degrees and the
-large-$p$ limit are the next steps.
+from every degree except the twelve nearest half filling; sharper bootstrap constraints for those degrees and a test
+of the near-BPS thresholds beyond exact methods are the next steps.
 
 \appendix
 \section{Methods and reproducibility}\label{app:methods}
@@ -967,19 +1182,26 @@ uses the quiver trace algebra \path{src/quiver_trace.py}, checked against explic
 functionals. The full-sector zero modes are \path{scripts/quiver_sector_zero_modes.py}, and the bootstrap figure is
 \path{scripts/plot_quiver_bootstrap.py}. Exact certificate verification is \path{src/quiver_certificate.py} with
 \path{scripts/quiver_verify_certificate.py}, the frontier scans \path{scripts/quiver_bootstrap_frontier.py}, and the
-$n=1$ uplift channels \path{scripts/quiver_n1_arrow_tower.py}. Singlet indices use \path{src/quiver_index.py}
+$n=1$ uplift channels \path{scripts/quiver_n1_arrow_tower.py}. The large-$p$ saddle is \path{src/n2syk_sd.py} with
+\path{scripts/n2syk_thermo.py} (midpoint grid with $\beta J/M\le0.002$, Richardson extrapolation, spline quadrature),
+tested by \path{tests/test_n2syk.py} (the three Wick pairings from explicit Fock operators, the high-temperature
+limits and the conformal limit); the full $n=1$ diagonalisation is \path{scripts/quiver_n1_full_thermo.py} (dense
+blocks, zero modes below $10^{-12}$, peak 3.5~GB at $p=6$), and Figure~\ref{fig:largep} is
+\path{scripts/plot_n2syk_large_p.py}. Singlet indices use \path{src/quiver_index.py}
 (dual Cauchy and the Littlewood--Richardson transfer matrix, exact integers). The log-gas analysis is
 \path{src/quiver_saddle.py} and \path{scripts/quiver_index_saddle.py}, tested by \path{tests/test_quiver_saddle.py}
 (reduced against full energies, Hessians against finite differences to $10^{-10}$, the $p=2$ formula, the continuum
 values, and the eigenvalue representation against direct quadrature at $n=1$). The derivations are written out in
-\path{docs/derivations.md} (D18, D20 and D21) and the research log in \path{research/notes/quiver_project.md}
-(Sections 11 and 12 for the material of Section~\ref{sec:boot}). The main data
+\path{docs/derivations.md} (D18 to D22) and the research log in \path{research/notes/quiver_project.md}
+(Sections 11 and 12 for the material of Section~\ref{sec:boot}, Section 14 for Section~\ref{sec:largep}). The main data
 files are \path{results/data/quiver_singlet_index_dixon.json}, \path{quiver_singlet_zero_modes_n2_p3_k*.json},
 \path{quiver_singlet_pair_n2_p3_k9_f64.json}, \path{quiver_p2_n4_*.json}, \path{quiver_fortuity_n2_p2_k12.json},
 \path{quiver_index_saddle.json}, \path{quiver_singlet_sw_n3_p2_seed3.json}, \path{quiver_singlet_sw_n3_p3_seed3.json},
 \path{quiver_bootstrap_n*_p*_L*.jsonl}, \path{quiver_bootstrap_frontier_diagnostics.txt},
 \path{quiver_bootstrap_frontier_n*_p*.jsonl}, \path{quiver_certificate_checks.jsonl} with the certificates
-\path{quiver_certificate_*.npz}, and \path{quiver_n1_arrow_tower_pmax5.json}. The bootstrap runs used the seed-3
+\path{quiver_certificate_*.npz}, \path{quiver_n1_arrow_tower_pmax5.json}, \path{n2syk_thermo_qh3.json},
+\path{quiver_n1_full_thermo.jsonl}, \path{quiver_n1_full_moments.jsonl}, \path{quiver_n1_full_moments_int.jsonl}
+and \path{quiver_n1_spectrum_gauss_seed1_*.json}. The bootstrap runs used the seed-3
 integer couplings and the interior-point solver Clarabel~0.11.1 (SCS~3.3.1 for the independent certificate), with
 peak memory 3--9.7~GB.
 

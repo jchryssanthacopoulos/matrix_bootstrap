@@ -180,3 +180,31 @@ Sub-questions:
     - The exact $n=1$ uplift channels: SYK's "every class uplifts through at least one channel" holds at $p=3$ and fails at $p=2$ (2 of 6) and $p=4$ (90 of 90), because three new modes are tied together by the singlet constraint.
     - There is no monotonous sector in either direction.
   - **Level-4 probe (decisive, negative):** $(2,2)$, $k=9$ stays feasible at level 4 (blocks up to 104), as at levels 2 and 3. The trace bootstrap's exclusion power is capped near filling $0.27$. Concentration near half filling at $n\ge3$ needs specialisation theorems, the analytic routes, or exact methods.
+- 2026-10-09b (**the large-$p$ Schwinger–Dyson analysis**; notes §14, D22).
+  - **The saddle solved.**
+    - At large $p$ and fixed $n$ the quiver is $\mathcal N=2$ SYK at $\hat q=3$ with $N=3pn^2$ and
+      $J=p^2n\langle C^2\rangle$.
+    - Numerically: $\alpha_s^{\mathcal N=2}=0.0084439$ per complex fermion, $S_0$ to $3\times10^{-6}$.
+    - Predicted Turiaci–Witten threshold: $E_0(q)=Jq^2/(8\hat q^2\alpha_sN)=1.645\,Jq^2/N$.
+  - **Exact checks.**
+    - $\langle H\rangle/N=J/12$ for every sample.
+    - At $n=1$, $\mathbb E\,\mathrm{Var}(H)/N=\frac{J^2}{16}(1+\frac1p+\frac1{p^2})$, against the saddle's $J^2/16$.
+  - **Concentration beyond singlets.**
+    - In the full $n=1$ model at $p\le6$ every gauge-charge sector carries exactly $|\chi|$ BPS states in one block.
+      The only exception is the $p=3$ singlet sector.
+    - The totals approach FGMS's $\mathcal N=2$ SYK counts, $\frac43 3^{N/2}$ in the ratio $1{:}2{:}1$ (the
+      Turiaci–Witten cosine law).
+    - Heuristic consequence at general $n$: BPS singlets only at the central degree for even $pn^2$, and none at
+      leading order for odd $pn^2$. This is consistent with $I_0=0$ and with every computed case. For $(3,3)$ it
+      predicts no BPS singlets, or a few at $k=39,42$.
+  - **Super-Schwarzian.**
+    - The $n=1$ edges are within a factor 2.6 of $E_0(q)$ at $N=12$–$30$ but have not converged.
+    - The saddle shows that a quantitative test needs $N\gtrsim60$–$100$.
+    - The earlier $(2,3)$ comparison used integer couplings. That ensemble is not in the SYK class (non-extensive
+      $\mathrm{Var}(H)$). So it does not test the large-$p$ prediction for the thresholds, and nothing guarantees
+      that it follows the Turiaci–Witten law at all.
+  - **Open.**
+    - Is the edge drift generic finite-$N$ $\mathcal N=2$ SYK behaviour? (A control run on standard $\mathcal N=2$ SYK
+      would decide.)
+    - Does per-sector concentration hold at $n\ge2$ beyond the singlets?
+

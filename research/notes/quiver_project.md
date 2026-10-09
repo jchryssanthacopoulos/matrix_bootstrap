@@ -1,8 +1,8 @@
 # The $U(n)^3$ fermionic quiver as a project: literature check and fortuity test (2026-10-07)
 
-**Progress report (2026-10-08):** `research/tex/quiver_progress_report.tex` → `research/pdfs/quiver_progress_report.pdf` (12 pp.; model, literature, all exact and numerical results of §§1–8, prospects and next steps). New figure for it: `results/figures/quiver_concentration.{pdf,png}` (`scripts/plot_quiver_concentration.py`): singlet dimensions and BPS states per degree, and the lowest non-BPS singlet energy per degree, at $(2,2)$ and $(2,3)$.
+**Progress report (2026-10-08):** `research/tex/quiver_progress_report.tex` → `research/pdfs/quiver_progress_report.pdf` (12 pp.; model, literature, all exact and numerical results of §§1–8, prospects and next steps). Updated through 2026-10-09 (21 pp.): bootstrap (report §7, note §§11–13) and the large-$p$ saddle with the full $n=1$ model (report §8, note §14). New figure for it: `results/figures/quiver_concentration.{pdf,png}` (`scripts/plot_quiver_concentration.py`): singlet dimensions and BPS states per degree, and the lowest non-BPS singlet energy per degree, at $(2,2)$ and $(2,3)$.
 
-## Status summary (updated 2026-10-08, evening; details in §§1–12)
+## Status summary (updated 2026-10-09; details in §§1–14)
 
 | property | status | evidence |
 |---|---|---|
@@ -13,7 +13,8 @@
 | Macroscopic BPS entropy | **$p=2$: no, proved** ($I_0=(-1)^n(3n)!/(n!)^3$ for all $n$, D18); **$p\ge3$: yes, at the level of the index** ($\ln|I_0|=F^*(p)n^2+O(\ln n)$, $F^*(3)=1.2373$, $F^*(4)=2.5550$; 41% of the singlet log-count at $p=3$; rigorous up to standard log-gas large deviations for even $p$, plus a sign proviso for odd $p$) | §§7–8, D18 |
 | Fortuity | **$(2,2)$: all 90 classes, all orders**; **$(2,3)$: all 1680 classes (numerically certified)**; ordinary sense | $(2,2)$: first-order obstruction (§3) and $h^{12}_{\rm sing}(3,2)=0$ (§11); $(2,3)$: $h^{18}_{\rm sing}(3,3)=0$ by bootstrap certificate (§12); Choi–Choi–Kim refinement not checked |
 | Chaos (non-BPS or BPS) | **untested** | — |
-| Near-BPS gaps / super-Schwarzian | **untested**; one hint | the lowest penalised singlet eigenvalues fall to 0.054 next to the window at $(2,3)$ |
+| Near-BPS gaps / super-Schwarzian | **large-$p$ prediction computed** (D22): $E_0(q)=1.645\,Jq^2/N$, $\alpha_s^{\mathcal N=2}=0.008444$; **not yet testable** | $n=1$ singlet edges are within a factor 2.6 of $E_0(q)$ at $N=12$–$30$ but still drifting (needs $N\gtrsim60$). The $(2,3)$ edges (0.054, 0.335) are integer-ensemble data, outside the SYK class (§14) |
+| Large-$p$ ($\mathcal N=2$ SYK) limit | **saddle solved** (D22); **exact checks at $n=1$** | $\langle H\rangle/N=J/12$ exactly; $\mathrm{Var}(H)/N\to J^2/16$ with exact $1+1/p+1/p^2$ corrections; at $p\le6$ every gauge-charge sector of the $n=1$ model has #BPS $=\vert\chi\vert$ (except the $p=3$ singlet), and the totals approach FGMS's $\frac43 3^{N/2}$ with the $1{:}2{:}1$ law (§14) |
 | Large-$n$ control | planar (not melonic); singlet sector suits the standard bootstrap | Witten eq. 3.10; synthesis §10 |
 | Novelty | no prior study found | §1 |
 
@@ -399,6 +400,10 @@ Lowest singlet multiplet energy $E_0$ of each $Q$-pair. Sources:
   have the same entropy. At $(2,3)$ the singlet sectors at $k=12$, 15 and 18 have 71,685, 211,113 and 300,584 states,
   changing by factors of 3–4 per step $\Delta k=\hat q$. The test needs larger $n$; the bootstrap is the candidate
   route.
+- **Caveat added 2026-10-09 (§14).** These are integer-coupling data ($C\in\{1,\dots,5\}$, mean 3). That ensemble
+  has non-extensive energy fluctuations ($\mathrm{Var}(H)/(NJ^2)$ grows linearly in $p$), so it is not in the Gaussian
+  SYK class. The comparison above therefore does not test the large-$p$ Schwarzian. A Gaussian-coupling $(2,3)$
+  spectrum would be needed for that.
 
 **Figure.** `results/figures/quiver_step1.{pdf,png}`:
 - (a) the edges, with the $q^2$ lines drawn through $|q|=1.5$;
@@ -1012,3 +1017,130 @@ cohomology to cohomology.
 - The $p=6\to7$ row (the 1680 classes at $k=9$) needs the $p=7$ central cohomology. Those blocks have 42 875 states,
   and their lowest multiplet may sit below floating-point resolution (the central level was 0.0097 at $p=3$ and
   $5\times10^{-8}$ at $p=5$). That row is pending; exact modular ranks may be required.
+
+## 14. The large-$p$ Schwinger–Dyson analysis (2026-10-09)
+
+**Question.** What does the large-$p$ saddle of D19 predict quantitatively, and how close is the $n=1$ member at
+$p\le6$ to it? This time every gauge-charge sector of the exactly diagonalised $n=1$ model is included, not just the
+singlets. Derivations are in D22.
+
+**What was computed.**
+- *The saddle.* The $\hat q=3$ equations were solved numerically (`src/n2syk_sd.py`, `scripts/n2syk_thermo.py`;
+  `results/data/n2syk_thermo_qh3.json`, plus `..._qh5.json` as a solver check).
+- *Full exact diagonalisation of the $n=1$ model* (no gauge projection; `scripts/quiver_n1_full_thermo.py`):
+  - `results/data/quiver_n1_full_thermo.jsonl`: $p=2$–$5$ with 5 seeds, $p=6$ with 3 seeds; thermodynamics,
+    moments, and BPS states per block and per flavour sector.
+  - `results/data/quiver_n1_full_moments.jsonl`: 20 seeds at $p\le5$, moments and BPS totals only.
+  - `results/data/quiver_n1_full_moments_int.jsonl`: the integer ensemble.
+  - `results/data/quiver_n1_full_thermo_p6.json`: the first $p=6$ run (seed 1, zero threshold $10^{-9}$, thermodynamic
+    rows only). It is superseded by the seed-1 record in the `.jsonl`, which has the same spectrum.
+- *Peak memory* 3.5 GB at $p=6$, about 9 min per seed. $p=7$ needs dense $42\,875^2$ blocks and is out of reach.
+- *Supporting files.* Figure `results/figures/n2syk_large_p.{pdf,png}` (`scripts/plot_n2syk_large_p.py`); tests
+  `tests/test_n2syk.py`. The $p=10$ edges from the 2026-10-08 log are now stored in
+  `results/data/quiver_n1_spectrum_gauss_seed1_p10_partial.json`.
+
+**Results.**
+1. **The saddle.**
+   - $\alpha_s^{\mathcal N=2}=0.0084439$ per complex fermion ($\alpha_s^{\mathcal N=1}=0.0042220(4)$ per Majorana).
+     $S_0$ is reproduced to $3\times10^{-6}$.
+   - For the quiver ($N=3pn^2$, $J=p^2n\langle C^2\rangle$) this gives $E/N=0.16668\,T^2/J$, Schwarzian coefficient
+     $C=N\alpha_s/J$, and the Turiaci–Witten threshold
+     $$E_0(q)=\frac{Jq^2}{8\hat q^2\alpha_sN}=1.645\,\frac{Jq^2}N=0.548\,q^2\,\frac{p\langle C^2\rangle}n .$$
+2. **Exact moments.**
+   - $\langle H\rangle_\infty/N=J/12$ holds sample by sample, for every $n$.
+   - At $n=1$: $\mathbb E\,\mathrm{Var}(H)/N=\frac{J^2}{16}(1+\frac1p+\frac1{p^2})$, against the saddle's $J^2/16$.
+     So the approach to the saddle at high temperature is controlled by the exact factor $1+1/p+1/p^2$.
+3. **Every gauge-charge sector is concentrated at $n=1$.** The $U(1)^3$ charges are the flavour sectors
+   $(s,t)=(x-y,y-z)$ (D22.5).
+
+   | $p$ | sectors | #BPS (all seeds) | sectors with #BPS $=\vert\chi\vert$ in one block | BPS at $J_R=-1,0,1$ (even $N$) or $\pm\frac12$ (odd $N$) | outside $\vert J_R\vert<\frac32$ |
+   |---|---|---|---|---|---|
+   | 2 | 19 | 36 | 19/19 | 9 : 18 : 9 | 0 |
+   | 3 | 37 | 172 | 36/37 (singlet: $\chi=0$, $2+2$) | 81 : 81 | 10 (5 at each of $\pm\frac32$) |
+   | 4 | 61 | 984 | 61/61 | 246 : 486 : 246 | 6 |
+   | 5 | 91 | 4536 | 91/91 | 2190 : 2190 | 156 |
+   | 6 | 127 | 26400 | 127/127 | 6597 : 13128 : 6597 | 78 |
+
+   - The counts are seed independent (20 seeds at $p\le5$) and identical in the integer ensemble.
+   - The singlet sectors reproduce §10 ($6$; $2+2$; $90$; $0$; $1680$) with independent code.
+   - The exact $\sum_{(s,t)}|\chi|$, computed up to $p=24$, approaches FGMS's exact $\mathcal N=2$ SYK counts (5.7)
+     and the Turiaci–Witten cosine law (3.10):
+     - even $N$: $\frac43\,3^{N/2}$ in the ratio $1{:}2{:}1$;
+     - odd $N$: $\frac2{\sqrt3}3^{N/2}$ in the window, split equally.
+   - The out-of-window remainder vanishes quickly for even $N$ and slowly for odd $N$ (1.9% at $N=69$).
+   - So at $n=1$ the R-charge concentration is not a singlet accident: it holds in every gauge-charge sector, and the
+     window is the $\mathcal N=2$ SYK window.
+4. **Singlet window rule** (heuristic, D22.6).
+   - At large $p$, singlet BPS states should exist only at the central degree for even $pn^2$ (number $=|I_0|$), and
+     not at all, at leading order, for odd $pn^2$. The latter matches D18's exact $I_0=0$.
+   - Every computed case agrees, except $n=1$, $p=3$ (window edge).
+   - For $(3,3)$ ($pn^2=27$) the expectation is no BPS singlets, or a few at $k=39,42$. The bootstrap can probe this
+     only up to its frontier ($k\le21$).
+5. **Near-BPS edges against $E_0(q)$** ($n=1$ singlet sector, seed 1, realised $J$).
+
+   | $p$ ($N$) | $J$ | $q=1.5$ | $q=4.5$ | $q=7.5$ | $q=10.5$ |
+   |---|---|---|---|---|---|
+   | 4 (12) | 0.736 | 0.246 / 0.227 = 1.09 | 2.95 / 2.04 = 1.44 | | |
+   | 6 (18) | 0.878 | 0.112 / 0.181 = 0.62 | 1.68 / 1.63 = 1.04 | 5.27 / 4.51 = 1.17 | |
+   | 8 (24) | 0.847 | 0.049 / 0.131 = 0.38 | 0.85 / 1.18 = 0.72 | 3.05 / 3.26 = 0.93 | 6.77 / 6.40 = 1.06 |
+   | 10 (30) | 0.976 | | 0.73 / 1.08 = 0.68 | 2.39 / 3.01 = 0.79 | |
+
+   - Odd $p$ ($q=3,6,9$): $p=5$ gives $0.71$, $1.27$; $p=7$ gives $0.62$, $0.88$, $1.10$.
+   - The scale is right to within a factor 2.6 at every $N\ge12$. But the small-$q$ edges fall faster than $1/p$
+     and lie below the threshold, which edge fluctuations cannot produce.
+   - The saddle explains why this is pre-asymptotic. The temperature matching $E_0(q)$ is $T\approx3.1\,Jq/N$, where
+     the first correction to the $T^2$ law is $-1.56\,T/J$: about 30% at $q=1.5$, $N=24$. A quantitative test needs
+     $N\gtrsim60$–$100$, beyond exact methods. This supersedes the "pre-asymptotic" reading of §10 item 4 with a
+     quantitative criterion.
+6. **The integer ensemble is not in the SYK class.**
+   - $\mathrm{Var}(H)/(NJ^2)=0.106,\ 0.146,\ 0.190,\ 0.236$ at $p=2$–$5$ grows linearly in $p$, against $1/16$ for
+     Gaussian couplings. The mean part of $C$ acts coherently on the flavour-symmetric modes (D22.3).
+   - **Correction to §6.6:** the Turiaci–Witten test at $(2,3)$ used integer couplings. Its failure therefore says
+     nothing about the large-$p$ Schwarzian. A Gaussian-coupling $(2,3)$ spectrum would be needed. Cohomological
+     results (counts, concentration, fortuity) are generic and unaffected.
+7. **Thermodynamics against the saddle** (seed-averaged exact diagonalisation minus the saddle, both per complex
+   fermion, at equal $\beta J$ with the realised $J$; spline thermodynamics, `src/n2syk_sd.thermodynamics`).
+
+   | $\beta J$ | 0.5 | 1 | 2 | 5 | 10 | 20 | 50 |
+   |---|---|---|---|---|---|---|---|
+   | $S_{\rm SD}/N$ | 0.6868 | 0.6735 | 0.6465 | 0.6028 | 0.5791 | 0.5650 | 0.5558 |
+   | $\Delta S/N$, $p=4$ | $-0.0012$ | $-0.0018$ | $+0.0014$ | $+0.0124$ | $+0.0184$ | $+0.0209$ | $+0.0219$ |
+   | $\Delta S/N$, $p=5$ | $-0.0009$ | $-0.0015$ | $+0.0008$ | $+0.0099$ | $+0.0156$ | $+0.0181$ | $+0.0191$ |
+   | $\Delta S/N$, $p=6$ | $-0.0007$ | $-0.0012$ | $+0.0004$ | $+0.0076$ | $+0.0124$ | $+0.0146$ | $+0.0152$ |
+   | $E_{\rm SD}/(NJ)$ | 0.05647 | 0.03835 | 0.01936 | 0.00494 | 0.00143 | 0.00039 | 0.00006 |
+   | $E/E_{\rm SD}-1$, $p=4$ | $-0.102$ | $-0.175$ | $-0.242$ | $-0.231$ | $-0.170$ | $-0.138$ | $-0.299$ |
+   | $E/E_{\rm SD}-1$, $p=5$ | $-0.080$ | $-0.141$ | $-0.205$ | $-0.211$ | $-0.149$ | $-0.050$ | $+0.247$ |
+   | $E/E_{\rm SD}-1$, $p=6$ | $-0.060$ | $-0.109$ | $-0.165$ | $-0.180$ | $-0.134$ | $-0.060$ | $-0.021$ |
+
+   - For $\beta J\lesssim5$ the deviations fall off as $1/p$:
+     - $p\,\Delta S/N=-0.0072,-0.0075,-0.0072$ at $\beta J=1$;
+     - $p\,(E/E_{\rm SD}-1)=-0.97,-1.03,-0.99$ at $\beta J=2$, both for $p=4,5,6$.
+   - At $\beta J=0.5$ the energy deviation has the sign and size expected from the exact variance excess
+     $J^2(1/p+1/p^2)/16$.
+   - At low temperature the entropy excess tends to the BPS prefactor $\ln(\#{\rm BPS}/3^{N/2})/N$:
+     - $0.0250$, $0.0120$, $0.0163$ at $p=4,5,6$, tending to $\ln\frac43/N$ for even $N$;
+     - at $\beta J=50$ it is $0.0219$, $0.0191$, $0.0152$.
+   - The energy below $\beta J\sim20$ is set by the gap (even $N$, exponentially small) or by the gapless $q=0$
+     sectors (odd $N$, above the saddle).
+
+**Figure** `results/figures/n2syk_large_p.{pdf,png}`.
+- (a) Entropy per complex fermion against $\beta J$: exact $p=3$–$6$ (seed means) and the saddle, with $\ln2$ and
+  $S_0/N=\ln\sqrt3$.
+- (b) Energy against $\beta J$ (log–log), with the Schwarzian asymptote $2\pi^2\alpha_s/(\beta J)^2$.
+- (c) $\mathrm{Var}(H)/(NJ^2)$ at $T=\infty$ against $1/p$:
+  - seeds (dots) and seed means with standard errors (squares; 20 seeds in nominal units at $p\le5$, 3 seeds in
+    realised-$J$ units at $p=6$);
+  - the exact disorder average $\frac1{16}(1+\frac1p+\frac1{p^2})$ and the saddle value $\frac1{16}$ (star).
+- (d) $\#{\rm BPS}/3^{N/2}$: exact diagonalisation (filled; identical for every seed) and the exact $\sum|\chi|$
+  (open) against the asymptotes $\frac43$ (even $N$) and $\frac2{\sqrt3}$ (odd $N$).
+- (e) BPS fraction at $J_R=0$ (even $N$; Turiaci–Witten $\frac12$) and outside the window $|J_R|<\frac32$, from
+  the sector indices (lines) and exact diagonalisation (markers).
+- (f) Singlet-sector edges $E_0N/J$ against $q^2$ for $p=4$–$10$ (seed 1) and the threshold $1.645\,q^2$.
+
+**Bottom line.**
+- The large-$p$ saddle is now quantitative: $\alpha_s$, the curves, and $E_0(q)$.
+- At $n=1$ it is confirmed by every exact check available ($J/12$; the $1/p$ structure of the second moment; the
+  $1/p$ approach of the thermodynamics; and BPS counts, windows and charge ratios matching $\mathcal N=2$ SYK in every
+  gauge-charge sector).
+- The one property not yet confirmed is the super-Schwarzian threshold. It needs $N\gtrsim60$, beyond exact methods,
+  and it is the natural target for a large-$p$ (rather than large-$n$) bootstrap or a thermal bootstrap.

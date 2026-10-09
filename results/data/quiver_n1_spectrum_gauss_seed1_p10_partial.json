@@ -1,0 +1,10 @@
+{
+ "note": "n = 1 quiver, p = 10, Gaussian couplings <C^2> = 1/p^2, seed 1 (draw of scripts/quiver_n1_spectrum.py). Values copied from the run log of scripts/quiver_n1_spectrum.py (2026-10-08); blocks m = 2, 3 completed, the m = 4 run was stopped by the 10 GB watchdog, so E_0(1.5) is not available. 'l' = all listed levels are lower members of their Q-pair. Recorded here for provenance (quiver note section 10, D22).",
+ "p": 10, "seed": 1, "index": -756756,
+ "block_dims": [1, 1000, 91125, 1728000, 9261000, 16003008, 9261000, 1728000, 91125, 1000, 1],
+ "blocks": {
+  "2": {"dim": 91125, "bps": 0, "lowest": [2.388304, 2.455663, 2.468846, 2.492362, 2.49646, 2.509037], "kinds": "llllll", "pair_q": -7.5, "time_s": 240.1, "rss_gb": 0.87},
+  "3": {"dim": 1728000, "bps": 0, "lowest": [0.731132, 0.732562, 0.737505, 0.739211, 0.746932, 0.748476], "kinds": "llllll", "pair_q": -4.5, "time_s": 7869.2, "rss_gb": 5.06}
+ },
+ "pairs": {"2": {"q": -7.5, "E0": 2.388304}, "3": {"q": -4.5, "E0": 0.731132}}
+}

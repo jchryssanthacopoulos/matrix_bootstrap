@@ -49,3 +49,20 @@ Disordered couplings; only $\hat q=3$ counts reported; no statement about non-ge
 ## Relationship to our project
 
 The parent model: Chen's $Q=\mathrm{Tr}\Psi^3$ and the 3-matrix supercharge are *non-random, sparse* special cases of (5.1) with $N\to pN^2$ fermions. Three direct uses: (1) the refined index (5.5) is exactly computable for the matrix models in each $SU(N)$ irrep and gives the rigorous BPS lower bounds we want; (2) the ED pattern (5.7) — three adjacent charges with counts $1{:}2{:}1$ — is what a concentrating, super-Schwarzian-governed model produces, and it is precisely the $243{:}486{:}243$ pattern found for the 3-matrix model at $N=2$ (project ED, reproduced 2026-09-15), while the single-matrix model gives binomial $\binom N{\cdot}$ weights (Chen (2.20)) that agree with $1{:}2{:}1$ only at $N=2$; (3) the $\mathcal N=2$ super-Schwarzian formulas (5.39)–(5.42) are the concrete low-energy predictions (gap scaling with charge away from the BPS window, $\sqrt{E}$ edge) that a large-$N$ bootstrap of the 3-matrix model could test.
+
+**Use in the quiver project (2026-10-09; D22, quiver note §14).** At large $p$ and fixed $n$ the $U(n)^3$ quiver
+reduces to this model at $\hat q=3$ (three equal species, $N=3pn^2$, $J=p^2n\langle C^2\rangle$).
+- *Equations checked against the PDF:*
+  - (2.11)–(2.12), the saddle equations;
+  - (2.29)–(2.30), the conformal solution, $b_\psi=[\tan(\pi/2\hat q)/(2\pi J)]^{1/\hat q}$;
+  - (2.33), $S_0/N=\frac12\ln(2\cos\frac\pi{2\hat q})$ (their numerics, Fig. 1: $0.2745\pm0.0005$);
+  - (5.38)–(5.40), the $\mathcal N=2$ Schwarzian with one coefficient $\alpha_s$, $E/N=2\pi^2\alpha_sT^2/J$, and the
+    semiclassical threshold $E_0=JQ_R^2/(8\alpha_sN)$;
+  - (5.5)–(5.7), the $\mathbb Z_{\hat q}$-twisted index and the exact $\hat q=3$ ground-state counts
+    $D(N,0)=2\cdot3^{N/2-1}$, $D(N,\pm\frac13)=3^{N/2-1}$ for even $N$.
+- *Caveat on (2.37).* $J\partial_J\log Z$ from $\partial_\tau G_\psi(0^+)$ omits the $c$-number of $H=Q^2$
+  ($J/(\hat q2^{\hat q})$ per Majorana). The true energy needs it added (their (2.38) likewise carries a ground-state
+  energy "to be subtracted").
+- *Project numbers (not in the paper).* $\alpha_s^{\mathcal N=1}=0.0042220(4)$ per Majorana at $\hat q=3$
+  ($0.0036298(44)$ at $\hat q=5$). The paper states (5.38) but gives no numerical $\alpha_s$.
+

@@ -80,7 +80,7 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [x] Prove $I_0(n,2)=(-1)^n(3n)!/(n!)^3$ (2026-10-08, D18: at $p=2$ the integrand is $|\Delta_{3n}|^2$).
   - [x] Solve the deconfined large-$n$ saddle of the index integral for $p\ge3$ and compare with the measured $\ln I_0$ (2026-10-08, D18, note §8): $F^*(3)=1.2373$, $F^*(4)=2.5550$; count $G^*(3)=3.0427$; corrected Laplace matches all 27 nonzero exact values to $\le0.6$ in the log (`scripts/quiver_index_saddle.py`, `scripts/plot_quiver_index_saddle.py`).
   - [~] ~~Refined-index (R-charge fugacity) saddle at large $n$~~: **withdrawn** (2026-10-08, note §9): no R-charge fugacity is protected on singlets, so it does not test concentration.
-  - [x] Progress report (2026-10-08): `research/pdfs/quiver_progress_report.pdf`. Updated the same day with Section 7 (Schur–Weyl basis at $(3,2)$, singlet bootstrap at $(3,3)$: SDP review, validation and $(3,3)$ tables, Figure 5) and the matching scorecard, prospects and appendix edits; 15 pp.
+  - [x] Progress report (2026-10-08): `research/pdfs/quiver_progress_report.pdf`. Updated the same day with Section 7 (Schur–Weyl basis at $(3,2)$, singlet bootstrap at $(3,3)$: SDP review, validation and $(3,3)$ tables, Figure 5) and the matching scorecard, prospects and appendix edits; 15 pp. Updated 2026-10-09 with the certificate, frontier and arrow-direction material (§§7.5–7.7), and then with Section 8, the large-$p$ Schwinger–Dyson saddle and the full $n=1$ model (Tables 8–9, Figure 6 from `scripts/plot_n2syk_large_p.py --layout 3x2`), plus abstract, scorecard, prospects and appendix edits and the integer-ensemble caveat in Section 5; 21 pp.
   - [x] Degree-resolved singlet counts $n(k)$ up to $(3,3)$, $(2,5)$, $(4,2)$ (`scripts/quiver_singlet_series.py`): sizes the next exact computations (note §9).
   - [x] **Singlet-adapted basis** built (2026-10-08, D20, note §11): Schur–Weyl ($S_m$ Fourier) basis, `src/quiver_singlet_basis.py`; exact dims at $(2,2),(2,3),(3,2)$; reproduces all stored $n=2$ pair spectra to $3\times10^{-15}$.
   - [x] $(3,2)$: no BPS singlets at $k\le21$ $\Rightarrow$ all 90 $(2,2)$ classes fortuitous to all orders; $p=2$ Poisson-like at $n=3$. (k=24 and the $n=3$ $\mathcal N=4$ test: see note §11.)
@@ -96,7 +96,23 @@ Same constraint set as the (now exact at $N=2$) sector bootstrap, re-expressed a
   - [ ] $n=1$, $p=6\to7$ uplift channels (1680 classes): needs the $p=7$ central cohomology (42 875-state blocks with a nearly gapless lowest multiplet; Lanczos running, exact modular ranks may be needed).
   - [ ] $n=1$, $p=10$, block $m=4$ (dim $9.3\times10^6$): the Lanczos run was killed at the 10 GB guard (2026-10-08); needs a leaner matrix-free solver if the $p=10$ Turiaci–Witten ratio is wanted.
   - [x] Large-$p$ reduction written (D19); $n=1$ numerics $p=2$–$8$ (note §10): even $p$ concentrated exactly, orthogonal-class chaos, Turiaci–Witten edges not yet reached; odd $p$ governed by the symmetric/antisymmetric middle form. $p=10$: blocks $m\le3$ done ($E_0(7.5)=2.388$, $E_0(4.5)=0.731$); block 4 killed at the memory guard.
-  - [ ] **Large-$p$ analytics, continued**: the quiver as gauged $\mathcal N=2$ SYK (random $C_{abc}$, flavour-melonic SD equations + holonomy); super-Schwarzian and chaos exponent at large $p$; check against the $1/p$ terms of $F^*(p)$. Check melonic dominance with $p^3$ shared couplings.
+  - [x] **Large-$p$ Schwinger–Dyson analysis** (2026-10-09, D22, note §14).
+    - $\hat q=3$ saddle solved: $\alpha_s^{\mathcal N=2}=0.0084439$, $S_0$ to $3\times10^{-6}$, $E_0(q)=1.645\,Jq^2/N$.
+    - Exact $T=\infty$ moments at $n=1$: $\mathrm{Var}(H)/N=\frac{J^2}{16}(1+\frac1p+\frac1{p^2})$.
+    - Full $n=1$ exact diagonalisation at $p\le6$: every gauge-charge sector has #BPS $=|\chi|$ (except the $p=3$
+      singlet), with the $1{:}2{:}1$ law and FGMS totals.
+    - The integer ensemble is not in the SYK class.
+  - [ ] **Large-$p$ analytics, still open**:
+    - melonic dominance with $p^3$ shared couplings (diagram check, or the $1/p$ coefficient of $\mathrm{Var}(H)$ at
+      $n\ge2$ against the $n=1$ value $1/p+1/p^2$);
+    - chaos exponent at large $p$;
+    - SD with an R-chemical potential, checking the compressibility $Q_R/N=4\alpha_s\mu/J$ (FGMS (5.39)) against
+      the specific-heat $\alpha_s$.
+  - [ ] **Control for the edge drift**: exact diagonalisation of standard $\mathcal N=2$ SYK ($\hat q=3$, FGMS (5.1),
+    Gaussian) at $N\le24$. Measure $E_0(q)$ per R-charge sector against $1.645\,Jq^2/N$. If it drifts like the
+    $n=1$ quiver, the drift is generic finite-$N$ $\mathcal N=2$ SYK behaviour rather than a quiver effect.
+  - [ ] **Gaussian-coupling $(2,3)$ singlet edges** at $k=15,18$ (the §6.6 Lanczos, about 8.5 GB peak). This is the
+    only way to compare $(2,3)$ with $E_0(q)$; the stored edges are integer-ensemble data.
   - [ ] More coupling seeds at $(2,3)$ for concentration and chaos (about 8.5 GB peak at $k=15$).
   - [ ] Monte Carlo thermodynamic integration in $p$ from the exact $p=2$ point, testing the finite-$n$ predictions at $n=6$–$12$ (even $p$ first; odd $p$ needs the sign average $\langle\sigma^p\rangle$).
   - [ ] Odd-$p$ sign: bound or measure the cancellation from sign-changing configurations (the $p=3$ arc gap is 0.039 rad).
