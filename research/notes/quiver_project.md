@@ -861,6 +861,12 @@ $C=[[[5,1,1],[2,1,5],[5,3,1]],[[1,2,3],[4,3,2],[1,4,4]],[[1,1,3],[2,5,3],[3,3,4]
     strengthen $k=6$ from $-0.51$ to $-0.77$);
   - these combined with level 3;
   - Gauss rows with longer words (open words $W$ up to length 4, prefactors $Y$ up to length 4; 2026-10-09).
+  - **Level 4** (open words up to length 4, Gram blocks up to 104; 28 273 monomials, rows as at level 3; 2026-10-09).
+    Clarabel reports Solved in 713 s with $b\cdot y/\|y\|=-8\times10^{-12}$, i.e. feasible, so $k=9$ is still not
+    excluded. The control at the BPS degree $k=12$ is also feasible, as it must be (peak 14.0 GB under a 16 GB guard). SCS did not converge within 2.5 h, and its time limit was not honoured. This settles the yes-or-no
+    question: raising the level from 2 to 3 to 4 does not move the frontier past the onset of non-singlet BPS states.
+    In this formulation the trace bootstrap's exclusion power is effectively capped near filling $f_*\approx0.27$, and
+    concentration near half filling at $n\ge3$ needs a different tool (§13 and the analytic plan).
   - A singlet cone over closed walks of length 4 exceeded the 6 GB guard and remains untested.
 - *Reading.*
   - At low level the singlet constraint cannot overcome functionals that mimic non-singlet BPS states.

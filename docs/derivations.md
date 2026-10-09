@@ -1712,3 +1712,5 @@ $\le3$) at seed-3 couplings.
   not excluded at $0.296$, $0.292$, $0.280$, $0.278$. All frontier certificates are verified exactly. This is
   consistent with a constant $f_*\approx0.27$. $(4,3)$ is excluded at $k=39$, so $(3,3)$ classes at $k=39$ are
   rank-fortuitous.
+- Level-4 probe at $(2,2)$, $k=9$ (2026-10-09): feasible (Clarabel, blocks up to 104). Raising the level does not move
+  the frontier set by non-singlet BPS states.

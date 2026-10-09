@@ -179,3 +179,4 @@ Sub-questions:
     - The arrow direction at fixed $n$ is the SYK and Abelian-quiver notion. At $n\ge2$ it follows from concentration in one step; at $n=1$ it is genuinely different.
     - The exact $n=1$ uplift channels: SYK's "every class uplifts through at least one channel" holds at $p=3$ and fails at $p=2$ (2 of 6) and $p=4$ (90 of 90), because three new modes are tied together by the singlet constraint.
     - There is no monotonous sector in either direction.
+  - **Level-4 probe (decisive, negative):** $(2,2)$, $k=9$ stays feasible at level 4 (blocks up to 104), as at levels 2 and 3. The trace bootstrap's exclusion power is capped near filling $0.27$. Concentration near half filling at $n\ge3$ needs specialisation theorems, the analytic routes, or exact methods.
