@@ -205,7 +205,7 @@ def _rotate(m):
 # ------------------------------------------------------------------------------------------------ the SDP
 class QuiverSDP:
     def __init__(self, C, n, m, L_adj=2, L_sing=3, L_eom=None, L_eom_gram='auto', casimir=True, L_cas='auto', gauss=None,
-                 bps=False, L_bps=None, bps_H=True, L_bpsH='auto', finite_n_len=0, finite_n_sorted=True,
+                 bps=False, L_bps=None, bps_H=True, L_bpsH='auto', L_bpsX=None, finite_n_len=0, finite_n_sorted=True,
                  adjoint_projected=True, z3=False, cone_casimir=False, L_ccas='auto', workers=8, verbose=False):
         """C: real couplings (p x p x p); n: rank; m: edge occupation (k = 3m).  L_adj: open-word length of the
         adjoint cones; L_sing: closed-walk length of the singlet cones; L_eom: extra neutral traced words used as EOM
@@ -245,7 +245,8 @@ class QuiverSDP:
                     cone_casimir=cone_casimir, L_ccas=L_ccas)
         self.level = dict(L_adj=L_adj, L_sing=L_sing, L_eom=L_eom, L_eom_gram=L_eom_gram, casimir=casimir, L_cas=L_cas,
                           cone_casimir=cone_casimir, L_ccas=L_ccas, z3=z3, gauss=gauss, bps=bps,
-                          L_bps=L_bps, bps_H=bps_H, L_bpsH=L_bpsH, finite_n_len=finite_n_len, adjoint_projected=adjoint_projected)
+                          L_bps=L_bps, bps_H=bps_H, L_bpsH=L_bpsH, L_bpsX=L_bpsX, finite_n_len=finite_n_len,
+                          adjoint_projected=adjoint_projected)
         _init(C, n, m, opts)
         self.H = ev(_G['H'], n)
         self.idx = {(): 0}               # monomial -> integer
@@ -326,6 +327,8 @@ class QuiverSDP:
                         for wa in ws:
                             wad = ta.word_dagger(wa)
                             for wb in ws2:
+                                if L_bpsX is not None and len(wa) + len(wb) > L_bpsX:
+                                    continue        # cap the cross-charge products (BPS rows X Q reach |X| + 3)
                                 for e in ((ta.trace(wad + wb), ta.canonical((wad, wb))) if u == v else (ta.trace(wad + wb),)):
                                     if e:
                                         (Xm if dq == (-1, -1, -1) else Xp).append(e)

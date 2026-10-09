@@ -30,12 +30,21 @@ def main():
     ap.add_argument('--scale', action='store_true', help='column scaling x = n^w y (needed for conditioning at n >= 4 or p >= 4)')
     ap.add_argument('--time-limit', type=float, default=None)
     ap.add_argument('--no-exact', action='store_true', help='skip the exact verification (fast feasibility verdict only)')
+    ap.add_argument('--L-adj', type=int, default=2)
+    ap.add_argument('--L-sing', type=int, default=3)
+    ap.add_argument('--L-eom-gram', default='auto')
+    ap.add_argument('--L-cas', default='auto')
+    ap.add_argument('--L-bpsH', default='auto')
+    ap.add_argument('--L-bpsX', type=int, default=None, help='cap on the length of cross-charge products in the BPS rows')
+    ap.add_argument('--cone-casimir', action='store_true')
     ap.add_argument('--save-cert', default=None, help='npz file for the certificate vector and its provenance maps')
     ap.add_argument('--out', default=None)
     a = ap.parse_args()
     C = np.random.default_rng(a.seed).integers(1, 6, size=(a.p, a.p, a.p)).astype(float)
     t0 = time.time()
-    S = QuiverSDP(C, a.n, a.m, bps=True, workers=a.workers, verbose=True)
+    cap = lambda v: None if v in (None, 'None', 'none') else ('auto' if v == 'auto' else int(v))
+    S = QuiverSDP(C, a.n, a.m, L_adj=a.L_adj, L_sing=a.L_sing, L_eom_gram=cap(a.L_eom_gram), L_cas=cap(a.L_cas),
+                  L_bpsH=cap(a.L_bpsH), L_bpsX=a.L_bpsX, cone_casimir=a.cone_casimir, bps=True, workers=a.workers, verbose=True)
     data = S.assemble('feasibility', a.solver, prune=(a.solver == 'clarabel'), scale=a.scale)
     out = S._solve(data, a.solver, a.eps, a.max_iters, False, time_limit=a.time_limit)
     cert = S.check_certificate(data, out['y'], a.solver)
@@ -49,6 +58,7 @@ def main():
     except Exception:
         rev = None
     rec = dict(n=a.n, p=a.p, m=a.m, k=3 * a.m, seed=a.seed, couplings=C.astype(int).tolist(), solver=a.solver, eps=a.eps, scaled=a.scale,
+               level=S.level, n_monomials=len(S.monos), cones=sorted((c['size'] for c in S.cones), reverse=True)[:6],
                status=out['status'], solve_s=round(out['solve_time'], 1), n_vars=out['n'], n_eq=out['n_eq'],
                float_certificate=cert, excluded=bool(excluded), exact=rep, total_s=round(time.time() - t0, 1), f=a.m / (a.p * a.n * a.n),
                peak_rss_gb=round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1e9, 2), git=rev,
