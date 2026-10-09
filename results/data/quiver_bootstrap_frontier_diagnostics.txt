@@ -23,3 +23,8 @@ Quiver singlet bootstrap: frontier diagnostics at (n,p) = (2,2), seed-3 coupling
    exact singlet E0 (k=3,6,9) = 1638, 596.184, 287.741 (k=12: 90 BPS);  full vs Z3-reduced SDP:
    k=3: E0 >= 1364.9945 / 1364.9738, t* = -1.1378 / -1.1377;  k=6: 545.9897 / 545.9891, t* = -0.34594 / -0.34594;
    k=9, 12: t* ~ 0 in both.  (Identical optima, as they must be for a tau-invariant problem.)
+6. Longer Gauss-law words (2026-10-09, gauss22.py), level 2, k=9, BPS margin (all not excluded):
+   gauss (L_Y, L_W) = (0,4): t* = -1.19e-07 (630 Gauss rows);  (2,4): -1.20e-07 (11 970);  (4,2): -1.21e-07 (9 450).
+   L_sing = 4 (closed walks of length 4 in the singlet cone, capped rows): build exceeded the 6 GB guard (killed);
+   not tested.  => The linear Gauss law in every form tried (left/right, W up to length 4, Y up to length 4) does not
+   move the (2,2) frontier.

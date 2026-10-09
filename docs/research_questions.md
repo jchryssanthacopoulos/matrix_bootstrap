@@ -167,3 +167,15 @@ Sub-questions:
     - Concentration at $(3,3)$ itself is still open for $24\le k\le36$.
   - **Diagnosis:** level 2 reaches half-way to the middle at every rank tried. At $(2,2)$ the frontier is the onset of non-singlet BPS states at fixed $N_e$. More operators (level 3) or more singlet rows of the Casimir type do not move it.
   - **Open:** constraints that resolve gauge representations sharply enough to beat the non-singlet BPS functionals, or a non-bootstrap route to $k=24..36$ at $(3,3)$.
+- 2026-10-09 (**certificates made exact; the frontier in $n$**; notes §12, D21.8).
+  - The $(3,3)$ certificates at $k=18,21$ are verified in exact integer arithmetic; ratio $\sum|r_j|n^{L_j}/|\mu\cdot b|=10^{-7}$. An independent SCS certificate also verifies. Fortuity of the 1680 $(2,3)$ classes now rests only on the correctness of the constraint generation.
+  - Frontier at $p=3$, level 2: excluded filling $f\le0.259,0.271,0.267,0.269$ at $n=3$–$6$, against non-excluded $0.296,0.292,0.280,0.278$. This is consistent with a constant $f_*\approx0.27$, so no singlet BPS states lie outside the central $\sim46\%$ of the filling range at any rank tested.
+  - $(4,3)$ is excluded at $k=39$, so any $(3,3)$ classes at $k=39$ are rank-fortuitous.
+  - Open: is $f_*$ a planar quantity with an analytic characterisation? Can anything beat it, given that level, Gauss and Casimir variants do not?
+  - Variable scaling ($x=n^{w}y$) was essential: unscaled solves took hours at $n\ge4$; scaled ones take about 1 min.
+  - $(3,4)$ excluded at $k=24$ (verified exactly), so every $(2,4)$ half-filling class is rank-fortuitous.
+  - **Which direction defines fortuity (comparison with Chryssanthacopoulos–Vegh 2026; notes §13)?**
+    - Rank at fixed $p$ is the defining test for the planar claims.
+    - The arrow direction at fixed $n$ is the SYK and Abelian-quiver notion. At $n\ge2$ it follows from concentration in one step; at $n=1$ it is genuinely different.
+    - The exact $n=1$ uplift channels: SYK's "every class uplifts through at least one channel" holds at $p=3$ and fails at $p=2$ (2 of 6) and $p=4$ (90 of 90), because three new modes are tied together by the singlet constraint.
+    - There is no monotonous sector in either direction.

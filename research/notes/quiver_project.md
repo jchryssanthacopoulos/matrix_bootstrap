@@ -823,8 +823,17 @@ $C=[[[5,1,1],[2,1,5],[5,3,1]],[[1,2,3],[4,3,2],[1,4,4]],[[1,1,3],[2,5,3],[3,3,4]
      $(-1.16\times10^{-3}+1.6\times10^{-5})\|y\|<0$ at $k=21$, a contradiction with a factor of about 70 to spare.
      This is a computer-assisted argument up to floating-point evaluation of $A^{\!\top}y$, $b\cdot y$ and the
      dual-block eigenvalues.
+   - **Exact verification (2026-10-09, D21.8).** Both certificates were re-checked in exact integer arithmetic.
+     Coefficients were placed on the grid $1/(3\cdot2^{20})$ (largest deviation $3\times10^{-8}$). The certificate
+     was rounded to a $2^{-59}$ ($2^{-57}$) grid, and each dual block was shifted by at most $9\times10^{-13}$
+     relative until positive definite, verified exactly by Bareiss elimination. The componentwise bound
+     $\sum_j|r_j|n^{L_j}$ then comes to $1.03\times10^{-7}$ ($2.38\times10^{-7}$) of $|\mu\cdot b|$ at $k=18$ ($21$),
+     so the floating-point estimate above was conservative by a factor of about $10^5$. An independent SCS solve at
+     $k=18$ gives a different certificate, also verified exactly (ratio $4.4\times10^{-4}$). Certificates and records:
+     `results/data/quiver_certificate_n3_p3_k{18,21}_clarabel.npz`, `..._k18_scs.npz`, `quiver_certificate_checks.jsonl`.
    - Caveats:
-     - the certificate has not been re-verified in exact or interval arithmetic;
+     - the proof rests on the correctness of the constraint generation (trace algebra and row families), which is
+       tested against explicit Fock-space operators but not proved;
      - the $(2,3)$ count of 1680 is itself numerical (§5);
      - the Choi–Choi–Kim refinement is not addressed.
 2. **Partial concentration at $(3,3)$.**
@@ -850,7 +859,9 @@ $C=[[[5,1,1],[2,1,5],[5,3,1]],[[1,2,3],[4,3,2],[1,4,4]],[[1,1,3],[2,5,3],[3,3,4]
   - finite-$n$ relations up to length 6;
   - sandwiched-Casimir rows (D21.4b, which state that $W\psi$ lies in a definite irrep for singlet $\psi$; they
     strengthen $k=6$ from $-0.51$ to $-0.77$);
-  - these combined with level 3.
+  - these combined with level 3;
+  - Gauss rows with longer words (open words $W$ up to length 4, prefactors $Y$ up to length 4; 2026-10-09).
+  - A singlet cone over closed walks of length 4 exceeded the 6 GB guard and remains untested.
 - *Reading.*
   - At low level the singlet constraint cannot overcome functionals that mimic non-singlet BPS states.
   - The reach of level 2 is about half-way to the middle at all three ranks: $6/12$, $9/18$, $21/40.5$. The
@@ -858,9 +869,140 @@ $C=[[[5,1,1],[2,1,5],[5,3,1]],[[1,2,3],[4,3,2],[1,4,4]],[[1,1,3],[2,5,3],[3,3,4]
   - Pushing concentration at $(3,3)$ past $k=21$ needs constraints that resolve the gauge representation of the
     state much more sharply than Casimir rows do, not merely more operators.
 
+**The frontier as a function of $n$ at $p=3$ (2026-10-09; `scripts/quiver_bootstrap_frontier.py`,
+`results/data/quiver_bootstrap_frontier_n{4,5,6}_p3.jsonl`).**
+- *Method.* The level-2 SDP has the same size at every $n$; only its coefficients change. Each point is a scaled
+  feasibility solve (D21, variable scaling) taking about 1 min. A coarse scan is followed by bisection and an exact
+  certificate check at the last excluded degree (D21.8).
+
+| $n$ | half filling | excluded through $k$ ($f=k/3pn^2$) | not excluded at $k$ ($f$) | exact check at the frontier |
+|---|---|---|---|---|
+| 2 | 18 | 9 (0.250) | 12 (0.333) | VERIFIED, ratio $4.5\times10^{-8}$ |
+| 3 | 40.5 | 21 (0.259) | 24 (0.296) | VERIFIED, ratio $2.4\times10^{-7}$ |
+| 4 | 72 | 39 (0.271) | 42 (0.292) | VERIFIED, ratio $2.0\times10^{-6}$ |
+| 5 | 112.5 | 60 (0.267) | 63 (0.280) | VERIFIED, ratio $2.7\times10^{-6}$ |
+| 6 | 162 | 87 (0.269) | 90 (0.278) | VERIFIED, ratio $1.1\times10^{-5}$ |
+
+- *Reading.*
+  - The frontier brackets shrink and are consistent with a constant filling fraction $f_*\approx0.27$
+    ($0.269\le f_*<0.278$ at $n=6$).
+  - At level 2, for every rank tested, singlet BPS states are excluded from filling fractions below about $0.27$, and
+    above about $0.73$ by particle–hole symmetry. The BPS states, if any, occupy at most the central 46% of the
+    filling range.
+  - The large-$n$ convergence is an empirical extrapolation from five ranks, not a proof. Each finite-$n$ statement
+    is certified.
+- *Fortuity one rank up (rank tower).*
+  - $(4,3)$ is excluded at $k=39$ (verified), so any $(3,3)$ BPS classes at $k=39$ are rank-fortuitous.
+  - $k=42$ at $(4,3)$ is not excluded, so their partners at $k=42$ remain undecided.
+  - In general the needed filling, $n^2/2(n+1)^2$, is $0.222$ for $2\to3$, $0.281$ for $3\to4$, $0.32$ for $4\to5$,
+    and tends to $1/2$. With $f_*\approx0.27$ the level-2 bootstrap proves fortuity of half-filling classes only for
+    $2\to3$, plus the lower half of the middle pair for $3\to4$.
+- *$p=4$.* $(3,4)$ is excluded at $k=24$; the certificate is verified exactly (ratio $3.5\times10^{-7}$; a problem of
+  $1.8\times10^6$ monomials at a peak of 9.7 GB under a 16 GB guard). So every $(2,4)$ singlet BPS class at half
+  filling is rank-fortuitous. Concentration at $(2,4)$ is not established, so classes at other degrees, if any, are
+  not covered. A full $p=4$ frontier scan needs one fresh process per point (`--subprocess`); an in-process scan was
+  killed at the 10 GB guard.
+- *Cost.* Each $n$ takes 12–19 min (8–10 solves) at a peak of 3.1–3.2 GB.
+
 **Cost and reproducibility.**
 - Level 2 at $(3,3)$: build 20 s, peak 3.0–3.2 GB, margin solves 6–9 min (with other jobs running), feasibility
   solves about 1 min.
 - Runs used the uncommitted working tree on top of `bb78329`.
 - A $\mathbb Z_3$ quiver-rotation reduction for cyclic couplings is implemented and verified to give identical
   optima. It is not needed at level 2.
+
+## 13. Fortuity in which direction? Rank versus arrows (comparison with Chryssanthacopoulos–Vegh 2026) (2026-10-09)
+
+**The comparison.** J. Chryssanthacopoulos and D. Vegh, *Fortuity and fragility in supersymmetric SYK* (2026;
+`~/src/syk_gravity/papers/chryssanthacopoulos_vegh_2026.pdf`), test fortuity in a different direction from §§3, 9,
+11, 12.
+- Their main text is N = 2 SYK: the system grows by adding fermions, $N\to N+1$, at fixed charge.
+- In the Discussion ("Fortuity and fragility beyond SYK", Table 2) they treat the Abelian three-node cyclic quiver with
+  $m$ arrows per edge. The gauge group is U(1) at each node, and $m$ varies at fixed cohomological degree.
+  - Ambient classes persist as $m$ grows (monotonous).
+  - Variable (pure-Higgs) classes occur only at $m=n+2$ ("a fortuity window of width one").
+  - They propose a "diagonal uplift" shifting the degree by one per unit of $m$.
+- Notation: their degree $n$ ↔ our degree $k$ (or $m=k/3$); their arrows $m$ ↔ our flavours $p$. Our rank $n$ has no
+  counterpart there (it is fixed at 1).
+
+**Both are fortuity, relative to different families.** Fortuity is defined only relative to a family with
+degree-preserving cochain maps.
+- Our rank direction, $n\to n+1$ at fixed $p$, uses Tierz's projections. It is the planar large-$n$ limit, and here
+  "supersymmetry relies on finite-$n$ trace relations" is literally the mechanism (Chang–Lin).
+- The arrow direction, $p\to p+1$ at fixed $n$, uses the projection that deletes the new flavour, which is also a
+  cochain map for nested couplings. It is the SYK direction, with the system growing by fermion modes, and its limit
+  is the large-$p$ limit of D19.
+- The two verdicts can differ for the same class.
+
+**Why the directions behave differently: window speed against degree spacing.** Singlet degrees are spaced by 3.
+
+| step | shift of half filling | consequence of concentration at the larger size |
+|---|---|---|
+| rank $n\to n+1$, fixed $p$ | $3p(2n+1)/2\ge9$ | one-step fortuity of every class (§9) |
+| arrows $p\to p+1$, $n\ge2$ | $3n^2/2\ge6$ | also one-step |
+| arrows $p\to p+1$, $n=1$ | $3/2$ | window two flavours wide; needs the actual maps |
+
+The paper's SYK case and its quiver example are in the slow regime, which is why walks and diagonal uplifts arise
+there. In our rank direction the window jumps past several degrees at every step.
+
+**Our $n=1$ member is the fermionic version of their quiver example:** the same Abelian cyclic quiver with
+$\mathrm{Tr}(ABC)$ and generic couplings, but with fermionic matter. Its singlet BPS counts by degree (§10) are the
+counterpart of their Table 2:
+- $k=3$: 6 at $p=2$, 2 at $p=3$;
+- $k=6$: 2 at $p=3$, 90 at $p=4$;
+- $k=9$: 1680 at $p=6$;
+- $k=12$: 34650 at $p=8$;
+- zero in every other cell computed.
+
+The window is two flavours wide, as the table predicts. Unlike the bosonic quiver, there is no ambient
+(monotonous) row: every BPS state sits at the moving middle, as in generic N = 2 SYK. The same holds in the rank
+direction at all sizes computed. In the fermionic model fortuity covers the whole singlet BPS sector rather than
+singling out a subsector.
+
+**Resolution (adopted).**
+1. *Rank stays the defining test for this project.* The claims are about the planar large-$n$ limit, and every
+   fortuity statement so far is rank fortuity at fixed $p$:
+   - (2,2) via (3,2);
+   - (2,3) via the exact (3,3) certificate;
+   - (3,3) classes at $k=39$ via (4,3);
+   - (2,4) half-filling classes via (3,4).
+
+   They are labelled as such.
+2. *The arrow direction is the paper's notion, and is computed where it carries new content: $n=1$.* At $n\ge2$ it
+   follows in one step from concentration. For example, the 90 (2,2) classes are arrow-fortuitous because (2,3) has no
+   singlet cohomology at $k=12$.
+3. *At $n=1$ we compute the paper's two uplift channels exactly* (`scripts/quiver_n1_arrow_tower.py`, nested
+   Gaussian couplings $C^{(p)}=C[:p,:p,:p]$; results below):
+   - horizontal: $\pi_*:H^k(p{+}1)\to H^k(p)$, deleting the new flavour;
+   - diagonal: $\iota_*:H^k(p)\to H^{k+3}(p{+}1)$, multiplying by $a_p^\dagger b_p^\dagger c_p^\dagger$. The fully
+     occupied states form a sub-complex, so this is a cochain map.
+
+   The SYK statement "every class uplifts through at least one channel" becomes $\ker\iota_*\subseteq\mathrm{im}\,\pi_*$.
+
+**$n=1$ results, $p\le5$** (`results/data/quiver_n1_arrow_tower_pmax5.json`). Couplings are nested Gaussian, seed 1.
+The BPS counts reproduce §10. $\pi Q=Q\pi$ exactly (residual 0.0). $\iota$ anticommutes,
+$Q^{(p+1)}\iota=-\iota Q^{(p)}$ exactly, because $Q$ passes the three fermions $a_pb_pc_p$; it therefore still maps
+cohomology to cohomology.
+
+| $p$ | $k$ | $\dim H^k(p)$ | horizontal: $\dim H^k(p{+}1)$, rank $\pi_*$ | diagonal: $\dim H^{k+3}(p{+}1)$, rank $\iota_*$ | lift through neither |
+|---|---|---|---|---|---|
+| 2 | 3 | 6 | 2, 2 | 2, 2 | **2** |
+| 3 | 3 | 2 | 0, 0 | 90, 2 | 0 |
+| 3 | 6 | 2 | 90, 2 | 0, 0 | 0 |
+| 4 | 6 | 90 | 0, 0 | 0, 0 | **90** |
+| 5 | — | 0 | — | — | — |
+
+- **At odd $p$ the SYK pattern holds.** At $p=3$ every class uplifts through exactly one channel: the lower central
+  degree diagonally, the upper horizontally. These are the paper's walks.
+- **From even $p$ it fails.** At $p=2$, 2 of the 6 classes uplift through neither channel; the dimension count forces
+  this, since $6>2+2$. At $p=4$ none of the 90 do, because $p=5$ has no BPS states at all.
+- **Reason.** Adding a flavour adds three modes coupled by the singlet constraint. The partially occupied pieces of
+  the filtration by new-flavour occupation (one or two of $a_p,b_p,c_p$ occupied) leave non-singlet remainders. The
+  SYK long exact sequence becomes a spectral sequence, and its two extreme channels are not exhaustive.
+- **In the arrow direction at $n=1$, every class is fortuitous within one step.** At fixed $k$ the BPS states live at
+  $p=2k/3-1$ and $2k/3$ only.
+- **So the fermionic quiver at $n=1$ is neither like the bosonic quiver nor like SYK.** It has no monotonous ambient
+  classes, and SYK's guaranteed one-step uplift fails.
+- The $p=6\to7$ row (the 1680 classes at $k=9$) needs the $p=7$ central cohomology. Those blocks have 42 875 states,
+  and their lowest multiplet may sit below floating-point resolution (the central level was 0.0097 at $p=3$ and
+  $5\times10^{-8}$ at $p=5$). That row is pending; exact modular ranks may be required.

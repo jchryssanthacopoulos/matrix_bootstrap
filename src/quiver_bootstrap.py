@@ -451,16 +451,28 @@ class QuiverSDP:
             col[i] = roots[r]; sign[i] = s
         return col, sign, len(roots), extra
 
-    def assemble(self, mode='energy', solver='clarabel', prune=True, max_dense=6e7):
+    def assemble(self, mode='energy', solver='clarabel', prune=True, max_dense=6e7, scale=False):
         """Real standard form  min c.x  s.t.  A x + s = b,  s in {0}^n_eq x PSD x ...  over the reduced variables.
         mode: 'energy' (c = H), 'margin' (extra variable t: cones - t 1 >= 0, maximise t, t <= 1 by a 1x1 cone),
-        'feasibility' (c = 0)."""
+        'feasibility' (c = 0).  scale=True rescales every reduced variable by its natural size n^w, w = sum over its
+        traces of (1 + L/2) (as for 't Hooft scaling at fixed filling): x_j = s_j y_j.  Column scaling changes neither
+        the feasible set nor the cone matrices (so neither the margin nor the dual/Farkas vector), only the solver's
+        conditioning, which degrades at n >= 4 because monomial values span ~ n^8."""
         col, sign, nv, extra = self._reduction()
         self._col, self._sign, self._nv = col, sign, nv
+        s_col = np.ones(nv)
+        if scale:
+            wcol = np.zeros(nv)
+            for i, mo in enumerate(self.monos):
+                j = col[i]
+                if j >= 0:
+                    wcol[j] = max(wcol[j], sum(1.0 + len(wd) / 2.0 for wd in mo))
+            s_col = float(self.n) ** wcol
         R, Cc, V, b = [], [], [], []
         r = 0
+        srcs = []                       # provenance of each assembled equality row: ('norm',), ('dag', i), ('row', i)
 
-        def add_row(ix, v, rhs=0.0):
+        def add_row(ix, v, rhs=0.0, src=None):
             nonlocal r
             c = col[ix]; ok = c >= 0
             if not ok.any():
@@ -476,13 +488,15 @@ class QuiverSDP:
                     raise RuntimeError('inconsistent row')
                 return
             R.extend([r] * int(keep.sum())); Cc.extend(u[keep].tolist()); V.extend(s[keep].tolist()); b.append(rhs); r += 1
-        add_row(np.array([0]), np.array([1.0]), 1.0)                 # phi(1) = 1
-        for ix, v in extra:
-            add_row(ix, v)
-        for ix, v in self.rows:
-            add_row(ix, v)
+            srcs.append(src)
+        add_row(np.array([0]), np.array([1.0]), 1.0, ('norm', 0))   # phi(1) = 1
+        for i, (ix, v) in enumerate(extra):
+            add_row(ix, v, src=('dag', i))
+        for i, (ix, v) in enumerate(self.rows):
+            add_row(ix, v, src=('row', i))
         ncol = nv + (1 if mode == 'margin' else 0)
-        A_eq = sp.csr_matrix((V, (R, Cc)), shape=(r, ncol)); b_eq = np.array(b)
+        Sdiag = sp.diags(np.append(s_col, np.ones(ncol - nv)))
+        A_eq = (sp.csr_matrix((V, (R, Cc)), shape=(r, ncol)) @ Sdiag).tocsr(); b_eq = np.array(b)
         rn = np.sqrt(np.asarray(A_eq.multiply(A_eq).sum(axis=1)).ravel()); rn[rn == 0] = 1
         A_eq = (sp.diags(1 / rn) @ A_eq).tocsr(); b_eq = b_eq / rn
         # PSD cones
@@ -504,7 +518,7 @@ class QuiverSDP:
                 if mode == 'margin' and a == bb:
                     R.append(r); Cc.append(nv); V.append(1.0)        # s = svec(M) - t svec(1)
                 r += 1
-        A_psd = sp.csr_matrix((V, (R, Cc)), shape=(r, ncol))
+        A_psd = (sp.csr_matrix((V, (R, Cc)), shape=(r, ncol)) @ Sdiag).tocsr()
         b_psd = np.zeros(r)
         if mode == 'margin':
             A_psd = sp.vstack([A_psd, sp.csr_matrix(([1.0], ([0], [nv])), shape=(1, ncol))])
@@ -517,18 +531,24 @@ class QuiverSDP:
                     c[col[i]] += cf * sign[i]
         elif mode == 'margin':
             c[-1] = -1.0
+        if mode == 'energy':
+            c[:nv] = c[:nv] * s_col
         n_eq0, ncol0 = A_eq.shape[0], ncol
-        A_eq, b_eq, A_psd, c, ncol = self._presolve(A_eq, b_eq, A_psd.tocsr(), c)
+        A_eq, b_eq, A_psd, c, ncol, row_map, col_map = self._presolve(A_eq, b_eq, A_psd.tocsr(), c)
         pruned = False
         if prune and A_eq.shape[0] * A_eq.shape[1] <= max_dense:
             from scipy.linalg import qr
             _, Rq, piv = qr(A_eq.toarray().T, mode='economic', pivoting=True)
             d = np.abs(np.diag(Rq)); rk = int((d > 1e-10 * d[0]).sum())
-            keep = np.sort(piv[:rk]); A_eq = A_eq[keep]; b_eq = b_eq[keep]; pruned = True
+            keep = np.sort(piv[:rk]); A_eq = A_eq[keep]; b_eq = b_eq[keep]; row_map = row_map[keep]; pruned = True
         n_eq = A_eq.shape[0]
         A = sp.vstack([A_eq, A_psd]).tocsc(); bvec = np.concatenate([b_eq, b_psd])
+        # provenance for certificate verification: final equality row k came from assembled row row_map[k] (whose
+        # source is srcs[row_map[k]] and which was divided by rn[row_map[k]]); final column j is reduced variable
+        # col_map[j] (the margin variable, if any, is the last column)
         return dict(A=A, b=bvec, c=c, n_eq=n_eq, dims=dims, n=ncol, pruned=pruned, n_eq_before_presolve=n_eq0,
-                    n_before_presolve=ncol0)
+                    n_before_presolve=ncol0, row_map=row_map, col_map=col_map, rn=rn, srcs=srcs, extra=extra,
+                    solver=solver, mode=mode, col_scale=s_col)
 
     @staticmethod
     def _presolve(A_eq, b_eq, A_psd, c):
@@ -562,11 +582,13 @@ class QuiverSDP:
         A_eq = A_eq[active][:, keep_c]; b_eq = b_eq[active]
         A_psd = A_psd[:, keep_c]; c = c[keep_c]
         # rows emptied of all kept variables (cannot happen for active rows, but guard)
-        rn = np.diff(A_eq.tocsr().indptr) > 0
-        assert np.all(np.abs(b_eq[~rn]) < 1e-12)
-        return A_eq[rn], b_eq[rn], A_psd, c, int(keep_c.sum())
+        nonempty = np.diff(A_eq.tocsr().indptr) > 0
+        assert np.all(np.abs(b_eq[~nonempty]) < 1e-12)
+        row_map = np.where(active)[0][nonempty]
+        col_map = np.where(keep_c)[0]
+        return A_eq[nonempty], b_eq[nonempty], A_psd, c, int(keep_c.sum()), row_map, col_map
 
-    def _solve(self, data, solver, eps, max_iters, verbose):
+    def _solve(self, data, solver, eps, max_iters, verbose, time_limit=None):
         A, b, c = data['A'], data['b'], data['c']
         t0 = time.time()
         if solver == 'clarabel':
@@ -577,35 +599,39 @@ class QuiverSDP:
             st.chordal_decomposition_enable = False
             st.tol_gap_abs = eps; st.tol_gap_rel = eps; st.tol_feas = eps; st.max_iter = 400
             st.static_regularization_constant = 1e-7 if data['pruned'] else 1e-5
+            if time_limit:
+                st.time_limit = float(time_limit)
             sol = clarabel.DefaultSolver(P, c, A, b, cones, st).solve()
-            out = dict(status=str(sol.status), x=np.array(sol.x), y=np.array(sol.z), obj=float(sol.obj_val))
+            out = dict(status=str(sol.status), x=np.array(sol.x), y=np.array(sol.z), obj=float(sol.obj_val),
+                       iterations=int(sol.iterations))
         else:
             import scs, platform
             lin = {'linear_solver': 'accelerate'} if platform.system() == 'Darwin' else {}
+            extra_opts = dict(time_limit_secs=float(time_limit)) if time_limit else {}
             sol = scs.SCS(dict(A=A, b=b, c=c), dict(z=data['n_eq'], s=data['dims']), eps_abs=eps, eps_rel=eps,
-                          eps_infeas=eps, max_iters=max_iters, verbose=verbose, rho_x=1e-3, **lin).solve()
+                          eps_infeas=eps, max_iters=max_iters, verbose=verbose, rho_x=1e-3, **lin, **extra_opts).solve()
             out = dict(status=sol['info']['status'], x=np.array(sol['x']), y=np.array(sol['y']),
                        obj=float(sol['info']['pobj']))
         out['solve_time'] = time.time() - t0
         out.update(n=data['n'], n_eq=data['n_eq'], n_rows=A.shape[0], nnz=A.nnz, dims=data['dims'], pruned=data['pruned'])
         return out
 
-    def energy(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None):
+    def energy(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None, scale=False, time_limit=None):
         """min phi(H): a lower bound on the lowest singlet energy at degree 3m (when the SDP is solved)."""
-        data = self.assemble('energy', solver, prune=(solver == 'clarabel') if prune is None else prune)
-        return self._solve(data, solver, eps, max_iters, verbose)
+        data = self.assemble('energy', solver, prune=(solver == 'clarabel') if prune is None else prune, scale=scale)
+        return self._solve(data, solver, eps, max_iters, verbose, time_limit)
 
-    def margin(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None):
-        data = self.assemble('margin', solver, prune=(solver == 'clarabel') if prune is None else prune)
-        out = self._solve(data, solver, eps, max_iters, verbose)
+    def margin(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None, scale=False, time_limit=None):
+        data = self.assemble('margin', solver, prune=(solver == 'clarabel') if prune is None else prune, scale=scale)
+        out = self._solve(data, solver, eps, max_iters, verbose, time_limit)
         out['margin'] = float(out['x'][-1]) if len(out['x']) else float('nan')
         return out
 
-    def feasibility(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None):
+    def feasibility(self, solver='clarabel', eps=1e-8, max_iters=100000, verbose=False, prune=None, scale=False, time_limit=None):
         """Pure feasibility; for an infeasible problem the dual vector y is a Farkas certificate
         (A^T y = 0, y in K*, b.y < 0), checked here."""
-        data = self.assemble('feasibility', solver, prune=(solver == 'clarabel') if prune is None else prune)
-        out = self._solve(data, solver, eps, max_iters, verbose)
+        data = self.assemble('feasibility', solver, prune=(solver == 'clarabel') if prune is None else prune, scale=scale)
+        out = self._solve(data, solver, eps, max_iters, verbose, time_limit)
         y = out['y']
         if y is not None and len(y) == data['A'].shape[0]:
             out.update(self.check_certificate(data, y, solver))

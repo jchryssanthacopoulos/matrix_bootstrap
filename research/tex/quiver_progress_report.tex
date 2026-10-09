@@ -39,8 +39,9 @@ because bifundamental matter has no zero weights, which removes the mechanism th
 matrix models grow with the rank. In the gauge-singlet sector, exact cohomology at $(n,p)=(2,2)$ and Lanczos
 diagonalisation at $(2,3)$ show that all singlet BPS states, 90 and 1680 of them, sit at half filling, and all 90
 classes at $(2,2)$ are fortuitous. A Schur--Weyl singlet basis extends concentration to $(3,2)$, and a semidefinite
-bootstrap of the singlet sector, validated against all exact data, certifies that the $(3,3)$ model has no singlet
-BPS states in degrees $k\le21$, which makes all 1680 classes at $(2,3)$ fortuitous as well. At $p=3$ the singlet
+bootstrap of the singlet sector, validated against all exact data and with certificates verified in exact
+arithmetic, shows that the $(3,3)$ model has no singlet BPS states in degrees $k\le21$, which makes all 1680 classes
+at $(2,3)$ fortuitous as well; up to rank six the excluded region settles at filling fractions below about $0.27$. At $p=3$ the singlet
 multiplet spectrum has
 Gaussian-orthogonal level statistics over $10\,024$ levels and small gaps only next to the BPS degree, while $p=2$
 turns out to be special, with a hidden $\mathcal N=4$ supersymmetry on singlets and a spectrum that is not
@@ -85,7 +86,8 @@ on BPS states at small rank: singlet indices, concentration at $(n,p)=(2,2)$ and
 Section~\ref{sec:spectrum} turns to the non-BPS singlet spectrum, where $p=3$ is chaotic and $p=2$ has a hidden
 extended supersymmetry. Section~\ref{sec:largen} contains the main analytic result: the singlet index is the
 partition function of a three-species log gas, which we solve at large $n$. Section~\ref{sec:boot} goes beyond
-$n=2$, with a Schur--Weyl singlet basis at $(3,2)$ and a semidefinite bootstrap of the singlet sector at $(3,3)$.
+$n=2$, with a Schur--Weyl singlet basis at $(3,2)$ and a semidefinite bootstrap of the singlet sector at $(3,3)$,
+and compares fortuity in the rank and flavour directions.
 Section~\ref{sec:prospects} assesses the prospects of the $p\ge3$ model and lists the next steps.
 
 \section{The model}\label{sec:model}
@@ -732,14 +734,18 @@ The certificates are robust in a precise sense. If a singlet BPS state existed, 
 $Ax^*+s=b$ with $s\in K$, so that $0\le\langle y,s\rangle=b\cdot y-(A^Ty)\cdot x^*$. Every monomial of total length $L$
 obeys $|\phi(m)|\le\|m\|\le n^L$, with $L\le8$ here, so $\|x^*\|\le3^8\sqrt{1.6\times10^5}\approx2.6\times10^6$, and
 the right-hand side is at most $(-4.0\times10^{-3}+6\times10^{-5})\|y\|<0$ at $k=18$. This is a contradiction with a
-factor of about 70 to spare, and the same holds at $k=21$. The argument is computer assisted only through the
-floating-point evaluation of $A^Ty$, $b\cdot y$ and the eigenvalues of the dual blocks, which we have not yet repeated
-in interval arithmetic.
+factor of about 70 to spare, and the same holds at $k=21$. We have since repeated the check in exact integer
+arithmetic. The constraint coefficients are rationals whose denominators divide $3\cdot2^{20}$, the certificate is
+rounded to a dyadic grid, and each dual block is shifted by at most $10^{-12}$ of its size until it is positive
+definite, which is verified exactly by Sylvester's criterion. The bound $\sum_j|r_j|\,n^{L_j}$ then comes to
+$1.0\times10^{-7}$ and $2.4\times10^{-7}$ of $|\mu\cdot b|$ at $k=18$ and 21, and an independent certificate from the
+first-order solver SCS verifies as well. The exclusions are therefore proofs, conditional only on the correctness of
+the constraint generation, which is tested against explicit Fock-space operators.
 
 Two conclusions follow. The first is fortuity at $p=3$. The singlet cohomology of the $(3,3)$ model vanishes in degree
 18, which is half filling at $(2,3)$, so by the argument of Section~\ref{sec:fortuity} none of the 1680 singlet BPS
-classes of the $(2,3)$ model has a rank-3 preimage. All of them are fortuitous in the ordinary sense, with the caveats
-of a numerical certificate and of the refined criterion of \cite{CCK}. The second is partial concentration at rank
+classes of the $(2,3)$ model has a rank-3 preimage. All of them are fortuitous in the ordinary sense, with the caveat
+of the refined criterion of \cite{CCK}. The second is partial concentration at rank
 three. There are no singlet BPS states at $(3,3)$ for $k\le21$ and, by particle--hole symmetry, none for $k\ge60$.
 The degrees $24\le k\le36$ and their mirror images remain open, besides the middle pair $k=39$, $42$, which carries
 equal numbers of BPS states because $I_0(3,3)=0$, possibly none.
@@ -763,6 +769,95 @@ fixed multiple of $M_{ab}$. The last of these strengthens the margin at $k=6$ by
 $(3,3)$ it likewise leaves $k=24$ feasible. Going further will need constraints that tie positivity to the gauge
 representation of the state much more tightly than Casimir conditions do, rather than more operators.
 
+\subsection{The frontier at larger rank}
+
+The level-2 problem has the same size at every rank; only its coefficients depend on $n$. At $n\ge4$ the
+interior-point solver needs rescaled variables, $x_j=n^{w_j}y_j$ with $w_j=\sum(1+L/2)$ the 't~Hooft weight of the
+monomial, because the monomial values span about $n^8$. With them each feasibility solve takes about a minute, and
+column scaling changes neither the feasible set nor the Farkas vector. Locating the frontier by bisection and verifying
+the certificate at the last excluded degree exactly gives Table~\ref{tab:frontier}. The excluded filling fraction
+settles near $0.27$, so at every rank we have tested the singlet BPS states, if there are any, are confined to the
+central 46\% of the filling range. The convergence is an extrapolation from five ranks, but each entry is a certificate.
+
+Two further rank-fortuity statements follow. The $(4,3)$ model has no singlet BPS states at $k=39$, so any BPS classes
+of the $(3,3)$ model at $k=39$ are fortuitous; their partners at $k=42$ lie beyond the frontier at $(4,3)$. The $(3,4)$
+model has none at $k=24$ (verified exactly, for a problem of $1.8\times10^6$ monomials at a peak memory of 9.7~GB), so
+every singlet BPS class of the $(2,4)$ model at half filling is fortuitous. Since the half-filling degree of rank $n$
+sits at filling $n^2/2(n+1)^2$ of rank $n+1$, a fraction that tends to $1/2$, level 2 can prove fortuity of
+half-filling classes only for the first steps in $n$.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{ccccc}
+\toprule
+$n$ & half filling & excluded through $k$ (filling) & not excluded at $k$ (filling) & exact slack $\sum_j|r_j|n^{L_j}/|\mu\cdot b|$\\
+\midrule
+2 & 18 & 9 (0.250) & 12 (0.333) & $4.5\times10^{-8}$\\
+3 & 40.5 & 21 (0.259) & 24 (0.296) & $2.4\times10^{-7}$\\
+4 & 72 & 39 (0.271) & 42 (0.292) & $2.0\times10^{-6}$\\
+5 & 112.5 & 60 (0.267) & 63 (0.280) & $2.7\times10^{-6}$\\
+6 & 162 & 87 (0.269) & 90 (0.278) & $1.1\times10^{-5}$\\
+\bottomrule
+\end{tabular}
+\caption{The level-2 BPS-exclusion frontier at $p=3$, seed-3 couplings. The last column is the slack of the exact
+verification of the certificate at the last excluded degree; any value below 1 proves the exclusion.}
+\label{tab:frontier}
+\end{table}
+
+\subsection{Fortuity in the rank and arrow directions}\label{sec:towers}
+
+Which family defines fortuity deserves a definite answer, because the companion study of supersymmetric SYK
+\cite{CV} tests it differently. There the system grows by adding fermions at fixed charge. In its discussion of the
+Abelian three-node quiver with $m$ arrows per edge, the rank is fixed at one and $m$ grows at fixed cohomological
+degree. Ambient classes then persist, while the variable, pure-Higgs classes occur only at a single value of $m$, a
+fortuity window of width one, for which a diagonal uplift is proposed. Here we fix $p$ and grow the rank. Both are
+legitimate, since fortuity is defined relative to a family with degree-preserving cochain maps, and the projection
+that deletes a new flavour is such a map for nested couplings, just as Tierz's projection is for a new index. But the
+two families have different limits, the planar limit and the SYK-like large-$p$ limit, and their verdicts can differ
+for the same class. What distinguishes them in practice is how fast the half-filling degree $3pn^2/2$ moves compared
+with the singlet spacing of 3: by $3p(2n+1)/2\ge9$ per unit of rank, but by $3n^2/2$ per added flavour. Under
+concentration a rank step, or a flavour step at $n\ge2$, leaves no class behind. A flavour step at $n=1$ moves the
+window by only half a degree, which is the slow regime of \cite{CV}, where walks and diagonal uplifts make sense.
+
+Our $n=1$ member is precisely the fermionic version of the quiver example of \cite{CV}, with the same Abelian cyclic
+quiver and superpotential but fermionic matter. Its singlet BPS states sit in the central blocks only: 6 at $p=2$,
+$2+2$ at $p=3$, 90 at $p=4$, none at $p=5$, 1680 at $p=6$. There is therefore no ambient, monotonous row; in the
+fermionic model fortuity covers the whole singlet BPS sector, as in generic $\mathcal N=2$ SYK. Adding flavour $p$
+gives the counterparts of the two uplift channels of \cite{CV}. The horizontal channel deletes the new flavour,
+$\pi_*:H^k(p+1)\to H^k(p)$. The diagonal channel multiplies by $a_p^\dagger b_p^\dagger c_p^\dagger$; the fully occupied
+states form a sub-complex, and $Q\iota=-\iota Q$ exactly, so this gives $\iota_*:H^k(p)\to H^{k+3}(p+1)$. In SYK every
+class uplifts through at least one channel, which here is the statement $\ker\iota_*\subseteq\mathrm{im}\,\pi_*$.
+Table~\ref{tab:arrow} gives the exact ranks for nested Gaussian couplings. At $p=3$ the SYK pattern holds: the lower
+central class lifts diagonally and the upper one horizontally. It fails as soon as the smaller theory has even $p$:
+2 of the 6 classes at $p=2$, and all 90 at $p=4$, uplift through neither channel. The reason is that a flavour adds
+three modes coupled by the singlet constraint, so the partially occupied pieces of the filtration by new-flavour
+occupation carry non-singlet remainders, and the two extreme channels no longer exhaust the long exact sequence of
+the SYK case. The fermionic quiver at $n=1$ is thus unlike both the bosonic quiver and SYK.
+
+\begin{table}[t]\centering\small
+\begin{tabular}{cccccc}
+\toprule
+$p$ & $k$ & $\dim H^k(p)$ & horizontal: $\dim H^k(p{+}1)$, rank $\pi_*$ & diagonal: $\dim H^{k+3}(p{+}1)$, rank $\iota_*$ & through neither\\
+\midrule
+2 & 3 & 6 & 2, 2 & 2, 2 & 2\\
+3 & 3 & 2 & 0, 0 & 90, 2 & 0\\
+3 & 6 & 2 & 90, 2 & 0, 0 & 0\\
+4 & 6 & 90 & 0, 0 & 0, 0 & 90\\
+\bottomrule
+\end{tabular}
+\caption{Uplift channels in the arrow direction at $n=1$, nested Gaussian couplings. The last column is the dimension
+of the classes that uplift through neither channel. $p=5$ has no BPS states; the 1680 classes at $p=6$ need the
+central cohomology of $p=7$, whose blocks of $42\,875$ states have a nearly gapless lowest multiplet and are not yet
+resolved.}
+\label{tab:arrow}
+\end{table}
+
+We therefore adopt the rank direction as the definition of fortuity for the claims of this report, which concern the
+planar limit, and every fortuity statement in Section~\ref{sec:fortuity} and in this section is rank fortuity at
+fixed $p$. The arrow direction is the notion of \cite{CV}. At $n\ge2$ it adds nothing beyond concentration: the 90
+classes at $(2,2)$ are arrow-fortuitous as well, since $(2,3)$ has no singlet cohomology at $k=12$. At $n=1$ it is
+genuinely different, and Table~\ref{tab:arrow} is its exact form.
+
+
 \section{\texorpdfstring{Prospects for the $p\ge3$ quiver}{Prospects for the p>=3 quiver}}\label{sec:prospects}
 
 Table~\ref{tab:scorecard} sets the two cases side by side. The contrast is sharp. The $p=2$ quiver is an elegant and highly
@@ -785,7 +880,8 @@ $\ln|I_0|=F^*(p)n^2+O(\ln n)$, $F^*(3)=1.2373$, $41\%$ of the singlet log-count 
 for odd $p$)\\
 Concentration & $(2,2)$: all 90 singlet BPS states at $k=12$, exact; $(3,2)$: all 1680 at $k=27$, numerical &
 $(2,3)$: all 1680 at $k=18$, numerical; $(3,3)$: none at $k\le21$ (bootstrap), open for $24\le k\le36$\\
-Fortuity & $(2,2)$: all 90 classes, to all orders & $(2,3)$: all 1680 classes, via the $(3,3)$ certificate at $k=18$\\
+Fortuity (rank) & $(2,2)$: all 90 classes, to all orders & $(2,3)$: all 1680 classes (exact certificate);
+$(3,3)$ classes at $k=39$; $(2,4)$ classes at half filling\\
 Non-BPS statistics & not random-matrix; hidden $\mathcal N=4$ on singlets & Gaussian orthogonal, $10\,024$ levels at
 $(2,3)$\\
 Near-BPS gap & none ($\ge95.6$) & $0.054$ next to the BPS degree; Turiaci--Witten not yet testable\\
@@ -804,8 +900,8 @@ concentration survives the step to $n=3$. At $p=3$ the bootstrap confines the ra
 $24\le k\le57$, which is far from a proof, because the open degrees are precisely those nearest half filling, where a
 widening window would first appear. The near-BPS gaps at $(2,3)$ are suggestive, but at this size the neighbouring
 charge sectors differ too much in entropy for the Turiaci--Witten density to apply, so the super-Schwarzian question
-remains open. Fortuity at $p=3$ is now established, at the level of a numerical certificate, through the $(3,3)$
-bootstrap. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK
+remains open. Fortuity at $p=3$ is now established through the $(3,3)$ bootstrap, with certificates verified
+in exact arithmetic. And the model is planar rather than melonic, so at fixed $p$ there is no analogue of the SYK
 Schwinger--Dyson solution; large-$n$ dynamics has to come from the bootstrap, from other matrix-model methods, or from
 the large-$p$ limit discussed below.
 
@@ -822,8 +918,9 @@ direct test of BPS chaos at $p=3$. Beyond that the singlet sectors explode: at $
 at $k=18$ and $1.1\times10^{12}$ at half filling, and $3\times10^8$ at half filling at $(2,4)$.
 
 At $p=3$ and $n\ge3$ the matrix bootstrap \cite{HHK,LZ,LM} has taken over, in the singlet form of
-Section~\ref{sec:boot}, and it has delivered its first target, the certificate at $(3,3)$ and $k=18$ that makes the
-$(2,3)$ classes fortuitous. The second target, certificates for $24\le k\le36$, which would confine the rank-3 BPS
+Section~\ref{sec:boot}. It has delivered its first target, the certificate at $(3,3)$ and $k=18$ that makes the
+$(2,3)$ classes fortuitous, now verified in exact arithmetic, and it has mapped its own frontier, which settles near
+filling $0.27$ as the rank grows. The second target, certificates for $24\le k\le36$, which would confine the rank-3 BPS
 states to the two singlet degrees adjacent to half filling, is out of reach at level 2, and the diagnosis of
 Section~\ref{sec:boot} indicates that more operators alone will not reach it. What is needed are constraints that tie
 positivity to the gauge representation of the state more tightly than Casimir conditions do; whether Gram matrices of
@@ -867,7 +964,9 @@ uses the quiver trace algebra \path{src/quiver_trace.py}, checked against explic
 \path{tests/test_quiver_trace.py}, and the semidefinite program \path{src/quiver_bootstrap.py} with
 \path{scripts/quiver_bootstrap_run.py}; \path{tests/test_quiver_bootstrap.py} evaluates every constraint on exact
 functionals. The full-sector zero modes are \path{scripts/quiver_sector_zero_modes.py}, and the bootstrap figure is
-\path{scripts/plot_quiver_bootstrap.py}. Singlet indices use \path{src/quiver_index.py}
+\path{scripts/plot_quiver_bootstrap.py}. Exact certificate verification is \path{src/quiver_certificate.py} with
+\path{scripts/quiver_verify_certificate.py}, the frontier scans \path{scripts/quiver_bootstrap_frontier.py}, and the
+$n=1$ uplift channels \path{scripts/quiver_n1_arrow_tower.py}. Singlet indices use \path{src/quiver_index.py}
 (dual Cauchy and the Littlewood--Richardson transfer matrix, exact integers). The log-gas analysis is
 \path{src/quiver_saddle.py} and \path{scripts/quiver_index_saddle.py}, tested by \path{tests/test_quiver_saddle.py}
 (reduced against full energies, Hessians against finite differences to $10^{-10}$, the $p=2$ formula, the continuum
@@ -877,8 +976,11 @@ values, and the eigenvalue representation against direct quadrature at $n=1$). T
 files are \path{results/data/quiver_singlet_index_dixon.json}, \path{quiver_singlet_zero_modes_n2_p3_k*.json},
 \path{quiver_singlet_pair_n2_p3_k9_f64.json}, \path{quiver_p2_n4_*.json}, \path{quiver_fortuity_n2_p2_k12.json},
 \path{quiver_index_saddle.json}, \path{quiver_singlet_sw_n3_p2_seed3.json}, \path{quiver_singlet_sw_n3_p3_seed3.json},
-\path{quiver_bootstrap_n*_p*_L*.jsonl} and \path{quiver_bootstrap_frontier_diagnostics.txt}. The bootstrap runs used
-the seed-3 integer couplings and the interior-point solver Clarabel~0.11.1, with peak memory 3--4.5~GB.
+\path{quiver_bootstrap_n*_p*_L*.jsonl}, \path{quiver_bootstrap_frontier_diagnostics.txt},
+\path{quiver_bootstrap_frontier_n*_p*.jsonl}, \path{quiver_certificate_checks.jsonl} with the certificates
+\path{quiver_certificate_*.npz}, and \path{quiver_n1_arrow_tower_pmax5.json}. The bootstrap runs used the seed-3
+integer couplings and the interior-point solver Clarabel~0.11.1 (SCS~3.3.1 for the independent certificate), with
+peak memory 3--9.7~GB.
 
 \begin{thebibliography}{99}\small
 \bibitem{ChangLin} C.-M.~Chang and Y.-H.~Lin, \emph{Holographic covering and the fortuity of black holes},
@@ -911,6 +1013,7 @@ Lett.\ \textbf{125} (2020) 041601, arXiv:2004.10212.
 arXiv:2507.21007.
 \bibitem{LM} S.~Laliberte and B.~McPeak, \emph{Bootstrapping supersymmetric (matrix) quantum mechanics},
 arXiv:2510.01356.
+\bibitem{CV} J.~Chryssanthacopoulos and D.~Vegh, \emph{Fortuity and fragility in supersymmetric SYK}, 2026.
 \bibitem{AMMPV} O.~Aharony, J.~Marsano, S.~Minwalla, K.~Papadodimas and M.~Van~Raamsdonk, \emph{The
 Hagedorn/deconfinement phase transition in weakly coupled large $N$ gauge theories}, Adv.\ Theor.\ Math.\ Phys.\
 \textbf{8} (2004) 603, hep-th/0310285.
